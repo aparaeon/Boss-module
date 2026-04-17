@@ -1,0 +1,17 @@
+jqassistant:
+  store:
+    uri: bolt://localhost:7687
+    remote:
+      username: neo4j
+      password: password
+  scan:
+    include:
+      files:
+        - run/cobblemon/jqa-backend-targets/
+        - run/cobblemon/jqa-proxy-targets/
+    exclude:
+      - ".*META-INF/.*"
+      - ".*META-INF"
+  analyze:
+    concepts:
+      - classpath:Resolve

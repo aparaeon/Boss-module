@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"IKI",
+	"RCR",
+	"I I"
+  ],
+  "key": {
+	"I": {
+	  "item": "minecraft:iron_ingot"
+	},
+	"R": {
+	  "item": "minecraft:redstone"
+	},
+	"C": {
+	  "item": "cobblemon:cell_battery"
+	},
+	"K": {
+	  "item": "mmorealms:keystone"
+	}
+  },
+  "result": {
+	"id": "mmorealms:mega_bracelet",
+	"count": 1
+  }
+}
+
+
+
+

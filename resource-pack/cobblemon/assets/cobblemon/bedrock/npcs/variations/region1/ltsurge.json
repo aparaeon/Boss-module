@@ -1,0 +1,13 @@
+{
+  "name": "cobblemon:region1_ltsurge",
+  "order": 0,
+  "variations": [
+	{
+	  "aspects": [],
+	  "poser": "cobblemon:standard",
+	  "model": "cobblemon:alex.geo",
+	  "texture": "cobblemon:textures/npcs/region1/ltsurge/ltsurge.png",
+	  "layers": []
+	}
+  ]
+}

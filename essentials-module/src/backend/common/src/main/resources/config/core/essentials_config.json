@@ -1,0 +1,2714 @@
+{
+  "rules": [
+	"Keep chat PG-13 - English only in global chat, no inappropriate roleplaying, no swearing, use common sense and don't disrupt other players.",
+	"Do not advertise, spam, use racial slurs, discuss politics/religion.",
+	"Do not grief/steal/raid builds within realms without permission from the owner. Builds within wilds are not protected and will be deleted when wilds reset.",
+	"Do not use any harmful / objectionable language towards any players or staff.",
+	"Do not use any mods/ resource packs or clients which grant an unfair advantage.",
+	"The use of Macro's (regardless if with a client/mod or not) are not allowed on the server, especially within AFK farms.",
+	"Do not cheat or exploit server bugs, instead report them on discord.",
+	"Do not scam players on the server under any capacity.",
+	"No inappropriate names/skins/text/builds/signs for users/pokemon/items & no nickname impersonations.",
+	"Any form of wagers, casino's or luck based games with prizes are not allowed under any capacity.",
+	"No entry fee's for unofficial Gyms or Tournaments especially when giving out prizes.",
+	"Do not beg players or staff for Items/Pokemon/Tokens/Etc.",
+	"Selling/Buying Items/Pokemon/Tokens/Etc with money or gift cards outside the MMO Realms Store is strictly forbidden.",
+	"Using 'alts' or alternative accounts for personal advantage is forbidden.",
+	"Do not discuss punishments within chat. If you wish to report a player then please make a ticket within the Discord server.",
+	"Do not avoid the chat filter in place by swearing or using any words that's currently blocked.",
+	"Do not use abbreviations which includes words or swears blocked by the censor. If you can't say it unabbreviated then don't say it at all.",
+	"Do not argue with staff in public or private chats, listen to what they say and follow it. If you wish to report a staff member then contact a Head Admin or Manager.",
+	"Do not grief/kill legends that spawn on another player. If you can't catch it then leave it alone for the player."
+  ],
+  "itemGroups": {
+	"berry": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:oran_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cheri_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:chesto_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:pecha_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rawst_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:aspear_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:persim_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:razz_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:bluk_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:babiri_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:chilan_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:roseli_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:leppa_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:lum_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:hopo_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:figy_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:iapapa_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:wiki_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:kebia_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:wepear_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:pinap_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:occa_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:passho_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:wacan_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rindo_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:yache_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:chople_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:nanab_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:shuca_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:coba_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:payapa_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:tanga_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:charti_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:kasib_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:haban_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:colbur_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:aguav_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:mago_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sitrus_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:touga_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cornn_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:magost_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rabuta_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:nomel_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:spelon_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:lansat_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:starf_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:micle_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:custap_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:jaboca_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rowap_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:qualot_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:hondew_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:grepa_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:tamato_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:liechi_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ganlon_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:petaya_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:apicot_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:salac_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:pamtre_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:watmel_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:durin_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:belue_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:enigma_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:kee_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:maranga_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:pomeg_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:kelpsy_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"helditem": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:power_anklet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:power_band",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:power_belt",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:power_bracer",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:power_lens",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:power_weight",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:electric_seed",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:grassy_seed",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:misty_seed",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:damp_rock",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:destiny_knot",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dragon_fang",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:eject_button",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:eject_pack",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:eviolite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:everstone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:expert_belt",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fairy_feather",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:black_sludge",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:blunder_policy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cell_battery",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:charcoal_stick",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:choice_band",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:choice_scarf",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:choice_specs",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cleanse_tag",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:covert_cloak",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:psychic_seed",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:exp_share",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:absorb_bulb",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:air_balloon",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:assault_vest",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:big_root",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:binding_band",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:black_belt",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:black_glasses",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:flame_orb",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:float_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:focus_band",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:focus_sash",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:hard_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:heat_rock",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:heavy_duty_boots",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:icy_rock",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:iron_ball",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:room_service",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:safety_goggles",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:scope_lens",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sharp_beak",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:shed_shell",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:silk_scarf",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:silver_powder",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:smoke_ball",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:smooth_rock",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:never_melt_ice",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:poison_barb",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:protective_pads",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:punching_glove",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:quick_claw",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:quick_powder",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:red_card",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ring_target",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rocky_helmet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:leftovers",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:loaded_dice",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:lucky_egg",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:magnet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:metal_powder",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:metronome",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:miracle_seed",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:muscle_band",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:mystic_water",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:soft_sand",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:soothe_bell",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:spell_tag",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sticky_barb",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:terrain_extender",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:throat_spray",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:toxic_orb",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:twisted_spoon",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:utility_umbrella",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:weakness_policy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:wide_lens",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:zoom_lens",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:normal_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fire_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:water_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:grass_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:electric_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ice_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fighting_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:poison_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ground_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:flying_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:psychic_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:bug_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rock_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ghost_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dragon_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dark_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:steel_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fairy_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"ivcandy": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:health_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:mighty_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:tough_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:smart_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:courage_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:quick_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sickly_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "ccobblemon:weak_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:brittle_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:numb_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:coward_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:slow_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"evolutionstone": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:fire_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:water_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:thunder_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:leaf_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:moon_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sun_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:shiny_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dusk_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dawn_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ice_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"evolutionitem": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:link_cable",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:kings_rock",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:galarica_stuff",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:galarica_wreath",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:metal_coat",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:black_augurite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:protector",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:oval_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dragon_scale",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:electirizer",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:magmarizer",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dubious_disc",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:upgrade",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:razor_fang",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:razor_claw",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:peat_block",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:prism_scale",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:reaper_cloth",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:deep_sea_tooth",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:deep_sea_scale",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sachet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:whipped_dream",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:tart_apple",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sweet_apple",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cracked_pot",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:chipped_pot",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:unremarkable_teacup",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:masterpiece_teacup",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:strawberry_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:love_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:berry_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:clover_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:flower_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:star_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ribbon_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:auspicious_armor",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:malicious_armor",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:metal_alloy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:syrupy_apple",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:shell_helmet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"mint": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:lonely_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:adamant_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:naughty_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:brave_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:bold_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:impish_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:lax_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:relaxed_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:modest_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:mild_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rash_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:quiet_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:calm_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:gentle_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:careful_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sassy_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:timid_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:hasty_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:jolly_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:naive_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:serious_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"typinggems": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:normal_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fire_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:water_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:grass_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:electric_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ice_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fighting_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:poison_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ground_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:flying_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:psychic_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:bug_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rock_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ghost_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dragon_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dark_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:steel_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fairy_gem",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"fossil": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:old_amber_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:helix_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dome_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:root_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:claw_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:skull_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:armor_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cover_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:plume_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:jaw_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sail_fossil",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fossilized_bird",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fossilized_dino",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fossilized_drake",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:fossilized_fish",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"megastone": {
+	  "items": [
+		{
+		  "itemID": "mmorealms:abomasite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:absolite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:absolite_z",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:aerodactylite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:aggronite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:alakazite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:altarianite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:ampharosite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:audinite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:banettite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:barbaracite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:baxcalibrite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:beedrillite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:blastoisinite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:blazikenite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:cameruptite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:chandelurite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:charizardite_x",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:charizardite_y",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:chesnaughtite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:chimechite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:clefablite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:crabominite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:darkranite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:delphoxite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:diancite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:dragalgite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:dragoninite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:drampanite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:eelektrossite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:emboarite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:excadrite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:falinksite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:feraligite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:floettite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:froslassite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:galladite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:garchompite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:garchompite_z",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:gardevoirite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:gengarite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:glalitite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:glimmoranite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:golisopite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:golurkite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:greninjite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:gyaradosite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:hawluchanite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:heatranite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:heracronite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:houndoominite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:kangaskhanite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:latiasite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:latiosite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:lopunnite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:lucarionite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:lucarionite_z",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:magearnite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:malamarite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:manectite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:mawilite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:medichamite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:meganiumite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:meowsticite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:metagrossite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:mewtwonite_x",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:mewtwonite_y",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:pidgeotite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:pinsirite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:pyroarite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:raichunite_x",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:raichunite_y",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:sablenite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:salamencite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:sceptilite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:scizorite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:scolipite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:scovillainite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:scraftinite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:sharpedonite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:skarmorite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:slowbronite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:staraptite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:starminite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:steelixite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:swampertite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:tatsugirinite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:tyranitarite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:venusaurite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:victreebelite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:zeraorite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "mmorealms:zygardite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	}
+  }
+}

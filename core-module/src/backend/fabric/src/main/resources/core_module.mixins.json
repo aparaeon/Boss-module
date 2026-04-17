@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.module.core.backend.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"AnvilMenuMixin",
+	"ItemCombinerMenuAccessor",
+	"ServerPlayerMixin"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

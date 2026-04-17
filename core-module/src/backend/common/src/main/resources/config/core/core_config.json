@@ -1,0 +1,18 @@
+{
+  "lang": {
+	"commitingCache": "Commiting cache...",
+	"cacheCommited": "Cache committed!",
+	"commandCanOnlyBeExecuteByPlayer": "This command can only be execute by a player",
+	"underDevelopment": "This feature is under development.",
+	"guiError": "There was an error processing your request. Please contact an administrator",
+	"healed": "We healed your party!",
+	"cooldown": "You have a cooldown of <aqua>{cooldown} <white>until you can do this again."
+  },
+  "pagedMessage": {
+	"format": "{table_color} ===============   {accent_color}{title}{table_color}   ==============<newline>{messages}<newline>{prev_action} {button_color}Previous<reset>   {table_color}=====   {accent_color}Page {page}/{max_page}   {table_color}=====   {next_action}{button_color}Next<newline>",
+	"entry": "{optional_index}{message}<newline>",
+	"index": "<gray>{index}: ",
+	"firstPageHoverMessage": "This is the first page",
+	"lastPageHoverMessage": "This is the last page"
+  }
+}

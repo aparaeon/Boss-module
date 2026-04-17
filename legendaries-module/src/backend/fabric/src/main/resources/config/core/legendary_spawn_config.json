@@ -1,0 +1,1339 @@
+{
+  "allowedDimensions": [
+	"minecraft:overworld",
+	"minecraft:the_end"
+  ],
+  "dimensionConfigurations": {
+	"minecraft:overworld": {
+	  "maxSearchHeight": 320,
+	  "minSearchHeight": -64,
+	  "checkSkyAccess": true
+	},
+	"minecraft:the_end": {
+	  "maxSearchHeight": 320,
+	  "minSearchHeight": -64,
+	  "checkSkyAccess": true
+	}
+  },
+  "maxCandidateAttempts": 100,
+  "positionUpdateInterval": {
+	"amount": 30,
+	"unit": "SECONDS"
+  },
+  "ignoreLeaves": true,
+  "isCaptureForChosenPlayerOnly": true,
+  "spawnOnPlayersAbsent": true,
+  "spawnRange": {
+	"min": 10,
+	"max": 40
+  },
+  "randomSpawnRangeX": {
+	"min": -10000,
+	"max": 10000
+  },
+  "randomSpawnRangeY": {
+	"min": -60,
+	"max": 320
+  },
+  "randomSpawnRangeZ": {
+	"min": -10000,
+	"max": 10000
+  },
+  "biomeSearchStartPositionY": 40,
+  "biomeSearchRadius": 2000,
+  "biomeSearchHorizontalStep": 16,
+  "biomeSearchVerticalStep": 8,
+  "canPokemonFitCheckRadius": 2,
+  "legendaryChunkLoadingRadius": 2,
+  "legendaryChunkLoadingExpiry": {
+	"amount": 10,
+	"unit": "SECONDS"
+  },
+  "aspects": [
+	"galarian"
+  ],
+  "sharedCatchRealmTrustLevel": "MEMBER",
+  "legendaries": {
+	"Zapdos": {
+	  "spec": "zapdos",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_plateau",
+		"#cobblemon:is_savanna",
+		"#cobblemon:is_badlands"
+	  ]
+	},
+	"Mewtwo": {
+	  "spec": "mewtwo",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "ANY"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_deep_dark"
+	  ]
+	},
+	"Zekrom": {
+	  "spec": "zekrom",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_taiga"
+	  ]
+	},
+	"Glastrier": {
+	  "spec": "glastrier",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_glacial"
+	  ]
+	},
+	"Spectrier": {
+	  "spec": "spectrier",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_swamp"
+	  ]
+	},
+	"Uxie": {
+	  "spec": "uxie",
+	  "weight": 4,
+	  "conditions": {
+		"time": [
+		  "DAWN"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "yellow",
+	  "biomes": [
+		"#cobblemon:is_coast"
+	  ]
+	},
+	"Mesprit": {
+	  "spec": "mesprit",
+	  "weight": 4,
+	  "conditions": {
+		"time": [
+		  "NOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "light_purple",
+	  "biomes": [
+		"#cobblemon:is_coast"
+	  ]
+	},
+	"Azelf": {
+	  "spec": "azelf",
+	  "weight": 4,
+	  "conditions": {
+		"time": [
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "blue",
+	  "biomes": [
+		"#cobblemon:is_coast"
+	  ]
+	},
+	"Dialga": {
+	  "spec": "dialga",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "blue",
+	  "biomes": [
+		"#cobblemon:is_peak"
+	  ]
+	},
+	"Palkia": {
+	  "spec": "palkia",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "light_purple",
+	  "biomes": [
+		"#cobblemon:is_peak"
+	  ]
+	},
+	"Heatran": {
+	  "spec": "heatran",
+	  "weight": 2,
+	  "conditions": {
+		"time": [
+		  "ANY"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 90
+	  },
+	  "glow-color": "dark_red",
+	  "biomes": [
+		"#cobblemon:is_volcanic",
+		"#cobblemon:nether/is_mountain",
+		"#cobblemon:nether/is_wasteland"
+	  ]
+	},
+	"Regigigas": {
+	  "spec": "regigigas",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 0
+	  },
+	  "biomes": [
+		"#cobblemon:is_volcanic",
+		"#cobblemon:is_cave"
+	  ]
+	},
+	"Giratina": {
+	  "spec": "giratina",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "dark_gray",
+	  "biomes": [
+		"#cobblemon:is_peak"
+	  ]
+	},
+	"Volcanion": {
+	  "spec": "volcanion",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "ANY"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 90
+	  },
+	  "biomes": [
+		"#cobblemon:is_volcanic",
+		"#cobblemon:nether/is_toxic",
+		"#cobblemon:nether/is_crimson",
+		"#cobblemon:nether/is_warped"
+	  ]
+	},
+	"Type:Null": {
+	  "spec": "typenull",
+	  "weight": 2,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "gray",
+	  "biomes": [
+		"#cobblemon:is_shrubland",
+		"#cobblemon:is_swamp"
+	  ]
+	},
+	"Tapu Koko": {
+	  "spec": "tapukoko",
+	  "weight": 2,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "yellow",
+	  "biomes": [
+		"#cobblemon:is_jungle"
+	  ]
+	},
+	"Chien-Pao": {
+	  "spec": "chienpao",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_snowy_forest",
+		"#cobblemon:is_snowy_taiga"
+	  ]
+	},
+	"Latios": {
+	  "spec": "latios",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_beach"
+	  ]
+	},
+	"Raikou": {
+	  "spec": "raikou",
+	  "weight": 4,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "gold",
+	  "biomes": [
+		"#cobblemon:is_savanna"
+	  ]
+	},
+	"Entei": {
+	  "spec": "entei",
+	  "weight": 4,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "dark_red",
+	  "biomes": [
+		"#cobblemon:is_mountain"
+	  ]
+	},
+	"Suicune": {
+	  "spec": "suicune",
+	  "weight": 4,
+	  "conditions": {
+		"time": [
+		  "NOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "aqua",
+	  "biomes": [
+		"#cobblemon:is_beach"
+	  ]
+	},
+	"Lugia": {
+	  "spec": "lugia",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "NOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": true,
+		"max-y": 320
+	  },
+	  "glow-color": "gray",
+	  "biomes": [
+		"#cobblemon:is_temperate_ocean"
+	  ]
+	},
+	"Ho-Oh": {
+	  "spec": "hooh",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "NOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "gold",
+	  "biomes": [
+		"#cobblemon:is_highlands"
+	  ]
+	},
+	"Celebi": {
+	  "spec": "celebi",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAWN"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_magical"
+	  ]
+	},
+	"Chi-Yu": {
+	  "spec": "chiyu",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_volcanic",
+		"#cobblemon:is_badlands"
+	  ]
+	},
+	"Koraidon": {
+	  "spec": "koraidon",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "red",
+	  "biomes": [
+		"#cobblemon:is_hills"
+	  ]
+	},
+	"Miraidon": {
+	  "spec": "miraidon",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "dark_purple",
+	  "biomes": [
+		"#cobblemon:is_hills"
+	  ]
+	},
+	"Rayquaza": {
+	  "spec": "rayquaza",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_sky",
+		"#cobblemon:is_mountain"
+	  ]
+	},
+	"Cosmog": {
+	  "spec": "cosmog",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "dark_cyan",
+	  "biomes": [
+		"#cobblemon:is_floral"
+	  ]
+	},
+	"Necrozma": {
+	  "spec": "necrozma",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_spooky"
+	  ]
+	},
+	"Ogerpon": {
+	  "spec": "ogerpon",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_forest",
+		"#cobblemon:is_lush"
+	  ]
+	},
+	"Regidrago": {
+	  "spec": "regidrago",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "biomes": [
+		"#cobblemon:is_thermal",
+		"#cobblemon:is_deep_dark"
+	  ]
+	},
+	"Articuno": {
+	  "spec": "articuno",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_glacial",
+		"#cobblemon:is_snowy_taiga",
+		"#cobblemon:is_snowy_forest"
+	  ]
+	},
+	"Deoxys": {
+	  "spec": "deoxys",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_end",
+		"#cobblemon:space/is_space"
+	  ]
+	},
+	"Kubfu": {
+	  "spec": "kubfu",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_plateau"
+	  ]
+	},
+	"Diancie": {
+	  "spec": "diancie",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "biomes": [
+		"#cobblemon:is_arid"
+	  ]
+	},
+	"Hoopa": {
+	  "spec": "hoopa",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_arid"
+	  ]
+	},
+	"Enamorous": {
+	  "spec": "enamorous",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "RAIN",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_plateau"
+	  ]
+	},
+	"Galarian Articuno": {
+	  "spec": "articuno galarian",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_glacial",
+		"#cobblemon:is_snowy_taiga",
+		"#cobblemon:is_snowy_forest"
+	  ]
+	},
+	"Regice": {
+	  "spec": "regice",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "biomes": [
+		"#cobblemon:is_freezing"
+	  ]
+	},
+	"Keldeo": {
+	  "spec": "keldeo",
+	  "weight": 1,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "cyan",
+	  "biomes": [
+		"#cobblemon:is_freshwater"
+	  ]
+	},
+	"Genesect": {
+	  "spec": "genesect",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_mountain"
+	  ]
+	},
+	"Manaphy": {
+	  "spec": "manaphy",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": true,
+		"max-y": 100
+	  },
+	  "biomes": [
+		"#cobblemon:is_ocean"
+	  ]
+	},
+	"Mew": {
+	  "spec": "mew",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "ANY"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_bamboo",
+		"#cobblemon:is_tropical_island"
+	  ]
+	},
+	"Latias": {
+	  "spec": "latias",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_beach"
+	  ]
+	},
+	"Kyogre": {
+	  "spec": "kyogre",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": true,
+		"max-y": 60
+	  },
+	  "biomes": [
+		"#cobblemon:is_deep_ocean"
+	  ]
+	},
+	"Moltres": {
+	  "spec": "moltres",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_volcanic",
+		"#cobblemon:is_desert"
+	  ]
+	},
+	"Thundurus": {
+	  "spec": "thundurus",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "STORM",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_grassland"
+	  ]
+	},
+	"Groudon": {
+	  "spec": "groudon",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_sandy",
+		"#cobblemon:is_volcanic"
+	  ]
+	},
+	"Kyurem": {
+	  "spec": "kyurem",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 100
+	  },
+	  "biomes": [
+		"#cobblemon:is_tundra"
+	  ]
+	},
+	"Calyrex": {
+	  "spec": "calyrex",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_snowy_forest",
+		"#cobblemon:is_snowy_taiga"
+	  ]
+	},
+	"Meltan": {
+	  "spec": "meltan",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 0
+	  },
+	  "biomes": [
+		"#cobblemon:is_overworld"
+	  ]
+	},
+	"Galarian Zapdos": {
+	  "spec": "zapdos galarian",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_plateau",
+		"#cobblemon:is_savanna",
+		"#cobblemon:is_badlands"
+	  ]
+	},
+	"Landorus": {
+	  "spec": "landorus",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "RAIN",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_plateau"
+	  ]
+	},
+	"Magearna": {
+	  "spec": "magearna",
+	  "weight": 1,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "white",
+	  "biomes": [
+		"#cobblemon:is_island"
+	  ]
+	},
+	"Marshadow": {
+	  "spec": "marshadow",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_island"
+	  ]
+	},
+	"Cresselia": {
+	  "spec": "cresselia",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "MIDNIGHT"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_magical"
+	  ]
+	},
+	"Eternatus": {
+	  "spec": "eternatus",
+	  "weight": 2.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_end",
+		"#cobblemon:space/is_space"
+	  ]
+	},
+	"Xerneas": {
+	  "spec": "xerneas",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "DAY"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_magical"
+	  ]
+	},
+	"Yveltal": {
+	  "spec": "yveltal",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "dark_red",
+	  "biomes": [
+		"#cobblemon:is_spooky"
+	  ]
+	},
+	"Zygarde": {
+	  "spec": "zygarde",
+	  "weight": 2,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "glow-color": "dark_green",
+	  "biomes": [
+		"#cobblemon:is_arid"
+	  ]
+	},
+	"Zeraora": {
+	  "spec": "zeraora",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_savanna"
+	  ]
+	},
+	"Darkrai": {
+	  "spec": "darkrai",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "MIDNIGHT"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_spooky"
+	  ]
+	},
+	"Arceus": {
+	  "spec": "arceus",
+	  "weight": 1,
+	  "conditions": {
+		"time": [
+		  "NOON"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "white",
+	  "biomes": [
+		"#cobblemon:is_peak"
+	  ]
+	},
+	"Tornadus": {
+	  "spec": "tornadus",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "RAIN",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_grassland"
+	  ]
+	},
+	"Reshiram": {
+	  "spec": "reshiram",
+	  "weight": 3.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_taiga"
+	  ]
+	},
+	"Galarian Moltres": {
+	  "spec": "moltres galarian",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "NIGHT"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_volcanic",
+		"#cobblemon:is_desert"
+	  ]
+	},
+	"Zacian": {
+	  "spec": "zacian",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "cyan",
+	  "biomes": [
+		"#cobblemon:is_forest"
+	  ]
+	},
+	"Zamazenta": {
+	  "spec": "zamazenta",
+	  "weight": 3,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "blue",
+	  "biomes": [
+		"#cobblemon:is_forest"
+	  ]
+	},
+	"Shaymin": {
+	  "spec": "shaymin",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "CLEAR",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_floral"
+	  ]
+	},
+	"Zarude": {
+	  "spec": "zarude",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_jungle"
+	  ]
+	},
+	"Regirock": {
+	  "spec": "regirock",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "biomes": [
+		"#cobblemon:is_badlands"
+	  ]
+	},
+	"Registeel": {
+	  "spec": "registeel",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "AFTERNOON"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "biomes": [
+		"#cobblemon:is_mountain"
+	  ]
+	},
+	"Regieleki": {
+	  "spec": "regieleki",
+	  "weight": 4.0,
+	  "conditions": {
+		"time": [
+		  "MORNING"
+		],
+		"weather": "ANY",
+		"underground": true,
+		"underwater": false,
+		"max-y": 40
+	  },
+	  "biomes": [
+		"#cobblemon:is_savanna"
+	  ]
+	},
+	"Terapagos": {
+	  "spec": "terapagos",
+	  "weight": 2,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "glow-color": "dark_blue",
+	  "biomes": [
+		"#cobblemon:is_beach"
+	  ]
+	},
+	"Pecharunt": {
+	  "spec": "pecharunt",
+	  "weight": 1.0,
+	  "conditions": {
+		"time": [
+		  "DAWN",
+		  "DUSK"
+		],
+		"weather": "ANY",
+		"underground": false,
+		"underwater": false,
+		"max-y": 320
+	  },
+	  "biomes": [
+		"#cobblemon:is_mushroom"
+	  ]
+	}
+  },
+  "lang": {
+	"onlyAllowedCatcher": "<red>Only player, for which pokemon has spawned, and members (with trust level {trustLevel}) of their realm can capture this legendary"
+  }
+}

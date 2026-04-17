@@ -1,0 +1,13 @@
+{
+  "name": "cobblemon:region1_bugsy",
+  "order": 0,
+  "variations": [
+	{
+	  "aspects": [],
+	  "poser": "cobblemon:standard",
+	  "model": "cobblemon:alex.geo",
+	  "texture": "cobblemon:textures/npcs/region2/bugsy/bugsy.png",
+	  "layers": []
+	}
+  ]
+}

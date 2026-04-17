@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Debug Cobblemon" type="CompoundRunConfigurationType">
+        <toRun name="Debug Cobblemon Proxy" type="Remote"/>
+        <toRun name="Debug Cobblemon Realms" type="Remote"/>
+        <toRun name="Debug Cobblemon Spawn" type="Remote"/>
+        <toRun name="Debug Cobblemon Wild" type="Remote"/>
+        <method v="2"/>
+    </configuration>
+</component>

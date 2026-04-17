@@ -1,0 +1,44 @@
+{
+  "target": "cobblemon:pidgeot",
+  "implemented": true,
+  "evolutions": [],
+  "features": [
+	"mega_evolution"
+  ],
+  "forms": [
+	{
+	  "name": "Mega",
+	  "primaryType": "normal",
+	  "secondaryType": "flying",
+	  "maleRatio": 0.5,
+	  "height": 22,
+	  "weight": 505,
+	  "pokedex": [
+		"cobblemon.species.pidgeot-mega.desc"
+	  ],
+	  "labels": [
+		"gen6",
+		"mega"
+	  ],
+	  "aspects": [
+		"mega"
+	  ],
+	  "abilities": [
+		"noguard",
+		"h:noguard"
+	  ],
+	  "baseStats": {
+		"hp": 83,
+		"attack": 80,
+		"defence": 80,
+		"special_attack": 135,
+		"special_defence": 80,
+		"speed": 121
+	  },
+	  "baseExperienceYield": 290,
+	  "dynamaxBlocked": true,
+	  "evolutions": [],
+	  "battleOnly": true
+	}
+  ]
+}

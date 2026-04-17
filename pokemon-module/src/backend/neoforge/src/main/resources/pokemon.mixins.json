@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.module.pokemon.backend.neoforge.mixin",
+  "refmap": "loader.refmap.json",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"MixinPixelmonStorageManager"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

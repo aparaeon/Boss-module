@@ -1,0 +1,44 @@
+# Dev environment
+run/*/backup/
+run/*/errors/
+run/*/old/
+run/*/proxy/
+run/*/realms/
+run/*/spawn/
+run/*/wild/
+run/*/gyms/
+run/*/postgres/
+run/cobblemon/mariadb/
+run/lobby/haproxy/
+run/*/wild_generator/
+run/*/*.bak/
+run/*/.live/
+run/*/jqa-backend-targets
+run/*/jqa-proxy-targets
+
+# Temporary and log files
+.tmp*
+tmp
+tmp-*/
+*.log
+
+# Temporary build files
+errors/
+build/
+versions/
+additional_scripts/result
+
+.env
+
+# Archive files
+*.zip
+*.tar
+
+# Configuration files
+.idea
+config.json
+
+# Cache files
+.jqassistant/
+jqassistant/
+.gradle/

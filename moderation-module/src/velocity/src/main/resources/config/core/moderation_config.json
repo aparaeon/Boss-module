@@ -1,0 +1,14 @@
+{
+  "lang": {
+    "userNotFound": "<red>User not found.",
+    "punishmentApplied": "<green>Punishment applied",
+    "muteRevoked": "<green>Your mute has been revoked",
+    "punishmentRevoked": "<green>Punishment revoked",
+    "kickReasonFormat": "<red>{reason}",
+    "banMessage": "<red>You have been banned for <white>{duration} <red>for <white>{reason}.\n\n<yellow>You can appeal at <aqua>https://discord.gg/mmorealms",
+    "muteMessage": "<red>You have been muted for <white>{duration} <red>for <white>{reason}",
+    "banBroadcast": "\n<white>============== <aqua>MMORealms Moderation - <red>BAN <white>==============\n<red>▶ <white>Punished: <aqua>{target}\n<red>▶ <white>Staff: <aqua>{staff}\n<red>▶ <white>Reason: <aqua>{reason}\n<red>▶ <white>Duration: <aqua>{duration}\n<white>====================================================\n\n",
+    "muteBroadcast": "\n<white>============= <aqua>MMORealms Moderation - <red>MUTE <white>==============\n<red>▶ <white>Punished: <aqua>{target}\n<red>▶ <white>Staff: <aqua>{staff}\n<red>▶ <white>Reason: <aqua>{reason}\n<red>▶ <white>Duration: <aqua>{duration}\n<white>=====================================================\n\n",
+    "kickBroadcast": "\n<white>============= <aqua>MMORealms Moderation - <red>KICK <white>==============\n<red>▶ <white>Punished: <aqua>{target}\n<red>▶ <white>Staff: <aqua>{staff}\n<red>▶ <white>Reason: <aqua>{reason}\n<white>=====================================================\n\n"
+  }
+}

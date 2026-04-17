@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WIW",
+        "D I",
+        "WDW"
+    ],
+    "key": {
+        "W": {
+            "item": "minecraft:yellow_wool"
+        },
+        "D": {
+            "tag": "c:dusts/redstone"
+        },
+        "I": {
+            "tag": "c:ingots/gold"
+        }
+    },
+    "result": {
+        "id": "cobblemon:muscle_band"
+    }
+}

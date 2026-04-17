@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="Debug" type="CompoundRunConfigurationType">
+        <toRun name="Debug Proxy" type="Remote"/>
+        <toRun name="Debug Realms" type="Remote"/>
+        <toRun name="Debug Spawn" type="Remote"/>
+        <toRun name="Debug Wild" type="Remote"/>
+        <method v="2"/>
+    </configuration>
+</component>

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${id}",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/icon.png",
+  "environment": "server",
+  "entrypoints": {
+	"main": [
+	  "gg.mmorealms.module.analytics.backend.fabric.AnalyticsFabricModule"
+	]
+  },
+  "mixins": [
+  ],
+  "depends": {
+	"fabricloader": ">=${fabric_loader_version}",
+	"fabric": "*",
+	"minecraft": "${minecraft_version}"
+  }
+}

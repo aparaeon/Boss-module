@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${id}",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/icon.png",
+  "environment": "server",
+  "entrypoints": {
+	"main": [
+	  "gg.mmorealms.loader.backend.fabric.FabricLoader"
+	]
+  },
+  "mixins": [
+	"loader.mixins.json"
+  ],
+  "depends": {
+	"fabricloader": ">=${fabric_loader_version}",
+	"minecraft": "${minecraft_version}",
+	"java": ">=21",
+	"fabric": "*",
+	"sgui": "*"
+  }
+}

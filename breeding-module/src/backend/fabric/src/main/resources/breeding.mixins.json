@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.module.breeding.backend.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"PastureBlockMixin",
+	"PokemonPastureBlockEntityMixin"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

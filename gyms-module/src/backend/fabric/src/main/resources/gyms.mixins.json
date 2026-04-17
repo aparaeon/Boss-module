@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.module.gyms.backend.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"BattleBuilderMixin",
+	"bag.PokemonEntityMixin",
+	"bag.PokemonSelectingItemsMixin",
+	"bag.ReviveItemMixin"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

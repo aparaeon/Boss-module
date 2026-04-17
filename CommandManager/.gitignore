@@ -1,0 +1,13 @@
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+
+### Gradle ###
+.gradle/
+build/
+
+### Temporary files ###
+tmp/
+tmp-*

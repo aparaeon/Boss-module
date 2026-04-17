@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.cobblemon.mod.fabric.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "client": [
+    "GameRendererMixin",
+    "GuiMixin",
+    "pokeball.ModelLoaderMixin"
+  ],
+  "mixins": [
+    "BrewingRecipeRegistryMixin",
+    "BrewingStandBlockEntityMixin",
+    "BrewingStandScreenHandlerMixin",
+    "PotionSlotMixin"
+  ]
+}

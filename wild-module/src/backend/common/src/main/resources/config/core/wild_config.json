@@ -1,0 +1,45 @@
+{
+  "lang": {
+	"activeRtpCooldown": "<yellow>You're still on cooldown! Please wait <white><bold>{cooldown}</bold></white>before trying to teleport to <white><bold>{dimension}</bold></white> again."
+  },
+  "spawnRange": {
+	"first": {
+	  "min": -9000,
+	  "max": 9000
+	},
+	"second": {
+	  "min": -9000,
+	  "max": 9000
+	}
+  },
+  "spawnDenyList": [
+	"minecraft:water",
+	"minecraft:lava",
+	"minecraft:stone",
+	"minecraft:magma_block",
+	"minecraft:fire"
+  ],
+  "dimensionConfigs": {
+	"NETHER": {
+	  "cooldown": {
+		"amount": 2,
+		"unit": "MINUTES"
+	  },
+	  "suggestionDisplay": "nether"
+	},
+	"OVERWORLD": {
+	  "cooldown": {
+		"amount": 10,
+		"unit": "SECONDS"
+	  },
+	  "suggestionDisplay": "wilds"
+	},
+	"END": {
+	  "cooldown": {
+		"amount": 2,
+		"unit": "MINUTES"
+	  },
+	  "suggestionDisplay": "end"
+	}
+  }
+}

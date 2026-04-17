@@ -1,0 +1,36 @@
+{
+  "target": "cobblemon:dragonite",
+  "features": [
+    "mega"
+  ],
+  "forms": [
+    {
+      "name": "Mega",
+      "primaryType": "dragon",
+      "secondaryType": "flying",
+        "pokedex": [
+    "cobblemon.species.dragonite-mega.desc"
+        ],
+        "labels": [
+          "gen6",
+          "mega"
+        ],
+        "aspects": [
+          "mega"
+        ],
+      "abilities": [
+    "soulheart","h:soulheart"
+      ],
+      "baseStats": {
+       "hp": 91,
+        "attack": 124,
+        "defence": 115,
+        "special_attack": 145,
+        "special_defence": 125,
+        "speed": 100
+      },
+      "evolutions": [],
+      "battleOnly": false
+      }
+  ]
+}

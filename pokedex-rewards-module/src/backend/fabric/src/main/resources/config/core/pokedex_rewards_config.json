@@ -1,0 +1,368 @@
+{
+  "guiHeader": "<red><b>POKEDEX REWARDS",
+  "guiRows": 4,
+  "gui": {
+	"rewards": [
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:poke_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>10% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>1x <aqua>Lucky Egg",
+			"<gray>- <blue>1x <aqua>EXP Share",
+			"<gray>- <blue>50000 <aqua>Pokecoins",
+			"<gray>- <blue>64x <aqua>Rare Candy",
+			"<gray>- <blue>1x <aqua>Master Ball",
+			"<gray>- <blue>1x <aqua>Random Plushy",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  10
+			]
+		  }
+		},
+		"milestone": 0.1,
+		"commands": [
+		  "balance add {user} 50000 PokeCoins",
+		  "give {user} cobblemon:lucky_egg 1",
+		  "give {user} cobblemon:exp_share 1",
+		  "give {user} cobblemon:master_ball 1",
+		  "give {user} cobblemon:rare_candy 64",
+		  "plushies give_class {user} NORMAL false"
+		],
+		"requiredFreeSpace": 5
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:great_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>20% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>64x <aqua>Rare Candy",
+			"<gray>- <blue>1x <aqua>Ability Capsule",
+			"<gray>- <blue>1x <aqua>Ancient Origin Ball",
+			"<gray>- <blue>1x <aqua>Random Plushy",
+			"<gray>- <blue>1x <aqua>Random Shiny Plushy",
+			"<gray>- <blue>1x <aqua>Random Shiny Pokemon",
+			"<gray>- <blue>100000 <aqua>Pokecoins",
+			"<gray>- <blue>50 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  11
+			]
+		  }
+		},
+		"milestone": 0.2,
+		"commands": [
+		  "balance add {user} 100000 PokeCoins",
+		  "balance add {user} 50 Gems",
+		  "give {user} cobblemon:ancient_origin_ball 1",
+		  "give {user} cobblemon:rare_candy 64",
+		  "give {user} cobblemon:ability_capsule 1",
+		  "plushies give_class {user} NORMAL true",
+		  "plushies give_class {user} NORMAL false",
+		  "poke_give_class {user} NORMAL true"
+		],
+		"requiredFreeSpace": 5
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:ultra_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>30% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>96x <aqua>Rare Candy",
+			"<gray>- <blue>1x <aqua>Random Plushy",
+			"<gray>- <blue>1x <aqua>Random Shiny Plushy",
+			"<gray>- <blue>1x <aqua>Random Shiny Pokemon",
+			"<gray>- <blue>1x <aqua>Basic Crate Key",
+			"<gray>- <blue>150000 <aqua>Pokecoins",
+			"<gray>- <blue>100 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  12
+			]
+		  }
+		},
+		"milestone": 0.3,
+		"commands": [
+		  "balance add {user} 150000 PokeCoins",
+		  "balance add {user} 100 Gems",
+		  "give {user} cobblemon:rare_candy 96",
+		  "crate admin give_virtual_key {user} 1 basic",
+		  "plushies give_class {user} NORMAL true",
+		  "plushies give_class {user} NORMAL false",
+		  "poke_give_class {user} NORMAL true"
+		],
+		"requiredFreeSpace": 4
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:premier_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>40% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>96x <aqua>Rare Candy",
+			"<gray>- <blue>2x <aqua>Random Plushy",
+			"<gray>- <blue>2x <aqua>Random Shiny Plushy",
+			"<gray>- <blue>1x <aqua>Basic Crate Key",
+			"<gray>- <blue>200000 <aqua>Pokecoins",
+			"<gray>- <blue>150 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  13
+			]
+		  }
+		},
+		"milestone": 0.4,
+		"commands": [
+		  "balance add {user} 200000 PokeCoins",
+		  "balance add {user} 150 Gems",
+		  "give {user} cobblemon:rare_candy 96",
+		  "crate admin give_virtual_key {user} 1 basic",
+		  "plushies give_class {user} NORMAL true",
+		  "plushies give_class {user} NORMAL true",
+		  "plushies give_class {user} NORMAL false",
+		  "plushies give_class {user} NORMAL false"
+		],
+		"requiredFreeSpace": 6
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:quick_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>50% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>128x <aqua>Rare Candy",
+			"<gray>- <blue>1x <aqua>Ability Patch",
+			"<gray>- <blue>2x <aqua>Basic Crate Key",
+			"<gray>- <blue>250000 <aqua>Pokecoins",
+			"<gray>- <blue>1x <aqua>Random Ultra Beast",
+			"<gray>- <blue>200 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  14
+			]
+		  }
+		},
+		"milestone": 0.5,
+		"commands": [
+		  "balance add {user} 250000 PokeCoins",
+		  "balance add {user} 200 Gems",
+		  "give {user} cobblemon:rare_candy 128",
+		  "crate admin give_virtual_key {user} 2 basic",
+		  "give {user} cobblemon:ability_patch 1",
+		  "poke_give_class {user} ULTRA_BEAST false"
+		],
+		"requiredFreeSpace": 3
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:dive_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>60% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>1x <aqua>Beacon",
+			"<gray>- <blue>2x <aqua>Basic Crate Key",
+			"<gray>- <blue>300000 <aqua>Pokecoins",
+			"<gray>- <blue>1x <aqua>Random Shiny Ultra Beast",
+			"<gray>- <blue>250 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  15
+			]
+		  }
+		},
+		"milestone": 0.6,
+		"commands": [
+		  "balance add {user} 300000 PokeCoins",
+		  "balance add {user} 250 Gems",
+		  "crate admin give_virtual_key {user} 2 basic",
+		  "give {user} minecraft:beacon 1",
+		  "poke_give_class {user} ULTRA_BEAST true"
+		],
+		"requiredFreeSpace": 1
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:dream_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>70% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>1x <aqua>Ability Patch",
+			"<gray>- <blue>1x <aqua>Basic Crate Key",
+			"<gray>- <blue>400000 <aqua>Pokecoins",
+			"<gray>- <blue>1x <aqua>Random Legendary Pokemon",
+			"<gray>- <blue>500 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  16
+			]
+		  }
+		},
+		"milestone": 0.7,
+		"commands": [
+		  "give {user} cobblemon:ability_patch 1",
+		  "crate admin give_virtual_key {user} 1 basic",
+		  "balance add {user} 400000 PokeCoins",
+		  "balance add {user} 500 Gems",
+		  "poke_give_class {user} LEGENDARY false"
+		],
+		"requiredFreeSpace": 2
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:beast_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>80% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>2x <aqua>Basic Crate Key",
+			"<gray>- <blue>500000 <aqua>Pokecoins",
+			"<gray>- <blue>1x <aqua>Random Mythical Pokemon",
+			"<gray>- <blue>1x <aqua>Random Shiny Legendary Pokemon",
+			"<gray>- <blue>1x <aqua>Premium Crate Key",
+			"<gray>- <blue>750 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  21
+			]
+		  }
+		},
+		"milestone": 0.8,
+		"commands": [
+		  "balance add {user} 500000 PokeCoins",
+		  "balance add {user} 750 Gems",
+		  "crate admin give_virtual_key {user} 2 basic",
+		  "crate admin give_virtual_key {user} 1 premium",
+		  "poke_give_class {user} LEGENDARY true",
+		  "poke_give_class {user} MYTHICAL false"
+		],
+		"requiredFreeSpace": 0
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:master_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>90% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>1000000 <aqua>Pokecoins",
+			"<gray>- <blue>1x <aqua>Random Shiny Mythical Pokemon",
+			"<gray>- <blue>1x <aqua>Premium Crate Key",
+			"<gray>- <blue>1000 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  22
+			]
+		  }
+		},
+		"milestone": 0.9,
+		"commands": [
+		  "balance add {user} 1000000 PokeCoins",
+		  "balance add {user} 1000 Gems",
+		  "crate admin give_virtual_key {user} 1 premium",
+		  "poke_give_class {user} MYTHICAL true"
+		],
+		"requiredFreeSpace": 0
+	  },
+	  {
+		"displayItem": {
+		  "displayJson": "{\"id\":\"cobblemon:cherish_ball\",\"count\":1}",
+		  "displayName": "<gradient:red:yellow><b>100% COMPLETION",
+		  "lore": [
+			"",
+			"<white>status:<reset> {status}",
+			"",
+			"<gradient:gold:yellow:gold><b>REWARDS",
+			"<gray>- <blue>2500000 <aqua>Pokecoins",
+			"<gray>- <blue>1x <aqua>Random Shiny Legendary Pokemon",
+			"<gray>- <blue>1x <aqua>Random Shiny Mythical Pokemon",
+			"<gray>- <blue>1x <aqua>Random Shiny Ultra Beast",
+			"<gray>- <blue>1x <aqua>Premium Crate Key",
+			"<gray>- <blue>3000 <aqua>Gems",
+			"",
+			"<white>pokedex progression: <aqua>{count}/{max}",
+			"<white>pokedex percentage: <green>{percentage}%"
+		  ],
+		  "position": {
+			"slots": [
+			  23
+			]
+		  }
+		},
+		"milestone": 1,
+		"commands": [
+		  "balance add {user} 2500000 PokeCoins",
+		  "balance add {user} 3000 Gems",
+		  "crate admin give_virtual_key {user} 1 premium",
+		  "poke_give_class {user} LEGENDARY true",
+		  "poke_give_class {user} MYTHICAL true",
+		  "poke_give_class {user} ULTRA_BEAST true"
+		],
+		"requiredFreeSpace": 0
+	  }
+	]
+  }
+}

@@ -1,0 +1,994 @@
+{
+  "baseKitPermission": "mmorealms.kit.{name}",
+  "kits": [
+	{
+	  "name": "Starter",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "minecraft:iron_pickaxe",
+		  "count": 1
+		},
+		{
+		  "id": "minecraft:iron_axe",
+		  "count": 1
+		},
+		{
+		  "id": "minecraft:iron_shovel",
+		  "count": 1
+		},
+		{
+		  "id": "cobblemon:poke_ball",
+		  "count": 32
+		},
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 5
+		}
+	  ],
+	  "commands": [
+		"give {user} compass[minecraft:max_stack_size=99, minecraft:custom_name='{\"color\":\"aqua\",\"text\":\"Realm selector\"}']",
+		"bal add {user} 500 PokeCoins"
+	  ],
+	  "displayItem": "",
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "Discord",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [],
+	  "commands": [
+		"poke_give_class {user} NORMAL true"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:shiny_stone",
+		"count": 1
+	  },
+	  "lore": [
+		"<red><bold>You must link your Discord account to your Minecraft account to redeem this",
+		"<red>You will only get this kit for the server that you linked your account on.",
+		"<red>You will not be able to claim the kit again within future resets."
+	  ],
+	  "previewLore": [],
+	  "slot": 0
+	},
+	{
+	  "name": "Modrinth",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 1
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:master_ball",
+		"count": 1
+	  },
+	  "lore": [
+		"<green>You can claim this kit by using the MMORealms Cobblemon Modrinth Modpack."
+	  ],
+	  "previewLore": [],
+	  "slot": 1
+	},
+	{
+	  "name": "Daily",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [],
+	  "commands": [
+		"crates admin force_open {user} daily",
+		"bal add {user} 1000 PokeCoins"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:master_ball",
+		"count": 1
+	  },
+	  "lore": [
+		"<green>You can claim this kit by using the MMORealms Cobblemon Modrinth Modpack."
+	  ],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "Trainer",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "minecraft:cooked_beef",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:poke_ball",
+		  "count": 4
+		},
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 4
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 1
+		},
+		{
+		  "id": "minecraft:compass",
+		  "count": 1,
+		  "components": {
+			"minecraft:custom_name": "{\"color\":\"aqua\",\"text\":\"Realm selector\"}",
+			"minecraft:max_stack_size": 99
+		  }
+		}
+	  ],
+	  "commands": [
+		"bal add {user} 500 PokeCoins"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:citrine_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 2
+	},
+	{
+	  "name": "Expert",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:poke_ball",
+		  "count": 4
+		},
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 4
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 2
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:poke_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 3
+	},
+	{
+	  "name": "Master",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:poke_ball",
+		  "count": 5
+		},
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 5
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 3
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:fast_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 4
+	},
+	{
+	  "name": "Heroic",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:poke_ball",
+		  "count": 8
+		},
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 8
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 4
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:dive_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 5
+	},
+	{
+	  "name": "Mythical",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 8
+		},
+		{
+		  "id": "cobblemon:ultra_ball",
+		  "count": 12
+		},
+		{
+		  "id": "cobblemon:quick_ball",
+		  "count": 8
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 6
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:heal_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 6
+	},
+	{
+	  "name": "Divine",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:ultra_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:quick_ball",
+		  "count": 12
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 6
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:heavy_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 7
+	},
+	{
+	  "name": "Arbiter",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:ultra_ball",
+		  "count": 20
+		},
+		{
+		  "id": "cobblemon:level_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 10
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:level_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 8
+	},
+	{
+	  "name": "Champion",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:ultra_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:level_ball",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 10
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:net_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 9
+	},
+	{
+	  "name": "Grandmaster",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:great_ball",
+		  "count": 24
+		},
+		{
+		  "id": "cobblemon:ultra_ball",
+		  "count": 24
+		},
+		{
+		  "id": "cobblemon:level_ball",
+		  "count": 24
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 12
+		}
+	  ],
+	  "commands": [],
+	  "displayItem": {
+		"id": "cobblemon:cherish_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 10
+	},
+	{
+	  "name": "Celestial",
+	  "cooldown": {
+		"amount": 1440,
+		"unit": "MINUTES"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:quick_ball",
+		  "count": 32
+		},
+		{
+		  "id": "cobblemon:dusk_ball",
+		  "count": 32
+		},
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 14
+		}
+	  ],
+	  "commands": [
+		"crates admin give_virtual_key {user} 1 vote"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:beast_ball",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": 11
+	},
+	{
+	  "name": "arbitermonthly",
+	  "cooldown": {
+		"amount": 40320,
+		"unit": "MINUTES"
+	  },
+	  "items": [],
+	  "commands": [
+		"crates admin give_virtual_key {user} 1 basic"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:ancient_poke_ball",
+		"count": 1
+	  },
+	  "lore": [
+		"<red><bold>You must own Arbiter rank or higher to gain access to this kit.",
+		"<red>This kit can only be claimed once every <bold>4 weeks."
+	  ],
+	  "previewLore": [],
+	  "slot": 12
+	},
+	{
+	  "name": "championmonthly",
+	  "cooldown": {
+		"amount": 40320,
+		"unit": "MINUTES"
+	  },
+	  "items": [],
+	  "commands": [
+		"crates admin give_virtual_key {user} 1 basic"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:ancient_citrine_ball",
+		"count": 1
+	  },
+	  "lore": [
+		"<red><bold>You must own Champion rank or higher to gain access to this kit.",
+		"<red>This kit can only be claimed once every <bold>4 weeks."
+	  ],
+	  "previewLore": [],
+	  "slot": 13
+	},
+	{
+	  "name": "grandmastermonthly",
+	  "cooldown": {
+		"amount": 40320,
+		"unit": "MINUTES"
+	  },
+	  "items": [],
+	  "commands": [
+		"crates admin give_virtual_key {user} 1 premium"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:ancient_verdant_ball",
+		"count": 1
+	  },
+	  "lore": [
+		"<red><bold>You must own Grandmaster rank or higher to gain access to this kit.",
+		"<red>This kit can only be claimed once every <bold>4 weeks."
+	  ],
+	  "previewLore": [],
+	  "slot": 14
+	},
+	{
+	  "name": "celestialmonthly",
+	  "cooldown": {
+		"amount": 40320,
+		"unit": "MINUTES"
+	  },
+	  "items": [],
+	  "commands": [
+		"crates admin give_virtual_key {user} 1 premium"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:ancient_azure_ball",
+		"count": 1
+	  },
+	  "lore": [
+		"<red><bold>You must own Celestial rank or higher to gain access to this kit.",
+		"<red>This kit can only be claimed once every <bold>4 weeks."
+	  ],
+	  "previewLore": [],
+	  "slot": 15
+	},
+	{
+	  "name": "expertonetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 8
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} NORMAL true",
+		"bal add {user} 5000 PokeCoins",
+		"give_group {user} evolutionitem",
+		"plushies give_class {user} NORMAL false"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "masteronetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 8
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 1
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} NORMAL true",
+		"bal add {user} 7500 PokeCoins",
+		"give_group {user} evolutionstone",
+		"plushies give_class {user} NORMAL false"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "heroiconetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 8
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 1
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} NORMAL true",
+		"bal add {user} 10000 PokeCoins",
+		"give_group {user} helditem",
+		"plushies give_class {user} NORMAL true"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "mythicalonetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 12
+		},
+		{
+		  "id": "cobblemon:lucky_egg",
+		  "count": 1
+		},
+		{
+		  "id": "cobblemon:exp_share",
+		  "count": 1
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 2
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} NORMAL true",
+		"bal add {user} 12500 PokeCoins",
+		"give_group {user} helditem",
+		"plushies give_class {user} NORMAL true"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "divineonetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 12
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 2
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} NORMAL true",
+		"bal add {user} 15000 PokeCoins",
+		"give_group {user} mint",
+		"give_group {user} helditem",
+		"plushies give_class {user} NORMAL true"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "arbiteronetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 2
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} ULTRA_BEAST false",
+		"poke_give_class {user} NORMAL true",
+		"bal add {user} 20000 PokeCoins",
+		"give_group {user} mint",
+		"plushies give_class {user} NORMAL true"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "championonetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 16
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 3
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} ULTRA_BEAST true",
+		"bal add {user} 25000 PokeCoins",
+		"plushies give_class {user} ULTRA_BEAST true"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "grandmasteronetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 24
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 3
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} LEGENDARY false",
+		"bal add {user} 35000 PokeCoins",
+		"plushies give_class {user} LEGENDARY false"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "celestialonetime",
+	  "cooldown": {
+		"amount": 0,
+		"unit": "SECONDS"
+	  },
+	  "items": [
+		{
+		  "id": "cobblemon:rare_candy",
+		  "count": 24
+		},
+		{
+		  "id": "cobblemon:master_ball",
+		  "count": 3
+		}
+	  ],
+	  "commands": [
+		"poke_give_class {user} LEGENDARY true",
+		"bal add {user} 50000 PokeCoins",
+		"plushies give_class {user} MYTHICAL false"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	},
+	{
+	  "name": "onetime",
+	  "cooldown": {
+		"amount": 1,
+		"unit": "SECONDS"
+	  },
+	  "items": [],
+	  "commands": [
+		"kits admin claim expertonetime {user}",
+		"kits admin claim masteronetime {user}",
+		"kits admin claim heroiconetime {user}",
+		"kits admin claim mythicalonetime {user}",
+		"kits admin claim divineonetime {user}",
+		"kits admin claim arbiteronetime {user}",
+		"kits admin claim championonetime {user}",
+		"kits admin claim grandmasteronetime {user}",
+		"kits admin claim celestialonetime {user}"
+	  ],
+	  "displayItem": {
+		"id": "cobblemon:rare_candy",
+		"count": 1
+	  },
+	  "lore": [],
+	  "previewLore": [],
+	  "slot": -1
+	}
+  ],
+  "previewGUI": {
+	"background": {
+	  "displayJson": "{\"id\":\"minecraft:white_stained_glass_pane\",\"count\":1}",
+	  "lore": [],
+	  "position": {
+		"slots": [
+		  0,
+		  1,
+		  2,
+		  3,
+		  4,
+		  5,
+		  6,
+		  7,
+		  8,
+		  9,
+		  10,
+		  11,
+		  12,
+		  13,
+		  14,
+		  15,
+		  16,
+		  17,
+		  18,
+		  19,
+		  20,
+		  21,
+		  22,
+		  23,
+		  24,
+		  25,
+		  26,
+		  27,
+		  28,
+		  29,
+		  30,
+		  31,
+		  32,
+		  33,
+		  34,
+		  35,
+		  36,
+		  37,
+		  38,
+		  39,
+		  40,
+		  41,
+		  42,
+		  43,
+		  44
+		]
+	  }
+	},
+	"back": {
+	  "displayJson": "{\"id\":\"minecraft:red_wool\",\"count\":1}",
+	  "displayName": "<red>Go back",
+	  "lore": [],
+	  "position": {
+		"slots": [
+		  36
+		]
+	  }
+	},
+	"claim": {
+	  "displayJson": "{\"id\":\"minecraft:green_wool\",\"count\":1}",
+	  "displayName": "<green>Claim this kit",
+	  "lore": [],
+	  "position": {
+		"slots": [
+		  44
+		]
+	  }
+	},
+	"lore": {
+	  "displayJson": "{\"id\":\"minecraft:paper\",\"count\":1}",
+	  "lore": [],
+	  "position": {
+		"slots": [
+		  40
+		]
+	  }
+	}
+  },
+  "kitGUI": {
+	"background": {
+	  "displayJson": "{\"id\":\"minecraft:white_stained_glass_pane\",\"count\":1}",
+	  "lore": [],
+	  "position": {
+		"slots": [
+		  0,
+		  1,
+		  2,
+		  3,
+		  4,
+		  5,
+		  6,
+		  7,
+		  8,
+		  9,
+		  10,
+		  11,
+		  12,
+		  13,
+		  14,
+		  15,
+		  16,
+		  17,
+		  18,
+		  19,
+		  20,
+		  21,
+		  22,
+		  23,
+		  24,
+		  25,
+		  26,
+		  27,
+		  28,
+		  29,
+		  30,
+		  31,
+		  32,
+		  33,
+		  34,
+		  35,
+		  36,
+		  37,
+		  38,
+		  39,
+		  40,
+		  41,
+		  42,
+		  43,
+		  44,
+		  45,
+		  46,
+		  47,
+		  48,
+		  49,
+		  50,
+		  51,
+		  52,
+		  53
+		]
+	  }
+	}
+  },
+  "lang": {
+	"kitGUITitle": "<black>Kits",
+	"onCooldown": "<yellow>Cooldown: {time}",
+	"offCooldown": "<dark_green>Cooldown: {time}",
+	"notFoundKit": "<red>There is no kit with name {name}",
+	"oneTimeKit": "<yellow>One Time Kit",
+	"redeemedOneTimeKit": "<red>You already redeemed this one time kit!",
+	"redeemableKit": "<green>You can redeem this kit!",
+	"onCooldownKit": "<red>You have a cooldown on redeeming this kit",
+	"noPermissionKit": "<red>You don't have the required permission to redeem this kit!",
+	"noSpaceKit": "<red>You need {space} free space to be able to claim this kit!",
+	"cooldownMessage": "You have to wait {time} to claim {name} kit!",
+	"receivedMessage": "<green>Successfully received</green> {name} <green>kit!",
+	"successDeleteMessage": "Successfully deleted kit!",
+	"invalidFormatMessage": "Invalid format for {arg}!",
+	"creatingKit": "<black>Creating kit {name}",
+	"successCreateMessage": "Successfully created {name} kit!",
+	"failedCreateMessage": "There already exists a {name} kit!",
+	"successDeleteOptionMessage": "Successfully deleted '{option}' from {name} kit!",
+	"failedDeleteOptionMessage": "Can't delete {index} from {optionType} from {name} kit as it is out of bounds!",
+	"successAddOptionMessage": "Successfully added '{option}' <reset>to kit {name}",
+	"addCommandWarning": "<gold><bold>WARNING: <newline><reset><red>The command will be executed by the server so be sure to have some kind of placeholder for username '{user}' or UUID '{uuid}' in the command. <newline>",
+	"indexedList": "{index}. {field}<newline>",
+	"detailedDescription": "Kit {name}<newline>Cooldown: {cooldown}<newline>Commands:<newline>{commands}Lore:<newline>{lore}"
+  }
+}

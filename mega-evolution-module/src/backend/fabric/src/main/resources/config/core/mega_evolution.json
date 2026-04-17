@@ -1,0 +1,26 @@
+{
+  "megaEvolutionAnimationPacketDistance": 128,
+  "megaEvolutionAnimation": [
+	"q.bedrock_stateful('mega_evolution', 'mega_evolution', 'endures_primary_animations');"
+  ],
+  "megaEvolutionAnimationDuration": {
+	"amount": 5,
+	"unit": "SECONDS"
+  },
+  "megaEvolutionFormChangeDelay": {
+	"amount": 3,
+	"unit": "SECONDS"
+  },
+  "lang": {
+	"cantChallengeMessage": "<red>Can't start battle while mega evolving",
+	"cantCallbackMessage": "<red>Can't callback while mega evolving",
+	"cantEvolveMessage": "<red>Can't evolve while mega evolving",
+	"cantTradeMessage": "<red>You can't trade Mega Evolved Pokemon",
+	"noRequiredMegaMove": "<red>This Pokemon does not have required mega move in its moveset",
+	"noRequiredMegaGem": "<red>This Pokemon does not hold required Mega Gem",
+	"megaEvolvingPokemonMessage": "<red>You already have mega evolving Pokemon",
+	"megaPokemonInPartyMessage": "<red>You already have Mega Pokemon in your party",
+	"megaPokemonInPCMessage": "<red>You already have Mega Pokemon in your PC",
+	"megaEvolutionStartBattleMessage": "{pokemon} begins mega evolving!"
+  }
+}

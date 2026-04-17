@@ -1,0 +1,89 @@
+{
+  "breedingCommandCooldown": {
+	"amount": 1,
+	"unit": "HOURS"
+  },
+  "hatchCommandCooldown": {
+	"amount": 1,
+	"unit": "HOURS"
+  },
+  "breeding": {
+	"breedingAttemptInterval": {
+	  "amount": 1,
+	  "unit": "MINUTES"
+	},
+	"breedingChanceBonus": 0.5,
+	"baseShinyOdds": 4096,
+	"chancePerPairCount": [
+	  5.0,
+	  6.0,
+	  7.0,
+	  8.0,
+	  8.5,
+	  9.0,
+	  9.5,
+	  10.0
+	],
+	"shinyBreedingRolls": {
+	  "MASUDA": 6.0,
+	  "CRYSTAL": 2.0
+	}
+  },
+  "pasture": {
+	"canHopperPickupEgg": true,
+	"canPickupEggWithFilledHand": true,
+	"hasComparatorSignal": true,
+	"comparatorSignal": 15,
+	"eggDisplayScale": 0.6,
+	"eggDisplayOffset": {
+	  "field_1352": 0.0,
+	  "field_1351": 0.1,
+	  "field_1350": 0.0
+	}
+  },
+  "egg": {
+	"eggCycleStepCount": 128,
+	"isPlaceable": true,
+	"isDispensable": true,
+	"hasComparatorSignal": true,
+	"distanceUpdateInterval": {
+	  "amount": 1,
+	  "unit": "SECONDS"
+	},
+	"maxDistancePerUpdate": 10.0,
+	"genderMap": {
+	  "FEMALE": "<red>♀",
+	  "GENDERLESS": "",
+	  "MALE": "<blue>♂"
+	},
+	"unknownEggName": "???",
+	"pokemonEggItem": {
+	  "displayJson": "{\"id\":\"minecraft:air\",\"count\":1}",
+	  "displayName": "{pokemonName} Egg",
+	  "lore": [
+		"",
+		"--- Parents ---",
+		"{father} {fatherGender}",
+		"{mother} {motherGender}",
+		"---- Steps ----",
+		"Current: {steps}",
+		"Goal: {stepsGoal}",
+		"{hatchInstruction}"
+	  ],
+	  "position": {
+		"slots": []
+	  }
+	},
+	"hatchInstruction": "<green>Shift + Right Click to hatch!"
+  },
+  "lang": {
+	"canHatchMessage": "<green>You can hatch {pokemonEgg}!",
+	"neuteredMessage": "<green>{pokemonName} has been neutered!",
+	"unneuteredMessage": "<green>{pokemonName} has been unneutered!",
+	"breedMessage": "<green>You got {pokemonEggName}!",
+	"notHoldingPokemonEggMessage": "<red>You need to hold Pokemon Egg which you want to hatch",
+	"samePokemonMessage": "<red>You can't choose same Pokemon",
+	"originalTrainerNeuterMessage": "<red>Only original trainer of {pokemonName} can (un)neuter it",
+	"notCompatiblePokemonMessage": "<red>{pokemonName1} and {pokemonName2} are not compatible"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "textures": [
+    "cobblemon:mega_icon",
+    "cobblemon:mega_icon_silhouette",
+    "cobblemon:white_ball",
+	"cobblemon:fire_beam",
+	"cobblemon:mega_evolution_action_line",
+	"cobblemon:mega_evolution_ball",
+	"cobblemon:mega_evolution_helix",
+	"cobblemon:mega_evolution_sphere"
+  ]
+}

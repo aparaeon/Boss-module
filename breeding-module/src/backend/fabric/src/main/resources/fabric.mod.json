@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${id}",
+  "description": "",
+  "authors": ["ZeroDelusions"],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/icon.png",
+  "environment": "server",
+  "entrypoints": {
+	"main": [
+	  "gg.mmorealms.module.breeding.backend.fabric.BreedingFabricModule"
+	]
+  },
+  "mixins": [
+	"breeding.mixins.json"
+  ],
+  "depends": {
+	"fabricloader": ">=${fabric_loader_version}",
+	"fabric": "*",
+	"minecraft": "${minecraft_version}",
+	"gooeylibs": "*"
+  }
+}

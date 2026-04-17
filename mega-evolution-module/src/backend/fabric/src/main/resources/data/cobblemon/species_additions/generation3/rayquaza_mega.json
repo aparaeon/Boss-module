@@ -1,0 +1,48 @@
+{
+  "target": "cobblemon:rayquaza",
+  "implemented": true,
+  "evolutions": [],
+  "features": [
+	"mega"
+  ],
+  "forms": [
+	{
+	  "name": "Mega",
+	  "primaryType": "dragon",
+	  "secondaryType": "flying",
+	  "maleRatio": -1,
+	  "height": 108,
+	  "weight": 3920,
+	  "requiredMove": "dragonascent",
+	  "pokedex": [
+		"cobblemon.species.rayquaza-mega.desc"
+	  ],
+	  "labels": [
+		"gen6",
+		"legendary",
+		"restricted",
+		"mega"
+	  ],
+	  "aspects": [
+		"mega"
+	  ],
+	  "abilities": [
+		"deltastream",
+		"h:deltastream"
+	  ],
+	  "baseStats": {
+		"hp": 105,
+		"attack": 180,
+		"defence": 100,
+		"special_attack": 180,
+		"special_defence": 100,
+		"speed": 115
+	  },
+	  "baseExperienceYield": 390,
+	  "catchRate": 45,
+	  "dynamaxBlocked": true,
+	  "evolutions": [],
+	  "battleOnly": true
+	}
+  ]
+}

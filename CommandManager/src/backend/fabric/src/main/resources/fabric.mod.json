@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "command_manager_fabric",
+  "version": "${version}",
+  "name": "command_manager_fabric",
+  "description": "",
+  "authors": [
+    "Radu Voinea"
+  ],
+  "contact": {
+    "homepage": "https://raduvoinea.com/"
+  },
+  "license": "CC0-1.0",
+  "icon": "none",
+  "environment": "*",
+  "entrypoints": {},
+  "mixins": [],
+  "depends": {},
+  "suggests": {}
+}

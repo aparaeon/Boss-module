@@ -1,0 +1,515 @@
+{
+  "implemented": true,
+  "nationalPokedexNumber": 18,
+  "name": "Pidgeot",
+  "primaryType": "normal",
+  "secondaryType": "flying",
+  "maleRatio": 0.5,
+  "height": 15,
+  "weight": 395,
+  "pokedex": [
+    "cobblemon.species.pidgeot.desc"
+  ],
+  "labels": [
+    "gen1"
+  ],
+  "aspects": [],
+  "abilities": [
+    "keeneye",
+    "tangledfeet",
+    "h:bigpecks"
+  ],
+  "eggGroups": [
+    "flying"
+  ],
+  "baseStats": {
+    "hp": 83,
+    "attack": 80,
+    "defence": 75,
+    "special_attack": 70,
+    "special_defence": 70,
+    "speed": 101
+  },
+  "evYield": {
+    "hp": 0,
+    "attack": 0,
+    "defence": 0,
+    "special_attack": 0,
+    "special_defence": 0,
+    "speed": 3
+  },
+  "baseExperienceYield": 240,
+  "experienceGroup": "medium_slow",
+  "catchRate": 45,
+  "eggCycles": 15,
+  "baseFriendship": 50,
+  "baseScale": 1.4,
+  "hitbox": {
+    "width": 0.75,
+    "height": 1.5,
+    "fixed": false
+  },
+  "behaviour": {
+    "resting": {
+      "light": "0-4",
+      "drowsyChance": 0.0333,
+      "rouseChance": 0.0042
+    },
+    "moving": {
+      "walk": {
+        "walkSpeed": 0.42
+      },
+      "fly": {
+        "canFly": true
+      },
+      "swim": {
+        "avoidsWater": true
+      }
+    },
+    "herd": {
+      "maxSize": "9",
+      "toleratedLeaders": [
+        {
+          "pokemon": "unfezant",
+          "tier": 1
+        },
+        {
+          "pokemon": "pidgeot mega=false",
+          "tier": 2
+        },
+        {
+          "pokemon": "pidgeot mega",
+          "tier": 3
+        }
+      ]
+    },
+    "combat": {
+      "willDefendSelf": true,
+      "willDefendOwner": true,
+      "willFlee": false
+    }
+  },
+  "drops": {
+    "amount": 6,
+    "entries": [
+      {
+        "item": "minecraft:feather",
+        "quantityRange": "0-3"
+      },
+      {
+        "item": "minecraft:chicken"
+      },
+      {
+        "item": "cobblemon:sharp_beak",
+        "percentage": 5.0
+      },
+      {
+        "item": "cobblemon:chilan_berry",
+        "percentage": 10.0
+      }
+    ]
+  },
+  "moves": [
+    "1:tackle",
+    "1:sandattack",
+    "1:gust",
+    "1:quickattack",
+    "1:hurricane",
+    "17:whirlwind",
+    "22:twister",
+    "27:featherdance",
+    "32:agility",
+    "38:wingattack",
+    "44:roost",
+    "50:tailwind",
+    "56:mirrormove",
+    "62:airslash",
+    "egg:feintattack",
+    "egg:foresight",
+    "egg:pursuit",
+    "tm:aerialace",
+    "tm:agility",
+    "tm:aircutter",
+    "tm:airslash",
+    "tm:bravebird",
+    "tm:defog",
+    "tm:dualwingbeat",
+    "tm:endure",
+    "tm:facade",
+    "tm:featherdance",
+    "tm:fly",
+    "tm:gigaimpact",
+    "tm:heatwave",
+    "tm:hurricane",
+    "tm:hyperbeam",
+    "tm:laserfocus",
+    "tm:mudslap",
+    "tm:ominouswind",
+    "tm:pluck",
+    "tm:protect",
+    "tm:raindance",
+    "tm:rest",
+    "tm:roost",
+    "tm:skyattack",
+    "tm:sleeptalk",
+    "tm:steelwing",
+    "tm:substitute",
+    "tm:sunnyday",
+    "tm:tailwind",
+    "tm:terablast",
+    "tm:thief",
+    "tm:twister",
+    "tm:uproar",
+    "tm:uturn",
+    "tm:workup",
+    "tutor:aerialace",
+    "tutor:aircutter",
+    "tutor:defog",
+    "tutor:dualwingbeat",
+    "tutor:gigaimpact",
+    "tutor:hyperbeam",
+    "tutor:laserfocus",
+    "tutor:mudslap",
+    "tutor:ominouswind",
+    "tutor:rest",
+    "tutor:roost",
+    "tutor:skyattack",
+    "tutor:sleeptalk",
+    "tutor:tailwind",
+    "tutor:twister",
+    "tutor:uproar",
+    "legacy:attract",
+    "legacy:bide",
+    "legacy:captivate",
+    "legacy:confide",
+    "legacy:curse",
+    "legacy:detect",
+    "legacy:doubleedge",
+    "legacy:doubleteam",
+    "legacy:frustration",
+    "legacy:headbutt",
+    "legacy:hiddenpower",
+    "legacy:mimic",
+    "legacy:naturalgift",
+    "legacy:rage",
+    "legacy:razorwind",
+    "legacy:reflect",
+    "legacy:return",
+    "legacy:round",
+    "legacy:secretpower",
+    "legacy:snore",
+    "legacy:swagger",
+    "legacy:swift",
+    "legacy:takedown",
+    "legacy:toxic",
+    "special:refresh"
+  ],
+  "preEvolution": "pidgeotto",
+  "evolutions": [],
+  "forms": [
+    {
+      "name": "Mega",
+      "primaryType": "normal",
+      "secondaryType": "flying",
+      "maleRatio": 0.5,
+      "height": 22,
+      "weight": 505,
+      "pokedex": [
+        "cobblemon.species.pidgeot-mega.desc"
+      ],
+      "labels": [
+        "gen6",
+        "mega"
+      ],
+      "aspects": [
+        "mega"
+      ],
+      "abilities": [
+        "noguard",
+        "h:noguard"
+      ],
+      "baseStats": {
+        "hp": 83,
+        "attack": 80,
+        "defence": 80,
+        "special_attack": 135,
+        "special_defence": 80,
+        "speed": 121
+      },
+      "baseExperienceYield": 290,
+      "dynamaxBlocked": true,
+      "evolutions": [],
+      "battleOnly": true,
+	  "riding": {
+		"behaviours": {
+		  "AIR": {
+			"key": "cobblemon:air/bird",
+			"rideSounds": [
+			  {
+				"muffleEnabled": true,
+				"pitchExpr": "math.max(1.0 ,0.2 + math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2))",
+				"playForNonPassengers": true,
+				"soundLocation": "cobblemon:ride.loop.wind",
+				"volumeExpr": "math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2)"
+			  },
+			  {
+				"muffleEnabled": true,
+				"pitchExpr": "math.max(1.0 ,0.2 + math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2))",
+				"playForNonPassengers": true,
+				"soundLocation": "cobblemon:ride.loop.leather",
+				"volumeExpr": "math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2)"
+			  }
+			],
+			"stats": {
+			  "ACCELERATION": "45-75",
+			  "JUMP": "30-65",
+			  "SKILL": "55-85",
+			  "SPEED": "30-65",
+			  "STAMINA": "30-65"
+			}
+		  },
+		  "LAND": {
+			"key": "cobblemon:land/horse",
+			"rideSounds": [],
+			"canJump": false,
+			"canSprint": false,
+			"stats": {
+			  "ACCELERATION": "55-65",
+			  "JUMP": "15-25",
+			  "SKILL": "10-25",
+			  "SPEED": "25-40",
+			  "STAMINA": "20-30"
+			}
+		  }
+		},
+		"seats": [
+		  {
+			"offset": {
+			  "x": 0.0,
+			  "y": 0.0,
+			  "z": 0.0
+			},
+			"poseOffsets": [
+			  {
+				"offset": {
+				  "x": 0.0047415113,
+				  "y": -1.6152971,
+				  "z": 0.35461712
+				},
+				"poseTypes": [
+				  "STAND"
+				]
+			  },
+			  {
+				"offset": {
+				  "x": -0.003806442,
+				  "y": -1.7203209,
+				  "z": 0.12983066
+				},
+				"poseTypes": [
+				  "WALK"
+				]
+			  },
+			  {
+				"offset": {
+				  "x": 0.039005388,
+				  "y": -2.4511793,
+				  "z": 0.10381147
+				},
+				"poseTypes": [
+				  "HOVER"
+				]
+			  },
+			  {
+				"offset": {
+				  "x": 0.056267936,
+				  "y": -2.0914204,
+				  "z": -0.45272845
+				},
+				"poseTypes": [
+				  "FLY"
+				]
+			  },
+			  {
+				"offset": {
+				  "x": 0.0,
+				  "y": -0.7674751,
+				  "z": -0.27694723
+				},
+				"poseTypes": [
+				  "FLOAT"
+				]
+			  },
+			  {
+				"offset": {
+				  "x": -0.003806442,
+				  "y": -1.7203209,
+				  "z": 0.12983066
+				},
+				"poseTypes": [
+				  "SWIM"
+				]
+			  },
+			  {
+				"offset": {
+				  "x": 0.0047415113,
+				  "y": -1.6152971,
+				  "z": 0.35461712
+				},
+				"poseTypes": [
+				  "GLIDE"
+				]
+			  }
+			]
+		  }
+		]
+	  },
+      "behaviour": {
+        "herd": {
+          "maxSize": "9"
+        },
+        "moving": {
+          "swim": {
+            "avoidsWater": true
+          },
+          "fly": {
+            "canFly": true
+          }
+        },
+        "combat": {
+          "willDefendSelf": true,
+          "willDefendOwner": true,
+          "willFlee": false
+        },
+        "resting": {
+          "drowsyChance": 0.0333,
+          "rouseChance": 0.0042
+        }
+      }
+    }
+  ],
+  "riding": {
+    "behaviours": {
+      "AIR": {
+        "key": "cobblemon:air/bird",
+        "rideSounds": [
+          {
+            "muffleEnabled": true,
+            "pitchExpr": "math.max(1.0 ,0.2 + math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2))",
+            "playForNonPassengers": true,
+            "soundLocation": "cobblemon:ride.loop.wind",
+            "volumeExpr": "math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2)"
+          },
+          {
+            "muffleEnabled": true,
+            "pitchExpr": "math.max(1.0 ,0.2 + math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2))",
+            "playForNonPassengers": true,
+            "soundLocation": "cobblemon:ride.loop.leather",
+            "volumeExpr": "math.pow(math.min(q.ride_velocity() / 1.5, 1.0),2)"
+          }
+        ],
+        "stats": {
+          "ACCELERATION": "45-75",
+          "JUMP": "30-65",
+          "SKILL": "55-85",
+          "SPEED": "30-65",
+          "STAMINA": "30-65"
+        }
+      },
+      "LAND": {
+        "key": "cobblemon:land/horse",
+        "rideSounds": [],
+        "canJump": false,
+        "canSprint": false,
+        "stats": {
+          "ACCELERATION": "55-65",
+          "JUMP": "15-25",
+          "SKILL": "10-25",
+          "SPEED": "25-40",
+          "STAMINA": "20-30"
+        }
+      }
+    },
+    "seats": [
+      {
+        "offset": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "poseOffsets": [
+          {
+            "offset": {
+              "x": 0.0047415113,
+              "y": -1.6152971,
+              "z": 0.35461712
+            },
+            "poseTypes": [
+              "STAND"
+            ]
+          },
+          {
+            "offset": {
+              "x": -0.003806442,
+              "y": -1.7203209,
+              "z": 0.12983066
+            },
+            "poseTypes": [
+              "WALK"
+            ]
+          },
+          {
+            "offset": {
+              "x": 0.039005388,
+              "y": -2.4511793,
+              "z": 0.10381147
+            },
+            "poseTypes": [
+              "HOVER"
+            ]
+          },
+          {
+            "offset": {
+              "x": 0.056267936,
+              "y": -2.0914204,
+              "z": -0.45272845
+            },
+            "poseTypes": [
+              "FLY"
+            ]
+          },
+          {
+            "offset": {
+              "x": 0.0,
+              "y": -0.7674751,
+              "z": -0.27694723
+            },
+            "poseTypes": [
+              "FLOAT"
+            ]
+          },
+          {
+            "offset": {
+              "x": -0.003806442,
+              "y": -1.7203209,
+              "z": 0.12983066
+            },
+            "poseTypes": [
+              "SWIM"
+            ]
+          },
+          {
+            "offset": {
+              "x": 0.0047415113,
+              "y": -1.6152971,
+              "z": 0.35461712
+            },
+            "poseTypes": [
+              "GLIDE"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

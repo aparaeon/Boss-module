@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.loader.backend.common.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"FarmBlockMixin",
+	"MinecartEntityMixin",
+	"MinecartItemMixin",
+	"ServerGamePacketListenerMixin",
+	"ServerPacketListenerMixin",
+	"ServerPlayerMixin",
+	"ServerWatchdogMixin",
+	"SparkPlatformMixin"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "RIR",
+        "IBI",
+        "GIG"
+    ],
+    "key": {
+        "G": {
+            "tag": "c:dusts/glowstone"
+        },
+        "I": {
+            "tag": "c:ingots/iron"
+        },
+        "B": {
+            "item": "minecraft:iron_bars"
+        },
+        "R": {
+            "tag": "c:dusts/redstone"
+        }
+    },
+    "result": {
+        "id": "cobblemon:electirizer"
+    }
+}

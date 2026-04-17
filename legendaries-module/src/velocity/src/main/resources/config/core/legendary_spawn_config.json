@@ -1,0 +1,57 @@
+{
+  "baseSpawnChance": 0.1,
+  "playerSpawnChanceBias": 0.00067,
+  "playerSpawnMultiplierBias": 0.0,
+  "spawnAttemptCooldown": {
+	"amount": 30,
+	"unit": "SECONDS"
+  },
+  "despawnTime": {
+	"amount": 90,
+	"unit": "MINUTES"
+  },
+  "sendSpawnRequestToEmptyServer": true,
+  "printPokemonName": true,
+  "printPlayerName": true,
+  "printSpawnDimension": true,
+  "printSpawnBiome": true,
+  "printSpawnLocation": false,
+  "obfuscateSpawnLocation": false,
+  "obfuscationRange": {
+	"min": 500,
+	"max": 1000
+  },
+  "lang": {
+    "defaultName": "Legendary pokemon",
+    "playerAnnotation": "{player}",
+    "dimensionAnnotation": "Somewhere in {dimension}",
+    "biomeAnnotation": "{biome} biome.",
+    "locationAnnotation": "around <red>{x}, <green>{y}, <blue>{z}",
+    "offsetAnnotation": "<hover:show_text:'Range at which real XZ coordinates are located'><white>[±{offset}]</hover>",
+    "legendarySpawned": [
+      "<gradient:#FF0000:#FF7F00:#FFFF00:#00FF00:#0000FF:#4B0082:#9400D3>=====================================================</gradient>",
+      "<gradient:#d4af37:yellow:#d4af37><b>{name}</b></gradient> <white>has spawned!",
+      "<white>{dimensionAnnotation}, in <gradient:#d4af37:yellow:#d4af37>{biomeAnnotation}</gradient> <yellow>{locationAnnotation} {offsetAnnotation}",
+      "<gradient:#FF0000:#FF7F00:#FFFF00:#00FF00:#0000FF:#4B0082:#9400D3>=====================================================</gradient>"
+    ],
+    "legendaryDespawned": [
+      "<gradient:#8f0d01:#eb1805:#8f0d01>=====================================================</gradient>",
+      "<gradient:#d4af37:yellow:#d4af37><b>{name}</b></gradient> <red>got despawned!",
+      "<gradient:#8f0d01:#eb1805:#8f0d01>=====================================================</gradient>"
+    ],
+    "legendaryCaptured": [
+      "<gradient:#208f01:#37e307:#208f01>=====================================================</gradient>",
+      "<gradient:#d4af37:yellow:#d4af37><b>{name}</b></gradient> <white>got captured by <gradient:#d4af37:yellow:#d4af37>{playerAnnotation}</gradient>!",
+      "<gradient:#208f01:#37e307:#208f01>=====================================================</gradient>"
+    ],
+    "legendaryKilled": [
+      "<gradient:#8f0d01:#eb1805:#8f0d01>=====================================================</gradient>",
+      "<gradient:#d4af37:yellow:#d4af37><b>{name}</b></gradient> <red>got killed!",
+      "<gradient:#8f0d01:#eb1805:#8f0d01>=====================================================</gradient>"
+	],
+	"wrongUUID": "<red>Wrong UUID",
+	"spawningLegendary": "<gray>Spawning legendary...",
+	"despawningLegendary": "<gray>Despawning legendary...",
+	"noPlayersOnWilds": "<red>None of wild servers have players. Please use argument 'true' to be able to spawn on an empty servers."
+  }
+}

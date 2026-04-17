@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+	"layer0": "mmorealms:item/timechange"
+  },
+  "display": {
+	"gui": {
+	  "scale": [
+		3.255,
+		1.0,
+		1.0
+	  ]
+	}
+  }
+}

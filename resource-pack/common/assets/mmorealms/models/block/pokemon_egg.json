@@ -1,0 +1,25 @@
+{
+	"format_version": "1.9.0",
+	"credit": "ZeroDelusions",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "mmorealms:block/pokemon_egg",
+		"particle": "mmorealms:block/pokemon_egg"
+	},
+	"elements": [
+		{
+			"from": [2, 0, 2],
+			"to": [14, 16, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [2, 0, 2]},
+			"faces": {
+				"north": {"uv": [0, 0, 3, 4], "texture": "#0"},
+				"east": {"uv": [3, 0, 6, 4], "texture": "#0"},
+				"south": {"uv": [0, 4, 3, 8], "texture": "#0"},
+				"west": {"uv": [3, 4, 6, 8], "texture": "#0"},
+				"up": {"uv": [9, 3, 6, 0], "texture": "#0"},
+				"down": {"uv": [9, 3, 6, 6], "texture": "#0"}
+			}
+		}
+	],
+	"display": {}
+}

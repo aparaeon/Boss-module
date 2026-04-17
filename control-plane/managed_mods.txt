@@ -1,0 +1,55 @@
+https://github.com/MMO-REALMS/analytics-module
+https://github.com/MMO-REALMS/auction-house-module
+https://github.com/MMO-REALMS/breeding-module
+https://github.com/MMO-REALMS/chat-module
+https://github.com/MMO-REALMS/core-module
+https://github.com/MMO-REALMS/crates-module
+https://github.com/MMO-REALMS/discord-chat-module
+https://github.com/MMO-REALMS/discord-link-module
+https://github.com/MMO-REALMS/economy-module
+https://github.com/MMO-REALMS/essentials-module
+https://github.com/MMO-REALMS/gambling-module
+https://github.com/MMO-REALMS/gyms-module
+https://github.com/MMO-REALMS/homes-module
+https://github.com/MMO-REALMS/hunts-module
+https://github.com/MMO-REALMS/kits-module
+https://github.com/MMO-REALMS/legendaries-module
+https://github.com/MMO-REALMS/loader
+https://github.com/MMO-REALMS/moderation-module
+https://github.com/MMO-REALMS/modpack-rewards-module
+https://github.com/MMO-REALMS/plushies-module
+https://github.com/MMO-REALMS/pokedex-rewards-module
+https://github.com/MMO-REALMS/pokemon-module
+https://github.com/MMO-REALMS/realms-module
+https://github.com/MMO-REALMS/resource-pack-module
+https://github.com/MMO-REALMS/shop-module
+https://github.com/MMO-REALMS/store-module
+https://github.com/MMO-REALMS/tebex-integration-module
+https://github.com/MMO-REALMS/tms-module
+https://github.com/MMO-REALMS/user-data-module
+https://github.com/MMO-REALMS/voting-module
+https://github.com/MMO-REALMS/warps-module
+https://github.com/MMO-REALMS/wild-module
+https://github.com/MMO-REALMS/scoreboard-module
+https://github.com/MMO-REALMS/limbo-module
+
+# No Velocity
+https://github.com/MMO-REALMS/client no_velocity
+https://github.com/MMO-REALMS/test-client no_velocity
+
+# No NeoForge
+https://github.com/MMO-REALMS/catch-combo-module no_neoforge
+https://github.com/MMO-REALMS/mega-evolution-module no_neoforge
+
+# Repo Update Only
+https://github.com/MMO-REALMS/example-module repo_update_only
+
+# No Unmanaged Updates
+https://github.com/MMO-REALMS/eggs-module no_unmanaged_update
+https://github.com/MMO-REALMS/lobby no_unmanaged_update
+https://github.com/MMO-REALMS/lobby-module no_unmanaged_update
+https://github.com/MMO-REALMS/trade-module no_unmanaged_update
+https://github.com/MMO-REALMS/tutorial-module no_unmanaged_update
+https://github.com/MMO-REALMS/admin-module no_unmanaged_update
+https://github.com/MMO-REALMS/core-protect-module no_unmanaged_update
+https://github.com/MMO-REALMS/chat-games-module no_unmanaged_update

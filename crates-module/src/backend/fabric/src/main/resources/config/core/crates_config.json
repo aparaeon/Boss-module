@@ -1,0 +1,941 @@
+{
+  "crates": [
+	{
+	  "id": "premium",
+	  "name": "<gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient>",
+	  "crateItems": [
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "1 Million PokeCoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 1000000 PokeCoins",
+			"execute_on_proxy velocitybroadcast <newline><newline><gradient:#ffd700:#ff8c00><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 Million PokeCoins</bold></green>!<newline><newline> "
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:egg\",\"count\":1}",
+			"displayName": "3 x Random Shiny Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} NORMAL true",
+			"poke_give_class {user} NORMAL true",
+			"poke_give_class {user} NORMAL true",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>3 x Random Shiny Pokemon</bold></green>! "
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Ultra Beast Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} ULTRA_BEAST false",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Ultra Beast Pokemon</bold></green>! "
+		  ],
+		  "chance": 12.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Legendary Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} LEGENDARY false",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Legendary Pokemon</bold></green>! "
+		  ],
+		  "chance": 10.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Mythical Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} MYTHICAL false",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Mythical Pokemon</bold></green>! "
+		  ],
+		  "chance": 8.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Shiny Ultra Beast Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} ULTRA_BEAST true",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Shiny Ultra Beast Pokemon</bold></green>! "
+		  ],
+		  "chance": 6.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Shiny Legendary Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} LEGENDARY true",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Shiny Legendary Pokemon</bold></green>! "
+		  ],
+		  "chance": 4.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Shiny Mythical Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} MYTHICAL true",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Shiny Mythical Pokemon</bold></green>! "
+		  ],
+		  "chance": 2.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:paper\",\"count\":1}",
+			"displayName": "5,480 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 5480 Gems",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>5,480 Gems</bold></green>! "
+		  ],
+		  "chance": 1.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:tripwire_hook\",\"count\":2}",
+			"displayName": "2 x Premium Keys",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"crate admin give_virtual_key {user} 2 premium",
+			"execute_on_proxy velocitybroadcast <gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>2 x Premium Keys</bold></green>! "
+		  ],
+		  "chance": 1.0
+		}
+	  ],
+	  "displayItem": {
+		"displayJson": "{\"id\":\"minecraft:red_stained_glass_pane\",\"count\":1}",
+		"displayName": "<gradient:#ffcc00:#ff0000><bold>★ PREMIUM CRATE ★</bold></gradient>",
+		"lore": [
+		  "{loot}",
+		  "",
+		  "{price}"
+		],
+		"position": {
+		  "slots": [
+			6,
+			7,
+			8,
+			15,
+			16,
+			17,
+			24,
+			25,
+			26,
+			33,
+			34,
+			35,
+			42,
+			43,
+			44,
+			51,
+			52,
+			53
+		  ]
+		}
+	  },
+	  "price": {
+		"currency": "GEMS",
+		"amount": 2740
+	  },
+	  "physicalLocation": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 14.0,
+		  "y": 61.0,
+		  "z": -33.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "lootLore": ""
+	},
+	{
+	  "id": "basic",
+	  "name": "<gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient>",
+	  "crateItems": [
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:egg\",\"count\":1}",
+			"displayName": "1 x Random Plushy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"plushies give_class {user} NORMAL false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Plushy</bold></green>! "
+		  ],
+		  "chance": 40.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "40k Pokecoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 40000 PokeCoins",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>40k Pokecoins</bold></green>! "
+		  ],
+		  "chance": 40.0
+		},		  
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:egg\",\"count\":1}",
+			"displayName": "1 x Random Shiny Plushy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"plushies give_class {user} NORMAL true",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Shiny Plushy</bold></green>! "
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:egg\",\"count\":1}",
+			"displayName": "1 x Random Shiny Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} NORMAL true",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Shiny Pokemon</bold></green>! "
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "120k Pokecoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 120000 PokeCoins",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>120k Pokecoins</bold></green>! "
+		  ],
+		  "chance": 6.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Ultra Beast Plushy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"plushies give_class {user} ULTRA_BEAST false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Ultra Beast Plushy</bold></green>! "
+		  ],
+		  "chance": 5.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Legendary Plushy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"plushies give_class {user} LEGENDARY false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Legendary Plushy</bold></green>! "
+		  ],
+		  "chance": 4.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Mythical Plushy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"plushies give_class {user} MYTHICAL false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Mythical Plushy</bold></green>! "
+		  ],
+		  "chance": 5.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "250k Pokecoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 250000 PokeCoins",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>250k Pokecoins</bold></green>! "
+		  ],
+		  "chance": 1.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Ultra Beast Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} ULTRA_BEAST false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Ultra Beast Pokemon</bold></green>! "
+		  ],
+		  "chance": 1.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Legendary Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} LEGENDARY false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Legendary Pokemon</bold></green>! "
+		  ],
+		  "chance": 1.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:lucky_egg\",\"count\":1}",
+			"displayName": "1 x Random Mythical Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} MYTHICAL false",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Random Mythical Pokemon</bold></green>! "
+		  ],
+		  "chance": 1.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:tripwire_hook\",\"count\":2}",
+			"displayName": "2 x Basic Keys",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"crate admin give_virtual_key {user} 2 basic",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>2 x Basic Keys</bold></green>! "
+		  ],
+		  "chance": 1.0
+		}
+	  ],
+	  "displayItem": {
+		"displayJson": "{\"id\":\"minecraft:light_blue_stained_glass_pane\",\"count\":1}",
+		"displayName": "<gradient:#00ff9d:#00b3ff><bold>★ BASIC CRATE ★</bold></gradient>",
+		"lore": [
+		  "{loot}",
+		  "",
+		  "{price}"
+		],
+		"position": {
+		  "slots": [
+			3,
+			4,
+			5,
+			12,
+			13,
+			14,
+			21,
+			22,
+			23,
+			30,
+			31,
+			32,
+			39,
+			40,
+			41,
+			48,
+			49,
+			50
+		  ]
+		}
+	  },
+	  "price": {
+		"currency": "GEMS",
+		"amount": 535
+	  },
+	  "physicalLocation": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 11.0,
+		  "y": 61.0,
+		  "z": -29.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "lootLore": ""
+	},
+	{
+	  "id": "vote",
+	  "name": "<gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient>",
+	  "crateItems": [
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:egg\",\"count\":1}",
+			"displayName": "1 x Random Pokemon",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"poke_give_class {user} NORMAL false",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Pokemon</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:old_amber_fossil\",\"count\":1}",
+			"displayName": "1 x Random Fossil",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give_group {user} fossil",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Fossil</bold></green><white>!</white>"
+		  ],
+		  "chance": 15.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "1k Pokecoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 1000 PokeCoins",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1k Pokecoins</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},		  
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:egg\",\"count\":1}",
+			"displayName": "1 x Random Plushy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"plushies give_class {user} NORMAL false",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Plushy</bold></green><white>!</white>"
+		  ],
+		  "chance": 15.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ultra_ball\",\"count\":8}",
+			"displayName": "8 x Ultra Balls",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give {user} cobblemon:ultra_ball 8",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>8 x Ultra Balls</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:dusk_ball\",\"count\":8}",
+			"displayName": "8 x Dusk Balls",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give {user} cobblemon:dusk_ball 8",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>8 x Dusk Balls</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:quick_ball\",\"count\":8}",
+			"displayName": "8 x Quick Balls",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give {user} cobblemon:quick_ball 8",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>8 x Quick Balls</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:rare_candy\",\"count\":3}",
+			"displayName": "3 x Rare Candy",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give {user} cobblemon:rare_candy 3",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>3 x Rare Candy</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:focus_band\",\"count\":1}",
+			"displayName": "1 x Random Held Item",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give_group {user} helditem",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Held Item</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:metal_coat\",\"count\":1}",
+			"displayName": "1 x Random Evolution Item",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give_group {user} evolutionitem",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Evolution Item</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:thunder_stone\",\"count\":1}",
+			"displayName": "1 x Random Evolution Stone",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give_group {user} evolutionstone",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Evolution Stone</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:timid_mint\",\"count\":1}",
+			"displayName": "1 x Random Mint",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"give_group {user} mint",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>1 x Random Mint</bold></green><white>!</white>"
+		  ],
+		  "chance": 30.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "10 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 10 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>10 Gems</bold></green><white>!</white>"
+		  ],
+		  "chance": 15.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "5k Pokecoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 5000 PokeCoins",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>5k Pokecoins</bold></green><white>!</white>"
+		  ],
+		  "chance": 8.0
+		},	
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "25 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 25 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>25 Gems</bold></green><white>!</white>"
+		  ],
+		  "chance": 4.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "50 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 50 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>50 Gems</bold></green><white>!</white>"
+		  ],
+		  "chance": 1.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:gold_ingot\",\"count\":1}",
+			"displayName": "10k Pokecoins",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"bal add {user} 10000 PokeCoins",
+			"execute_on_proxy message_player {user} <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <white>You received </white><green><bold>10k Pokecoins</bold></green><white>!</white>"
+		  ],
+		  "chance": 2.0
+		},	
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:tripwire_hook\",\"count\":1}",
+			"displayName": "1 x Basic Key",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"crate admin give_virtual_key {user} 1 basic",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Basic Key</bold></green>! "
+		  ],
+		  "chance": 2.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"minecraft:tripwire_hook\",\"count\":1}",
+			"displayName": "1 x Premium Key",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"crate admin give_virtual_key {user} 1 premium",
+			"execute_on_proxy velocitybroadcast <gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient> <gray>➤</gray> <aqua><bold>{user}</bold></aqua> just won <green><bold>1 x Premium Key</bold></green>! "
+		  ],
+		  "chance": 1.0
+		}
+	  ],
+	  "displayItem": {
+		"displayJson": "{\"id\":\"minecraft:green_stained_glass_pane\",\"count\":1}",
+		"displayName": "<gradient:#00ff66:#00994d><bold>★ VOTE CRATE ★</bold></gradient>",
+		"lore": [
+		  "{loot}",
+		  "",
+		  "<white>Keys: <aqua>{keys}"
+		],
+		"position": {
+		  "slots": [
+			0,
+			1,
+			2,
+			9,
+			10,
+			11,
+			18,
+			19,
+			20,
+			27,
+			28,
+			29,
+			36,
+			37,
+			38,
+			45,
+			46,
+			47
+		  ]
+		}
+	  },
+	  "price": {
+		"currency": "GEMS",
+		"amount": -1
+	  },
+	  "physicalLocation": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 12.0,
+		  "y": 61.0,
+		  "z": -25.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "lootLore": ""
+	},
+	{
+	  "id": "daily",
+	  "name": "<gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient>",
+	  "crateItems": [
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "1 Gem",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 1 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>1 Gem</green></bold><white>!</white>"
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "5 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 5 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>5 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "15 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 15 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>15 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "30 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 30 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>30 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "50 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 50 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>50 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 25.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "75 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 75 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>75 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 5.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "135 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 135 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>135 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 2.0
+		},
+		{
+		  "displayItem": {
+			"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+			"displayName": "675 Gems",
+			"lore": [],
+			"position": {
+			  "slots": []
+			}
+		  },
+		  "rewardCommands": [
+			"balance add {user} 675 Gems",
+			"execute_on_proxy message_player {user} <gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient> <gray>➤</gray> <white>You just won </white><bold><green>675 Gems</green></bold><white>!</white>"
+		  ],
+		  "chance": 1.0
+		}
+	  ],
+	  "displayItem": {
+		"displayJson": "{\"id\":\"minecraft:red_stained_glass_pane\",\"count\":1}",
+		"displayName": "<gradient:#00cfff:#008cff><bold>★ DAILY SPIN ★</bold></gradient>",
+		"lore": [],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "price": {
+		"currency": "GEMS",
+		"amount": -1
+	  },
+	  "physicalLocation": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 0,
+		  "y": 0,
+		  "z": 0,
+		  "pitch": 0,
+		  "yaw": 0
+		}
+	  },
+	  "lootLore": ""
+	}
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " PG",
+        "PRP",
+        "WP "
+    ],
+    "key": {
+        "W": {
+            "tag": "c:dyes/white"
+        },
+        "R": {
+            "tag": "c:dyes/red"
+        },
+        "P": {
+            "item": "minecraft:paper"
+        },
+        "G": {
+            "tag": "c:dyes/gray"
+        }
+    },
+    "result": {
+        "id": "cobblemon:spell_tag"
+    }
+}

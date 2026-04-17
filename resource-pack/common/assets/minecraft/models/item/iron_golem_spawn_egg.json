@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:item/template_spawn_egg",
+  "overrides": [
+	{
+	  "model": "mmorealms:item/pokemon_egg",
+	  "predicate": {
+		"custom_model_data": 2
+	  }
+	}
+  ]
+}

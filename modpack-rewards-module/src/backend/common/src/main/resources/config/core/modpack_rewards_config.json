@@ -1,0 +1,12 @@
+{
+  "allowedModpacks": [
+	"modrinth"
+  ],
+  "modpackCommands": [
+	"execute_on_proxy broadcast_no_permission mmorealm.broadcast.modrinth.bypass <light_purple><bold>MODPACK ➤</bold></light_purple> <green>{user} joined using our Modrinth Modpack!</green> <yellow>and got <hover:show_text:'<gold>/kit Modpack</gold><newline><gold>+ Free Daily Spins'><click:open_url:'https://modrinth.com/modpack/cobblemonrealms#download'><aqua><underlined><bold>REWARDS</bold></underlined> <gray>[HOVER]</gray></aqua></click></hover> <yellow>— use <bold>/modpack</bold> to get yours!</yellow>",
+	"lp user {user} parent add {modpack}"
+  ],
+  "nonModpackCommands": [
+	"lp user {user} parent remove {modpack}"
+  ]
+}

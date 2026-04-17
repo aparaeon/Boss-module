@@ -1,0 +1,6 @@
+{
+    "parent":"item/handheld",
+    "textures":{
+        "layer0":"mmorealms:item/armour/the_assimilated/axe"
+    }
+}

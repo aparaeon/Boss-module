@@ -1,0 +1,905 @@
+{
+  "huntsRefreshInterval": {
+	"amount": 5,
+	"unit": "SECONDS"
+  },
+  "huntPools": {
+	"BEGINNER": {
+	  "huntDuration": {
+		"amount": 2,
+		"unit": "HOURS"
+	  },
+	  "huntDenyCooldown": {
+		"amount": 15,
+		"unit": "MINUTES"
+	  },
+	  "species": [
+		"pidgey",
+		"rattata",
+		"weedle",
+		"caterpie",
+		"spearow",
+		"bellsprout",
+		"oddish",
+		"magikarp",
+		"geodude",
+		"ekans",
+		"sandshrew",
+		"nidoranm",
+		"nidoranf",
+		"zubat",
+		"paras",
+		"venonat",
+		"psyduck",
+		"mankey",
+		"growlithe",
+		"poliwag",
+		"abra",
+		"machop",
+		"tentacool",
+		"magnemite",
+		"doduo",
+		"shellder",
+		"krabby",
+		"exeggcute",
+		"cubone",
+		"rhyhorn",
+		"tangela",
+		"horsea",
+		"goldeen",
+		"staryu",
+		"sentret",
+		"hoothoot",
+		"ledyba",
+		"spinarak",
+		"chinchou",
+		"togepi",
+		"mareep",
+		"natu",
+		"hoppip",
+		"aipom",
+		"misdreavus",
+		"girafarig",
+		"pineco",
+		"snubbull",
+		"shuckle",
+		"teddiursa",
+		"swinub",
+		"remoraid",
+		"phanpy",
+		"miltank",
+		"poochyena",
+		"wurmple",
+		"lotad",
+		"seedot",
+		"wingull",
+		"taillow",
+		"shroomish",
+		"slakoth",
+		"nincada",
+		"whismur",
+		"makuhita",
+		"skitty",
+		"aron",
+		"meditite",
+		"carvanha",
+		"wailmer",
+		"numel",
+		"spoink",
+		"cacnea",
+		"barboach",
+		"corphish",
+		"feebas",
+		"duskull",
+		"snorunt",
+		"spheal",
+		"starly",
+		"bidoof",
+		"kricketot",
+		"budew",
+		"combee",
+		"buizel",
+		"shellos",
+		"buneary",
+		"glameow",
+		"stunky",
+		"hippopotas",
+		"skorupi",
+		"croagunk",
+		"finneon",
+		"mantyke",
+		"patrat",
+		"lillipup",
+		"purrloin",
+		"munna",
+		"pidove",
+		"roggenrola",
+		"woobat",
+		"drilbur",
+		"timburr",
+		"venipede",
+		"cottonee",
+		"petilil",
+		"sandile",
+		"darumaka",
+		"dwebble",
+		"vanillite",
+		"karrablast",
+		"foongus",
+		"frillish",
+		"joltik",
+		"ferrothorn",
+		"klink",
+		"tynamo",
+		"elgyem",
+		"litwick",
+		"cubchoo",
+		"shelmet",
+		"golett",
+		"rufflet",
+		"bunnelby",
+		"fletchling",
+		"scatterbug",
+		"litleo",
+		"flabebe",
+		"skiddo",
+		"skrelp",
+		"binacle",
+		"clauncher",
+		"phantump",
+		"pumpkaboo",
+		"bergmite",
+		"pikipek",
+		"crabrawler",
+		"cutiefly",
+		"wishiwashi",
+		"mudbray",
+		"dewpider",
+		"fomantis",
+		"morelull",
+		"salandit",
+		"stufful",
+		"bounsweet",
+		"steenee",
+		"wimpod",
+		"sandygast",
+		"komala",
+		"bruxish",
+		"skwovet",
+		"rookidee",
+		"blipbug",
+		"nickit",
+		"gossifleur",
+		"wooloo",
+		"yamper",
+		"rolycoly",
+		"arrokuda",
+		"sizzlipede",
+		"hatenna",
+		"impidimp",
+		"milcery",
+		"snom",
+		"eiscue",
+		"lechonk",
+		"nymble",
+		"tandemaus",
+		"fidough",
+		"naclstack",
+		"tadbulb",
+		"wattrel",
+		"maschiff",
+		"shroodle",
+		"bramblin",
+		"capsakid",
+		"tinkatink",
+		"wiglett",
+		"glimmet",
+		"flamigo",
+		"gimmighoul"
+	  ],
+	  "pickNature": false,
+	  "pickGender": false,
+	  "isShiny": false
+	},
+	"CHALLENGING": {
+	  "huntDuration": {
+		"amount": 6,
+		"unit": "HOURS"
+	  },
+	  "huntDenyCooldown": {
+		"amount": 15,
+		"unit": "MINUTES"
+	  },
+	  "species": [
+		"charmander",
+		"squirtle",
+		"bulbasaur",
+		"chikorita",
+		"cyndaquil",
+		"totodile",
+		"treecko",
+		"torchic",
+		"mudkip",
+		"turtwig",
+		"piplup",
+		"chimchar",
+		"tepig",
+		"oshawott",
+		"snivy",
+		"chespin",
+		"fennekin",
+		"froakie",
+		"rowlet",
+		"litten",
+		"popplio",
+		"grookey",
+		"scorbunny",
+		"sobble",
+		"sprigatito",
+		"fuecoco",
+		"quaxly",
+		"pikachu",
+		"abra",
+		"lapras",
+		"growlithe",
+		"vulpix",
+		"snorlax",
+		"kangaskhan",
+		"pinsir",
+		"dratini",
+		"umbreon",
+		"espeon",
+		"wobbuffet",
+		"dunsparce",
+		"skarmory",
+		"larvitar",
+		"plusle",
+		"minun",
+		"trapinch",
+		"absol",
+		"tropius",
+		"bagon",
+		"beldum",
+		"munchlax",
+		"riolu",
+		"gible",
+		"pansage",
+		"panpour",
+		"pansear",
+		"minccino",
+		"gothita",
+		"axew",
+		"druddigon",
+		"deino",
+		"furfrou",
+		"noibat",
+		"oranguru",
+		"passimian",
+		"comfey",
+		"turtonator",
+		"mimikyu",
+		"togedemaru",
+		"jangmoo",
+		"clobbopus",
+		"sinistea",
+		"falinks",
+		"indeedee",
+		"cufant",
+		"pawmi",
+		"smoliv",
+		"charcadet",
+		"bramblin",
+		"flittle",
+		"cyclizar",
+		"orthworm",
+		"greavard",
+		"tatsugiri",
+		"dondozo",
+		"cetoddle",
+		"frigibax"
+	  ],
+	  "pickNature": true,
+	  "pickGender": true,
+	  "isShiny": false,
+	  "averageIVs": {
+		"min": 10,
+		"max": 20
+	  }
+	},
+	"INSANE": {
+	  "huntDenyCooldown": {
+		"amount": 15,
+		"unit": "MINUTES"
+	  },
+	  "species": [
+		"pidgey",
+		"rattata",
+		"weedle",
+		"caterpie",
+		"spearow",
+		"bellsprout",
+		"oddish",
+		"magikarp",
+		"geodude",
+		"ekans",
+		"sandshrew",
+		"nidoranm",
+		"nidoranf",
+		"zubat",
+		"paras",
+		"venonat",
+		"psyduck",
+		"mankey",
+		"growlithe",
+		"poliwag",
+		"abra",
+		"machop",
+		"tentacool",
+		"magnemite",
+		"doduo",
+		"shellder",
+		"krabby",
+		"exeggcute",
+		"cubone",
+		"rhyhorn",
+		"tangela",
+		"horsea",
+		"goldeen",
+		"staryu",
+		"sentret",
+		"hoothoot",
+		"ledyba",
+		"spinarak",
+		"chinchou",
+		"togepi",
+		"mareep",
+		"natu",
+		"hoppip",
+		"aipom",
+		"misdreavus",
+		"girafarig",
+		"pineco",
+		"snubbull",
+		"shuckle",
+		"teddiursa",
+		"swinub",
+		"remoraid",
+		"phanpy",
+		"miltank",
+		"poochyena",
+		"wurmple",
+		"lotad",
+		"seedot",
+		"wingull",
+		"taillow",
+		"shroomish",
+		"slakoth",
+		"nincada",
+		"whismur",
+		"makuhita",
+		"skitty",
+		"aron",
+		"meditite",
+		"carvanha",
+		"wailmer",
+		"numel",
+		"spoink",
+		"cacnea",
+		"barboach",
+		"corphish",
+		"feebas",
+		"duskull",
+		"snorunt",
+		"spheal",
+		"starly",
+		"bidoof",
+		"kricketot",
+		"budew",
+		"combee",
+		"buizel",
+		"shellos",
+		"buneary",
+		"glameow",
+		"stunky",
+		"hippopotas",
+		"skorupi",
+		"croagunk",
+		"finneon",
+		"mantyke",
+		"patrat",
+		"lillipup",
+		"purrloin",
+		"munna",
+		"pidove",
+		"roggenrola",
+		"woobat",
+		"drilbur",
+		"timburr",
+		"venipede",
+		"cottonee",
+		"petilil",
+		"sandile",
+		"darumaka",
+		"dwebble",
+		"vanillite",
+		"karrablast",
+		"foongus",
+		"frillish",
+		"joltik",
+		"ferrothorn",
+		"klink",
+		"tynamo",
+		"elgyem",
+		"litwick",
+		"cubchoo",
+		"shelmet",
+		"golett",
+		"rufflet",
+		"bunnelby",
+		"fletchling",
+		"scatterbug",
+		"litleo",
+		"flabebe",
+		"skiddo",
+		"skrelp",
+		"binacle",
+		"clauncher",
+		"phantump",
+		"pumpkaboo",
+		"bergmite",
+		"pikipek",
+		"crabrawler",
+		"cutiefly",
+		"wishiwashi",
+		"mudbray",
+		"dewpider",
+		"fomantis",
+		"morelull",
+		"salandit",
+		"stufful",
+		"bounsweet",
+		"steenee",
+		"wimpod",
+		"sandygast",
+		"komala",
+		"bruxish",
+		"skwovet",
+		"rookidee",
+		"blipbug",
+		"nickit",
+		"gossifleur",
+		"wooloo",
+		"yamper",
+		"rolycoly",
+		"arrokuda",
+		"sizzlipede",
+		"hatenna",
+		"impidimp",
+		"milcery",
+		"snom",
+		"eiscue",
+		"lechonk",
+		"nymble",
+		"tandemaus",
+		"fidough",
+		"naclstack",
+		"tadbulb",
+		"wattrel",
+		"maschiff",
+		"shroodle",
+		"bramblin",
+		"capsakid",
+		"tinkatink",
+		"wiglett",
+		"glimmet",
+		"flamigo",
+		"gimmighoul"
+	  ],
+	  "pickNature": false,
+	  "pickGender": false,
+	  "isShiny": true
+	}
+  },
+  "gui": {
+	"title": "<red><b>HUNTS",
+	"rows": {
+	  "BEGINNER": {
+		"commands": [
+		  "/balance add {user} 1500 PokeCoins",
+		  "/poke_give_class {user} NORMAL false",
+		  "/crates admin give_virtual_key {user} 1 vote"
+		],
+		"target": {
+		  "placeholderButton": {
+			"displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+			"displayName": "<white>Hunt on ???",
+			"lore": [
+			  "<gray>- <b><white>Difficulty: <aqua>Beginner",
+			  "<gray>- <b><white>Duration:</b> {duration}",
+			  "<gray>- <b><gradient:gold:yellow:gold>Reward:</gradient></b>",
+			  "<aqua>1500 <gradient:#FF0000:white><bold>PokeCoins",
+			  "<aqua>1x <gradient:#a2a4a6:white><bold>Random Pokemon",
+			  "<aqua>1x <gradient:#03fc5e:white><bold>Vote Key"
+			],
+			"position": {
+			  "slots": [
+				0
+			  ]
+			}
+		  },
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:air\",\"count\":1}",
+			"displayName": "Hunt on {target}",
+			"lore": [
+			  "<gray>- <b><white>Difficulty: <aqua>Beginner",
+			  "<gray>- <b><white>Duration:</b> {duration}",
+			  "<gray>- <b><gradient:gold:yellow:gold>Reward:</gradient></b>",
+			  "<aqua>1500 <gradient:#FF0000:white><bold>PokeCoins",
+			  "<aqua>1x <gradient:#a2a4a6:white><bold>Random Pokemon",
+			  "<aqua>1x <gradient:#03fc5e:white><bold>Vote Key"
+			],
+			"position": {
+			  "slots": [
+				0
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:barrier\",\"count\":1}",
+			"displayName": "<gray>New hunt in {huntDenyCooldown}",
+			"lore": [],
+			"position": {
+			  "slots": [
+				0
+			  ]
+			}
+		  }
+		},
+		"denyButton": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:red_stained_glass\",\"count\":1}",
+			"displayName": "<red>Deny ✗",
+			"lore": [],
+			"position": {
+			  "slots": [
+				7
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass\",\"count\":1}",
+			"displayName": "<gray>Deny ✗",
+			"lore": [],
+			"position": {
+			  "slots": [
+				7
+			  ]
+			}
+		  }
+		},
+		"acceptButton": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:green_stained_glass\",\"count\":1}",
+			"displayName": "<green>Accept ✔",
+			"lore": [],
+			"position": {
+			  "slots": [
+				8
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass\",\"count\":1}",
+			"displayName": "<gray>Accept ✔",
+			"lore": [],
+			"position": {
+			  "slots": [
+				8
+			  ]
+			}
+		  }
+		},
+		"background": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:cyan_stained_glass_pane\",\"count\":1}",
+			"displayName": "",
+			"lore": [],
+			"position": {
+			  "slots": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+			"displayName": "",
+			"lore": [],
+			"position": {
+			  "slots": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6
+			  ]
+			}
+		  }
+		}
+	  },
+	  "CHALLENGING": {
+		"commands": [
+		  "/balance add {user} 15000 PokeCoins",
+		  "/poke_give_class {user} NORMAL true",
+		  "/crates admin give_virtual_key {user} 3 vote"
+		],
+		"target": {
+		  "placeholderButton": {
+			"displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+			"displayName": "<white>Hunt on ???",
+			"lore": [
+			  "<gray>- <b><white>Difficulty: <light_purple>Challenging",
+			  "<gray>- <b><white>Duration:</b> {duration}",
+			  "<gray>- <white>Gender: ???",
+			  "<gray>- <white>Nature: ???",
+			  "<gray>- <white>Min. Average IVs: ???",
+			  "<gray>- <b><gradient:gold:yellow:gold>Reward:</gradient></b>",
+			  "<aqua>15000 <gradient:#FF0000:white><bold>PokeCoins",
+			  "<aqua>1x <gradient:#fad105:white><bold>Random Shiny",
+			  "<aqua>3x <gradient:#03fc5e:white><bold>Vote Key"
+			],
+			"position": {
+			  "slots": [
+				9
+			  ]
+			}
+		  },
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:air\",\"count\":1}",
+			"displayName": "Hunt on {target}",
+			"lore": [
+			  "<gray>- <b><white>Difficulty: <light_purple>Challenging",
+			  "<gray>- <b><white>Duration:</b> {duration}",
+			  "<gray>- <white>Gender: {gender}",
+			  "<gray>- <white>Nature: {nature}",
+			  "<gray>- <white>Min. Average IVs: {averageIVs}",
+			  "<gray>- <b><gradient:gold:yellow:gold>Reward:</gradient></b>",
+			  "<aqua>15000 <gradient:#FF0000:white><bold>PokeCoins",
+			  "<aqua>1x <gradient:#fad105:white><bold>Random Shiny",
+			  "<aqua>3x <gradient:#03fc5e:white><bold>Vote Key"
+			],
+			"position": {
+			  "slots": [
+				9
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:barrier\",\"count\":1}",
+			"displayName": "<gray>New hunt in {huntDenyCooldown}",
+			"lore": [],
+			"position": {
+			  "slots": [
+				9
+			  ]
+			}
+		  }
+		},
+		"denyButton": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:red_stained_glass\",\"count\":1}",
+			"displayName": "<red>Deny ✗",
+			"lore": [],
+			"position": {
+			  "slots": [
+				16
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass\",\"count\":1}",
+			"displayName": "<gray>Deny ✗",
+			"lore": [],
+			"position": {
+			  "slots": [
+				16
+			  ]
+			}
+		  }
+		},
+		"acceptButton": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:green_stained_glass\",\"count\":1}",
+			"displayName": "<green>Accept ✔",
+			"lore": [],
+			"position": {
+			  "slots": [
+				17
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass\",\"count\":1}",
+			"displayName": "<gray>Accept ✔",
+			"lore": [],
+			"position": {
+			  "slots": [
+				17
+			  ]
+			}
+		  }
+		},
+		"background": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:purple_stained_glass_pane\",\"count\":1}",
+			"displayName": "",
+			"lore": [],
+			"position": {
+			  "slots": [
+				10,
+				11,
+				12,
+				13,
+				14,
+				15
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+			"displayName": "",
+			"lore": [],
+			"position": {
+			  "slots": [
+				10,
+				11,
+				12,
+				13,
+				14,
+				15
+			  ]
+			}
+		  }
+		}
+	  },
+	  "INSANE": {
+		"commands": [
+		  "/balance add {user} 40000 PokeCoins",
+		  "/poke_give_class {user} NORMAL true",
+		  "/balance add {user} 100 Gems"
+		],
+		"target": {
+		  "placeholderButton": {
+			"displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+			"displayName": "<white>Hunt on ???",
+			"lore": [
+			  "<gray>- <b><white>Difficulty: <red>Insane",
+			  "<gray>- <b><gradient:gold:yellow:gold>Reward:</gradient></b>",
+			  "<aqua>40000 <gradient:#FF0000:white><bold>PokeCoins",
+			  "<aqua>1x <gradient:#fad105:white><bold>Random Shiny",
+			  "<aqua>100 <gradient:#e810d6:white><bold>Gems"
+			],
+			"position": {
+			  "slots": [
+				18
+			  ]
+			}
+		  },
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:air\",\"count\":1}",
+			"displayName": "Hunt on <gradient:gold:yellow:gold>Shiny {target}</gradient>",
+			"lore": [
+			  "<gray>- <b><gradient:gold:yellow:gold>Reward:</gradient></b>",
+			  "<aqua>40000 <gradient:#FF0000:white><bold>PokeCoins",
+			  "<aqua>1x <gradient:#fad105:white><bold>Random Shiny",
+			  "<aqua>100 <gradient:#e810d6:white><bold>Gems"
+			],
+			"position": {
+			  "slots": [
+				18
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:barrier\",\"count\":1}",
+			"displayName": "<gray>New hunt in {huntDenyCooldown}",
+			"lore": [],
+			"position": {
+			  "slots": [
+				18
+			  ]
+			}
+		  }
+		},
+		"denyButton": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:red_stained_glass\",\"count\":1}",
+			"displayName": "<red>Deny ✗",
+			"lore": [],
+			"position": {
+			  "slots": [
+				25
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass\",\"count\":1}",
+			"displayName": "<gray>Deny ✗",
+			"lore": [],
+			"position": {
+			  "slots": [
+				25
+			  ]
+			}
+		  }
+		},
+		"acceptButton": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:green_stained_glass\",\"count\":1}",
+			"displayName": "<green>Accept ✔",
+			"lore": [],
+			"position": {
+			  "slots": [
+				26
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass\",\"count\":1}",
+			"displayName": "<gray>Accept ✔",
+			"lore": [],
+			"position": {
+			  "slots": [
+				26
+			  ]
+			}
+		  }
+		},
+		"background": {
+		  "enabledButton": {
+			"displayJson": "{\"id\":\"minecraft:red_stained_glass_pane\",\"count\":1}",
+			"displayName": "",
+			"lore": [],
+			"position": {
+			  "slots": [
+				19,
+				20,
+				21,
+				22,
+				23,
+				24
+			  ]
+			}
+		  },
+		  "disabledButton": {
+			"displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+			"displayName": "",
+			"lore": [],
+			"position": {
+			  "slots": [
+				19,
+				20,
+				21,
+				22,
+				23,
+				24
+			  ]
+			}
+		  }
+		}
+	  }
+	}
+  },
+  "lang": {
+	"huntAccepted": "<yellow>You have accepted hunt on {target}!",
+	"huntCompleted": "<green>You have successfully completed hunt!",
+	"huntFailed": "<red>You haven't completed hunt in time",
+	"huntGenerated": "<yellow>New {type} hunt available",
+	"huntAcceptingError": "<red>Error accepting hunt, no such species"
+  }
+}

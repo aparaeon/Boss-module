@@ -1,0 +1,17 @@
+{
+  "maxConnectionPerSecond": 50,
+  "fallbackCooldown": {
+	"amount": 5,
+	"unit": "SECONDS"
+  },
+  "lang": {
+	"commitingCache": "Commiting caches on all servers. Please wait a few minutes for all servers to finish commiting their caches. (No confirmation messages will be sent)",
+	"connectionFailure": "Connection failure. Listener#onServerPreConnect. Please contact an administrator.",
+	"rateLimit": "You are connecting too fast. Please wait a moment and try again.",
+	"noSpawn": "No spawn server found. Please try again later.",
+	"noSuitableServer": "We could not find a suitable server for you. Please try again later.",
+	"alreadyOnServer": "You are already on this server.",
+	"transferMessage": "<color:#c8caca>You are being sent to a {server_id}<color:#c8caca> server",
+	"serverNotFound": "No server found for {server}"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "lang": {
+	"emptyBalance": "Your balance is empty!",
+	"headerBalance": "=====  Balances  =====<newline>",
+	"headerCheckBalance": "{user} balances:<newline>{balances}",
+	"entryBalance": "<dark_grey>▶ {currencyColor}{currency}:<reset> {amount}<newline>",
+	"invalidAmount": "Invalid amount!",
+	"invalidCurrency": "Currency not found!",
+	"invalidUser": "User not found!",
+	"successAddAmount": "Successfully added {amount} of {currency} to user {name}",
+	"successRemoveAmount": "Successfully removed {amount} of {currency} from user {name}",
+	"successDeleteCurrency": "Successfully removed {currency} from user {name}"
+  }
+}

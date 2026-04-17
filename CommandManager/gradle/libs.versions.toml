@@ -1,0 +1,30 @@
+[versions]
+
+version = "1.7.1"
+group = "com.raduvoinea"
+
+[plugins]
+fabric_loom = { id = "fabric-loom", version = "1.10-SNAPSHOT" }
+jetbrin_gradle_plugin_idea_ext = { id = "org.jetbrains.gradle.plugin.idea-ext", version = "1.1.8" }
+
+[libraries]
+# Fabric
+minecraft = { module = "com.mojang:minecraft", version = "1.21.1" }
+fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version = "0.109.0+1.21.1" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version = "0.16.9" }
+parchment = { module = "org.parchmentmc.data:parchment-1.21", version = "2024.11.10" }
+
+# Velocioty
+velocity = { module = "com.velocitypowered:velocity-api", version = "3.4.0-SNAPSHOT" }
+
+# Dependencies
+lombok = { module = "org.projectlombok:lombok", version = "1.18.36" }
+jetbrains_annotations = { module = "org.jetbrains:annotations", version = "26.0.1" }
+luckperms = { module = "net.luckperms:api", version = "5.4" }
+kyori_minimessage = { module = "net.kyori:adventure-text-minimessage", version = "4.20.0" }
+kyori_adventure_fabric = { module = "net.kyori:adventure-platform-fabric", version = "5.9.0" }
+raduvoinea_utils = { module = "com.raduvoinea:utils", version = "1.5.8" }
+
+# Testing
+junit_jupiter = { module = "org.junit.jupiter:junit-jupiter ", version = "5.11.4" }
+junit_bom = { module = "org.junit:junit-bom", version = "5.11.4" }

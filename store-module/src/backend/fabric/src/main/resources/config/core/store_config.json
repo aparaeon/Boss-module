@@ -1,0 +1,426 @@
+{
+  "ranks": [
+    {
+      "oneTimeRewardsList": [
+        "8x Rare Candies",
+        "1x Random Shiny Pokémon",
+	"$5,000 PokeCoins",			
+	"1x Random Evolution Item",
+	"1x Random Pokémon Plushy"
+      ],
+      "commandsList": [
+        "2x /sethome",
+        "/hat",
+        "/nick"
+      ],
+      "kitsList": [
+        "/kit expert (4x Poké Balls, 4x Great Balls, 2x Rare Candies — Daily)"
+      ],
+      "id": "ranks_expert",
+      "name": "<#DF3E23><b>Expert",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 1350
+      },
+      "commands": [
+        "lp user {user} parent add expert"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "16x Rare Candies",
+        "1x Master Ball",
+        "2x Random Shiny Pokémon",
+	"$12,500 PokeCoins",			
+	"1x Random Evolution Item & Stone",			
+        "2x Random Pokémon Plushy"
+      ],
+      "commandsList": [
+        "4x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)"
+      ],
+      "kitsList": [
+        "All previous daily rank kits.",
+        "/kit master (5x Poké Balls, 5x Great Balls, 3x Rare Candies — Daily)"
+      ],
+      "id": "ranks_master",
+      "name": "<#9CDB43><b>Master",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 3390
+      },
+      "commands": [
+        "lp user {user} parent add master"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "24x Rare Candies",
+        "2x Master Balls",
+        "3x Random Shiny Pokémon",
+	"$22,500 PokeCoins",			
+	"1x Random Evolution Item & Stone",
+	"1x Random Held Item",						
+	"2x Random Pokémon Plushy",
+	"1x Random Shiny Pokémon Plushy"	
+      ],
+      "commandsList": [
+        "6x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash"
+      ],
+      "kitsList": [
+        "All previous daily rank kits.",
+        "/kit heroic (8x Poké Balls, 8x Great Balls, 4x Rare Candies — Daily)"
+      ],
+      "id": "ranks_heroic",
+      "name": "<#02D8E9><b>Heroic",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 6900
+      },
+      "commands": [
+        "lp user {user} parent add heroic"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "36x Rare Candies",
+        "4x Master Balls",
+        "4x Random Shiny Pokémon",
+	"$35,000 PokeCoins",			
+	"1x Random Evolution Item & Stone",
+	"1x Random Held Item",	
+	"1x EXP Share & Lucky Egg",						
+	"2x Random Pokémon Plushy",
+	"2x Random Shiny Pokémon Plushy"
+      ],
+      "commandsList": [
+        "8x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash",
+        "/pokecolor",
+        "/nightvision"
+      ],
+      "kitsList": [
+        "All previous daily rank kits.",
+        "/kit mythical (8x Great Balls, 12x Ultra Balls, 8x Quick Balls, 6x Rare Candies — Daily)"
+      ],
+      "id": "ranks_mythical",
+      "name": "<#FFDF00><b>Mythical",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 10400
+      },
+      "commands": [
+        "lp user {user} parent add mythical"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "48x Rare Candies",
+        "6x Master Balls",
+        "5x Random Shiny Pokémon",
+	"$50,000 PokeCoins",			
+	"1x Random Evolution Item & Stone",
+	"2x Random Held Item",
+	"1x Random Mint",						
+	"1x EXP Share & Lucky Egg",							
+	"2x Random Pokémon Plushy",
+	"3x Random Shiny Pokémon Plushy"	
+      ],
+      "commandsList": [
+        "10x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash",
+        "/pokecolor",
+        "/nightvision",
+        "/enderchest",
+        "/fly"
+      ],
+      "kitsList": [
+        "All previous daily rank kits.",
+        "/kit divine (16x Great Balls, 16x Ultra Balls, 12x Quick Balls, 6x Rare Candies — Daily)"
+      ],
+      "id": "ranks_divine",
+      "name": "<#E6A9EC><b>Divine",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 13900
+      },
+      "commands": [
+        "lp user {user} parent add divine"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "64x Rare Candies",
+        "8x Master Balls",
+        "6x Random Shiny Pokémon",
+        "1x Random Ultra Beast",
+	"$70,000 PokeCoins",			
+	"1x Random Evolution Item & Stone",
+	"2x Random Held Items & Random Mints",					
+	"1x EXP Share & Lucky Egg",							
+	"2x Random Pokémon Plushy",
+	"4x Random Shiny Pokémon Plushy"	
+      ],
+      "commandsList": [
+        "12x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash",
+        "/pokecolor",
+        "/nightvision",
+        "/enderchest",
+        "/fly",
+        "/enchant",
+        "/pokesee",
+        "/anvil"
+      ],
+      "kitsList": [
+        "All previous daily rank kits.",
+        "/kit arbiter (16x Great Balls, 20x Ultra Balls, 16x Level Balls, 10x Rare Candies — Daily)",
+	"/kit arbitermonthly (1x Basic Key — Every 4 Weeks)"
+      ],
+      "id": "ranks_arbiter",
+      "name": "<#FFDF00><b>Arbiter",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 17400
+      },
+      "commands": [
+        "lp user {user} parent add arbiter"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "80x Rare Candies",
+        "11x Master Balls",
+        "6x Random Shiny Pokémon",
+        "1x Random Ultra Beast & Shiny Ultra Beast",
+	"$95,000 PokeCoins",		
+	"1x Random Evolution Item & Stone",
+	"2x Random Held Items & Random Mints",						
+	"1x EXP Share & Lucky Egg",							
+	"2x Random Pokémon Plushy",
+	"4x Random Shiny Pokémon Plushy",
+	"1x Random Ultra Beast Plushy"	
+      ],
+      "commandsList": [
+        "14x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash",
+        "/pokecolor",
+        "/nightvision",
+        "/enderchest",
+        "/fly",
+        "/enchant",
+        "/pokesee",
+        "/anvil",
+        "/repair",
+        "/anvil"
+      ],
+      "kitsList": [
+        "All previous daily and monthly rank kits.",
+        "/kit champion (16x Great Balls, 16x Ultra Balls, 16x Level Balls, 10x Rare Candies — Daily)",
+	"/kit championmonthly (1x Basic Key — Every 4 Weeks)"	
+      ],
+      "id": "ranks_champion",
+      "name": "<#2B60DE><b>Champion",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 20900
+      },
+      "commands": [
+        "lp user {user} parent add champion"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "104x Rare Candies",
+        "14x Master Balls",
+        "6x Random Shiny Pokémon",
+        "1x Random Ultra Beast, Shiny Ultra Beast & Legendary",	
+	"$130,000 PokeCoins",	
+	"1x Random Evolution Item & Stone",
+	"2x Random Held Items & Random Mints",							
+	"1x EXP Share & Lucky Egg",						
+	"2x Random Pokémon Plushy",
+	"4x Random Shiny Pokémon Plushy",
+	"1x Random Legendary & Ultra Beast Plushies"	
+      ],
+      "commandsList": [
+        "16x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash",
+        "/pokecolor",
+        "/nightvision",
+        "/enderchest",
+        "/fly",
+        "/enchant",
+        "/pokesee",
+        "/anvil",
+        "/repair",
+        "/anvil",
+        "/breed (60 min cooldown)",
+        "/stonecutter"
+      ],
+      "kitsList": [
+        "All previous daily and monthly rank kits.",
+        "/kit grandmaster (24x Great Balls, 24x Ultra Balls, 24x Level Balls, 12x Rare Candies — Daily)",
+	"/kit grandmastermonthly (1x Premium Key — Every 4 Weeks)"	
+      ],
+      "id": "ranks_grand_master",
+      "name": "<#840000><b>GrandMaster",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 27900
+      },
+      "commands": [
+        "lp user {user} parent add grandmaster"
+      ]
+    },
+    {
+      "oneTimeRewardsList": [
+        "128x Rare Candies",
+        "16x Master Balls",
+        "6x Random Shiny Pokémon",
+        "1x Random Ultra Beast, Shiny Ultra Beast, Legendary & Shiny Legendary",
+	"$180,000 PokeCoins",			
+	"1x Random Evolution Item & Stone",
+	"2x Random Held Items & Random Mints",					
+	"1x EXP Share & Lucky Egg",					
+	"2x Random Pokémon Plushy",
+	"4x Random Shiny Pokémon Plushy",
+	"1x Random Mythical, Legendary & Ultra Beast Plushies"		
+      ],
+      "commandsList": [
+        "20x /sethome",
+        "/hat",
+        "/nick",
+        "/craft",
+        "/pokeheal (5 min cooldown)",
+        "/pc",
+        "/trash",
+        "/pokecolor",
+        "/nightvision",
+        "/enderchest",
+        "/fly",
+        "/enchant",
+        "/pokesee",
+        "/anvil",
+        "/repair",
+        "/anvil",
+        "/breed (60 min cooldown)",
+        "/stonecutter",
+        "/hatch (60 min cooldown)",
+        "/smelt"
+      ],
+      "kitsList": [
+        "All previous daily and monthly rank kits.",
+        "/kit celestial (32x Quick Balls, 32x Dusk Balls, 14x Rare Candies, 1x Vote Key — Daily)",
+	"/kit celestialmonthly (1x Premium Key — Every 4 Weeks)"
+      ],
+      "id": "ranks_celestial",
+      "name": "<#AA23FF><b>Celestial",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 34900
+      },
+      "commands": [
+        "lp user {user} parent add celestial"
+      ]
+    }
+  ],
+  "keys": [
+    {
+      "id": "keys_basic",
+      "name": "<#00D2CE><b>Basic",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 535
+      },
+      "commands": [
+        "crates admin give_virtual_key {user} 1 basic"
+      ]
+    },
+    {
+      "id": "keys_premium",
+      "name": "<#FC7700><b>Premium",
+      "image": "",
+      "price": {
+        "currency": "GEMS",
+        "amount": 2740
+      },
+      "commands": [
+        "crates admin give_virtual_key {user} 1 premium"
+      ]
+    }
+  ],
+  "lang": {
+    "rankEntryTemplate": "<gray>- {entry}<reset>",
+    "discountTemplate": "<gray><st>{old_price}<reset> <aqua>{price}",
+    "rankTemplate": [
+      "<white>🎁 <gold>One Time Rewards [ <gray>/kit onetime<gold> or <gray>/kit <blue>RANKNAMEHERE<gray>onetime<gold> ]<reset>",
+      "{one_time_items}",
+      "<red><bold>NOTE: You only get the differences between ranks if<reset>",       
+      "<red><bold>choosing this as a rank up for one time rewards<reset>",
+      "",
+      "<white>✨ <gold>Command Perks<reset>",
+      "{commands}",
+      "",
+      "<white>📦 <gold>Kits<reset>",
+      "{kits}",
+      "",
+      "<aqua>Price: {price_tag}<reset>"
+    ],
+    "storeMessage": "<gold><b>-------------------------------<reset><newline><click:open_url:https://store.mmorealms.gg><aqua><b>Click here to open the store<newline>Or visit https://store.mmorealms.gg</click><newline><gold><b>-------------------------------",
+    "keyTemplate": [
+      "",
+      "<gray>You can use this key at <aqua>/warp crates<gray>.",
+      "",
+      "<aqua>Price: {price_tag}<reset>"
+    ],
+    "currencyTemplate": [
+      "",
+      "<aqua>Price: {price_tag}<reset>"
+    ]
+  }
+}

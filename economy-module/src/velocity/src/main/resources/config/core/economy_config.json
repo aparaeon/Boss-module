@@ -1,0 +1,15 @@
+{
+  "currenciesToMakeTopFor": [
+    "PokeCoins",
+    "Tokens"
+  ],
+  "lang": {
+    "headerBalTop": "=====  Top Balances  =====",
+    "notFoundBalance": "There are no balances yet!",
+    "firstPlaceBalTop": "<#FFC536>",
+    "secondPlaceBalTop": "<#CBCBCB>",
+    "thirdPlaceBalTop": "<#ED9D5D>",
+    "entryCurrencyBalTop": "<dark_grey>▶ {currencyColor}{currency}<reset><newline>",
+    "entryPlayerBalTop": "{place}. {username}: <reset>{amount}<newline>"
+  }
+}

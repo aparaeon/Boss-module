@@ -1,0 +1,3416 @@
+{
+  "lang": {
+	"failedBatonPassClauseMessage": "Failed baton pass clause",
+	"failedBatonPass1ClauseMessage": "Failed baton pass 1 clause",
+	"failedEvasionMovesClauseMessage": "Failed evasion clause",
+	"failedEvasionAbilitiesClauseMessage": "Failed evasion ability clause",
+	"failedOhkoClauseMessage": "Failed OHKO clause",
+	"failedSpeciesClauseMessage": "Failed species clause",
+	"failedChatterClauseMessage": "Failed chatter clause",
+	"failedDrizzleClauseMessage": "Failed drizzle clause",
+	"failedDroughtClauseMessage": "Failed drought clause",
+	"failedDrizzleSwimClauseMessage": "Failed drizzle-swim clause",
+	"failedItemClauseMessage": "Failed item clause",
+	"failedLegendaryClauseMessage": "Failed legendary clause",
+	"failedMoodyClauseMessage": "Failed moody clause",
+	"failedShadowTagClauseMessage": "Failed shadow tag clause",
+	"failedSwaggerClauseMessage": "Failed swagger clause",
+	"failedSmashPassClauseMessage": "Failed smash-pass clause",
+	"failedSandStreamClauseMessage": "Failed sand stream clause",
+	"failedSnowWarningMessage": "Failed snow warning clause",
+	"failedBagClauseMessage": "Failed bag clause",
+	"playerTriedToBattleUnreachableGym": "<red>You did not beat the previous gym yet, how did you get here?",
+	"playerNotEnoughInventorySpace": "<red>You don't have enough free space in inventory.",
+	"playerCooldown": "<yellow>This gym is on cooldown after the last {action}. Please wait {cooldown}",
+	"canBattleGymDescription": "<green>You can challenge this gym!",
+	"gymOnCooldownDescription": "<yellow>You can battle this gym in {cooldown}",
+	"invalidTargetArgument": "<red>There is no player with this username or the uuid is invalid",
+	"addProgressConfirmation": "<green>Successfully added a win for {target} to gym {gym}",
+	"resetProgressConfirmation": "<green>Successfully deleted gym record for {target}",
+	"prePlayerRewardMessage": "<green>Some virtual rewards you received:"
+  },
+  "battleConfig": {
+	"battleTime": {
+	  "amount": 20,
+	  "unit": "MINUTES"
+	}
+  },
+  "regions": [
+	{
+	  "name": "<#2BAD2B><b>Kanto",
+	  "id": "region1",
+	  "displayItem": {
+		"id": "minecraft:lime_stained_glass_pane",
+		"count": 1
+	  },
+	  "gyms": [
+		{
+		  "name": "<bold>Pewter City",
+		  "id": "region1_gym1",
+		  "description": [
+			"<#4D2D26>Rock type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 12,000 PokeCoins",
+			"<white>- Small EXP Candy ( x1 )",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- Rock Gem ( x1 )",
+			"<white>- Hard Stone ( x1 )",
+			"<white>- EXP Share ( x1 )",
+			"<white>- Charti Berry ( x1 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 2,000 PokeCoins",
+			"<white>- Small EXP Candy ( x1 )",
+			"<white>- Charti Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 8.5,
+			  "y": 60.0,
+			  "z": 4086.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_brock",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": -59.5,
+				"y": 61.0,
+				"z": 4086.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:rock_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3014
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3032
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 10000 pokecoins",
+			"give {user} cobblemon:exp_candy_m 3",
+			"give {user} cobblemon:rock_gem",
+			"give {user} cobblemon:hard_stone",
+			"give {user} cobblemon:exp_share",
+			"poke_give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 5 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 2000 pokecoins",
+			"give {user} cobblemon:exp_candy_s 1",
+			"give {user} cobblemon:charti_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 12,000 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 2,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You've bested me. Take this boulder badge as proof of your victory.",
+		  "playerLostBattleMessage": "Guess you weren't strong enough to push this boulder in your path to become champion.",
+		  "freeSpaceRequiredFirstWin": 6,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Cerulean City",
+		  "id": "region1_gym2",
+		  "description": [
+			"<#3442ED>Water type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 14,500 PokeCoins",
+			"<white>- Small EXP Candy ( x3 )",
+			"<white>- Medium EXP Candy ( x5 )",
+			"<white>- Water Gem ( x1 )",
+			"<white>- Mystic Water ( x1 )",
+			"<white>- Water Stone ( x1 )",
+			"<white>- Passho Berry ( x1 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 2,500 PokeCoins",
+			"<white>- Small EXP Candy ( x3 )",
+			"<white>- Passho Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym1"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 1049.5,
+			  "y": 60.0,
+			  "z": 4089.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_misty",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 993.5,
+				"y": 58.0,
+				"z": 4089.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:water_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3004
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3022
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 12000 pokecoins",
+			"give {user} cobblemon:exp_candy_m 5",
+			"give {user} cobblemon:water_gem",
+			"give {user} cobblemon:mystic_water",
+			"give {user} cobblemon:water_stone",
+			"poke_give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 5 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 2500 pokecoins",
+			"give {user} cobblemon:exp_candy_s 3",
+			"give {user} cobblemon:passho_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 14,500 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 2,500 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congrats {user}! That was a good match and in return here is the Cascade badge.",
+		  "playerLostBattleMessage": "The tides were too strong hm? Better luck next time kid.",
+		  "freeSpaceRequiredFirstWin": 6,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Vermilion City",
+		  "id": "region1_gym3",
+		  "description": [
+			"<#FFF600>Electric type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 17,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x1 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Electric Gem ( x1 )",
+			"<white>- Thunder Stone ( x1 )",
+			"<white>- Electirizer ( x1 )",
+			"<white>- Waccan Berry ( x1 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 3,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x1 )",
+			"<white>- Wacan Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym2"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 2088.5,
+			  "y": 60.0,
+			  "z": 4119.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_ltsurge",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 2025.5,
+				"y": 60.0,
+				"z": 4119.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:electric_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3005
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3023
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 14000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:electric_gem",
+			"give {user} cobblemon:electirizer",
+			"give {user} cobblemon:thunder_stone",
+			"poke_give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 5 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 3000 pokecoins",
+			"give {user} cobblemon:exp_candy_m 1",
+			"give {user} cobblemon:wacan_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 17,000 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 3,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You were a tough one I'll give you that. Here, take this Thunder Badge.",
+		  "playerLostBattleMessage": "Told you not to be too shocked, you are against a veteran after all.",
+		  "freeSpaceRequiredFirstWin": 6,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Celadon City",
+		  "id": "region1_gym4",
+		  "description": [
+			"<#90F590>Grass type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 18,500 PokeCoins",
+			"<white>- Medium EXP Candy ( x2 )",
+			"<white>- Large EXP Candy ( x2 )",
+			"<white>- Grass Gem ( x1 )",
+			"<white>- Miracle Seed ( x1 )",
+			"<white>- Grassy Seed ( x1 )",
+			"<white>- Leaf Stone ( x1 )",
+			"<white>- Rindo Berry ( x1 )",
+			"<white>- Random Berry ( x1 )",
+			"<white>- Random Mint ( x1 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 3,500 PokeCoins",
+			"<white>- Medium EXP Candy ( x2 )",
+			"<white>- Rindo Berry ( x1 )",
+			"<white>- Random Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym3"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 3112.5,
+			  "y": 60.0,
+			  "z": 4101.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_erika",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 3030.5,
+				"y": 66.0,
+				"z": 4101.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:grass_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3006
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3023
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 15000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 2",
+			"give {user} cobblemon:grass_gem",
+			"give {user} cobblemon:miracle_seed",
+			"give {user} cobblemon:grassy_seed",
+			"give {user} cobblemon:leaf_stone",
+			"give_group {user} mint",
+			"poke_give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 5 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 3500 pokecoins",
+			"give {user} cobblemon:exp_candy_m 2",
+			"give {user} cobblemon:rindo_berry 1",
+			"give_group {user} berry"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 18,500 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 5 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 3,500 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! I wish you a prosperous journey ahead of you as from this point on the gym challenge has now officially and properly begun. As proof I bestow upon you the Rainbow Badge.",
+		  "playerLostBattleMessage": "Sorry {trainer}, maybe you'll do better next time. Feel free to come again sometime.",
+		  "freeSpaceRequiredFirstWin": 9,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Fuchsia City",
+		  "id": "region1_gym5",
+		  "description": [
+			"<#68286B>Poison type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 24,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- XL EXP Candy ( x3 )",
+			"<white>- Poison Gem ( x1 )",
+			"<white>- Black Sludge ( x1 )",
+			"<white>- Poison Barb ( x1 )",
+			"<white>- Toxic Orb ( x1 )",
+			"<white>- Antidote ( x1 )",
+			"<white>- Pecha Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 10 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 4,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- Pecha Berry ( x1 )",
+			"<white>- Antidote ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym4"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 24.5,
+			  "y": 60.0,
+			  "z": 3080.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_koga",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": -62.5,
+				"y": 62.0,
+				"z": 3080.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:poison_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3009
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3027
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 20000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 3",
+			"give {user} cobblemon:poison_gem",
+			"give {user} cobblemon:black_sludge",
+			"give {user} cobblemon:poison_barb",
+			"give {user} cobblemon:toxic_orb",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 10 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 4000 pokecoins",
+			"give {user} cobblemon:exp_candy_m 3",
+			"give {user} cobblemon:pecha_berry 1",
+			"give {user} cobblemon:antidote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 24,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 10 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 4,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Well well {user}! You've done well against me. As expected here is the Soul Badge.",
+		  "playerLostBattleMessage": "Tough luck {trainer}.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Saffron City",
+		  "id": "region1_gym6",
+		  "description": [
+			"<#D51FDB>Psychic type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 35,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Psychic Gem ( x1 )",
+			"<white>- Twisted Spoon ( x1 )",
+			"<white>- Psychic Seed ( x1 )",
+			"<white>- Wise Glasses ( x1 )",
+			"<white>- Ability Capsule ( x1 )",
+			"<white>- Payapa Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 10 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- Payapa Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym5"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 1052.5,
+			  "y": 60.0,
+			  "z": 3064.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_sabrina",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 980.5,
+				"y": 62.0,
+				"z": 3064.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:psychic_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3012
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3030
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 30000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:psychic_gem",
+			"give {user} cobblemon:twisted_spoon",
+			"give {user} cobblemon:psychic_seed",
+			"give {user} cobblemon:wise_glasses",
+			"give {user} cobblemon:ability_capsule",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 10 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_m 3",
+			"give {user} cobblemon:payapa_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 35,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 10 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "...here is your Marsh Badge. Now leave.",
+		  "playerLostBattleMessage": "Try as you will {trainer}, No one can escape their fate I can foresee.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Cinnabar Island",
+		  "id": "region1_gym7",
+		  "description": [
+			"<#ED4B45>Fire type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 45,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Fire Gem ( x1 )",
+			"<white>- Magmarizer ( x1 )",
+			"<white>- Fire Stone ( x1 )",
+			"<white>- Charcoal Stick ( x1 )",
+			"<white>- Flame Orb ( x1 )",
+			"<white>- Burn Heal ( x1 )",
+			"<white>- Occa Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 15 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Medium EXP Candy ( x3 )",
+			"<white>- Burn Heal ( x1 )",
+			"<white>- Occa Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym6"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 2075.5,
+			  "y": 60.0,
+			  "z": 3075.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_blaine",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 2004.5,
+				"y": 62.0,
+				"z": 3075.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:fire_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3003
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3021
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 40000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:fire_gem",
+			"give {user} cobblemon:magmarizer",
+			"give {user} cobblemon:charcoal_stick",
+			"give {user} cobblemon:flame_orb",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 15 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_m 3",
+			"give {user} cobblemon:occa_berry 1",
+			"give {user} cobblemon:burn_heal 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 45,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 15 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You've bested an old man...you should be ashamed of yourself. Kidding, my you youngsters never have a sense of humor. Here is your Volcano Badge.",
+		  "playerLostBattleMessage": "Ohoho {trainer} did you at least bring a burn heal? Losing to an old man surely had to hurt your ego.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Viridian City",
+		  "id": "region1_gym8",
+		  "description": [
+			"<#E08338>Ground type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 50,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Ground Gem ( x1 )",
+			"<white>- Soft Sand ( x1 )",
+			"<white>- Full Restore ( x3 )",
+			"<white>- Master Ball ( x1 )",
+			"<white>- Ability Capsule ( x1 )",
+			"<white>- PP UP ( x1 )",
+			"<white>- Full Heal ( x1 )",
+			"<white>- Random Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 15 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Full Heal ( x1 )",
+			"<white>- Random Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym7"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 3096.5,
+			  "y": 60.0,
+			  "z": 3072.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_giovanni",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 3026.5,
+				"y": 62.0,
+				"z": 3072.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:ground_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3010
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3028
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 45000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:ground_gem",
+			"give {user} cobblemon:soft_sand",
+			"give {user} cobblemon:full_restore 3",
+			"give {user} cobblemon:master_ball",
+			"give {user} cobblemon:ability_capsule",
+			"give {user} cobblemon:pp_up",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 15 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:full_heal",
+			"give_group {user} berry"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 50,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 15 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "You have potential {user}! If this Gym Challenge thing doesn't work out team rocket would like to have someone with your capabilities. Nonetheless here is your Earth Badge.",
+		  "playerLostBattleMessage": "You lost {trainer}, please vacate the premises.",
+		  "freeSpaceRequiredFirstWin": 10,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Lorelei",
+		  "id": "region1_gym9",
+		  "description": [
+			"<#1CFFF3>Ice type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 55,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Ice Gem ( x1 )",
+			"<white>- Never-Melt Ice ( x1 )",
+			"<white>- Icy Stone ( x1 )",
+			"<white>- Icy Rock ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym8"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 24.5,
+			  "y": 60.0,
+			  "z": 2057.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_lorelei",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": -66.5,
+				"y": 62.0,
+				"z": 2057.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:ice_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3007
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3025
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 50000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:ice_gem",
+			"give {user} cobblemon:never_melt_ice",
+			"give {user} cobblemon:ice_stone",
+			"give {user} cobblemon:icy_rock",
+			"plushie give_class {user} NORMAL false",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 55,000 PokeCoins",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You have beat your first Elite Four member, good luck against the rest. This is just the beginning.",
+		  "playerLostBattleMessage": "Frozen under pressure? Well I have absolute zero tolerance for that lukewarm performance.",
+		  "freeSpaceRequiredFirstWin": 7,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Bruno",
+		  "id": "region1_gym10",
+		  "description": [
+			"<#FFBA2B>Fighting type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 55,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Fighting Gem ( x1 )",
+			"<white>- Black Belt ( x1 )",
+			"<white>- Expert Belt ( x1 )",
+			"<white>- Punching Glove ( x1 )",
+			"<white>- Macho Brace ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym9"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 1072.5,
+			  "y": 60.0,
+			  "z": 2059.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_bruno",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 1000.5,
+				"y": 62.0,
+				"z": 2059.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:fighting_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3008
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3026
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 50000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:fighting_gem",
+			"give {user} cobblemon:black_belt",
+			"give {user} cobblemon:expert_belt",
+			"give {user} cobblemon:punching_glove",
+			"give {user} cobblemon:macho_brace",
+			"plushie give_class {user} NORMAL false",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 55,000 PokeCoins",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "As expected {user}! Your training and hard work have paid off! I'm glad to have lost to someone as hardworking as you. Please proceed on.",
+		  "playerLostBattleMessage": "You've lost our match {trainer}, that's okay. Show me your resolve in the future. Losing only builds a stronger person.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Agatha",
+		  "id": "region1_gym11",
+		  "description": [
+			"<#792BFF>Ghost type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 55,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Ghost Gem ( x1 )",
+			"<white>- Spell Tag ( x1 )",
+			"<white>- Reaper Cloth ( x1 )",
+			"<white>- Dusk Stone ( x1 )",
+			"<white>- Life Orb ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym10"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 2092.5,
+			  "y": 60.0,
+			  "z": 2072.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_agatha",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 2020.5,
+				"y": 62.0,
+				"z": 2072.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:ghost_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3015
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3033
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 50000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:ghost_gem",
+			"give {user} cobblemon:spell_tag",
+			"give {user} cobblemon:reaper_cloth",
+			"give {user} cobblemon:dusk_stone",
+			"give {user} cobblemon:life_orb",
+			"plushie give_class {user} NORMAL false",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 55,000 PokeCoins",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Ack, this stupid brat. Fine you win you may head on. I need to ask what Oak keeps feeding these danged trainers of his...",
+		  "playerLostBattleMessage": "Ahahahahaha. As expected of someone sent by Oak, good luck next time brat! You'll need it.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Lance",
+		  "id": "region1_gym12",
+		  "description": [
+			"<#0020C9>Dragon type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 55,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Dragon Gem ( x1 )",
+			"<white>- Dragon Fang ( x1 )",
+			"<white>- Dragon Scale ( x1 )",
+			"<white>- Random Mint ( x1 )",
+			"<white>- Ability Capsule ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym11"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 3104.5,
+			  "y": 60.0,
+			  "z": 2065.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_lance",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 3032.5,
+				"y": 62.0,
+				"z": 2065.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:dragon_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3016
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3034
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 50000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:dragon_gem",
+			"give {user} cobblemon:dragon_fang",
+			"give {user} cobblemon:dragon_scale",
+			"give_group {user} mint",
+			"give {user} cobblemon:ability_capsule",
+			"plushie give_class {user} NORMAL false",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 55,000 PokeCoins",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You have beat the final challenge of the Elite Four, in the next step the Champion awaits you.",
+		  "playerLostBattleMessage": "I told you {trainer}, the might of Dragon types are truly too stron-NO stop saying I used illegal Pokemon. I didn't cheat!",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<#4097ED><b>Blue",
+		  "id": "region1_gym13",
+		  "description": [
+			"<#FFDD6E><b>Champion of Kanto",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 70,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Random Evolution Stone ( x1 )",
+			"<white>- Random Mint ( x1 )",
+			"<white>- Ability Patch ( x1 )",
+			"<white>- PP Max ( x1 )",
+			"<white>- Random Evolution Stone ( x1 )",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Random Legendary Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Premium Crate Key ( x1 )",
+			"<white>- 50 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Random Evolution Stone ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region1_gym12"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 1581.5,
+			  "y": 81.0,
+			  "z": 1531.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region1_blue",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 1490.5,
+				"y": 83.0,
+				"z": 1531.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "minecraft:nether_star",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3014
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3032
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 65000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give_group {user} evolutionstone",
+			"give_group {user} mint",
+			"give {user} cobblemon:ability_patch",
+			"give {user} cobblemon:pp_max",
+			"plushie give_class {user} NORMAL true",
+			"poke_give_class {user} LEGENDARY false",
+			"crates admin give_virtual_key {user} 1 premium",
+			"balance add {user} 50 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote",
+			"give_group {user} evolutionstone"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 70,000 PokeCoins",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Random Legendary Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Premium Crate Key ( x1 )",
+			"<white>- 50 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You've...won. Shame, I've only just become Champion and I've already lost the title. What would Red think of me...ah enough of my self pity. Hold your head high Champion.",
+		  "playerLostBattleMessage": "Smell ya later {trainer}, as expected of the Kanto Champion. I truly am no pushover.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		}
+	  ]
+	},
+	{
+	  "name": "<#FFB700><b>Johto",
+	  "id": "region1",
+	  "requiredGyms": [
+		"region1_gym13"
+	  ],
+	  "displayItem": {
+		"id": "minecraft:orange_stained_glass_pane",
+		"count": 1
+	  },
+	  "gyms": [
+		{
+		  "name": "<bold>Violet City",
+		  "id": "region2_gym1",
+		  "description": [
+			"<#30BABF>Flying type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 35,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Flying Gem ( x1 )",
+			"<white>- Sharp Beak ( x1 )",
+			"<white>- Coba Berry ( x1 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 20 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Coba Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 5691.5,
+			  "y": 93.5,
+			  "z": 4116.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_falkner",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 5691.5,
+				"y": 93.0,
+				"z": 4162.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:flying_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3014
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3032
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 30000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:flying_gem",
+			"give {user} cobblemon:sharp_beak",
+			"poke_give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 20 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:coba_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 35,000 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 20 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You have beaten me thus starting your journey in Johto. I look forward to seeing how you handle the others in the Johto Gym challenge.",
+		  "playerLostBattleMessage": "Is this all Kanto's new champion has to offer? Talk about a weak region yeesh.",
+		  "freeSpaceRequiredFirstWin": 6,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Azalea Town",
+		  "id": "region2_gym2",
+		  "description": [
+			"<#C5EB60>Bug type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 40,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Bug Gem ( x1 )",
+			"<white>- Silver Powder ( x1 )",
+			"<white>- Tanga Berry ( x1 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 20 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 5,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Tanga Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym1"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 6554.5,
+			  "y": 84.5,
+			  "z": 4029.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_bugsy",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 6554.5,
+				"y": 84.0,
+				"z": 4112.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:bug_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3004
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3022
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 35000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:bug_gem",
+			"give {user} cobblemon:silver_powder",
+			"poke_give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 20 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:tanga_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 40,000 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 20 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 5,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Wow {user}! My insects have never truly struggled like that. Guess you came prepared with bug repellent huh?",
+		  "playerLostBattleMessage": "Never underestimate the power of us Bug specialists. We may be few in number but we'll always find a way to come out on top",
+		  "freeSpaceRequiredFirstWin": 6,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Goldenrod City",
+		  "id": "region2_gym3",
+		  "description": [
+			"<#FFFFFF>Normal type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 51,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Normal Gem ( x1 )",
+			"<white>- Silk Scarf ( x1 )",
+			"<white>- Oval Stone ( x1 )",
+			"<white>- Chilan Berry ( x1 )",
+			"<white>- Moomoo Milk ( x3 )",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Chilan Berry ( x1 )",
+			"<white>- Moomoo Milk ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym2"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7535.5,
+			  "y": 59.0,
+			  "z": 4121.5,
+			  "pitch": 0.0,
+			  "yaw": 90.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_whitney",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7482.5,
+				"y": 59.0,
+				"z": 4106.5,
+				"pitch": 0.0,
+				"yaw": -90.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:normal_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3005
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3023
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 45000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:normal_gem",
+			"give {user} cobblemon:silk_scarf",
+			"give {user} cobblemon:oval_stone",
+			"give {user} cobblemon:moomoo_milk 2",
+			"poke_give_class {user} NORMAL false",
+			"plushie give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:moomoo_milk 1",
+			"give {user} cobblemon:chilan_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 51,000 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! Most people tend to struggle against me after all I am infamous for it. But you didn't, guess all that training in Kanto really paid off huh?",
+		  "playerLostBattleMessage": "Miltank once again tramples the competition! Don't be too upset it's what we're known for.",
+		  "freeSpaceRequiredFirstWin": 6,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Ecruteak City",
+		  "id": "region2_gym4",
+		  "description": [
+			"<#B284C2>Ghost type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 56,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Ghost Gem ( x1 )",
+			"<white>- Spell Tag ( x1 )",
+			"<white>- Reaper Cloth ( x1 )",
+			"<white>- Kasib Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Kasib Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym3"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 8457.5,
+			  "y": 88.0,
+			  "z": 4043.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_morty",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 8472.5,
+				"y": 88.5,
+				"z": 4152.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:ghost_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3006
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3023
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 50000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:ghost_gem",
+			"give {user} cobblemon:spell_tag",
+			"give {user} cobblemon:reaper_cloth",
+			"poke_give_class {user} NORMAL true",
+			"plushie give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:kasib_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 56,000 PokeCoins",
+			"<white>- Random Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You've now completed the half-way point of the Johto Gym challenge. At least when it comes to the leaders of course as the Elite 4 and Champion are in a whole other ballpark of their own.",
+		  "playerLostBattleMessage": "Sorry {trainer}, can't promise this loss won't haunt you for the rest of your career.",
+		  "freeSpaceRequiredFirstWin": 9,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Cianwood City",
+		  "id": "region2_gym5",
+		  "description": [
+			"<#F29A1D>Fighting type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 61,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Fighting Gem ( x1 )",
+			"<white>- Black Belt ( x1 )",
+			"<white>- Expert Belt ( x1 )",
+			"<white>- Focus Sash ( x1 )",
+			"<white>- Chople Berry ( x1 )",
+			"<white>- Lansat Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 25 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Chople Berry ( x1 )",
+			"<white>- Lansat Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym4"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 5679.5,
+			  "y": 74.0,
+			  "z": 3122.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_chuck",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 5679.5,
+				"y": 71.0,
+				"z": 3163.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:fighting_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3009
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3027
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 55000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:fighting_gem",
+			"give {user} cobblemon:black_belt",
+			"give {user} cobblemon:expert_belt",
+			"give {user} cobblemon:focus_sash",
+			"poke_give_class {user} NORMAL true",
+			"plushie give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 25 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:chople_berry 1",
+			"give {user} cobblemon:lansat_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 61,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 25 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Behold {user}! This is the true strength of a specialized fighter such as myself.",
+		  "playerLostBattleMessage": "Good luck in the future {trainer}. I bestow upon you the 5th gym badge as well as an honorary black belt in my rankings",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Olivine City",
+		  "id": "region2_gym6",
+		  "description": [
+			"<#C4C4C4>Steel type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 66,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Steel Gem ( x1 )",
+			"<white>- Metal Coat ( x1 )",
+			"<white>- Iron Ball ( x1 )",
+			"<white>- Ability Capsule ( x1 )",
+			"<white>- Babiri Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 30 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Babiri Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym5"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 6560.5,
+			  "y": 61.0,
+			  "z": 3146.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_jasmine",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 6560.5,
+				"y": 65.0,
+				"z": 3221.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:steel_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3012
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3030
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 60000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:steel_gem",
+			"give {user} cobblemon:metal_coat",
+			"give {user} cobblemon:iron_ball",
+			"give {user} cobblemon:ability_capsule",
+			"poke_give_class {user} NORMAL true",
+			"plushie give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 30 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:babiri_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 66,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 30 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "The way you battle...maybe I was correct. You do remind me of a trainer who once helped me and Amphy",
+		  "playerLostBattleMessage": "No maybe I was incorrect. You do not remind me of that trainer who once helped me and Amphy. They would never be crushed under the weight of my steel Pokemon.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Mahogany Town",
+		  "id": "region2_gym7",
+		  "description": [
+			"<#63FAFF>Ice type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 71,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Ice Gem ( x1 )",
+			"<white>- Never-Melt Ice ( x1 )",
+			"<white>- Ice Stone ( x1 )",
+			"<white>- Icy Rock ( x1 )",
+			"<white>- Eviolite ( x1 )",
+			"<white>- Yache Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 40 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Yache Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym6"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7504.0,
+			  "y": 72.0,
+			  "z": 3139.0,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_pryce",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7507.5,
+				"y": 72.0,
+				"z": 3265.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:ice_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3003
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3021
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 65000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:ice_gem",
+			"give {user} cobblemon:nevermelt_ice",
+			"give {user} cobblemon:ice_stone",
+			"give {user} cobblemon:icy_rock",
+			"give {user} cobblemon:eviolite",
+			"poke_give_class {user} NORMAL true",
+			"plushie give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 40 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:yache_berry 1"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 71,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 40 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "My my {user} was it? You young folk truly are the sun that melts the harsh cold of the future. You have so much potential, go on prove it to the world kid.",
+		  "playerLostBattleMessage": "Hm {trainer} if you cannot weather the storm it may be best to throw in the towel. No shame in that.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Blackthorn City",
+		  "id": "region2_gym8",
+		  "description": [
+			"<#0028FF>Dragon type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 76,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Dragon Gem ( x1 )",
+			"<white>- Dragon Fang ( x1 )",
+			"<white>- Dragon Scale ( x1 )",
+			"<white>- Dragons Breath ( x1 )",
+			"<white>- Master Ball ( x1 )",
+			"<white>- Random Berry ( x1 )",
+			"<white>- Haban Berry ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 40 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Haban Berry ( x1 )",
+			"<white>- Random Berry ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym7"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 8447.0,
+			  "y": 65.0625,
+			  "z": 3123.0,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_clair",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 8463.5,
+				"y": 66.1875,
+				"z": 3295.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:dragon_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3010
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3028
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 70000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:dragon_gem",
+			"give {user} cobblemon:dragon_scale",
+			"give {user} cobblemon:dragon_fang 1",
+			"give {user} minecraft:dragon_breath 1",
+			"give {user} cobblemon:master_ball",
+			"poke_give_class {user} NORMAL true",
+			"plushie give_class {user} NORMAL false",
+			"crates admin give_virtual_key {user} 1 vote",
+			"balance add {user} 40 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"give {user} cobblemon:haban_berry",
+			"give_group {user} berry"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 76,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- 40 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins"
+		  ],
+		  "playerWonBattleMessage": "Leave {user}! You are not worthy of this badge, to approach the presence of Lan-you know what? Forget it. Just take the badge.",
+		  "playerLostBattleMessage": "You lost {trainer}, now run along and never come back again. Just quit the Johto challenge actually so someone as amazing as Lance will never have the displeasure of seeing you fail.",
+		  "freeSpaceRequiredFirstWin": 10,
+		  "freeSpaceRequiredNormalWin": 3,
+		  "lossCooldown": {
+			"amount": 10,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Will",
+		  "id": "region2_gym9",
+		  "description": [
+			"<#E459FF>Psychic type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 81,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Psychic Gem ( x1 )",
+			"<white>- Twisted Spoon ( x1 )",
+			"<white>- Psychic Seed ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym8"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7087.5,
+			  "y": 130.0,
+			  "z": 1529.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_will",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7087.5,
+				"y": 130.0,
+				"z": 1592.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:psychic_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3007
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3025
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 75000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:psychic_gem",
+			"give {user} cobblemon:twisted_spoon",
+			"give {user} cobblemon:psychic_seed",
+			"plushie give_class {user} NORMAL true",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 50 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 81,000 PokeCoins",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Outprediciting a Psychic specialist? I'm impressed {user}! You have triumphed against me in a battle of wits, continue your journey as the other Elite 4 members shall await you.",
+		  "playerLostBattleMessage": "Oh no no that will never do. I can't forsee a better outcome for you. While I'm predicting you're guessing and that's the difference between us.",
+		  "freeSpaceRequiredFirstWin": 7,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Koga",
+		  "id": "region2_gym10",
+		  "description": [
+			"<#7D1B8C>Poison type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 81,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Poison Gem ( x1 )",
+			"<white>- Toxic Orb ( x1 )",
+			"<white>- Black Sludge ( x1 )",
+			"<white>- Poison Barb ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym9"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7087.5,
+			  "y": 135.0,
+			  "z": 1681.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_koga",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7087.5,
+				"y": 135.0,
+				"z": 1739.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:poison_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3008
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3026
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 75000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:poison_gem",
+			"give {user} cobblemon:toxic_orb",
+			"give {user} cobblemon:black_sludge",
+			"give {user} cobblemon:poison_barb",
+			"plushie give_class {user} NORMAL true",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 50 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 5000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 81,000 PokeCoins",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "What a wonderful match {user}! It was truly nice seeing you again. I hope we may cross paths in the future again once we have both reached new heights.",
+		  "playerLostBattleMessage": "Oh {trainer}? that's okay. Succumbing to the poison that easily? My where was the passion you showed in our battle in Kanto?",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Bruno",
+		  "id": "region2_gym11",
+		  "description": [
+			"<#F2BF2C>Fighting type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 81,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Fighting Gem ( x1 )",
+			"<white>- Choice Band ( x1 )",
+			"<white>- Choice Scarf ( x1 )",
+			"<white>- Choice Specs ( x1 )",
+			"<white>- Muscle Band ( x1 )",
+			"<white>- Punching Glove ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym10"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7087.5,
+			  "y": 140.0,
+			  "z": 1833.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_bruno",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7087.5,
+				"y": 140.0,
+				"z": 1896.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:fighting_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3015
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3033
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 75000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:fighting_gem",
+			"give {user} cobblemon:choice_band",
+			"give {user} cobblemon:choice_scarf",
+			"give {user} cobblemon:choice_specs",
+			"give {user} cobblemon:muscle_band",
+			"give {user} cobblemon:punching_glove",
+			"plushie give_class {user} NORMAL true",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 50 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 81,000 PokeCoins",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "It was fancy seeing you again squirt. Come by and spar with me in the future, I'll see if I can train harder.",
+		  "playerLostBattleMessage": "Looks like I have bested you this time. Challenge me once more when you've trained to higher standards.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<bold>Karen",
+		  "id": "region2_gym12",
+		  "description": [
+			"<#736B66>Dark type",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 81,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Dark Gem ( x1 )",
+			"<white>- Black Glasses ( x1 )",
+			"<white>- Life Orb ( x1 )",
+			"<white>- Random Mint ( x1 )",
+			"<white>- Ability Capsule ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym11"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7087.5,
+			  "y": 145.0,
+			  "z": 1985.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_karen",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7087.5,
+				"y": 145.0,
+				"z": 2051.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "cobblemon:dark_gem",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3016
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3034
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 75000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give {user} cobblemon:dark_gem",
+			"give {user} cobblemon:black_glasses",
+			"give {user} cobblemon:life_orb",
+			"give_group {user} mint",
+			"give {user} cobblemon:ability_capsule",
+			"plushie give_class {user} NORMAL true",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 50 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 81,000 PokeCoins",
+			"<white>- Random Shiny Plushie ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- 50 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Hmph I guess congrats {user}. I guess I underestimated you. I guess appearances can be deceiving.",
+		  "playerLostBattleMessage": "This is what the other Elite Four members lost to? We really need to recruit better members is this what we've come to? I have to be the one to stop the brat?",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 1,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		},
+		{
+		  "name": "<#1717FF><b>Lance",
+		  "id": "region2_gym13",
+		  "description": [
+			"<#FFAC00><b>Champion of Johto",
+			"",
+			"<green><bold>Rewards:",
+			"<white>- 100,000 PokeCoins",
+			"<white>- XL EXP Candy ( x5 )",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Random Evolution Stone ( x1 )",
+			"<white>- Random Mint ( x1 )",
+			"<white>- Random Mega-Stone ( x1 )",
+			"<white>- Ability Patch ( x1 )",
+			"<white>- PP Max ( x1 )",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Legendary Pokemon ( x1 )",
+			"<white>- Random Legendary Plushie ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- Premium Crate Key ( x1 )",
+			"<white>- 75 Gems",
+			"",
+			"<yellow><bold>Repeat Rewards: <red>[Every 24 Hours]",
+			"<white>- 6,000 PokeCoins",
+			"<white>- Large EXP Candy ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Random Evolution Stone ( x1 )",
+			"",
+			"{cooldown_message}"
+		  ],
+		  "requiredGyms": [
+			"region2_gym12"
+		  ],
+		  "spawnLocation": {
+			"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			"data": {
+			  "world": "overworld",
+			  "x": 7087.5,
+			  "y": 150.0,
+			  "z": 2138.5,
+			  "pitch": 0.0,
+			  "yaw": 0.0
+			}
+		  },
+		  "trainerInfo": {
+			"id": "region2_lance",
+			"location": {
+			  "class_name": "gg.mmorealms.loader.common.dto.location.Location",
+			  "data": {
+				"world": "overworld",
+				"x": 7087.5,
+				"y": 155.0,
+				"z": 2244.5,
+				"pitch": 0.0,
+				"yaw": 180.0
+			  }
+			},
+			"level": 100
+		  },
+		  "displayItem": {
+			"id": "minecraft:nether_star",
+			"count": 1
+		  },
+		  "activeBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3014
+			}
+		  },
+		  "inactiveBadgeItem": {
+			"id": "minecraft:paper",
+			"count": 1,
+			"components": {
+			  "minecraft:custom_model_data": 3032
+			}
+		  },
+		  "firstTimeBonusRewards": [
+			"balance add {user} 94000 pokecoins",
+			"give {user} cobblemon:exp_candy_xl 5",
+			"give_group {user} mint",
+			"give {user} cobblemon:ability_patch",
+			"give {user} cobblemon:pp_max",
+			"give_group {user} megastone",
+			"plushie give_class {user} LEGENDARY false",
+			"poke_give_class {user} LEGENDARY false",
+			"poke_give_class {user} NORMAL true",
+			"crates admin give_virtual_key {user} 1 premium",
+			"crates admin give_virtual_key {user} 1 basic",
+			"balance add {user} 75 gems"
+		  ],
+		  "regularRewardCommands": [
+			"balance add {user} 6000 pokecoins",
+			"give {user} cobblemon:exp_candy_l 1",
+			"crates admin give_virtual_key {user} 1 vote",
+			"give_group {user} evolutionstone"
+		  ],
+		  "gymClausesAsString": [
+			"baton_pass",
+			"evasion_moves",
+			"evasion_abilities",
+			"one_hit_knockout",
+			"species",
+			"bag_clause",
+			"smash_pass"
+		  ],
+		  "firstWinPlayerMessage": [
+			"<white>- 100,000 PokeCoins",
+			"<white>- Random Shiny Pokemon ( x1 )",
+			"<white>- Random Legendary Plushie ( x1 )",
+			"<white>- Random Legendary Pokemon ( x1 )",
+			"<white>- Vote Crate Key ( x1 )",
+			"<white>- Basic Crate Key ( x1 )",
+			"<white>- Premium Crate Key ( x1 )",
+			"<white>- 75 Gems"
+		  ],
+		  "regularWinPlayerMessage": [
+			"<white>- 6,000 PokeCoins",
+			"<white>- Vote Crate Key ( x1 )"
+		  ],
+		  "playerWonBattleMessage": "Congratulations {user}! You have once again bested me and my dragons. This time I shall be handing over the title of champion. I will admit I am a little saddened as I've just barely gotten promoted...nonetheless you have earned it.",
+		  "playerLostBattleMessage": "See I told you I didn't need any cheated Dragonites for thi-I mean. Ahem. You were a formidable battle as expected however it seems as of taking the champion position I am the one who has grown more.",
+		  "freeSpaceRequiredFirstWin": 8,
+		  "freeSpaceRequiredNormalWin": 2,
+		  "lossCooldown": {
+			"amount": 20,
+			"unit": "MINUTES"
+		  },
+		  "winCooldown": {
+			"amount": 1,
+			"unit": "DAYS"
+		  }
+		}
+	  ]
+	}
+  ],
+  "gymRegionGUI": {
+	"background": [
+	  {
+		"displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+		"lore": [],
+		"position": {
+		  "slots": [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9,
+			10,
+			11,
+			12,
+			13,
+			14,
+			15,
+			16,
+			17,
+			18,
+			19,
+			20,
+			21,
+			22,
+			23,
+			24,
+			25,
+			26,
+			27,
+			28,
+			29,
+			30,
+			31,
+			32,
+			33,
+			34,
+			35,
+			36,
+			37,
+			38,
+			39,
+			40,
+			41,
+			42,
+			43,
+			44
+		  ]
+		}
+	  }
+	],
+	"slots": [
+	  38,
+	  39,
+	  41,
+	  42,
+	  29,
+	  30,
+	  32,
+	  33,
+	  11,
+	  12,
+	  14,
+	  15,
+	  4
+	]
+  },
+  "gymMainGUI": {
+	"title": "Regions",
+	"background": [
+	  {
+		"displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+		"lore": [],
+		"position": {
+		  "slots": [
+			0,
+			1,
+			2,
+			3,
+			4,
+			5,
+			6,
+			7,
+			8,
+			9,
+			10,
+			11,
+			12,
+			13,
+			14,
+			15,
+			16,
+			17,
+			18,
+			19,
+			20,
+			21,
+			22,
+			23,
+			24,
+			25,
+			26
+		  ]
+		}
+	  }
+	],
+	"slots": [
+	  10,
+	  11,
+	  12,
+	  13,
+	  14,
+	  15,
+	  16,
+	  19,
+	  20,
+	  21,
+	  22,
+	  23,
+	  24
+	]
+  },
+  "badgesGUI": {
+	"title": "Badges",
+	"slots": [
+	  10,
+	  11,
+	  12,
+	  13,
+	  14,
+	  15,
+	  16,
+	  19,
+	  20,
+	  21,
+	  22,
+	  23,
+	  24
+	]
+  }
+}

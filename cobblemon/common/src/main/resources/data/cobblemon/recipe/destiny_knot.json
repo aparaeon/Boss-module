@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WW ",
+        "WDS",
+        " SS"
+    ],
+    "key": {
+        "S": {
+            "tag": "c:strings"
+        },
+        "D": {
+            "item": "minecraft:ghast_tear"
+        },
+        "W": {
+            "item": "minecraft:red_wool"
+        }
+    },
+    "result": {
+        "id": "cobblemon:destiny_knot"
+    }
+}

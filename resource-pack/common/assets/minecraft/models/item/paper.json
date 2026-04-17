@@ -1,0 +1,260 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+	"layer0": "minecraft:item/paper"
+  },
+  "overrides": [
+	{
+	  "predicate": {
+		"custom_model_data": 1000
+	  },
+	  "model": "mmorealms:gui/transparent"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 1001
+	  },
+	  "model": "mmorealms:gui/public"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 1002
+	  },
+	  "model": "mmorealms:gui/private"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 1003
+	  },
+	  "model": "mmorealms:gui/timechange"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 1004
+	  },
+	  "model": "mmorealms:gui/weatherchange"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 1005
+	  },
+	  "model": "mmorealms:gui/pokemonspawn"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3002
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/normal"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3003
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/fire"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3004
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/water"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3005
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/electric"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3006
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/grass"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3007
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/ice"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3008
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/fighting"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3009
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/poison"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3010
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/ground"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3011
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/flying"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3012
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/psychic"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3013
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/bug"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3014
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/rock"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3015
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/ghost"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3016
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/dragon"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3017
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/dark"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3018
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/steel"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3019
+	  },
+	  "model": "mmorealms:item/type_crystals/glowing/fairy"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3020
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/normal"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3021
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/fire"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3022
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/water"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3023
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/electric"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3024
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/grass"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3025
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/ice"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3026
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/fighting"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3027
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/poison"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3028
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/ground"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3029
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/flying"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3030
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/psychic"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3031
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/bug"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3032
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/rock"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3033
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/ghost"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3034
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/dragon"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3035
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/dark"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3036
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/steel"
+	},
+	{
+	  "predicate": {
+		"custom_model_data": 3037
+	  },
+	  "model": "mmorealms:item/type_crystals/grey/fairy"
+	}
+  ]
+}

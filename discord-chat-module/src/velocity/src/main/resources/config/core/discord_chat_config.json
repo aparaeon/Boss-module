@@ -1,0 +1,7 @@
+{
+  "chatSyncChannelID": 1352076095104487529,
+  "lang": {
+    "discordToInGameMessageFormat": "<#5865F2>[Discord] <#{discord_role_color}>{discord_role} <white>{discord_username}: {message}",
+    "discordFormat": "{username}: {message}"
+  }
+}

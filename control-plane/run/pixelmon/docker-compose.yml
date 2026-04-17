@@ -1,0 +1,193 @@
+services:
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    container_name: proxy_pixelmon
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - redis
+      - mariadb
+      - resource_pack
+    networks:
+      - network_pixelmon
+    ports:
+      - "6000:25565"      # minecraft
+      - "6001:4000"       # debug
+    environment:
+      - REDIS_CONFIG_REDIS_ID=proxy
+    volumes:
+      - ".live/proxy/config:/app/config"
+    env_file:
+      - .env
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  spawn:
+    build:
+      context: ./spawn
+      dockerfile: Dockerfile
+    container_name: spawn_pixelmon
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - network_pixelmon
+    env_file:
+      - .env
+    environment:
+      - SERVER_TYPE=SPAWN
+    ports:
+      - "6002:4000"       # debug
+    volumes:
+      - ".live/spawn/config:/app/config"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  realms:
+    build:
+      context: ./realms
+      dockerfile: Dockerfile
+    container_name: realms_pixelmon
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - network_pixelmon
+    env_file:
+      - .env
+    environment:
+      - SERVER_TYPE=REALMS
+    ports:
+      - "6003:4000"       # debug
+    volumes:
+      - ".live/realms/config:/app/config"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  wild:
+    build:
+      context: ./wild
+      dockerfile: Dockerfile
+    container_name: wild_pixelmon
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - network_pixelmon
+    env_file:
+      - .env
+    environment:
+      - SERVER_TYPE=WILD
+    ports:
+      - "6004:4000"       # debug
+    volumes:
+      - ".live/wild/config:/app/config"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  gyms:
+    build:
+      context: ./gyms
+      dockerfile: Dockerfile
+    container_name: gyms_pixelmon
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    depends_on:
+      - redis
+      - mariadb
+    networks:
+      - network_pixelmon
+    env_file:
+      - .env
+    environment:
+      - SERVER_TYPE=GYMS
+    ports:
+      - "6008:4000"       # debug
+    volumes:
+      - ".live/gyms/config:/app/config"
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+
+  mariadb:
+    hostname: mariadb
+    image: mariadb:11.6.2
+    container_name: mariadb_pixelmon
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DATABASE_CONFIG_PASSWORD}
+    volumes:
+      - mariadb_data_pixelmon:/var/lib/mysql
+    networks:
+      - network_pixelmon
+    ports:
+      - "6005:3306"
+
+  redis:
+    hostname: redis
+    image: redis:7.4.2
+    container_name: redis_pixelmon
+    restart: unless-stopped
+    networks:
+      - network_pixelmon
+    env_file:
+      - .env
+    command: redis-server --requirepass ${REDIS_CONFIG_PASSWORD}
+    ports:
+      - "6006:6379"
+
+  resource_pack:
+    build:
+      context: ../resource_pack
+      dockerfile: Dockerfile-pixelmon
+    container_name: resource_pack_pixelmon
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    networks:
+      - network_pixelmon
+    env_file:
+      - .env
+    ports:
+      - "6007:80"
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+
+networks:
+  network_pixelmon:
+    driver: bridge
+
+volumes:
+  mariadb_data_pixelmon:

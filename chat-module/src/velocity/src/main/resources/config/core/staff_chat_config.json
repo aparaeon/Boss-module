@@ -1,0 +1,4 @@
+{
+  "staffChatMessageFormat": "<b><gold>[SC] </gold><#fcb1e3>{short-rank}</#fcb1e3> <#F263F0>{username}: </#F263F0></b><#63E4F2>{message}</#63E4F2>",
+  "staffChatPrefix": "!"
+}

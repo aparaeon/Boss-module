@@ -1,0 +1,6 @@
+accessWidener v2 named
+
+accessible field net/minecraft/server/PlayerAdvancements codec Lcom/mojang/serialization/Codec;
+accessible class net/minecraft/server/PlayerAdvancements$Data
+accessible method net/minecraft/server/PlayerAdvancements asData ()Lnet/minecraft/server/PlayerAdvancements$Data;
+accessible method net/minecraft/server/PlayerAdvancements applyFrom (Lnet/minecraft/server/ServerAdvancementManager;Lnet/minecraft/server/PlayerAdvancements$Data;)V

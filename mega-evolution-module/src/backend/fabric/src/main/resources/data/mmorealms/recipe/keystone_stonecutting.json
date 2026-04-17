@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+	"tag": "mmorealms:mega_gem"
+  },
+  "result": {
+	"id": "mmorealms:keystone",
+	"count": 1
+  }
+}

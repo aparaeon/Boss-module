@@ -1,0 +1,75 @@
+{
+  "warps": [
+	{
+	  "name": "Crates",
+	  "serverType": "SPAWN",
+	  "location": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "world": "minecraft:overworld",
+		  "x": 24.5,
+		  "y": 60.0,
+		  "z": -22.5,
+		  "pitch": -1.5,
+		  "yaw": 135.5
+		}
+	  }
+	},
+	{
+	  "name": "Heal",
+	  "serverType": "SPAWN",
+	  "location": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "world": "minecraft:overworld",
+		  "x": 53.5,
+		  "y": 59.0,
+		  "z": 34.5,
+		  "pitch": -1.0,
+		  "yaw": 0.5
+		}
+	  }
+	},
+	{
+	  "name": "PokeCenter",
+	  "serverType": "SPAWN",
+	  "location": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "world": "minecraft:overworld",
+		  "x": 53.5,
+		  "y": 59.0,
+		  "z": 34.5,
+		  "pitch": -1.0,
+		  "yaw": 0.5
+		}
+	  }
+	},
+	{
+	  "name": "Arena",
+	  "serverType": "SPAWN",
+	  "location": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "world": "minecraft:overworld",
+		  "x": 715.5,
+		  "y": 20.0,
+		  "z": -266.5,
+		  "pitch": -1.0,
+		  "yaw": -90.0
+		}
+	  }
+	}
+  ],
+  "lang": {
+	"headerWarps": "<gradient:yellow:blue:yellow><b>=====   Available Warps   =====<newline></b><white>",
+	"entryWarps": "{name}<newline>",
+	"invalidWarp": "<red>There is no warp with this name!",
+	"successWarp": "<green>Teleported to <grey>{name}<green> warp!",
+	"successDelete": "<green>Successfully deleted warp!",
+	"successAdd": "<green>Successfully added new warp!",
+	"successOverrideAdd": "<green>There already was a warp with this name! Updated location"
+  }
+
+}
+

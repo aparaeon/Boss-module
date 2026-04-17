@@ -1,0 +1,136 @@
+{
+  "commands": [
+    {
+      "first": "buy",
+      "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>🛍️ RANKS, KEYS & COSMETICS</bold><newline><yellow>Support us & treat yourself 😎</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://store.mmorealms.gg/category/gems'><aqua><underlined>https://store.mmorealms.gg/category/gems</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    },
+	{
+	  "first": "donate",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><light_purple><bold>💖 DONATE TO SUPPORT</bold><newline><gold>Help the server grow & thrive!</gold><newline><dark_purple>                                                                 <newline><click:open_url:'https://store.mmorealms.gg/category/gems'><aqua><underlined>https://store.mmorealms.gg/category/gems</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "modpack",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><aqua><bold>📦 INSTALL THE MODPACK</bold><newline><yellow>Everything you need in one click!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://modrinth.com/modpack/cobblemonrealms#download'><aqua><underlined>https://modrinth.com/modpack/cobblemonrealms#download</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "catchcombo_info",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>🤾🏼 CATCH COMBO INFO</bold><newline><yellow>Find everything you need to know about Catch Combos with the link below:</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/a-complete-guide-to-catch-combo'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/a-complete-guide-to-catch-combo</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "gyms_info",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>💪 GYMS INFO</bold><newline><yellow>Find everything you need to know about Gyms with the link below:</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/complete-overview-to-npc-gyms'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/complete-overview-to-npc-gyms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "shinies",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>🌟 LOOKING FOR SHINIES?</bold><newline><yellow>Want to know more about shinies and how to earn them? Use this link:</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/a-complete-guide-to-shinies'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/a-complete-guide-to-shinies</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "gems",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>💎 WANT TO EARN GEMS?</bold><newline><yellow>Find out everything you need to know about how to earn and use Gems here:</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/intro-to-earning-gems'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/intro-to-earning-gems</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "pokecoins",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>💲 WANT TO EARN POKECOINS?</bold><newline><yellow>Find out everything you need to know about how to earn and use Pokecoins here:</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/intro-to-earning-pokecoins'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/intro-to-earning-pokecoins</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "apply",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>📝 APPLY TO JOIN AS HELPER OR BUILDER</bold><newline><yellow>Want to join the staff team? You can apply though our Discord server!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://discord.gg/mmorealms'><aqua><underlined>https://discord.gg/mmorealms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "builder",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🧱 WANT TO APPLY AS A BUILDER?</bold><newline><yellow>Want to join the building team to help with events and other building projects? You can apply though our Discord server!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://discord.gg/mmorealms'><aqua><underlined>https://discord.gg/mmorealms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "website",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>🌐 OFFICIAL WEBSITE</bold><newline><yellow>News, updates & Realms info hub.</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://mmorealms.gg'><aqua><underlined>https://mmorealms.gg</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "pokemonspawns",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>🌳 LOOKING FOR A SPECIFIC POKEMON?</bold><newline><yellow>Use our wiki to find out all General Pokemon Spawns!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-pokemon-spawns'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-pokemon-spawns</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "site",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>🌐 OFFICIAL WEBSITE</bold><newline><yellow>News, updates & Realms info hub.</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://mmorealms.gg'><aqua><underlined>https://mmorealms.gg</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "guide",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>📚 BEGINNER'S GUIDE</bold><newline><yellow>Start here if you're new to Realms!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/beginners-guide-to-the-server'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/beginners-guide-to-the-server</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "guides",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>📖 GAME GUIDES</bold><newline><yellow>Everything you need lives on the wiki.</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "faq",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>❓ GOT QUESTIONS?</bold><newline><yellow>We’ve already answered them 😅</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/faq-frequently-asked-questions'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/faq-frequently-asked-questions</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "vote",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>🗳️ VOTE & GET REWARDS</bold><newline><yellow>Crate keys, money & server boosts!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://mmorealms.gg/vote'><aqua><underlined>https://mmorealms.gg/vote</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	      {
+          "first": "commands",
+          "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>⌨️ COMMANDS</bold><newline><yellow>Find all available commands for the server with the link below:</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/commands-and-uses'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/commands-and-uses</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        },
+	{
+	  "first": "colour",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>🎨 NEED HELP WITH COLOURS?</bold><newline><yellow>Use our guide found on the wiki to help you colour your nick!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/nickname-and-colour-help'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/general-guides/nickname-and-colour-help</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "starter",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🐣 NEED A STARTER?</bold><newline><yellow>Press M and pick your first Pokémon!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg'><aqua><underlined>https://wiki.mmorealms.gg</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "legendspawns",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🐉 WANT TO FIND LEGENDARIES?</bold><newline><yellow>Our wiki states all spawn locations for all available legends!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "legendaries",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🐉 WANT TO FIND LEGENDARIES?</bold><newline><yellow>Our wiki states all spawn locations for all available legends!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "mythicalspawns",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🐉 WANT TO FIND MYTHICALS?</bold><newline><yellow>Our wiki states all spawn locations for all available mythicals!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "mythicals",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🐉 WANT TO FIND MYTHICALS?</bold><newline><yellow>Our wiki states all spawn locations for all available mythicals!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki/legendary-and-mythicals-spawns-info</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "lag",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><red><bold>🐢 LAGGING?</bold><newline><yellow>Try relogging — or ask in Discord 💬</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://discord.gg/mmorealms'><aqua><underlined>https://discord.gg/mmorealms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "beta",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🧪 BETA NOTICE</bold><newline><yellow>The server is still in testing — expect updates!</yellow><newline><dark_purple>                                                                 <newline><aqua>Thanks for helping us improve 💜</aqua><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "p2w",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>💸 WHY A STORE?</bold><newline><yellow>We have big server costs — the store keeps us alive!</yellow><newline><dark_purple>                                                                 <newline><aqua>We try to stay fair. Thank you 💖</aqua><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "ticket",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🎫 OPEN A TICKET</bold><newline><yellow>Need help? Create a ticket on Discord!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://discord.gg/mmorealms'><aqua><underlined>https://discord.gg/mmorealms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "tickets",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🎫 OPEN A TICKET</bold><newline><yellow>Need help? Create a ticket on Discord!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://discord.gg/mmorealms'><aqua><underlined>https://discord.gg/mmorealms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "suggest",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><gold><bold>💡 GOT AN IDEA?</bold><newline><yellow>Post it in #suggestions on Discord!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://discord.gg/mmorealms'><aqua><underlined>https://discord.gg/mmorealms</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "ip",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><blue><bold>📡 SERVER IP</bold><newline><yellow>Connect now using:</yellow><newline><dark_purple>                                                                 <newline><aqua><underlined>play.mmorealms.gg</underlined></aqua><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "help",
+	  "second": "<light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_purple>                                                                 <newline><green><bold>🧠 NEED HELP?</bold><newline><yellow>Commands, tips & answers live here!</yellow><newline><dark_purple>                                                                 <newline><click:open_url:'https://wiki.mmorealms.gg/pixelmon-wiki'><aqua><underlined>https://wiki.mmorealms.gg/pixelmon-wiki</underlined></aqua></click><newline><light_purple>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	},
+	{
+	  "first": "modpack_info",
+	  "second": "<aqua><bold>How to earn FREE Daily Gems?</bold></aqua><newline><white>1.</white> <gray>Download and run our official Modpack Installer by clicking </gray><click:open_url:'https://modrinth.com/modpack/cobblemonrealms#download'><green><underlined>here</underlined></green></click><gray>.</gray><newline><white>2.</white> <gray>The installer will automatically set up everything for you.</gray><newline><white>3.</white> <gray>Launch the game through the installed Modrinth launcher.</gray><newline><white>4.</white> <gray>Type </gray><green>/kit daily</green><gray> in-game.</gray><newline><white>5.</white> <gray>Spin every day to collect </gray><green>💎 Gems</green><gray> and support the server.</gray>"
+	}
+  ]
+}

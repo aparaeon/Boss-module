@@ -1,0 +1,49 @@
+name: Pull Request Check
+
+on: [ pull_request ]
+
+jobs:
+  pull-request-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      # ==================== SETUPS ====================
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+        with:
+          node-version: '12.x'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5.3.0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          build-scan-publish: true
+          build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
+          build-scan-terms-of-use-agree: "yes"
+
+      # ==================== BUILD ====================
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle
+          restore-keys: |
+            ${{ runner.os }}-gradle
+
+      - name: Set gradle permissions
+        run: chmod +x gradlew
+
+      - name: Execute Gradle Build
+        run: ./gradlew build

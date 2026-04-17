@@ -1,0 +1,1562 @@
+{
+  "tmMovesGUIConfig": {
+	"tmElementToItem": {
+	  "GROUND": {
+		"displayJson": "{\"id\":\"cobblemon:ground_gem\",\"count\":1}",
+		"displayName": "<#D89950>{moveName} (Ground)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "POISON": {
+		"displayJson": "{\"id\":\"cobblemon:poison_gem\",\"count\":1}",
+		"displayName": "<#A24BD8>{moveName} (Poison)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "GRASS": {
+		"displayJson": "{\"id\":\"cobblemon:grass_gem\",\"count\":1}",
+		"displayName": "<#4DBC3C>{moveName} (Grass)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "FIRE": {
+		"displayJson": "{\"id\":\"cobblemon:fire_gem\",\"count\":1}",
+		"displayName": "<#E55C32>{moveName} (Fire)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "BUG": {
+		"displayJson": "{\"id\":\"cobblemon:bug_gem\",\"count\":1}",
+		"displayName": "<#A2C831>{moveName} (Bug)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "ICE": {
+		"displayJson": "{\"id\":\"cobblemon:ice_gem\",\"count\":1}",
+		"displayName": "<#6BC3EF>{moveName} (Ice)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "DRAGON": {
+		"displayJson": "{\"id\":\"cobblemon:dragon_gem\",\"count\":1}",
+		"displayName": "<#535DE8>{moveName} (Dragon)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "ELECTRIC": {
+		"displayJson": "{\"id\":\"cobblemon:electric_gem\",\"count\":1}",
+		"displayName": "<#EFD128>{moveName} (Electric)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "STEEL": {
+		"displayJson": "{\"id\":\"cobblemon:steel_gem\",\"count\":1}",
+		"displayName": "<#C3CCE0>{moveName} (Steel)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "PSYCHIC": {
+		"displayJson": "{\"id\":\"cobblemon:psychic_gem\",\"count\":1}",
+		"displayName": "<#D86AD6>{moveName} (Psychic)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "NORMAL": {
+		"displayJson": "{\"id\":\"cobblemon:normal_gem\",\"count\":1}",
+		"displayName": "<#DDDDCF>{moveName} (Normal)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "ROCK": {
+		"displayJson": "{\"id\":\"cobblemon:rock_gem\",\"count\":1}",
+		"displayName": "<#AA9666>{moveName} (Rock)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "FAIRY": {
+		"displayJson": "{\"id\":\"cobblemon:fairy_gem\",\"count\":1}",
+		"displayName": "<#EA727E>{moveName} (Fairy)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "FLYING": {
+		"displayJson": "{\"id\":\"cobblemon:flying_gem\",\"count\":1}",
+		"displayName": "<#BCC1FF>{moveName} (Flying)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "GHOST": {
+		"displayJson": "{\"id\":\"cobblemon:ghost_gem\",\"count\":1}",
+		"displayName": "<#9572E5>{moveName} (Ghost)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "DARK": {
+		"displayJson": "{\"id\":\"cobblemon:dark_gem\",\"count\":1}",
+		"displayName": "<#5C6CB2>{moveName} (Dark)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "WATER": {
+		"displayJson": "{\"id\":\"cobblemon:water_gem\",\"count\":1}",
+		"displayName": "<#4A9BE8>{moveName} (Water)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  },
+	  "FIGHTING": {
+		"displayJson": "{\"id\":\"cobblemon:fighting_gem\",\"count\":1}",
+		"displayName": "<#C44C5C>{moveName} (Fighting)",
+		"lore": [
+		  "<yellow>Price: {tmPriceAmount} {tmPriceType}",
+		  "<yellow>Balance: {currencyAmount} {currencyType}"
+		],
+		"position": {
+		  "slots": []
+		}
+	  }
+	}
+  },
+  "tmMoves": {
+	"tailslap": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"raindance": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"gunkshot": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bulletseed": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"cosmicpower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"brine": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"selfdestruct": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"flipturn": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dracometeor": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"worryseed": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"workup": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psychicfangs": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"iceball": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rockclimb": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"trickroom": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"breakingswipe": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"reflect": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bind": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"gyroball": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dreameater": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"recycle": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"coaching": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dragonpulse": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"sludgebomb": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"covet": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"trailblaze": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"surf": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"beatup": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"magiccoat": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"aquatail": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hurricane": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"nightshade": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rockslide": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"acrobatics": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"shadowball": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"snore": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"takedown": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"focusblast": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"gastroacid": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"metalsound": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"drainpunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"auroraveil": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"endure": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"focusenergy": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"flash": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"safeguard": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"mysticalfire": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"sludgewave": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"cut": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"wonderroom": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"batonpass": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"brutalswing": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"scorchingsands": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"steelwing": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"pounce": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psybeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"furycutter": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"powerwhip": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"shadowclaw": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"uproar": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"frenzyplant": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"babydolleyes": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"blazekick": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"gigaimpact": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"waterfall": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psychup": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"retaliate": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"meteorbeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"liquidation": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"charge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"blizzard": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"corrosivegas": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"skyattack": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"triattack": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"weatherball": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psychocut": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"amnesia": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"fly": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"charm": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"phantomforce": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"brickbreak": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"headbutt": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"powerswap": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"lowsweep": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"eerieimpulse": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"strugglebug": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"pluck": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dazzlinggleam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"speedswap": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"sunnyday": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bodypress": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"megapunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"roleplay": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dig": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hypervoice": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"strength": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"heatwave": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"firefang": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"irontail": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"burningjealousy": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"solarbeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"thunder": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"fling": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"storedpower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"expandingforce": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"grassyglide": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"fireblast": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"heavyslam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"payback": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"crosspoison": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psychicnoise": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"risingvoltage": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"icepunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"grassyterrain": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"swift": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"faketears": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"incinerate": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"pollenpuff": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"thunderfang": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"snarl": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rockpolish": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"laserfocus": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"featherdance": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"assurance": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"petalblizzard": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"darkestlariat": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"suckerpunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"megakick": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"ominouswind": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"futuresight": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"agility": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"poltergeist": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"crunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"leafstorm": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"stringshot": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"tailwind": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"snowscape": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"attract": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"supercellslam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"snatch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"telekinesis": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"smackdown": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bugbite": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"lowkick": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"lightscreen": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rocksmash": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"uturn": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hyperbeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"vacuumwave": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"chillingwater": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"thunderpunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"firepledge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"flashcannon": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bugbuzz": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"magicroom": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"honeclaws": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"painsplit": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"electroweb": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"leafblade": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"superpower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"chargebeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"explosion": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"grassknot": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bulkup": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"screech": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"gravity": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dualwingbeat": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"avalanche": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"blastburn": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"embargo": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"aerialace": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"naturepower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"calmmind": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"gigadrain": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"knockoff": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hydrocannon": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"torment": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"sandtomb": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"wildcharge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bounce": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"scaryface": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"powergem": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"afteryou": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"facade": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"firespin": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"foulplay": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"aircutter": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"echoedvoice": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"metalclaw": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rocktomb": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"icywind": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"block": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hex": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"poisontail": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"roar": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"healbell": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"ironhead": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"playrough": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dragontail": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"defog": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"flamecharge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dragonclaw": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"curse": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"terrainpulse": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"waterpulse": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"magicalleaf": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"pinmissile": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"thief": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"thunderbolt": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"upperhand": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dragondance": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"skydrop": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"highhorsepower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"mistyexplosion": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"substitute": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"sleeptalk": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bulldoze": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"electricterrain": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"waterpledge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"allyswitch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"alluringvoice": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"guardswap": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"imprison": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"overheat": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dualchop": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"firepunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"payday": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hydropump": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"protect": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"scaleshot": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"encore": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"synthesis": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"mudslap": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"electroball": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"darkpulse": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"stompingtantrum": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"whirlpool": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"ancientpower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"signalbeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bodyslam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"razorshell": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"infestation": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"reversal": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"falseswipe": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"twister": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"zenheadbutt": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"doubleedge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"irondefense": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psyshock": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"skittersmack": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"temperflare": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"xscissor": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"outrage": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"leechlife": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"lunge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"focuspunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"poisonjab": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"shockwave": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"acidspray": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"frostbreath": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"swagger": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"silverwind": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hardpress": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"iciclespear": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"spite": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"grasspledge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"seedbomb": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"metronome": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"magnetrise": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"thunderwave": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"drillrun": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"mistyterrain": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"superfang": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"icebeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"toxic": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"icefang": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"tripleaxel": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rollout": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"voltswitch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dragoncheer": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"steelroller": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"lashout": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"earthquake": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"earthpower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"toxicspikes": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"stoneedge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"helpinghand": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"spikes": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"confide": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"closecombat": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"airslash": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"quash": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"stealthrock": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"powershift": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"muddywater": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"aurasphere": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"roost": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"sandstorm": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"venomdrench": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"poweruppunch": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"scald": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"drainingkiss": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"trick": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"venoshock": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"heatcrash": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"secretpower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"captivate": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"mudshot": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"haze": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"flamethrower": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"lastresort": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"doubleteam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"skillswap": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"dive": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psychic": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"confuseray": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"icespinner": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"energyball": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rest": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"rockblast": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"revenge": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"terablast": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"smartstrike": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"endeavor": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"willowisp": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"naturalgift": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"hail": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"steelbeam": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"throatchop": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"nastyplot": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"psychicterrain": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"swordsdance": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"solarblade": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"round": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"disarmingvoice": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"megahorn": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"bravebird": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"flareblitz": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	},
+	"taunt": {
+	  "currency": "POKECOINS",
+	  "amount": 5000.0
+	}
+  }
+}

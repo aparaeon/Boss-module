@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.module.mega_evolution.backend.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"BenchMoveHandlerMixin",
+	"ChallengeHandlerMixin",
+	"MegaInstructionMixin",
+	"PCStoreMixin",
+	"PokemonEntityMixin",
+	"PokemonMixin",
+	"SendOutPokemonHandlerMixin",
+	"ServerEvolutionControllerMixin",
+	"ShowdownActionRequestMixin",
+	"ShowdownSpeciesMixin",
+	"UpdateTradeOfferHandlerMixin"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

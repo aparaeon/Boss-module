@@ -1,0 +1,8 @@
+{
+  "blockedGameMessages": [
+    "joined the game",
+    "left the game",
+    "multiplayer.player.joined",
+    "multiplayer.player.left"
+  ]
+}

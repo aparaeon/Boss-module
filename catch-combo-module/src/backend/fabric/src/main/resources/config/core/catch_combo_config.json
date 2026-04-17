@@ -1,0 +1,19 @@
+{
+  "maxCombo": 60,
+  "spawRateComboMultiplier": 0.083,
+  "shinyRateComboMultiplier": 0.003,
+  "perfectIVThresholds": [
+	20,
+	40,
+	60
+  ],
+  "lang": {
+	"comboCommandMessage": "<green>You have caught {combo} {species} in a row!",
+	"noComboCommandMessage": "<red>You have no active combo",
+	"comboCorrectPokemon": "<green>You have caught {combo} {species} in a row!",
+	"comboWrongPokemon": "<red>You caught a {species}. Your {oldSpecies} combo has ended",
+	"comboPokemonFainted": "<red>{species} fainted. Your combo has ended",
+	"comboBattleLost": "<red>You lost a battle. Your combo has ended",
+	"comboBattleFled": "<red>You ran from battle! Your combo has ended"
+  }
+}
