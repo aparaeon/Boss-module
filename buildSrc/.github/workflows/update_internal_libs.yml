@@ -23,7 +23,7 @@ jobs:
         with:
           doppler-token: ${{ secrets.DOPPLER_TOKEN }}
           doppler-project: mmorealms
-          doppler-config: github-actions
+          doppler-config: prod
           inject-env-vars: true
 
       - name: Reset Working Directory

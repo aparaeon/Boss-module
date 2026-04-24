@@ -12,7 +12,7 @@ object InternalLibs {
     val nop:              InternalLib = InternalLib(base = "gg.mmorealms:nop-module",               version = "1.0.2")
 
     // Loader
-    val loader:           InternalLib = InternalLib(base = "gg.mmorealms:loader",                   version = "1.0.151")
+    val loader:           InternalLib = InternalLib(base = "gg.mmorealms:loader",                   version = "1.0.146")
 
     // Client
     val client:           InternalLib = InternalLib(base = "gg.mmorealms:client",                   version = "1.0.49", hasCommon = false, hasVelocity = false)
@@ -26,7 +26,7 @@ object InternalLibs {
     val auctionHouse:     InternalLib = InternalLib(base = "gg.mmorealms:auction-house-module",     version = "1.0.65")
     val breeding:         InternalLib = InternalLib(base = "gg.mmorealms:breeding-module",          version = "1.0.49")
     val userData:         InternalLib = InternalLib(base = "gg.mmorealms:user-data-module",         version = "1.0.56")
-    val chat:             InternalLib = InternalLib(base = "gg.mmorealms:chat-module",              version = "1.0.65")
+    val chat:             InternalLib = InternalLib(base = "gg.mmorealms:chat-module",              version = "1.0.64")
     val crates:           InternalLib = InternalLib(base = "gg.mmorealms:crates-module",            version = "1.0.55")
     val discordChat:      InternalLib = InternalLib(base = "gg.mmorealms:discord-chat-module",      version = "1.0.45")
     val discordLink:      InternalLib = InternalLib(base = "gg.mmorealms:discord-link-module",      version = "1.0.50")
