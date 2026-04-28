@@ -11,7 +11,7 @@
   "environment": "server",
   "entrypoints": {
 	"main": [
-	  "gg.mmorealms.module.example.backend.fabric.ExampleFabricModule"
+	  "gg.mmorealms.module.chat_games.backend.fabric.ChatGamesFabricModule"
 	]
   },
   "mixins": [],

@@ -1,0 +1,615 @@
+{
+  "customQuestions": [
+	{
+	  "question": "What type is Pikachu?",
+	  "displayAnswer": "Electric",
+	  "answers": [
+		"electric"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is known as the Flame Pokemon and is the final evolution of Charmander?",
+	  "displayAnswer": "Charizard",
+	  "answers": [
+		"charizard"
+	  ]
+	},
+	{
+	  "question": "Name a shiny hunt method you can do with Breeding on the server?",
+	  "displayAnswer": "Masuda or Crystal Methods",
+	  "answers": [
+		"masuda",
+		"crystal",
+		"masuda method",
+		"crystal method",
+		"masudamethod",
+		"crystalmethod",
+		"masuda crystal",
+		"crystal masuda"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Old Amber?",
+	  "displayAnswer": "Aerodactyl",
+	  "answers": [
+		"aerodactyl"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Dome Fossil?",
+	  "displayAnswer": "Kabuto",
+	  "answers": [
+		"kabuto"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Helix Fossil?",
+	  "displayAnswer": "Omanyte",
+	  "answers": [
+		"omanyte"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Claw Fossil?",
+	  "displayAnswer": "Anorith",
+	  "answers": [
+		"anorith"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Root Fossil?",
+	  "displayAnswer": "Lileep",
+	  "answers": [
+		"lileep"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Shield Fossil?",
+	  "displayAnswer": "Shieldon",
+	  "answers": [
+		"shieldon"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Skull Fossil?",
+	  "displayAnswer": "Cranidos",
+	  "answers": [
+		"cranidos"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Cover Fossil?",
+	  "displayAnswer": "Tirtouga",
+	  "answers": [
+		"tirtouga"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Plume Fossil?",
+	  "displayAnswer": "Archen",
+	  "answers": [
+		"archen"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Jaw Fossil?",
+	  "displayAnswer": "Tyrunt",
+	  "answers": [
+		"tyrunt"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Sail Fossil?",
+	  "displayAnswer": "Amaura",
+	  "answers": [
+		"amaura"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Fossilized Drake + Fossilized Bird?",
+	  "displayAnswer": "Dracozolt",
+	  "answers": [
+		"dracozolt"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Fossilized Dino + Fossilized Bird?",
+	  "displayAnswer": "Arctozolt",
+	  "answers": [
+		"arctozolt"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Fossilized Drake + Fossilized Fish?",
+	  "displayAnswer": "Dracovish",
+	  "answers": [
+		"dracovish"
+	  ]
+	},
+	{
+	  "question": "What pokemon can you restore from a Fossilized Dino + Fossilized Fish?",
+	  "displayAnswer": "Arctovish",
+	  "answers": [
+		"arctovish"
+	  ]
+	},
+	{
+	  "question": "What item is used to evolve Porygon into Porygon2?",
+	  "displayAnswer": "Up-Grade",
+	  "answers": [
+		"up-grade",
+		"upgrade",
+		"up grade"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is known as the Sleeping Pokemon?",
+	  "displayAnswer": "Snorlax",
+	  "answers": [
+		"snorlax"
+	  ]
+	},
+	{
+	  "question": "What item is used to evolve Porygon2 into Porygon-Z?",
+	  "displayAnswer": "Dubious Disc",
+	  "answers": [
+		"dubious disc",
+		"dubiousdisc"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon can evolve into either Beautifly or Dustox depending on its personality value?",
+	  "displayAnswer": "Wurmple",
+	  "answers": [
+		"wurmple"
+	  ]
+	},
+	{
+	  "question": "In the Anime, what Pokemon is known as the only one that can devolve?",
+	  "displayAnswer": "Slowbro",
+	  "answers": [
+		"slowbro"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon changes form based on the weather using its Forecast ability?",
+	  "displayAnswer": "Castform",
+	  "answers": [
+		"castform"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon evolves when leveled up while knowing the move Rollout?",
+	  "displayAnswer": "Lickitung",
+	  "answers": [
+		"lickitung"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is required in the party to evolve Mantyke?",
+	  "displayAnswer": "Remoraid",
+	  "answers": [
+		"remoraid"
+	  ]
+	},
+	{
+	  "question": "What is the only Pokemon that evolves by turning the console upside down?",
+	  "displayAnswer": "Inkay",
+	  "answers": [
+		"inkay"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon has the ability Disguise that lets it take a free hit?",
+	  "displayAnswer": "Mimikyu",
+	  "answers": [
+		"mimikyu"
+	  ]
+	},
+	{
+	  "question": "What Pokemon evolves into Malamar?",
+	  "displayAnswer": "Inkay",
+	  "answers": [
+		"inkay"
+	  ]
+	},
+	{
+	  "question": "What Pokemon has the signature move Relic Song, which changes its form?",
+	  "displayAnswer": "Meloetta",
+	  "answers": [
+		"meloetta"
+	  ]
+	},
+	{
+	  "question": "How many types does Eevee have?",
+	  "displayAnswer": "1",
+	  "answers": [
+		"1",
+		"one",
+		"normal"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is the only one that can have the ability Wonder Guard?",
+	  "displayAnswer": "Shedinja",
+	  "answers": [
+		"shedinja"
+	  ]
+	},
+	{
+	  "question": "What is the only Pokemon that can learn Sketch, permanently copying moves?",
+	  "displayAnswer": "Smeargle",
+	  "answers": [
+		"smeargle"
+	  ]
+	},
+	{
+	  "question": "What Pokemon evolves from Bisharp after defeating multiple Bisharp holding Leader's Crest?",
+	  "displayAnswer": "Kingambit",
+	  "answers": [
+		"kingambit"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon has 28 different forms based on its pattern?",
+	  "displayAnswer": "Unown",
+	  "answers": [
+		"unown"
+	  ]
+	},
+	{
+	  "question": "What item is used to evolve Eevee into Vaporeon?",
+	  "displayAnswer": "Water Stone",
+	  "answers": [
+		"water stone"
+	  ]
+	},
+	{
+	  "question": "What item is used to evolve Eevee into Jolteon?",
+	  "displayAnswer": "Thunder Stone",
+	  "answers": [
+		"thunder stone"
+	  ]
+	},
+	{
+	  "question": "What item is used to evolve Eevee into Flareon?",
+	  "displayAnswer": "Fire Stone",
+	  "answers": [
+		"fire stone"
+	  ]
+	},
+	{
+	  "question": "What block is used to make a Random Mega Stone into a Keystone?",
+	  "displayAnswer": "Stonecutter",
+	  "answers": [
+		"stonecutter",
+		"stone cutter"
+	  ]
+	},
+	{
+	  "question": "How many leaders can you fight within the Kanto Region within Gyms?",
+	  "displayAnswer": "13",
+	  "answers": [
+		"13",
+		"thirteen"
+	  ]
+	},
+	{
+	  "question": "All one-hit KO moves are banned to prevent instant win conditions. What clause is this?",
+	  "displayAnswer": "OHKO Clause",
+	  "answers": [
+		"ohko clause",
+		"ohkoclause",
+		"ohko"
+	  ]
+	},
+	{
+	  "question": "Moves that increase evasion or abilities that rely on evasion mechanics may be disallowed to prevent RNG-based strategies from dominating. What clause is this?",
+	  "displayAnswer": "Evasion Clause",
+	  "answers": [
+		"evasion clause",
+		"evasionclause",
+		"evasion"
+	  ]
+	},
+	{
+	  "question": "Pokémon that have both of the moves Shell Smash and Baton Pass cannot be used. What clause is this?",
+	  "displayAnswer": "Smash Pass Clause",
+	  "answers": [
+		"smash pass clause",
+		"smashpass clause",
+		"smash pass",
+		"smashpass"
+	  ]
+	},
+	{
+	  "question": "Name the Champion of the Kanto Region",
+	  "displayAnswer": "Blue",
+	  "answers": [
+		"blue"
+	  ]
+	},
+	{
+	  "question": "Name the Champion of the Jhoto Region",
+	  "displayAnswer": "Lance",
+	  "answers": [
+		"lance"
+	  ]
+	},
+	{
+	  "question": "Name the Champion of the Hoenn Region",
+	  "displayAnswer": "Steven",
+	  "answers": [
+		"steven"
+	  ]
+	},
+	{
+	  "question": "Name the Champion of the Sinnoh Region",
+	  "displayAnswer": "Cynthia",
+	  "answers": [
+		"cynthia"
+	  ]
+	},
+	{
+	  "question": "What held item is used to craft a Mega Bracelet?",
+	  "displayAnswer": "Cell Battery",
+	  "answers": [
+		"cell battery",
+		"cellbattery"
+	  ]
+	},
+	{
+	  "question": "What item costs $400k within the PokeMart?",
+	  "displayAnswer": "Dragon Head",
+	  "answers": [
+		"dragon head",
+		"dragonhead"
+	  ]
+	},
+	{
+	  "question": "What is the highest catch combo's can go for the best shiny odds?",
+	  "displayAnswer": "60",
+	  "answers": [
+		"60",
+		"sixty"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is number 100 in the National Pokedex?",
+	  "displayAnswer": "Voltorb",
+	  "answers": [
+		"voltorb"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is number 500 in the National Pokedex?",
+	  "displayAnswer": "Emboar",
+	  "answers": [
+		"emboar"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is number 666 in the National Pokedex?",
+	  "displayAnswer": "Vivillon",
+	  "answers": [
+		"vivillon"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is number 67 in the National Pokedex?",
+	  "displayAnswer": "Machoke",
+	  "answers": [
+		"machoke"
+	  ]
+	},
+	{
+	  "question": "What is the name of Ash's first Pokemon?",
+	  "displayAnswer": "Pikachu",
+	  "answers": [
+		"pikachu"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon evolves into Raichu?",
+	  "displayAnswer": "Pikachu",
+	  "answers": [
+		"pikachu"
+	  ]
+	},
+	{
+	  "question": "What type is Squirtle?",
+	  "displayAnswer": "Water",
+	  "answers": [
+		"water"
+	  ]
+	},
+	{
+	  "question": "Which Pokemon is known as the Seed Pokemon?",
+	  "displayAnswer": "Bulbasaur",
+	  "answers": [
+		"bulbasaur"
+	  ]
+	},
+	{
+	  "question": "What level does Charmander evolve into Charmeleon?",
+	  "displayAnswer": "16",
+	  "answers": [
+		"16",
+		"sixteen"
+	  ]
+	}
+  ],
+  "math": {
+    "addends": {"min": 1, "max": 1000},
+    "factors": {"min": 2, "max": 25}
+  },
+  "roundDurationSeconds": 30,
+  "intervalMinutes": {
+	"min": 1,
+	"max": 2
+  },
+  "rewards": [
+	{
+	  "weight": 40.0,
+	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <white><bold>3x Rare Candies</bold><newline>",
+	  "commands": [
+		"give {player} cobblemon:rare_candy 3"
+	  ]
+	},
+	{
+	  "weight": 35.0,
+	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <gold><bold>5,000 Pokécoins</bold><newline>",
+	  "commands": [
+		"bal add {player} 5000 PokeCoins"
+	  ]
+	},
+	{
+	  "weight": 10.0,
+	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <aqua><bold>a Random Shiny Pokémon</bold><newline>",
+	  "commands": [
+		"poke_give_class {player} NORMAL true"
+	  ]
+	},
+	{
+	  "weight": 2.0,
+	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <light_purple><bold>10 Gems</bold><newline>",
+	  "commands": [
+		"bal add {player} 10 Gems"
+	  ]
+	},
+	{
+	  "weight": 1.0,
+	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <yellow><bold>a Basic Crate Key</bold><newline>",
+	  "commands": [
+		"crates admin give_virtual_key {player} 1 basic"
+	  ]
+	}
+  ],
+  "questionPrefixes": {
+	"unscramble_pokemon": "<light_purple><bold>✦ Unscramble It!</bold>",
+	"unscramble_ability": "<aqua><bold>✦ Unscramble It!</bold>",
+	"unscramble_move": "<aqua><bold>✦ Unscramble It!</bold>",
+	"unscramble_nature": "<aqua><bold>✦ Unscramble It!</bold>",
+	"dex_entry": "<yellow><bold>✦ Who's That Pokémon?</bold>",
+	"pokemon_type": "<green><bold>✦ Name That Type!</bold>",
+	"type_pokemon": "<green><bold>✦ Name That Pokémon!</bold>",
+	"pokemon_ability": "<gold><bold>✦ Name That Ability!</bold>",
+	"ability_pokemon": "<gold><bold>✦ Name That Pokémon!</bold>",
+	"pokemon_form": "<red><bold>✦ Name That Pokémon!</bold>",
+	"egg_group_pokemon": "<blue><bold>✦ Egg Group!</bold>",
+	"custom": "<light_purple><bold>✦ Trivia</bold>",
+	"math": "<aqua><bold>✦ Quick Maths!</bold>",
+	"default": "<light_purple><bold>✦ Trivia</bold>"
+  },
+  "questionBroadcasts": {
+	"unscramble_pokemon": "<newline><dark_gray> ▎ <light_purple><bold>✦ Unscramble It!</bold> <dark_gray>— <white>What Pokémon is <bold>{question}</bold>?<newline>",
+	"unscramble_ability": "<newline><dark_gray> ▎ <aqua><bold>✦ Unscramble It!</bold> <dark_gray>— <white>What ability is <bold>{question}</bold>?<newline>",
+	"unscramble_move": "<newline><dark_gray> ▎ <aqua><bold>✦ Unscramble It!</bold> <dark_gray>— <white>What move is <bold>{question}</bold>?<newline>",
+	"unscramble_nature": "<newline><dark_gray> ▎ <aqua><bold>✦ Unscramble It!</bold> <dark_gray>— <white>What nature is <bold>{question}</bold>?<newline>",
+	"dex_entry": "<newline><dark_gray> ▎ <yellow><bold>✦ Who's That Pokémon?</bold> <dark_gray>— <white>{question}<newline>",
+	"pokemon_type": "<newline><dark_gray> ▎ <green><bold>✦ Name That Type!</bold> <dark_gray>— <white>What type(s) is <bold>{question}</bold>?<newline>",
+	"type_pokemon": "<newline><dark_gray> ▎ <green><bold>✦ Name That Pokémon!</bold> <dark_gray>— <white>Name a <bold>{question}</bold> type Pokémon<newline>",
+	"pokemon_ability": "<newline><dark_gray> ▎ <gold><bold>✦ Name That Ability!</bold> <dark_gray>— <white>Name an ability of <bold>{question}</bold><newline>",
+	"ability_pokemon": "<newline><dark_gray> ▎ <gold><bold>✦ Name That Pokémon!</bold> <dark_gray>— <white>Name a Pokémon with the <bold>{question}</bold> ability<newline>",
+	"pokemon_form": "<newline><dark_gray> ▎ <red><bold>✦ Name That Pokémon!</bold> <dark_gray>— <white>Name a Pokémon with a <bold>{question}</bold> form<newline>",
+	"egg_group_pokemon": "<newline><dark_gray> ▎ <blue><bold>✦ Egg Group!</bold> <dark_gray>— <white>Name a Pokémon in the <bold>{question}</bold> egg group<newline>",
+	"custom": "<newline><dark_gray> ▎ <light_purple><bold>✦ Trivia</bold> <dark_gray>— <white>{question}<newline>",
+	"math": "<newline><dark_gray> ▎ <aqua><bold>✦ Quick Maths!</bold> <dark_gray>— <white>What is <bold>{question}</bold>?<newline>",
+	"default": "<newline><dark_gray> ▎ <light_purple><bold>✦ Trivia</bold> <dark_gray>— <white>{question}<newline>"
+  },
+  "fallbackBroadcast": "<newline><dark_gray> ▎ <light_purple><bold>✦ Trivia</bold> <dark_gray>— <white>{question}<newline>",
+  "season": {
+	"enabled": true,
+	"resetDayOfMonth": 1,
+	"timezone": "UTC",
+	"leaderboardSize": 100,
+	"seasonLeaderboardTitle": "Monthly Leaderboard",
+	"monthlyRewards": [
+	  {
+		"fromPlacement": 1,
+		"toPlacement": 1,
+		"requiredSlots": 1,
+		"displayItems": [],
+		"announcement": "<newline><dark_gray> ▎ <gold><bold>✦ Season End</bold> <dark_gray>— <yellow>🏆 <bold>{player}</bold> <gray>is the Season Champion with <white>{wins} wins<gray>!<newline>",
+		"commands": [
+		  "poke_give_class {player} LEGENDARY true",
+		  "plushies give_class {player} MYTHICAL true",
+		  "crates admin give_virtual_key {player} 1 premium",
+		  "bal add {player} 750 Gems",
+		  "bal add {player} 1000000 PokeCoins"
+		],
+		"rewardLore": [
+		  "<gray>● <white>1x Random Shiny Legendary Pokémon",
+		  "<gray>● <white>1x Random Shiny Mythical Plushie",
+		  "<gray>● <white>1x Premium Crate Key",
+		  "<gray>● <aqua>750 Gems",
+		  "<gray>● <gold>$1,000,000 Pokécoins"
+		]
+	  },
+	  {
+		"fromPlacement": 2,
+		"toPlacement": 2,
+		"requiredSlots": 1,
+		"displayItems": [],
+		"announcement": "<newline><dark_gray> ▎ <gold><bold>✦ Season End</bold> <dark_gray>— <white><bold>{player}</bold> <gray>finished <gold>#{placement}</gold> with <white>{wins} wins<gray>!<newline>",
+		"commands": [
+		  "poke_give_class {player} LEGENDARY false",
+		  "plushies give_class {player} LEGENDARY true",
+		  "crates admin give_virtual_key {player} 3 basic",
+		  "bal add {player} 500 Gems",
+		  "bal add {player} 500000 PokeCoins"
+		],
+		"rewardLore": [
+		  "<gray>● <white>1x Random Legendary Pokémon",
+		  "<gray>● <white>1x Random Shiny Legendary Plushie",
+		  "<gray>● <white>3x Basic Crate Keys",
+		  "<gray>● <aqua>500 Gems",
+		  "<gray>● <gold>$500,000 Pokécoins"
+		]
+	  },
+	  {
+		"fromPlacement": 3,
+		"toPlacement": 3,
+		"requiredSlots": 1,
+		"displayItems": [],
+		"announcement": "<newline><dark_gray> ▎ <gold><bold>✦ Season End</bold> <dark_gray>— <white><bold>{player}</bold> <gray>finished <gold>#{placement}</gold> with <white>{wins} wins<gray>!<newline>",
+		"commands": [
+		  "poke_give_class {player} ULTRA_BEAST true",
+		  "plushies give_class {player} LEGENDARY false",
+		  "crates admin give_virtual_key {player} 1 basic",
+		  "bal add {player} 250 Gems",
+		  "bal add {player} 250000 PokeCoins"
+		],
+		"rewardLore": [
+		  "<gray>● <white>1x Random Shiny Ultra Beast Pokémon",
+		  "<gray>● <white>1x Random Legendary Plushie",
+		  "<gray>● <white>1x Basic Crate Key",
+		  "<gray>● <aqua>250 Gems",
+		  "<gray>● <gold>$250,000 Pokécoins"
+		]
+	  }
+	],
+	"seasonEndHeader": "<newline><dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_gray> ▎ <gold><bold>✦ Season Over!</bold> <gray>Here are the top winners:<newline>",
+	"seasonEndFooter": "<dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline>",
+	"noWinnersMessage": "<newline><dark_gray> ▎ <gold><bold>✦ Season Over!</bold> <gray>No players participated this season.<newline>"
+  },
+  "lang": {
+	"winnerBroadcast": "<newline><dark_gray> ▎ {prefix} <dark_gray>— <green><bold>{player}</bold> <gray>got it! <dark_gray>(<white>{answer}<dark_gray>) <dark_gray>· <aqua>{time}s<newline>",
+	"expiredBroadcast": "<newline><dark_gray> ▎ {prefix} <dark_gray>— <gray>Nobody got it. The answer was <white>{answer}<gray>.<newline>",
+	"adminForced": "<gray>Forced a new chat game round.",
+	"adminSkipped": "<gray>Skipped the current question.",
+	"adminNothingToSkip": "<gray>No active question to skip.",
+	"adminBroadcasted": "<gray>Question broadcasted.",
+	"adminQuestionAlreadyActive": "<red>A question is already active. Skip it first.",
+	"unplacedLabel": "Unplaced",
+	"toggledOn": "<newline><dark_gray> ▎ <light_purple>✦ Chat Games <dark_gray>— <bold><green>Notifications</bold> <bold>enabled</bold><gray>. You will now see trivia questions.<newline>",
+	"toggledOff": "<newline><dark_gray> ▎ <light_purple>✦ Chat Games <dark_gray>— <bold><red>Notifications</bold> <bold>disabled</bold><gray>. You will no longer see trivia questions.<newline>",
+	"noRewardToClaim": "<red>You have no unclaimed season rewards.",
+	"multipleRewardsPending": "<yellow>You have <white>{count}</white> unclaimed season rewards. Claim them one at a time with <white>/cg claim</white>.",
+	"adminPointGiven": "<green>Gave <white>{amount}</white> point(s) to <white>{ign}</white>.",
+	"adminPointRemoved": "<green>Removed <white>{amount}</white> point(s) from <white>{ign}</white>.",
+	"adminPlayerNotFound": "<red>Player <white>{ign}</white> not found.",
+	"adminInvalidAmount": "<red>Amount must be a positive number.",
+	"help": "<newline><dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_gray> ▎ <light_purple><bold>✦ Chat Games</bold><newline><dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline><dark_gray> ▎ <white>/cg leaderboard <dark_gray>— <gray>View the leaderboards<newline><dark_gray> ▎ <white>/cg claim <dark_gray>— <gray>Claim your season reward<newline><dark_gray> ▎ <white>/cg mute <dark_gray>— <gray>Toggle trivia notifications<newline><dark_gray>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<newline>"
+  }
+}

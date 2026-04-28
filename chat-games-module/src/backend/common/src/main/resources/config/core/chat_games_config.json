@@ -1,0 +1,117 @@
+{
+  "leaderboardGUI": {
+	"title": "All-Time Leaderboard",
+	"slots": [
+	  0,
+	  1,
+	  2,
+	  3,
+	  4,
+	  5,
+	  6,
+	  7,
+	  8,
+	  9,
+	  10,
+	  11,
+	  12,
+	  13,
+	  14,
+	  15,
+	  16,
+	  17,
+	  18,
+	  19,
+	  20,
+	  21,
+	  22,
+	  23,
+	  24,
+	  25,
+	  26,
+	  27,
+	  28,
+	  29,
+	  30,
+	  31,
+	  32,
+	  33,
+	  34,
+	  35
+	],
+	"footerSlots": [
+	  45,
+	  46,
+	  47,
+	  48,
+	  49,
+	  50,
+	  51,
+	  52,
+	  53
+	],
+	"claimReward": {
+	  "displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+	  "displayName": "<gold>✦ Claim Season Reward",
+	  "lore": [
+		"<gray>Click to claim your reward",
+		"<gray>if you placed in the top 3!"
+	  ],
+	  "position": {"slots": [51]}
+	}
+  },
+  "claimGUI": {
+	"title": "Season Reward — #{placement}",
+	"filler": {
+	  "displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+	  "displayName": " ",
+	  "lore": []
+	},
+	"rewardInfo": {
+	  "displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+	  "displayName": "<gold><bold>✦ Season Reward",
+	  "lore": [
+		"<gray>Placement: <gold>#{placement}",
+		"<gray>Wins: <white>{wins}",
+		" ",
+		"<gray>Claim your reward to receive your prize!"
+	  ]
+	},
+	"slotsNeeded": {
+	  "displayJson": "{\"id\":\"minecraft:chest\",\"count\":1}",
+	  "displayName": "<yellow>Inventory Space Needed",
+	  "lore": [
+		"<gray>Required: <white>{required} free slot(s)",
+		"<gray>Available: <white>{available} free slot(s)"
+	  ]
+	},
+	"claimButton": {
+	  "displayJson": "{\"id\":\"minecraft:green_stained_glass_pane\",\"count\":1}",
+	  "displayName": "<bold><green>✓ Claim Reward",
+	  "lore": [
+		"<gray>Click to collect your prize!"
+	  ]
+	},
+	"noSpaceButton": {
+	  "displayJson": "{\"id\":\"minecraft:red_stained_glass_pane\",\"count\":1}",
+	  "displayName": "<bold><red>✗ Not Enough Space",
+	  "lore": [
+		"<red>You need <white>{required}</white> free slot(s).",
+		"<red>You only have <white>{available}</white> free slot(s).",
+		" ",
+		"<gray>Free up space and try again."
+	  ]
+	},
+	"rewardDisplay": {
+	  "displayJson": "{\"id\":\"minecraft:emerald\",\"count\":1}",
+	  "displayName": "<gold><bold>★ Your Rewards",
+	  "lore": []
+	},
+	"closeButton": {
+	  "displayJson": "{\"id\":\"minecraft:barrier\",\"count\":1}",
+	  "displayName": "<red>Close",
+	  "lore": []
+	},
+	"claimedMessage": "<green>You have successfully claimed your season reward!"
+  }
+}
