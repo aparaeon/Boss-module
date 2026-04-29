@@ -1,0 +1,19 @@
+FROM nginx
+
+RUN apt-get update
+RUN apt-get install -y zip jq dos2unix
+
+COPY . /app
+
+WORKDIR /app
+RUN dos2unix merge.sh
+RUN bash merge.sh cobblemon
+
+COPY version.txt /app/merged/version.txt
+
+RUN mkdir -p /usr/share/nginx/html/
+RUN cd /app/merged && \
+    zip -r resource-pack.zip . && \
+    mv resource-pack.zip /usr/share/nginx/html/resource-pack.zip
+
+RUN rm -rf /app/merged

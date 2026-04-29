@@ -1,6 +1,0 @@
-{
-    "keys": ["alpha"],
-    "type": "flag",
-    "isAspect": true,
-    "default": false
-}

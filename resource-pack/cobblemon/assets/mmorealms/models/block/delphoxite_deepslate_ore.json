@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mmorealms:block/delphoxite_deepslate_ore"
+  }
+}

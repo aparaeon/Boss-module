@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "mmorealms:block/charizardite_x_deepslate_ore"
+  }
+}
