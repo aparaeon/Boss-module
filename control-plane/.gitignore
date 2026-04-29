@@ -42,3 +42,13 @@ config.json
 .jqassistant/
 jqassistant/
 .gradle/
+
+config.json
+config_backup_*.json
+projects_config.json
+projects_config_backup_*.json
+
+projects/
+codebases/
+data/
+*-cookies.txt

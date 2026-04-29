@@ -28,7 +28,6 @@ def get_latest_version_any_platform(
         repository=repository,
     )
 
-
 def get_latest_version(
         artifact_id: str,
         username: str = None,
@@ -50,7 +49,10 @@ def get_latest_version(
 
     for search_url in search_urls:
         if search_url in LATEST_VERSION_CACHE:
-            return LATEST_VERSION_CACHE[search_url]
+            cached = LATEST_VERSION_CACHE[search_url]
+            if "-" not in cached and "+" not in cached:
+                return cached
+            continue
 
         response = requests.get(search_url, auth=HTTPBasicAuth(username, password) if username else None)
         if response.status_code / 100 != 2:
@@ -58,6 +60,10 @@ def get_latest_version(
             continue
 
         version = response.text.split("<version>")[1].split("</version>")[0]
+
+        # Skip branch/pre-release versions (e.g. 0.0.0-feature_chat-games+f83a7dd)
+        if "-" in version or "+" in version:
+            continue
 
         LATEST_VERSION_CACHE[search_url] = version
         return version

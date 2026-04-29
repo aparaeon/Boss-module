@@ -64,7 +64,7 @@ def execute(args: str, operation: Callable[[Repository, bool], Result]) -> None:
         if result == Result.FAILED:
             exit(2)
 
-        write(f"versions/{repository.id}.version", repository.version.get_version() or "unknown")
+        write(f"{SCRIPT_DIR}/../../versions/{repository.id}.version", repository.version.get_version() or "unknown")
 
     copy_build_libs(get_build_dir(), TARGET_PATH)
 

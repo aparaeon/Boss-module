@@ -82,9 +82,11 @@ def build(
             )
 
             if not success:
+                print("Grep command failed")
                 return False
 
             modules: str = stdout.strip()
+            print(f"Modules found: {modules.splitlines()}")
             published_at_least_one = False
 
             for module in modules.splitlines():

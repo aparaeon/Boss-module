@@ -1,6 +1,6 @@
 [submodule "run/resource_pack"]
 	path = run/resource_pack
-	url = https://github.com/MMO-REALMS/resource-pack
+	url = https://git.mmorealms.gg/mmorealms/resource-pack
 [submodule "additional_scripts/rir-aggregation"]
 	path = additional_scripts/rir-aggregation
-	url = https://github.com/MMO-REALMS/ip-aggregation
+	url = https://git.mmorealms.gg/mmorealms/ip-aggregation

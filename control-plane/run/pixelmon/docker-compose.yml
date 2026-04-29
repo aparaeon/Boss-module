@@ -9,7 +9,7 @@ services:
     tty: true
     depends_on:
       - redis
-      - mariadb
+      - postgres
       - resource_pack
     networks:
       - network_pixelmon
@@ -38,7 +38,7 @@ services:
     tty: true
     depends_on:
       - redis
-      - mariadb
+      - postgres
     networks:
       - network_pixelmon
     env_file:
@@ -65,7 +65,7 @@ services:
     tty: true
     depends_on:
       - redis
-      - mariadb
+      - postgres
     networks:
       - network_pixelmon
     env_file:
@@ -92,7 +92,7 @@ services:
     tty: true
     depends_on:
       - redis
-      - mariadb
+      - postgres
     networks:
       - network_pixelmon
     env_file:
@@ -119,7 +119,7 @@ services:
     tty: true
     depends_on:
       - redis
-      - mariadb
+      - postgres
     networks:
       - network_pixelmon
     env_file:
@@ -136,21 +136,23 @@ services:
           cpus: "2"
           memory: 4G
 
-  mariadb:
-    hostname: mariadb
-    image: mariadb:11.6.2
-    container_name: mariadb_pixelmon
+  postgres:
+    hostname: postgres
+    image: postgres:18.3
+    container_name: postgres_pixelmon
     restart: unless-stopped
     env_file:
       - .env
     environment:
-      - MARIADB_ROOT_PASSWORD=${DATABASE_CONFIG_PASSWORD}
+      - POSTGRES_PASSWORD=${DATABASE_CONFIG_PASSWORD}
     volumes:
-      - mariadb_data_pixelmon:/var/lib/mysql
+      - pixelmon_postgres_data:/var/lib/postgresql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - network_pixelmon
     ports:
-      - "6005:3306"
+      - "6009:5432"
+    command: postgres -c 'max_connections=500' -c 'shared_buffers=256MB'
 
   redis:
     hostname: redis
@@ -190,4 +192,4 @@ networks:
     driver: bridge
 
 volumes:
-  mariadb_data_pixelmon:
+  pixelmon_postgres_data:

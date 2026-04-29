@@ -146,7 +146,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=${DATABASE_CONFIG_PASSWORD}
     volumes:
-      - ./postgres:/var/lib/postgresql
+      - postgres_data:/var/lib/postgresql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - network_cobblemon
@@ -191,3 +191,5 @@ networks:
   network_cobblemon:
     driver: bridge
 
+volumes:
+  postgres_data:

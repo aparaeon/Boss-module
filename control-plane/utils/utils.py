@@ -268,7 +268,8 @@ def __copy_build_libs(source_base_path: str, target_base_path: str) -> Tuple[boo
         for line in read(f"{SCRIPT_DIR}/../managed_mods.txt").splitlines():
             url = line.split(" ")[0]
             # print(f"{url} vs https://github.com/MMO-REALMS/{base_name}")
-            if url == f"https://github.com/MMO-REALMS/{base_name}":
+            if url == f"https://github.com/MMO-REALMS/{base_name}" or \
+                url == f"https://git.mmorealms.gg/mmorealms/{base_name}":
                 tags = line.split(" ")[1:]
                 if "no_velocity" not in tags:
                     search_directories.update(velocity_search_directories)
