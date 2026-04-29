@@ -1,0 +1,583 @@
+{
+  "debug": false,
+  "equip_type": "OFFHAND",
+  "mega_keystone": {
+    "item_id": "minecraft:paper",
+    "item_name": "<light_purple>Mega Bracelet",
+    "item_description": [
+      "<gray>A Mega Keystone embedded in a stone bracelet",
+      "<gray>Hold in your offhand to enable <yellow>Mega evolution<gray>."
+    ],
+    "custom_model_data": 34
+  },
+  "items": {
+    "abomasite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Abomasite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Abomasnow"
+      ],
+      "custom_model_data": 1,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "absolite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Absolite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Absol"
+      ],
+      "custom_model_data": 2,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "aerodactylite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Aerodactylite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Aerodactyl"
+      ],
+      "custom_model_data": 3,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "alakazite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Alakazite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Alakazam"
+      ],
+      "custom_model_data": 4,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "altarianite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Altarianite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Altaria"
+      ],
+      "custom_model_data": 5,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "ampharosite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Ampharosite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Ampharos"
+      ],
+      "custom_model_data": 6,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "audinite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Audinite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Audino"
+      ],
+      "custom_model_data": 7,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "banettite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Banettite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Banette"
+      ],
+      "custom_model_data": 8,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "beedrillite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Beedrillite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Beedrill"
+      ],
+      "custom_model_data": 9,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "blastoisinite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Blastoisinite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Blastoise"
+      ],
+      "custom_model_data": 10,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "blazikenite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Blazikenite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Blaziken"
+      ],
+      "custom_model_data": 11,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "cameruptite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Cameruptite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Camerupt"
+      ],
+      "custom_model_data": 12,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "charizarditex": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Charizardite X",
+      "item_description": [
+        "<gray>Held item to Mega evolve Charizard"
+      ],
+      "custom_model_data": 13,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      },
+      "default_aspect_values": [
+        "mega-x=false"
+      ],
+      "aspect_override": "mega-x=true"
+    },
+    "charizarditey": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Charizardite Y",
+      "item_description": [
+        "<gray>Held item to Mega evolve Charizard"
+      ],
+      "custom_model_data": 14,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      },
+      "default_aspect_values": [
+        "mega-y=false"
+      ],
+      "aspect_override": "mega-y=true"
+    },
+    "diancite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Diancite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Diancie"
+      ],
+      "custom_model_data": 15,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "galladite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Galladite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Gallade"
+      ],
+      "custom_model_data": 16,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "garchompite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Garchompite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Garchomp"
+      ],
+      "custom_model_data": 17,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "gardevoirite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Gardevoirite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Gardevoir"
+      ],
+      "custom_model_data": 18,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "gengarite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Gengarite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Gengar"
+      ],
+      "custom_model_data": 19,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "glalitite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Glalitite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Glalie"
+      ],
+      "custom_model_data": 20,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "gyaradosite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Gyaradosite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Gyarados"
+      ],
+      "custom_model_data": 21,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "heracronite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Heracronite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Heracross"
+      ],
+      "custom_model_data": 22,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "houndoominite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Houndoominite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Houndoom"
+      ],
+      "custom_model_data": 23,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "kangaskhanite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Kangaskhanite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Kangaskhan"
+      ],
+      "custom_model_data": 24,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "latiasite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Latiasite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Latias"
+      ],
+      "custom_model_data": 27,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "latiosite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Latiosite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Latios"
+      ],
+      "custom_model_data": 28,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "lopunnite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Lopunnite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Lopunny"
+      ],
+      "custom_model_data": 29,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "lucarionite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Lucarionite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Lucario"
+      ],
+      "custom_model_data": 30,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "manectite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Manectite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Manectric"
+      ],
+      "custom_model_data": 31,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "mawilite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Mawilite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Mawile"
+      ],
+      "custom_model_data": 32,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "medichamite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Medichamite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Medicham"
+      ],
+      "custom_model_data": 33,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "metagrossite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Metagrossite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Metagross"
+      ],
+      "custom_model_data": 38,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "mewtwonitex": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Mewtwonite X",
+      "item_description": [
+        "<gray>Held item to Mega evolve Mewtwo"
+      ],
+      "custom_model_data": 39,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      },
+      "default_aspect_values": [
+        "mega-x=false"
+      ],
+      "aspect_override": "mega-x=true"
+    },
+    "mewtwonitey": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Mewtwonite Y",
+      "item_description": [
+        "<gray>Held item to Mega evolve Mewtwo"
+      ],
+      "custom_model_data": 40,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      },
+      "default_aspect_values": [
+        "mega-y=false"
+      ],
+      "aspect_override": "mega-y=true"
+    },
+    "pidgeotite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Pidgeotite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Pidgeot"
+      ],
+      "custom_model_data": 41,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "pinsirite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Pinsirite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Pinsir"
+      ],
+      "custom_model_data": 42,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "sablenite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Sablenite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Sableye"
+      ],
+      "custom_model_data": 43,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "salamencite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Salamencite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Salamence"
+      ],
+      "custom_model_data": 44,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "sceptilite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Sceptilite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Sceptile"
+      ],
+      "custom_model_data": 45,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "scizorite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Scizorite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Scizor"
+      ],
+      "custom_model_data": 46,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "sharpedonite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Sharpedonite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Sharpedo"
+      ],
+      "custom_model_data": 47,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "slowbronite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Slowbronite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Slowbro"
+      ],
+      "custom_model_data": 48,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "steelixite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Steelixite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Steelix"
+      ],
+      "custom_model_data": 49,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "swampertite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Swampertite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Swampert"
+      ],
+      "custom_model_data": 50,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "tyranitarite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Tyranitarite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Tyranitar"
+      ],
+      "custom_model_data": 51,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    },
+    "venusaurite": {
+      "item_id": "minecraft:paper",
+      "item_name": "<light_purple>Venusaurite",
+      "item_description": [
+        "<gray>Held item to Mega evolve Venusaur"
+      ],
+      "custom_model_data": 52,
+      "particle_effect": {
+        "particle": "cobblemon:mega_evolution_particles",
+        "anchor": "middle"
+      }
+    }
+  }
+}

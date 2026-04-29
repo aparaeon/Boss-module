@@ -1,0 +1,891 @@
+{
+  "items": {
+    "adamantorb": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Adamant Orb",
+      "item_description": [
+        "<gray>Give to Dialga to change form to Origin.",
+        "<gray>Also boosts Dragon- and Steel- type moves when held by Dialga."
+      ],
+      "custom_model_data": 53,
+      "particle_effect": {
+        "particle": "cobblemon:impact_normal",
+        "anchor": "root"
+      },
+      "aspects": [
+        "origin=true"
+      ],
+      "default_aspect_values": [
+        "origin=false"
+      ]
+    },
+    "blueorb": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Blue Orb",
+      "item_description": [
+        "<gray>Give to Kyogre to enable Primal Reversion.",
+        "<gray>Primal Kyogre's Ability becomes Primordial Sea."
+      ],
+      "custom_model_data": 54,
+      "particle_effect": {
+        "particle": "cobblemon:impact_normal",
+        "anchor": "root"
+      },
+      "aspects": [
+        "primal=true"
+      ],
+      "default_aspect_values": [
+        "primal=false"
+      ]
+    },
+    "bugmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Bug Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Bug."
+      ],
+      "custom_model_data": 55,
+      "particle_effect": {
+        "particle": "cobblemon:impact_bug",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=bug"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "burndrive": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Burn Drive",
+      "item_description": [
+        "<gray>Changes Genesect's Techno Blast to Fire-type."
+      ],
+      "custom_model_data": 56,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fire",
+        "anchor": "root"
+      },
+      "aspects": [
+        "drive=burn"
+      ],
+      "default_aspect_values": [
+        "drive=none"
+      ]
+    },
+    "chilldrive": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Chill Drive",
+      "item_description": [
+        "<gray>Changes Genesect's Techno Blast to Ice-type."
+      ],
+      "custom_model_data": 57,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ice",
+        "anchor": "root"
+      },
+      "aspects": [
+        "drive=chill"
+      ],
+      "default_aspect_values": [
+        "drive=none"
+      ]
+    },
+    "darkmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Dark Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Dark."
+      ],
+      "custom_model_data": 58,
+      "particle_effect": {
+        "particle": "cobblemon:impact_dark",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=dark"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "dousedrive": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Douse Drive",
+      "item_description": [
+        "<gray>Changes Genesect's Techno Blast to Water-type."
+      ],
+      "custom_model_data": 59,
+      "particle_effect": {
+        "particle": "cobblemon:impact_water",
+        "anchor": "root"
+      },
+      "aspects": [
+        "drive=douse"
+      ],
+      "default_aspect_values": [
+        "drive=none"
+      ]
+    },
+    "dracoplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Draco Plate",
+      "item_description": [
+        "<gray>Boosts the power of Dragon-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Dragon when held."
+      ],
+      "custom_model_data": 60,
+      "particle_effect": {
+        "particle": "cobblemon:impact_dragon",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=dragon"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "dragonmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Dragon Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Dragon."
+      ],
+      "custom_model_data": 61,
+      "particle_effect": {
+        "particle": "cobblemon:impact_dragon",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=dragon"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "dreadplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Dread Plate",
+      "item_description": [
+        "<gray>Boosts the power of Dark-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Dark when held."
+      ],
+      "custom_model_data": 62,
+      "particle_effect": {
+        "particle": "cobblemon:impact_dark",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=dark"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "earthplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Earth Plate",
+      "item_description": [
+        "<gray>Boosts the power of Ground-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Ground when held."
+      ],
+      "custom_model_data": 63,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ground",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=ground"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "electricmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Electric Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Electric."
+      ],
+      "custom_model_data": 64,
+      "particle_effect": {
+        "particle": "cobblemon:impact_electric",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=electric"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "fairymemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Fairy Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Fairy."
+      ],
+      "custom_model_data": 65,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fairy",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=fairy"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "fightingmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Fighting Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Fighting."
+      ],
+      "custom_model_data": 66,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fighting",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=fighting"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "firememory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Fire Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Fire."
+      ],
+      "custom_model_data": 67,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fire",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=fire"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "fistplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Fist Plate",
+      "item_description": [
+        "<gray>Boosts the power of Fighting-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Fighting when held."
+      ],
+      "custom_model_data": 68,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fighting",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=fighting"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "flameplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Flame Plate",
+      "item_description": [
+        "<gray>Boosts the power of Fire-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Fire when held."
+      ],
+      "custom_model_data": 69,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fire",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=fire"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "flyingmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Flying Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Flying."
+      ],
+      "custom_model_data": 70,
+      "particle_effect": {
+        "particle": "cobblemon:impact_flying",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=flying"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "ghostmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Ghost Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Ghost."
+      ],
+      "custom_model_data": 71,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ghost",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=ghost"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "grassmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Grass Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Grass."
+      ],
+      "custom_model_data": 72,
+      "particle_effect": {
+        "particle": "cobblemon:impact_grass",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=grass"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "griseousorb": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Griseous Orb",
+      "item_description": [
+        "<gray>Give to Giratina to change form to Origin.",
+        "<gray>Also boosts Ghost- and Dragon-type moves when held by Giratina."
+      ],
+      "custom_model_data": 73,
+      "particle_effect": {
+        "particle": "cobblemon:impact_normal",
+        "anchor": "root"
+      },
+      "aspects": [
+        "origin=true"
+      ],
+      "default_aspect_values": [
+        "origin=false"
+      ]
+    },
+    "groundmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Ground Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Ground."
+      ],
+      "custom_model_data": 74,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ground",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=ground"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "icememory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Ice Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Ice."
+      ],
+      "custom_model_data": 75,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ice",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=ice"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "icicleplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Icicle Plate",
+      "item_description": [
+        "<gray>Boosts the power of Ice-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Ice when held."
+      ],
+      "custom_model_data": 76,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ice",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=ice"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "insectplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Insect Plate",
+      "item_description": [
+        "<gray>Boosts the power of Bug-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Bug when held."
+      ],
+      "custom_model_data": 77,
+      "particle_effect": {
+        "particle": "cobblemon:impact_bug",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=bug"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "ironplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Iron Plate",
+      "item_description": [
+        "<gray>Boosts the power of Steel-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Steel when held."
+      ],
+      "custom_model_data": 78,
+      "particle_effect": {
+        "particle": "cobblemon:impact_steel",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=steel"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "lustrousorb": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Lustrous Orb",
+      "item_description": [
+        "<gray>Boosts the power of Palkia's Water- and Dragon-type moves by 20% (1.2x)."
+      ],
+      "custom_model_data": 79,
+      "particle_effect": {
+        "particle": "cobblemon:impact_normal",
+        "anchor": "root"
+      },
+      "aspects": [
+        "origin=true"
+      ],
+      "default_aspect_values": [
+        "origin=false"
+      ]
+    },
+    "meadowplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Meadow Plate",
+      "item_description": [
+        "<gray>Boosts the power of Grass-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Grass when held."
+      ],
+      "custom_model_data": 80,
+      "particle_effect": {
+        "particle": "cobblemon:impact_grass",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=grass"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "mindplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Mind Plate",
+      "item_description": [
+        "<gray>Boosts the power of Psychic-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Psychic when held."
+      ],
+      "custom_model_data": 81,
+      "particle_effect": {
+        "particle": "cobblemon:impact_psychic",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=psychic"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "pixieplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Pixie Plate",
+      "item_description": [
+        "<gray>Boosts the power of Fairy-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Fairy when held."
+      ],
+      "custom_model_data": 82,
+      "particle_effect": {
+        "particle": "cobblemon:impact_fairy",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=fairy"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "poisonmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Poison Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Poison."
+      ],
+      "custom_model_data": 83,
+      "particle_effect": {
+        "particle": "cobblemon:impact_poison",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=poison"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "psychicmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Psychic Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Psychic."
+      ],
+      "custom_model_data": 84,
+      "particle_effect": {
+        "particle": "cobblemon:impact_psychic",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=psychic"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "redorb": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Red Orb",
+      "item_description": [
+        "<gray>Give to Groudon to enable Primal Reversion.",
+        "<gray>Primal Groudon's Ability becomes Desolate Land."
+      ],
+      "custom_model_data": 85,
+      "particle_effect": {
+        "particle": "cobblemon:impact_normal",
+        "anchor": "root"
+      },
+      "aspects": [
+        "primal=true"
+      ],
+      "default_aspect_values": [
+        "primal=false"
+      ]
+    },
+    "rockmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Rock Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Rock."
+      ],
+      "custom_model_data": 86,
+      "particle_effect": {
+        "particle": "cobblemon:impact_rock",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=rock"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "shockdrive": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Shock Drive",
+      "item_description": [
+        "<gray>Changes Genesect's Techno Blast to Electric-type."
+      ],
+      "custom_model_data": 87,
+      "particle_effect": {
+        "particle": "cobblemon:impact_electric",
+        "anchor": "root"
+      },
+      "aspects": [
+        "drive=shock"
+      ],
+      "default_aspect_values": [
+        "drive=none"
+      ]
+    },
+    "skyplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Sky Plate",
+      "item_description": [
+        "<gray>Boosts the power of Flying-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Flying when held."
+      ],
+      "custom_model_data": 88,
+      "particle_effect": {
+        "particle": "cobblemon:impact_flying",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=flying"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "splashplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Splash Plate",
+      "item_description": [
+        "<gray>Boosts the power of Water-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Water when held."
+      ],
+      "custom_model_data": 89,
+      "particle_effect": {
+        "particle": "cobblemon:impact_water",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=water"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "spookyplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Spooky Plate",
+      "item_description": [
+        "<gray>Boosts the power of Ghost-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Ghost when held."
+      ],
+      "custom_model_data": 90,
+      "particle_effect": {
+        "particle": "cobblemon:impact_ghost",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=ghost"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "steelmemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Steel Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Steel."
+      ],
+      "custom_model_data": 91,
+      "particle_effect": {
+        "particle": "cobblemon:impact_steel",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=steel"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "stoneplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Stone Plate",
+      "item_description": [
+        "<gray>Boosts the power of Rock-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Rock when held."
+      ],
+      "custom_model_data": 92,
+      "particle_effect": {
+        "particle": "cobblemon:impact_rock",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=rock"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "toxicplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Toxic Plate",
+      "item_description": [
+        "<gray>Boosts the power of Poison-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Poison when held."
+      ],
+      "custom_model_data": 93,
+      "particle_effect": {
+        "particle": "cobblemon:impact_poison",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=poison"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "watermemory": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Water Memory",
+      "item_description": [
+        "<gray>Give to Silvally to change its type to Water."
+      ],
+      "custom_model_data": 94,
+      "particle_effect": {
+        "particle": "cobblemon:impact_water",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=water"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    },
+    "zapplate": {
+      "item_id": "minecraft:paper",
+      "item_name": "<aqua>Zap Plate",
+      "item_description": [
+        "<gray>Boosts the power of Electric-type moves by 20% (1.2x).",
+        "<gray>Changes Arceus's type to Electric when held."
+      ],
+      "custom_model_data": 95,
+      "particle_effect": {
+        "particle": "cobblemon:impact_electric",
+        "anchor": "root"
+      },
+      "aspects": [
+        "type=electric"
+      ],
+      "default_aspect_values": [
+        "type=normal"
+      ]
+    }
+  },
+  "wellspringmask": {
+    "item_id": "minecraft:paper",
+    "item_name": "<aqua>Wellspring Mask",
+    "item_description": [
+      "<gray>Held by Ogerpon: Changes its form to Wellspring Forme."
+    ],
+    "custom_model_data": 96,
+    "particle_effect": {
+      "particle": "cobblemon:impact_normal",
+      "anchor": "root"
+    },
+    "aspects": [
+      "mask=wellspring"
+    ],
+    "default_aspect_values": [
+      "mask=teal"
+    ]
+  },
+  "hearthflamemask": {
+    "item_id": "minecraft:paper",
+    "item_name": "<aqua>Hearthflame Mask",
+    "item_description": [
+      "<gray>Held by Ogerpon: Changes its form to Hearthflame Forme."
+    ],
+    "custom_model_data": 97,
+    "particle_effect": {
+      "particle": "cobblemon:impact_normal",
+      "anchor": "root"
+    },
+    "aspects": [
+      "mask=hearthflame"
+    ],
+    "default_aspect_values": [
+      "mask=teal"
+    ]
+  },
+  "cornerstonemask": {
+    "item_id": "minecraft:paper",
+    "item_name": "<aqua>Cornerstone Mask",
+    "item_description": [
+      "<gray>Held by Ogerpon: Changes its form to Cornerstone Forme."
+    ],
+    "custom_model_data": 98,
+    "particle_effect": {
+      "particle": "cobblemon:impact_normal",
+      "anchor": "root"
+    },
+    "aspects": [
+      "mask=cornerstone"
+    ],
+    "default_aspect_values": [
+      "mask=teal"
+    ]
+  },
+  "rustedsword": {
+    "item_id": "minecraft:paper",
+    "item_name": "<aqua>Rusted Sword",
+    "item_description": [
+      "<gray>Give to Zacian to change it to its Crowned Sword forme.",
+      "<gray>Its signature move Behemoth Blade will become more powerful."
+    ],
+    "custom_model_data": 99,
+    "particle_effect": {
+      "particle": "cobblemon:impact_normal",
+      "anchor": "root"
+    },
+    "aspects": [
+      "crowned=true"
+    ],
+    "default_aspect_values": [
+      "crowned=false"
+    ]
+  },
+  "rustedshield": {
+    "item_id": "minecraft:paper",
+    "item_name": "<aqua>Rusted Shield",
+    "item_description": [
+      "<gray>Give to Zamazenta to change it to its Crowned Shield forme.",
+      "<gray>Its signature move Behemoth Bash will become more powerful."
+    ],
+    "custom_model_data": 100,
+    "particle_effect": {
+      "particle": "cobblemon:impact_normal",
+      "anchor": "root"
+    },
+    "aspects": [
+      "crowned=true"
+    ],
+    "default_aspect_values": [
+      "crowned=false"
+    ]
+  }
+}

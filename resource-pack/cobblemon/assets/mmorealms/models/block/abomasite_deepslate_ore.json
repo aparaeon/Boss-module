@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "mmorealms:block/abomasite_deepslate_ore"
-  }
-}

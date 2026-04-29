@@ -1,0 +1,32 @@
+{
+  "maps": {
+    "kyurem": {
+      "type": "CombinationTransformationList",
+      "data": {
+        "species": [
+          "cobblemon:kyurem"
+        ],
+        "transformations": [
+          {
+            "species": "cobblemon:zekrom",
+            "aspect": "absofusion=black",
+            "default": "absofusion=none"
+          },
+          {
+            "species": "cobblemon:reshiram",
+            "aspect": "absofusion=white",
+            "default": "absofusion=none"
+          }
+        ]
+      }
+    },
+    "forces_of_nature": {
+      "type": "SimpleTransformationList",
+      "data": {
+        "species": [ "cobblemon:landorus", "cobblemon:thundurus", "cobblemon:tornadus", "cobblemon:enamorus" ],
+        "aspect": "therian=true",
+        "default": "therian=false"
+      }
+    }
+  }
+}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "mmorealms:block/zeraorite_stone_ore"
-  }
-}
