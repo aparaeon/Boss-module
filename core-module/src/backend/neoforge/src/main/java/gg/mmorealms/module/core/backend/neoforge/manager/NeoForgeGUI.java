@@ -16,7 +16,7 @@ public class NeoForgeGUI extends SimpleGui {
 	public NeoForgeGUI(GUI gui) {
 		super(gui.getSettings().getMenuType(), gui.getUser().getPlayer(), gui.getSettings().manipulatePlayerSlots());
 		this.gui = gui;
-		this.gui.subscribe(this::refresh);
+		this.gui.registerUpdateCallback(this::refresh);
 	}
 
 	@Override
@@ -36,12 +36,11 @@ public class NeoForgeGUI extends SimpleGui {
 		}
 
 		this.player.connection.send(new ClientboundOpenScreenPacket(this.syncId, this.type, title));
-		this.screenHandler.sendAllDataToRemote();
 	}
 
 	@Override
 	public void beforeOpen() {
-		gui.beforeOpen();
+		gui.initDraw();
 		draw();
 	}
 
@@ -55,7 +54,7 @@ public class NeoForgeGUI extends SimpleGui {
 						return ItemStack.EMPTY;
 					}
 
-					return gui.getButtons()[finalSlot].toItemStack();
+					return gui.getButtons()[finalSlot].build();
 				}
 
 				@Override
@@ -120,5 +119,6 @@ public class NeoForgeGUI extends SimpleGui {
 		}
 
 		updateTitle();
+		this.screenHandler.sendAllDataToRemote();
 	}
 }

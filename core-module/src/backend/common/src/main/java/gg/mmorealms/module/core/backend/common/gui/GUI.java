@@ -7,76 +7,125 @@ import gg.mmorealms.module.core.backend.common.CoreBackendModule;
 import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
+import gg.mmorealms.module.core.backend.common.gui.feature.IGUIFeature;
+import gg.mmorealms.module.core.backend.common.gui.feature.impl.AsyncFeature;
+import gg.mmorealms.module.core.backend.common.gui.feature.impl.AutoRefreshFeature;
+import gg.mmorealms.module.core.backend.common.gui.feature.impl.DevFeature;
+import gg.mmorealms.module.core.backend.common.gui.feature.impl.PagedFeature;
 import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @Getter
-public abstract class GUI {
-
-	private final Settings settings;
-	@SuppressWarnings("MismatchedReadAndWriteOfArray")
-	private final GUIButton[] buttons = new GUIButton[100];
-	private boolean closed = false;
-	private Lambda onRefresh = () -> {
-
-	};
+public abstract class GUI implements IGUI {
 
 	protected final User user;
 
-	public GUI(User user, Settings settings) {
+	private final GUISettings settings;
+	private final GUIButton[] buttons = new GUIButton[100];
+
+	private boolean closed = false;
+	private Lambda updateCallback = () -> {
+	};
+
+	private final List<IGUIFeature> features = new ArrayList<>();
+	private final PagedFeature pagedFeature; // kept as to be able to be referenced from IPagedGUI
+
+	public GUI(User user, GUISettings settings) {
 		this.user = user;
 		this.settings = settings;
+
+		if (settings.async().enabled()) {
+			features.add(new AsyncFeature());
+		}
+		if (settings.autoRefresh().enabled()) {
+			features.add(new AutoRefreshFeature(settings.autoRefresh()));
+		}
+		if (settings.dev().enabled()) {
+			features.add(new DevFeature(settings.dev()));
+		}
+		if (settings.paged().enabled()) {
+			this.pagedFeature = new PagedFeature(settings.paged());
+			features.add(pagedFeature);
+		} else {
+			this.pagedFeature = null;
+		}
+
+		this.features.add(new OriginalFeature());
 	}
 
 	public final String getTitle() {
-		return "<white>" + getTitleString();
+		String title = getTitleString();
+		for (IGUIFeature feature : features) {
+			title = feature.transformTitle(title);
+		}
+		return "<white>" + title;
 	}
-
-	public boolean isIncludingPlayer() {
-		return this.settings.manipulatePlayerSlots;
-	}
-
-	public void beforeOpen() {
-		setup();
-	}
-
-	protected void refresh() {
-		Arrays.fill(buttons, null); // Clear all buttons
-
-		setup();
-		onRefresh.run();
-	}
-
-	public abstract void setup();
 
 	public abstract String getTitleString();
 
+	public final void refresh() {
+		this.initDraw();
+	}
+
+	public final void initDraw() {
+		Arrays.fill(this.buttons, null);
+
+		Iterator<IGUIFeature> featuresIterator = features.iterator();
+
+		while (featuresIterator.hasNext()) {
+			IGUIFeature feature = featuresIterator.next();
+			if (feature.draw(this, featuresIterator, !featuresIterator.hasNext())) {
+				break;
+			}
+		}
+	}
+
 	public void onTick() {
+		for (IGUIFeature feature : features) {
+			feature.onTick(this);
+		}
 	}
 
 	public void onClose() {
-
 	}
 
-	// -------------------- Button Actions --------------------
+	protected abstract void draw();
+
+	// -------------------- Button snapshot --------------------
+
+	public GUIButton[] getButtons() {
+		GUIButton[] result = buttons;
+
+		for (IGUIFeature feature : features) {
+			result = feature.transformButtons(result);
+		}
+
+		return result;
+	}
+
+	/**
+	 * This will return the buttons in their non-transformed state -
+	 * These buttons have not been touched by any feature
+	 */
+	public GUIButton[] getLiveButtons() {
+		return buttons;
+	}
+
+	// -------------------- Button actions --------------------
 
 	protected void nop(ClickType clickType) {
-
 	}
 
 	protected void closeOnClick(ClickType clickType) {
@@ -92,128 +141,134 @@ public abstract class GUI {
 		open();
 	}
 
-	protected void refreshOnClick(ClickType clickType) {
-		refresh();
+	public void refresh(ClickType clickType) {
+		this.refresh();
 	}
 
 	protected final void underDevelopment(ClickType clickType) {
-		user.sendMessage(CoreBackendModule.instance().getConfig().lang.underDevelopment);
+		this.user.sendMessage(CoreBackendModule.instance().getConfig().lang.underDevelopment);
 	}
 
 	protected final void error(ClickType clickType) {
-		user.sendMessage(CoreBackendModule.instance().getConfig().lang.guiError);
+		this.user.sendMessage(CoreBackendModule.instance().getConfig().lang.guiError);
 	}
 
-	// -------------------- Button Management --------------------
+	// -------------------- Button management --------------------
 
-	protected GUIButton setButton() {
+	public GUIButton setButton() {
 		return setButton(GUIButton.empty());
 	}
 
-	protected GUIButton setButton(int slot) {
+	public GUIButton setButton(int slot) {
 		return setButton(GUIButton.empty(), slot);
 	}
 
-	protected GUIButton setButton(@NotNull GUIButton base) {
-		GUIButton button = base.clone().markAsPlacedInGUI();
+	public GUIButton setButton(@NotNull GUIButton base) {
+		GUIButton button = base.copy().markAsPlacedInGUI();
 
 		for (Integer slot : button.getPosition().slots()) {
 			if (slot < 0 || slot >= buttons.length) {
-				Logger.error("Tried to set a button at an invalid slot: " + slot + " in GUI: " + this.getClass().getSimpleName());
+				Logger.error("Tried to set a button at an invalid slot: " + slot + " in GUI: " + getClass().getSimpleName());
 				return button;
 			}
-
 			buttons[slot] = button;
 		}
 
 		return button;
 	}
 
-	protected GUIButton setButton(@NotNull GUIButton base, int slot) {
-		GUIButton button = base.clone().markAsPlacedInGUI();
+	public GUIButton setButton(@Nullable GUIButton base, int slot) {
+		if (base == null) {
+			buttons[slot] = null;
+			return null;
+		}
 
+		GUIButton button = base.copy().markAsPlacedInGUI();
 		buttons[slot] = button;
-
 		return button;
 	}
 
-	protected void setPlayerInventory(GUIButton template, ArgsLambda<ClickType, Integer> executor) {
-		if (!settings.manipulatePlayerSlots) {
-			Logger.warn("Attempted to manipulate player slots when that setting is disabled by " + this.getClass());
+	public GUIButton setButton(@NotNull ItemStack base, int slot) {
+		GUIButton button = GUIButton.of(base).position(slot);
+		buttons[slot] = button;
+		return button;
+	}
+
+	public void setPlayerInventory(GUIButton template, ArgsLambda<ClickType, Integer> executor, List<ItemStack> items) {
+		if (!settings.manipulatePlayerSlots()) {
+			Logger.warn("Attempted to manipulate player slots when that setting is disabled by " + getClass());
 			return;
 		}
 
-		ServerPlayer userPlayer = user.getPlayer();
 		for (int index = 9; index < 36; index++) {
-			ItemStack itemStack = userPlayer.getInventory().getItem(index);
+			ItemStack itemStack = items.get(index);
+			int slot = 54 + index - 9;
+
+			if (itemStack == null) {
+				setButton((GUIButton) null, slot);
+				continue;
+			}
 
 			int finalIndex = index;
-
-			setButton(template.clone()
-				.display(itemStack, false)
-				.position(54 + index - 9)
-				.onClick(click ->
-					executor.run(click, finalIndex)
-				)
-			);
+			setButton(template.copy().display(itemStack).position(slot)
+				.onClick(click -> executor.run(click, finalIndex)));
 		}
 
 		for (int index = 0; index < 9; index++) {
-			ItemStack itemStack = userPlayer.getInventory().getItem(index);
+			ItemStack itemStack = items.get(index);
+			int slot = 54 + 27 + index;
+
+			if (itemStack == null) {
+				setButton((GUIButton) null, slot);
+				continue;
+			}
 
 			int finalIndex = index;
-
-			setButton(
-				template.clone()
-					.display(itemStack, false)
-					.position(54 + 27 + index)
-					.onClick(click ->
-						executor.run(click, finalIndex)
-					)
-			);
+			setButton(template.copy().display(itemStack).position(slot)
+				.onClick(click -> executor.run(click, finalIndex)));
 		}
 	}
 
-	protected void setButtons(List<GUIButton> buttons) {
+	public void setPlayerInventory(GUIButton template, ArgsLambda<ClickType, Integer> executor) {
+		setPlayerInventory(template, executor, this.user.getPlayer().getInventory().items);
+	}
+
+	public void setButtons(List<GUIButton> buttons) {
 		for (GUIButton button : buttons) {
 			setButton(button);
 		}
 	}
 
-	protected void setButtons(GUIButton template, List<ItemStack> itemStacks, List<Integer> slots, ArgsLambda<ClickType, Integer> executor) {
+	public void setButtons(GUIButton template, List<ItemStack> itemStacks, List<Integer> slots,
+	                       ArgsLambda<ClickType, Integer> executor) {
 		for (int index = 0; index < Math.min(itemStacks.size(), slots.size()); index++) {
-			ItemStack itemStack = itemStacks.get(index);
-			int slot = slots.get(index);
-
 			int finalIndex = index;
-
-			setButton(
-				template.clone()
-					.position(slot)
-					.display(itemStack, false)
-					.onClick(click -> executor.run(click, finalIndex))
-			);
+			setButton(template.copy()
+				.position(slots.get(index))
+				.display(itemStacks.get(index))
+				.onClick(click -> executor.run(click, finalIndex)));
 		}
 	}
 
-	// -------------------- Utility Methods --------------------
+	// -------------------- Utility --------------------
 
 	protected void playSound(SoundEvent sound, float volume, float pitch) {
 		ServerPlayer player = user.getPlayer();
-
 		//noinspection resource
-		player.connection.send(new ClientboundSoundPacket(Holder.direct(sound), SoundSource.MASTER, player.getX(), player.getY(), player.getZ(), volume, pitch, player.level().getRandom().nextLong()));
+		player.connection.send(new ClientboundSoundPacket(
+			Holder.direct(sound), SoundSource.MASTER,
+			player.getX(), player.getY(), player.getZ(),
+			volume, pitch, player.level().getRandom().nextLong()
+		));
 	}
 
 	public void open(boolean force) {
 		if (force) {
 			this.closed = false;
 		}
-
 		if (this.closed) {
 			return;
 		}
-
 		CoreBackendModule.instance().getGuiManager().openGUI(this);
 	}
 
@@ -221,71 +276,25 @@ public abstract class GUI {
 		open(false);
 	}
 
-	public void subscribe(Lambda onRefresh) {
-		this.onRefresh = onRefresh;
+	public void registerUpdateCallback(Lambda updateCallback) {
+		this.updateCallback = updateCallback;
 	}
 
-	// -------------------- Classes --------------------
+	public static class OriginalFeature implements IGUIFeature {
+		@Override
+		public boolean draw(GUI gui, Iterator<IGUIFeature> remainingFeatures, boolean sendUpdate) {
+			gui.draw();
 
-	@Setter
-	@Accessors(fluent = true, chain = true)
-	@Getter
-	public static class Settings {
-		private boolean manipulatePlayerSlots = false;
-		private boolean wrapPage = false;
-		private String menuTypeKey;
-
-		public Settings() {
-			ResourceLocation menyTypeResourceLocation = BuiltInRegistries.MENU.getKey(MenuType.GENERIC_9x1);
-
-			if (menyTypeResourceLocation == null) {
-				throw new RuntimeException("Failed to get the default menu type from BuiltInRegistries.MENU (MenuType.GENERIC_9x1).");
+			if (sendUpdate) {
+				gui.sendUpdate();
 			}
 
-			this.menuTypeKey = menyTypeResourceLocation.toString();
+			return false;
 		}
+	}
 
-		public Settings chestSize(int chestSize) {
-			MenuType<ChestMenu> menuType = getChestMenuType(chestSize);
-
-			if (menuType == null) {
-				Logger.error("Failed to get the menu type for chest size: " + chestSize + ". Using default MenuType.GENERIC_9x1 instead.");
-				return this;
-			}
-
-			ResourceLocation menyTypeResourceLocation = BuiltInRegistries.MENU.getKey(menuType);
-
-			if (menyTypeResourceLocation == null) {
-				Logger.error("Failed to get the menu type for chest size: " + chestSize + ". Using default MenuType.GENERIC_9x1 instead.");
-				return this;
-			}
-
-			this.menuTypeKey = menyTypeResourceLocation.toString();
-			return this;
-		}
-
-		private MenuType<ChestMenu> getChestMenuType(int size) {
-			return switch (size) {
-				case 1 -> MenuType.GENERIC_9x1;
-				case 2 -> MenuType.GENERIC_9x2;
-				case 3 -> MenuType.GENERIC_9x3;
-				case 4 -> MenuType.GENERIC_9x4;
-				case 5 -> MenuType.GENERIC_9x5;
-				case 6 -> MenuType.GENERIC_9x6;
-				default -> null;
-			};
-		}
-
-		public MenuType<?> getMenuType() {
-			MenuType<?> menuType = BuiltInRegistries.MENU.get(ResourceLocation.parse(this.menuTypeKey));
-
-			if (menuType == null) {
-				Logger.error("Failed to get the menu type for key: " + this.menuTypeKey + ". Using default MenuType.GENERIC_9x1 instead.");
-				return MenuType.GENERIC_9x1;
-			}
-
-			return menuType;
-		}
-
+	@Override
+	public void sendUpdate() {
+		this.updateCallback.run();
 	}
 }

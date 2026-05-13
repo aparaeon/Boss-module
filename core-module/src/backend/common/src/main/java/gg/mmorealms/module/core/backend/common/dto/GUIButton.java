@@ -1,76 +1,116 @@
 package gg.mmorealms.module.core.backend.common.dto;
 
-import com.google.gson.annotations.Expose;
 import com.raduvoinea.utils.lambda.lambda.non_throwing.ArgLambda;
 import com.raduvoinea.utils.lambda.lambda.non_throwing.Lambda;
 import com.raduvoinea.utils.logger.Logger;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import com.raduvoinea.utils.message_builder.MessageBuilderList;
-import gg.mmorealms.loader.backend.common.utils.CodecUtils;
 import gg.mmorealms.module.core.backend.common.utils.ItemBuilder;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.util.Unit;
+import net.minecraft.core.component.PatchedDataComponentMap;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.world.item.enchantment.Enchantment;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
-public class GUIButton {
+public class GUIButton extends ItemBuilder {
 
-	private String displayJson = "{\"id\":\"minecraft:air\",\"count\":1}";
-	private String displayName = null;
-	private String skullOwner = null;
-	private List<String> lore = new ArrayList<>();
-	private GUIPosition position = new GUIPosition(new ArrayList<>());
+	private Position position = new Position();
 
-	private transient @Expose(deserialize = false, serialize = false) ArgLambda<ClickType> onClick = (clickType) -> {
+	private transient ArgLambda<ClickType> onClick = (clickType) -> {
 	};
-	private transient @Expose(deserialize = false, serialize = false) Map<String, Object> placeholders = new HashMap<>();
-	private transient @Expose(deserialize = false, serialize = false) boolean cloned = false;
-	private transient @Expose(deserialize = false, serialize = false) boolean placedInGUI = false;
 
-	@SuppressWarnings("MethodDoesntCallSuperMethod")
-	public GUIButton clone() {
+	private transient boolean placedInGUI = false;
+
+	protected GUIButton(ItemStack baseItem, String displayName, ArrayList<String> lore, boolean hideToolTips,
+	                    String skullOwner, List<CustomExecutor> customExecutors,
+	                    Map<ResourceKey<Enchantment>, Integer> enchantments, PatchedDataComponentMap dataComponentMap,
+	                    Map<String, Object> placeholders) {
+		super(baseItem, displayName, lore, hideToolTips, skullOwner, customExecutors, enchantments, dataComponentMap,
+				placeholders);
+	}
+
+	protected GUIButton(ItemStack baseItem, String displayName, ArrayList<String> lore, boolean hideToolTips,
+	                    String skullOwner, List<CustomExecutor> customExecutors,
+	                    Map<ResourceKey<Enchantment>, Integer> enchantments, PatchedDataComponentMap dataComponentMap,
+	                    Map<String, Object> placeholders,
+	                    Position position, ArgLambda<ClickType> onClick, boolean placedInGUI) {
+		super(baseItem, displayName, lore, hideToolTips, skullOwner, customExecutors, enchantments, dataComponentMap,
+				placeholders);
+		this.position = position;
+		this.onClick = onClick;
+		this.placeholders = placeholders;
+		this.placedInGUI = placedInGUI;
+	}
+
+	protected GUIButton(ItemStack base) {
+		super(base);
+	}
+
+	public static GUIButton of(ItemStack base) {
+		return new GUIButton(base);
+	}
+
+	public static GUIButton of() {
+		return of(ItemStack.EMPTY);
+	}
+
+	public static GUIButton of(Item base) {
+		return of(new ItemStack(base));
+	}
+
+	public static GUIButton of(ItemBuilder itemBuilder) {
 		return new GUIButton(
-			this.displayJson,
-			this.displayName,
-			this.skullOwner,
-			new ArrayList<>(this.lore),
-			this.position.clone(),
-			(clickType) -> this.onClick.run(clickType),
-			new HashMap<>(this.placeholders),
-			true,
-			this.placedInGUI
+				itemBuilder.getBaseItem(),
+				itemBuilder.getDisplayName(),
+				itemBuilder.getLore(),
+				itemBuilder.isHideToolTips(),
+				itemBuilder.getSkullOwner(),
+				itemBuilder.getCustomExecutors(),
+				itemBuilder.getEnchantments(),
+				itemBuilder.getDataComponentMap(),
+				itemBuilder.getPlaceholders()
+		);
+	}
+
+	public static GUIButton empty() {
+		ItemStack output = new ItemStack(Items.PAPER, 1);
+		output.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1000));
+
+		return GUIButton.of(output)
+				.name("");
+	}
+
+
+	public GUIButton copy() {
+		return new GUIButton(
+				this.baseItem.copy(),
+				this.displayName,
+				new ArrayList<>(this.lore),
+				this.hideToolTips,
+				this.skullOwner,
+				new ArrayList<>(this.customExecutors),
+				new HashMap<>(this.enchantments),
+				this.dataComponentMap.copy(),
+				new HashMap<>(this.placeholders),
+				this.position.copy(),
+				this.onClick,
+				this.placedInGUI
 		);
 	}
 
 	public GUIButton markAsPlacedInGUI() {
 		this.placedInGUI = true;
 		return this;
-	}
-
-	public GUIButton cloneIfNotCloned() {
-		if (this.cloned) {
-			return this;
-		}
-		return this.clone();
-	}
-
-	private GUIButton executeOnObject(ArgLambda<GUIButton> executor) {
-		GUIButton workingCopy = cloneIfNotCloned();
-		executor.run(workingCopy);
-		return workingCopy;
 	}
 
 	public GUIButton position(Integer slot) {
@@ -98,61 +138,39 @@ public class GUIButton {
 	}
 
 	public GUIButton position(List<Integer> slots) {
-		return position(new GUIPosition(slots));
+		return position(new Position(slots));
 	}
 
-	public GUIButton position(GUIPosition position) {
+	public GUIButton position(Position position) {
 		if (this.placedInGUI) {
 			Logger.error("Attempted to update position of an already placed GUIButton. This is not allowed.");
 			Logger.error(Thread.currentThread().getStackTrace());
 			return null;
 		}
 
-		return this.executeOnObject(
-			guiItem ->
-				guiItem.position = position
-		);
-	}
-
-	public GUIButton display(Item item, boolean hideLore) {
-		return display(new ItemStack(item), hideLore);
-	}
-
-	public GUIButton display(Item item) {
-		return display(new ItemStack(item), false);
-	}
-
-	public GUIButton display(ItemStack itemStack) {
-		return display(itemStack, false);
+		this.position = position;
+		return this;
 	}
 
 	public GUIButton display(ItemStack itemStack, boolean hideLore) {
-		return executeOnObject(
-			guiItem -> {
-				if (hideLore) {
-					itemStack.set(DataComponents.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
-				}
-				guiItem.displayJson = CodecUtils.serialize(ItemStack.CODEC, itemStack).toString();
-			}
-		);
+		return (GUIButton) super.display(itemStack, hideLore);
 	}
 
-	public GUIButton display(ItemBuilder itemBuilder, boolean hideLore) {
-		return display(itemBuilder.build(), hideLore);
+	public GUIButton display(Item item, boolean hideLore) {
+		return (GUIButton) super.display(new ItemStack(item), hideLore);
 	}
 
-	public GUIButton display(ItemBuilder itemBuilder) {
-		return display(itemBuilder.build(), false);
+	public GUIButton display(Item item) {
+		return (GUIButton) super.display(new ItemStack(item));
 	}
 
+	public GUIButton display(ItemStack itemStack) {
+		return (GUIButton) super.display(itemStack);
+	}
+
+	@Override
 	public GUIButton count(int count) {
-		return executeOnObject(
-			guiItem -> {
-				ItemStack newDisplayItem = guiItem.toItemStack();
-				newDisplayItem.setCount(count);
-				guiItem.display(newDisplayItem, false);
-			}
-		);
+		return (GUIButton) super.count(count);
 	}
 
 	public GUIButton onClick(Lambda onClick) {
@@ -160,78 +178,102 @@ public class GUIButton {
 	}
 
 	public GUIButton onClick(ArgLambda<ClickType> onClick) {
-		return executeOnObject(
-			guiItem ->
-				guiItem.onClick = onClick
-		);
+		this.onClick = onClick;
+		return this;
 	}
 
+	@Deprecated(forRemoval = true)
 	public GUIButton displayName(MessageBuilder displayName) {
-		return displayName(displayName.parse());
+		return name(displayName);
 	}
 
+	@Deprecated(forRemoval = true)
 	public GUIButton displayName(String displayName) {
-		return executeOnObject(
-			guiItem ->
-				guiItem.displayName = displayName
-		);
+		return name(displayName);
 	}
 
+	@Override
+	public GUIButton name(String name) {
+		return (GUIButton) super.name(name);
+	}
+
+	@Override
+	public GUIButton name(@NotNull MessageBuilder titleBuilder) {
+		return (GUIButton) super.name(titleBuilder.parse());
+	}
+
+	@Override
 	public GUIButton skullOwner(String skullOwner) {
-		return executeOnObject(
-			guiItem ->
-				guiItem.skullOwner = skullOwner
-		);
+		return (GUIButton) super.skullOwner(skullOwner);
 	}
 
-	public GUIButton lore(String... lore) {
-		return lore(List.of(lore));
+	@Override
+	public GUIButton lore(@NotNull MessageBuilderList lore) {
+		return (GUIButton) super.lore(lore);
 	}
 
-	public GUIButton lore(MessageBuilderList lore) {
-		return lore(lore.parse());
+	@Override
+	public GUIButton lore(@NotNull Collection<String> lore) {
+		return (GUIButton) super.lore(lore);
 	}
 
-	public GUIButton lore(List<String> lore) {
-		return executeOnObject(
-			guiItem ->
-				guiItem.lore = lore
-		);
-	}
-
+	@Override
 	public GUIButton placeholders(Map<String, Object> placeholders) {
-		return executeOnObject(
-			guiItem -> guiItem.placeholders = placeholders
-		);
+		return (GUIButton) super.placeholders(placeholders);
 	}
 
+	@Override
 	public GUIButton placeholder(String key, Object value) {
-		return executeOnObject(
-			guiItem -> guiItem.placeholders.put(key, value)
-		);
+		return (GUIButton) super.placeholder(key, value);
 	}
 
-	public static GUIButton empty() {
-		ItemStack output = new ItemStack(Items.PAPER, 1);
-		output.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1000));
 
-		return new GUIButton()
-			.displayName("")
-			.display(output, false);
+	@Override
+	public GUIButton addLore(@NotNull MessageBuilder line) {
+		return (GUIButton) super.addLore(line);
 	}
 
-	public ItemStack toItemStack() {
-		return ItemBuilder.of(this).build();
+	@Override
+	public GUIButton addLore(@NotNull String line) {
+		return (GUIButton) super.addLore(line);
 	}
 
-	public record GUIPosition(List<Integer> slots) {
-		@SuppressWarnings("MethodDoesntCallSuperMethod")
-		public GUIPosition clone() {
+	@Override
+	public GUIButton addLore(@NotNull MessageBuilderList lore) {
+		return (GUIButton) super.addLore(lore);
+	}
+
+	@Override
+	public GUIButton addLore(@NotNull Collection<String> lore) {
+		return (GUIButton) super.addLore(lore);
+	}
+
+	@Override
+	public GUIButton addLore(@NotNull MessageBuilderList lore, int index) {
+		return (GUIButton) super.addLore(lore, index);
+	}
+
+	@Override
+	public GUIButton lore(@NotNull String... lore) {
+		return (GUIButton) super.lore(lore);
+	}
+
+	@Override
+	public GUIButton addLore(@NotNull Collection<String> lore, int index) {
+		return (GUIButton) super.addLore(lore, index);
+	}
+
+	public record Position(List<Integer> slots) {
+		public Position() {
+			this(new ArrayList<>());
+		}
+
+		public Position copy() {
 			if (this.slots == null) {
-				return new GUIPosition(new ArrayList<>());
+				return new Position(new ArrayList<>());
 			}
 
-			return new GUIPosition(new ArrayList<>(this.slots));
+			return new Position(new ArrayList<>(this.slots));
 		}
 	}
 

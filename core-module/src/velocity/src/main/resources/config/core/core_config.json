@@ -12,6 +12,24 @@
 	"noSuitableServer": "We could not find a suitable server for you. Please try again later.",
 	"alreadyOnServer": "You are already on this server.",
 	"transferMessage": "<color:#c8caca>You are being sent to a {server_id}<color:#c8caca> server",
-	"serverNotFound": "No server found for {server}"
+	"serverNotFound": "No server found for {server}",
+	"dumpTemplate": "# MMORealms Dump - {date}\n\n## Server Information\n- **Server Name**: {server_name}\n- **Version**: {version}\n- **Host**: {hostname}:{port}\n- **Online Players**: {total_online_players} ({locally_online_players} players)\n\n\n\n## Modules\n{modules}\n\n\n\n## Database Cache\n{caches}\n\n\n\n## Commands\n{commands}\n\n\n\n## Other Dumps\n{other_dumps}\n",
+	"dumpModuleHeader": [
+	  "| Module ID | Version | Author(s) | Status | Dependencies |",
+	  "|-----------|---------|-----------|--------|--------------|"
+	],
+	"dumpModuleTemplate": "| `{module_id}` | {version} | {authors} | {status} | {dependencies} |",
+	"dumpCommandTemplate": "- `{command}`",
+	"dumpCacheTemplate": "### {cache} ({count}):\n{entries}\n",
+	"dumpCacheEntryTemplate": "#### {id}:\n```json\n{json}\n```\n",
+	"dumpAdditionalHeader": "### {module}",
+	"customDumpEntryTemplate": "### {title}\n{data}\n"
+  },
+  "pagedMessageLang": {
+	"format": "{table_color} ===============   {accent_color}{title}{table_color}   ==============<newline>{messages}<newline><newline>{prev_action} {button_color}Previous<reset>   {table_color}=====   {accent_color}Page {page}/{max_page}   {table_color}=====   {next_action}{button_color}Next<newline>",
+	"entry": "{optional_index}{message}<newline>",
+	"index": "<gray>{index}: ",
+	"firstPageHoverMessage": "This is the first page",
+	"lastPageHoverMessage": "This is the last page"
   }
 }

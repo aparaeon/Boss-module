@@ -8,7 +8,7 @@ import net.minecraft.world.item.Items;
 public abstract class ConfirmationGUI extends GUI {
 
 	public ConfirmationGUI(User user) {
-		super(user, new Settings().chestSize(3));
+		super(user, new GUISettings().chestSize(3));
 	}
 
 	protected abstract void onConfirm(ClickType click);
@@ -23,23 +23,21 @@ public abstract class ConfirmationGUI extends GUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		setButton(confirmButton());
 		setButton(cancelButton());
 	}
 
 	public GUIButton confirmButton() {
-		return new GUIButton()
-				.display(Items.GREEN_STAINED_GLASS_PANE)
-				.displayName("<bold><green>Confirm")
+		return GUIButton.of(Items.GREEN_STAINED_GLASS_PANE)
+				.name("<bold><green>Confirm")
 				.position(1, 2)
 				.onClick(this::onConfirm);
 	}
 
 	public GUIButton cancelButton() {
-		return new GUIButton()
-				.display(Items.RED_STAINED_GLASS_PANE)
-				.displayName("<bold><red>Cancel")
+		return GUIButton.of(Items.RED_STAINED_GLASS_PANE)
+				.name("<bold><red>Cancel")
 				.position(1, 6)
 				.onClick(this::onCancel);
 	}

@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 // TODO Replace all streams
 @Getter
@@ -39,6 +40,9 @@ public class ServerManager {
 	private final CancelableTimeTask serverListBroadcastTask;
 
 	private final Map<String, Integer> serverInfoNameToID = new HashMap<>();
+
+	private final Set<String> disabledServers = new HashSet<>();
+	private final Set<ServerType> disabledServerTypes = new HashSet<>();
 
 	private int realmCount = 40;
 	private int spawnCount = 40;
@@ -265,25 +269,38 @@ public class ServerManager {
 		CoreVelocityModule.instance().getProxy().unregisterServer(server.getProxyServer().getServerInfo());
 	}
 
-
-//	public @Nullable EngineServer getLowestUsageServer() {
-//		return getServers().stream()
-//				.min(EngineServer::compareTo)
-//				.orElse(null);
-//	}
-
 	public @Nullable EngineServer getLowestUsageServer(ServerType serverType) {
-		return getServers(serverType).stream()
+		Stream<EngineServer> serverStream = getServers(serverType).stream();
+
+		if (!this.disabledServers.isEmpty()) {
+			serverStream = serverStream
+					.filter(server -> !disabledServers.contains(server.getServerID()));
+		}
+
+		if (!this.disabledServerTypes.isEmpty()) {
+			serverStream = serverStream
+					.filter(server -> !disabledServerTypes.contains(server.getType()));
+		}
+
+		return serverStream
 				.min(EngineServer::compareTo)
 				.orElse(null);
 	}
 
-	@SuppressWarnings("unused")
-	public @Nullable EngineServer getLowestUsageServer(ServerType serverType, List<String> except) {
-		return getServers(serverType).stream()
-				.filter(server -> !except.contains(server.getServerID()))
-				.min(EngineServer::compareTo)
-				.orElse(null);
+	public synchronized void disableServer(String serverID) {
+		this.disabledServers.add(serverID);
+	}
+
+	public void enableServer(String serverID) {
+		this.disabledServers.remove(serverID);
+	}
+
+	public void disableServerType(ServerType serverType) {
+		this.disabledServerTypes.add(serverType);
+	}
+
+	public void enableServerType(ServerType serverType) {
+		this.disabledServerTypes.remove(serverType);
 	}
 
 }

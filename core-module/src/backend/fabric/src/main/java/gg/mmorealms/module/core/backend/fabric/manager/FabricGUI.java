@@ -17,7 +17,7 @@ public class FabricGUI extends SimpleGui {
 	public FabricGUI(GUI gui) {
 		super(gui.getSettings().getMenuType(), gui.getUser().getPlayer(), gui.getSettings().manipulatePlayerSlots());
 		this.gui = gui;
-		this.gui.subscribe(this::refresh);
+		this.gui.registerUpdateCallback(this::refresh);
 	}
 
 	@Override
@@ -37,12 +37,11 @@ public class FabricGUI extends SimpleGui {
 		}
 
 		this.player.connection.send(new ClientboundOpenScreenPacket(this.syncId, this.type, title));
-		this.screenHandler.sendAllDataToRemote();
 	}
 
 	@Override
 	public void beforeOpen() {
-		gui.beforeOpen();
+		gui.initDraw();
 		draw();
 	}
 
@@ -56,7 +55,7 @@ public class FabricGUI extends SimpleGui {
 						return ItemStack.EMPTY;
 					}
 
-					return gui.getButtons()[finalSlot].toItemStack();
+					return gui.getButtons()[finalSlot].build();
 				}
 
 				@Override
@@ -127,5 +126,6 @@ public class FabricGUI extends SimpleGui {
 		}
 
 		updateTitle();
+		this.screenHandler.sendAllDataToRemote();
 	}
 }
