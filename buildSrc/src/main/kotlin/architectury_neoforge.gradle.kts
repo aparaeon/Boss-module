@@ -120,9 +120,11 @@ tasks {
 
 }
 
-components.getByName("java") {
-    this as AdhocComponentWithVariants
-    this.withVariantsFromConfiguration(project.configurations["shadowRuntimeElements"]) {
-        skip()
+afterEvaluate {
+    components.getByName("java") {
+        this as AdhocComponentWithVariants
+        this.withVariantsFromConfiguration(project.configurations["shadowRuntimeElements"]) {
+            skip()
+        }
     }
 }

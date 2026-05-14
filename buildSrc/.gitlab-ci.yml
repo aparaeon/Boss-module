@@ -1,0 +1,81 @@
+# ┌───────────────────────────────────────────────────┐
+# │                 Secrets Required                  │
+# │                                                   │
+# │  VAULT_ADDRESS                                    │
+# │  VAULT_TOKEN                                      │
+# │  GITLAB_PAT             (Provided by vault)       │
+# │  GG_MMOREALMS_USERNAME  (Provided by vault)       │
+# │  GG_MMOREALMS_PASSWORD  (Provided by vault)       │
+# └───────────────────────────────────────────────────┘
+
+workflow:
+  name: "Update internal libs"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "trigger"'
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+    - if: '$CI_PIPELINE_SOURCE == "api"'
+    - if: '$CI_COMMIT_AUTHOR =~ /Build Bot/'
+      when: never
+
+stages:
+  - secrets
+  - update
+
+fetch-vault-secrets:
+  stage: secrets
+  image: hashicorp/vault:1.13.3
+  tags:
+    - self-hosted
+  variables:
+    GIT_STRATEGY: none
+  before_script:
+    - apk add --no-cache curl jq
+  script:
+    - |
+      SECRET_PATH="kv/data/ci-cd"
+
+      RESPONSE=$(curl -sf \
+        -H "X-Vault-Token: ${VAULT_TOKEN}" \
+        "${VAULT_ADDRESS}/v1/${SECRET_PATH}")
+
+      echo "$RESPONSE" \
+        | jq -r '.data.data | to_entries[] | "\(.key)=\(.value)"' \
+        >> vault.env
+
+      echo "Exported $(wc -l < vault.env) secret(s) from ${SECRET_PATH}"
+  artifacts:
+    reports:
+      dotenv: vault.env
+    expire_in: 1 hour
+    access: none
+
+update-internal-lib:
+  stage: update
+  image: python:3.13-slim
+  tags:
+    - self-hosted
+  timeout: 60 minutes
+  resource_group: update-internal-libs
+  needs:
+    - job: fetch-vault-secrets
+      artifacts: true
+  variables:
+    GIT_STRATEGY: clone
+    GIT_SUBMODULE_STRATEGY: recursive
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git
+  script:
+    - |
+      if [ -f scripts/requirements.txt ]; then
+        pip install -r scripts/requirements.txt
+      fi
+    - python scripts/update_internal_libs.py
+    - |
+      git config --global user.name "Build Bot"
+      git config --global user.email "build-bot@gitlab.com"
+      git remote set-url origin "https://oauth2:${GITLAB_PAT}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git"
+      git add .
+      git diff --cached --quiet || git commit -m "Updated internal libraries"
+      git fetch origin "$CI_COMMIT_REF_NAME"
+      git merge "origin/$CI_COMMIT_REF_NAME" --strategy=recursive -X theirs || true
+      git push origin "HEAD:$CI_COMMIT_REF_NAME"

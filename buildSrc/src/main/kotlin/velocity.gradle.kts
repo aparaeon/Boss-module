@@ -78,8 +78,8 @@ tasks {
         }
     }
 
-    build {
-        finalizedBy(tasks.getByName("shadowJar"))
+    assemble {
+        dependsOn(shadowJar)
     }
 
     jar {

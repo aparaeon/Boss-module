@@ -6,7 +6,7 @@ object Libs {
     const val fabricApiVesion = "0.115.0+1.21.1"
     const val neoforgeVersion = "21.1.180"
 
-    const val lombok = "org.projectlombok:lombok:1.18.36"
+    const val lombok = "org.projectlombok:lombok:1.18.44"
     const val jedis = "redis.clients:jedis:5.2.0"
     const val luckperms = "net.luckperms:api:5.4"
     const val jda = "net.dv8tion:JDA:5.3.0"
@@ -18,7 +18,7 @@ object Libs {
     const val nbt = "io.github.ensgijs:ens-nbt:0.1"
     const val c3p0 = "com.mchange:c3p0:0.10.2"
     const val osgi = "org.osgi:org.osgi.framework:1.10.0"
-    const val pixelmon = "com.pixelmon:pixelmon:9.3.14"
+    const val pixelmon = "com.pixelmon:pixelmon:9.3.16"
     const val packetevents = "com.github.retrooper:packetevents-velocity:2.8.0"
     const val worldedit = "com.sk89q.worldedit:worldedit-core:7.3.8"
 
@@ -68,10 +68,10 @@ object Libs {
     }
 
     object raduvoinea {
-        const val utils = "com.raduvoinea:utils:1.25.0"
+        const val utils = "com.raduvoinea:utils:2.1.0"
 
         object commandmanager {
-            private const val version = "1.7.1"
+            private const val version = "1.7.2"
 
             const val common = "com.raduvoinea:command-manager-common:$version"
             const val velocity = "com.raduvoinea:command-manager-velocity:$version"
@@ -128,7 +128,7 @@ object Libs {
     object junit {
         private const val version = "5.11.4"
 
-        const val jupiter = "org.junit.jupiter:junit-jupiter:5.$version"
+        const val jupiter = "org.junit.jupiter:junit-jupiter:$version"
         const val bom = "org.junit:junit-bom:$version"
         const val platform = "org.junit.platform:junit-platform-launcher"
     }
@@ -158,6 +158,11 @@ object Libs {
 
         const val byteBuddy = "net.bytebuddy:byte-buddy:$version"
         const val agent = "net.bytebuddy:byte-buddy-agent:$version"
+    }
+
+    object prometheus {
+        const val micrometer = "io.micrometer:micrometer-registry-prometheus:1.13.0"
+        const val http_server = "io.prometheus:simpleclient_httpserver:0.16.0"
     }
 
     val COMMON_DEPENDENCIES = listOf(
