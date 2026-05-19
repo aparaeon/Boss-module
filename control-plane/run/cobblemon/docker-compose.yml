@@ -10,13 +10,13 @@ services:
     depends_on:
       - redis
       - postgres
-      - resource_pack
+      - mariadb
     networks:
       - network_cobblemon
     env_file:
       - .env
     ports:
-      - "5000:25565"      # minecraft
+      - "7000:25565"      # minecraft
       - "5001:4000"       # debug
     environment:
       - REDIS_CONFIG_REDIS_ID=proxy
@@ -39,6 +39,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - mariadb
     networks:
       - network_cobblemon
     env_file:
@@ -47,13 +48,14 @@ services:
       - SERVER_TYPE=SPAWN
     ports:
       - "5002:4000"       # debug
+      - "7010:25565"      # direct minecraft testing
     volumes:
       - ".live/spawn/config:/app/config"
     deploy:
       resources:
         limits:
           cpus: "2"
-          memory: 4G
+          memory: 6G
 
   realms:
     build:
@@ -66,6 +68,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - mariadb
     networks:
       - network_cobblemon
     env_file:
@@ -73,7 +76,7 @@ services:
     environment:
       - SERVER_TYPE=REALMS
     ports:
-      - "5003:4000"       # debug
+      - "5003:4000"
     volumes:
       - ".live/realms/config:/app/config"
     deploy:
@@ -93,6 +96,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - mariadb
     networks:
       - network_cobblemon
     env_file:
@@ -100,7 +104,7 @@ services:
     environment:
       - SERVER_TYPE=WILD
     ports:
-      - "5004:4000"       # debug
+      - "5004:4000"
     volumes:
       - ".live/wild/config:/app/config"
     deploy:
@@ -120,6 +124,7 @@ services:
     depends_on:
       - redis
       - postgres
+      - mariadb
     networks:
       - network_cobblemon
     env_file:
@@ -127,7 +132,7 @@ services:
     environment:
       - SERVER_TYPE=GYMS
     ports:
-      - "5008:4000"       # debug
+      - "5008:4000"
     volumes:
       - ".live/gyms/config:/app/config"
     deploy:
@@ -153,6 +158,22 @@ services:
     ports:
       - "5009:5432"
     command: postgres -c 'max_connections=500' -c 'shared_buffers=256MB'
+
+  mariadb:
+    hostname: mariadb
+    image: mariadb:11.4
+    container_name: mariadb_cobblemon
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DATABASE_CONFIG_PASSWORD}
+    volumes:
+      - "./mariadb:/var/lib/mysql"
+    networks:
+      - network_cobblemon
+    ports:
+      - "5005:3306"
 
   redis:
     hostname: redis
