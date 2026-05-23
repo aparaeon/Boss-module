@@ -68,10 +68,10 @@ object Libs {
     }
 
     object raduvoinea {
-        const val utils = "com.raduvoinea:utils:2.1.0"
+        const val utils = "com.raduvoinea:utils:2.1.1"
 
         object commandmanager {
-            private const val version = "1.7.2"
+            private const val version = "1.7.3"
 
             const val common = "com.raduvoinea:command-manager-common:$version"
             const val velocity = "com.raduvoinea:command-manager-velocity:$version"
