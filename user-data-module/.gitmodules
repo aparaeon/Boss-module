@@ -1,4 +1,4 @@
 [submodule "buildSrc"]
 	path = buildSrc
-	url = https://github.com/MMO-REALMS/build-src
+	url = https://git.mmorealms.gg/mmorealms/build-src
 	branch = master

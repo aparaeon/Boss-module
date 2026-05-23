@@ -10,6 +10,7 @@ import gg.mmorealms.module.chat_games.common.dto.event.OpenRewardClaimEvent;
 import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
 import gg.mmorealms.module.core.backend.common.utils.InventoryUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -35,7 +36,7 @@ public class RewardClaimGUI extends GUI {
 	private boolean claiming = false;
 
 	public RewardClaimGUI(User user, OpenRewardClaimEvent event) {
-		super(user, new Settings().chestSize(4));
+		super(user, new GUISettings().chestSize(4));
 		this.playerUuid = event.getPlayerUuid();
 		this.seasonId = event.getSeasonId();
 		this.placement = event.getPlacement();
@@ -52,7 +53,7 @@ public class RewardClaimGUI extends GUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		if (requiredSlots > 0 && InventoryUtils.getFreeSlots(user) < requiredSlots) {
 			notEnoughSlots = true;
 		}
@@ -66,7 +67,7 @@ public class RewardClaimGUI extends GUI {
 		setDisplayItems();
 		if (displayItems.isEmpty() && !rewardLore.isEmpty()) {
 			List<String> rewardsLore = new ArrayList<>(rewardLore);
-			setButton(config().claimGUI.rewardDisplay.clone().lore(rewardsLore), 13);
+			setButton(config().claimGUI.rewardDisplay.copy().lore(rewardsLore), 13);
 		}
 
 		// Row 2 (slots 18-26): action buttons
@@ -77,7 +78,7 @@ public class RewardClaimGUI extends GUI {
 		// Slot 21: slots needed (if any)
 		if (requiredSlots > 0) {
 			int freeSlots = InventoryUtils.getFreeSlots(user);
-			setButton(config().claimGUI.slotsNeeded.clone()
+			setButton(config().claimGUI.slotsNeeded.copy()
 				.placeholder("required", requiredSlots)
 				.placeholder("available", freeSlots), 21);
 		}
@@ -89,7 +90,7 @@ public class RewardClaimGUI extends GUI {
 			infoLore.add("<gold>Your Rewards:");
 			infoLore.addAll(rewardLore);
 		}
-		setButton(config().claimGUI.rewardInfo.clone()
+		setButton(config().claimGUI.rewardInfo.copy()
 			.placeholder("placement", placement)
 			.placeholder("wins", wins)
 			.lore(infoLore), 22);
@@ -97,7 +98,7 @@ public class RewardClaimGUI extends GUI {
 		// Slot 25: claim or no-space button
 		if (notEnoughSlots) {
 			int freeSlots = InventoryUtils.getFreeSlots(user);
-			setButton(config().claimGUI.noSpaceButton.clone()
+			setButton(config().claimGUI.noSpaceButton.copy()
 				.placeholder("required", requiredSlots)
 				.placeholder("available", freeSlots), 25);
 		} else {
@@ -120,7 +121,7 @@ public class RewardClaimGUI extends GUI {
 					BuiltInRegistries.ITEM.get(ResourceLocation.parse(displayItems.get(i)))
 				);
 				setButton(startSlot + i)
-					.displayName(itemStack.getHoverName().getString())
+					.name(itemStack.getHoverName().getString())
 					.display(itemStack, true);
 			} catch (Exception ignored) {
 			}

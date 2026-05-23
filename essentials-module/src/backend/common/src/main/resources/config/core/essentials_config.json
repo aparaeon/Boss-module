@@ -1,26 +1,519 @@
 {
-  "rules": [
-	"Keep chat PG-13 - English only in global chat, no inappropriate roleplaying, no swearing, use common sense and don't disrupt other players.",
-	"Do not advertise, spam, use racial slurs, discuss politics/religion.",
-	"Do not grief/steal/raid builds within realms without permission from the owner. Builds within wilds are not protected and will be deleted when wilds reset.",
-	"Do not use any harmful / objectionable language towards any players or staff.",
-	"Do not use any mods/ resource packs or clients which grant an unfair advantage.",
-	"The use of Macro's (regardless if with a client/mod or not) are not allowed on the server, especially within AFK farms.",
-	"Do not cheat or exploit server bugs, instead report them on discord.",
-	"Do not scam players on the server under any capacity.",
-	"No inappropriate names/skins/text/builds/signs for users/pokemon/items & no nickname impersonations.",
-	"Any form of wagers, casino's or luck based games with prizes are not allowed under any capacity.",
-	"No entry fee's for unofficial Gyms or Tournaments especially when giving out prizes.",
-	"Do not beg players or staff for Items/Pokemon/Tokens/Etc.",
-	"Selling/Buying Items/Pokemon/Tokens/Etc with money or gift cards outside the MMO Realms Store is strictly forbidden.",
-	"Using 'alts' or alternative accounts for personal advantage is forbidden.",
-	"Do not discuss punishments within chat. If you wish to report a player then please make a ticket within the Discord server.",
-	"Do not avoid the chat filter in place by swearing or using any words that's currently blocked.",
-	"Do not use abbreviations which includes words or swears blocked by the censor. If you can't say it unabbreviated then don't say it at all.",
-	"Do not argue with staff in public or private chats, listen to what they say and follow it. If you wish to report a staff member then contact a Head Admin or Manager.",
-	"Do not grief/kill legends that spawn on another player. If you can't catch it then leave it alone for the player."
-  ],
+  "borderSize": 20000,
+  "repairCooldown": {
+	"amount": 5,
+	"unit": "MINUTES"
+  },
+  "smeltCooldown": {
+	"amount": 5,
+	"unit": "MINUTES"
+  },
+  "selectCompass": {
+	"id": "minecraft:compass",
+	"count": 1,
+	"components": {
+	  "minecraft:custom_name": "{\"color\":\"aqua\",\"text\":\"Realm selector\"}",
+	  "minecraft:max_stack_size": 99
+	}
+  },
+  "selectGUI": {
+	"teleportSpawn": {
+	  "position": {
+		"slots": [
+		  36,
+		  37,
+		  38
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "Teleport to Spawn",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"teleportRealm": {
+	  "position": {
+		"slots": [
+		  39,
+		  40,
+		  41
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "Teleport to Realm",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"teleportWild": {
+	  "position": {
+		"slots": [
+		  42,
+		  43,
+		  44
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "Teleport to Wild",
+	  "lore": [],
+	  "hideToolTips": false
+	}
+  },
+  "lang": {
+	"firstJoinMessage": "<grey>Welcome <gold>{name}<grey> to <bold><gradient:red:aqua>Cobblemon MMO<reset>!"
+  },
   "itemGroups": {
+	"evolutionitem": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:link_cable",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:kings_rock",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:galarica_stuff",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:galarica_wreath",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:metal_coat",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:black_augurite",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:protector",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:oval_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dragon_scale",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:electirizer",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:magmarizer",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dubious_disc",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:upgrade",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:razor_fang",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:razor_claw",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:peat_block",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:prism_scale",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:reaper_cloth",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:deep_sea_tooth",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:deep_sea_scale",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sachet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:whipped_dream",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:tart_apple",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sweet_apple",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:cracked_pot",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:chipped_pot",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:unremarkable_teacup",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:masterpiece_teacup",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:strawberry_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:love_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:berry_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:clover_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:flower_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:star_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ribbon_sweet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:auspicious_armor",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:malicious_armor",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:metal_alloy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:syrupy_apple",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:shell_helmet",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"mint": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:lonely_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:adamant_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:naughty_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:brave_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:bold_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:impish_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:lax_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:relaxed_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:modest_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:mild_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:rash_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:quiet_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:calm_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:gentle_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:careful_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sassy_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:timid_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:hasty_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:jolly_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:naive_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:serious_mint",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
 	"berry": {
 	  "items": [
 		{
@@ -501,6 +994,168 @@
 		},
 		{
 		  "itemID": "cobblemon:kelpsy_berry",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"ivcandy": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:health_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:mighty_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:tough_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:smart_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:courage_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:quick_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sickly_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "ccobblemon:weak_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:brittle_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:numb_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:coward_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:slow_candy",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		}
+	  ]
+	},
+	"evolutionstone": {
+	  "items": [
+		{
+		  "itemID": "cobblemon:fire_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:water_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:thunder_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:leaf_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:moon_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:sun_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:shiny_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dusk_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:dawn_stone",
+		  "range": {
+			"min": 1,
+			"max": 1
+		  }
+		},
+		{
+		  "itemID": "cobblemon:ice_stone",
 		  "range": {
 			"min": 1,
 			"max": 1
@@ -1219,603 +1874,6 @@
 		},
 		{
 		  "itemID": "cobblemon:fairy_gem",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		}
-	  ]
-	},
-	"ivcandy": {
-	  "items": [
-		{
-		  "itemID": "cobblemon:health_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:mighty_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:tough_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:smart_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:courage_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:quick_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:sickly_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "ccobblemon:weak_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:brittle_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:numb_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:coward_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:slow_candy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		}
-	  ]
-	},
-	"evolutionstone": {
-	  "items": [
-		{
-		  "itemID": "cobblemon:fire_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:water_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:thunder_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:leaf_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:moon_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:sun_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:shiny_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:dusk_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:dawn_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:ice_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		}
-	  ]
-	},
-	"evolutionitem": {
-	  "items": [
-		{
-		  "itemID": "cobblemon:link_cable",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:kings_rock",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:galarica_stuff",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:galarica_wreath",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:metal_coat",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:black_augurite",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:protector",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:oval_stone",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:dragon_scale",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:electirizer",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:magmarizer",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:dubious_disc",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:upgrade",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:razor_fang",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:razor_claw",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:peat_block",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:prism_scale",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:reaper_cloth",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:deep_sea_tooth",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:deep_sea_scale",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:sachet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:whipped_dream",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:tart_apple",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:sweet_apple",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:cracked_pot",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:chipped_pot",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:unremarkable_teacup",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:masterpiece_teacup",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:strawberry_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:love_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:berry_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:clover_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:flower_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:star_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:ribbon_sweet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:auspicious_armor",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:malicious_armor",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:metal_alloy",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:syrupy_apple",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:shell_helmet",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		}
-	  ]
-	},
-	"mint": {
-	  "items": [
-		{
-		  "itemID": "cobblemon:lonely_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:adamant_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:naughty_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:brave_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:bold_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:impish_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:lax_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:relaxed_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:modest_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:mild_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:rash_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:quiet_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:calm_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:gentle_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:careful_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:sassy_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:timid_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:hasty_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:jolly_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:naive_mint",
-		  "range": {
-			"min": 1,
-			"max": 1
-		  }
-		},
-		{
-		  "itemID": "cobblemon:serious_mint",
 		  "range": {
 			"min": 1,
 			"max": 1
@@ -2709,6 +2767,310 @@
 		  }
 		}
 	  ]
+	}
+  },
+  "rules": [
+	"Keep chat PG-13 - English only in global chat, no inappropriate roleplaying, no swearing, use common sense and don't disrupt other players.",
+	"Do not advertise, spam, use racial slurs, discuss politics/religion.",
+	"Do not grief/steal/raid builds within realms without permission from the owner. Builds within wilds are not protected and will be deleted when wilds reset.",
+	"Do not use any harmful / objectionable language towards any players or staff.",
+	"Do not use any mods/ resource packs or clients which grant an unfair advantage.",
+	"The use of Macro's (regardless if with a client/mod or not) are not allowed on the server, especially within AFK farms.",
+	"Do not cheat or exploit server bugs, instead report them on discord.",
+	"Do not scam players on the server under any capacity.",
+	"No inappropriate names/skins/text/builds/signs for users/pokemon/items & no nickname impersonations.",
+	"Any form of wagers, casino's or luck based games with prizes are not allowed under any capacity.",
+	"No entry fee's for unofficial Gyms or Tournaments especially when giving out prizes.",
+	"Do not beg players or staff for Items/Pokemon/Tokens/Etc.",
+	"Selling/Buying Items/Pokemon/Tokens/Etc with money or gift cards outside the MMO Realms Store is strictly forbidden.",
+	"Using 'alts' or alternative accounts for personal advantage is forbidden.",
+	"Do not discuss punishments within chat. If you wish to report a player then please make a ticket within the Discord server.",
+	"Do not avoid the chat filter in place by swearing or using any words that's currently blocked.",
+	"Do not use abbreviations which includes words or swears blocked by the censor. If you can't say it unabbreviated then don't say it at all.",
+	"Do not argue with staff in public or private chats, listen to what they say and follow it. If you wish to report a staff member then contact a Head Admin or Manager.",
+	"Do not grief/kill legends that spawn on another player. If you can't catch it then leave it alone for the player."
+  ],
+  "rulesPageConfig": {
+	"tableColor": "<gold>",
+	"accentColor": "<yellow>",
+	"buttonsColor": "<red>",
+	"title": "Rules",
+	"numberedList": true,
+	"entriesPerPage": 6
+  },
+  "invSeeGUI": {
+	"armorSlots": [
+	  0,
+	  1,
+	  2,
+	  3
+	],
+	"inventorySlots": [
+	  9,
+	  10,
+	  11,
+	  12,
+	  13,
+	  14,
+	  15,
+	  16,
+	  17,
+	  18,
+	  19,
+	  20,
+	  21,
+	  22,
+	  23,
+	  24,
+	  25,
+	  26,
+	  27,
+	  28,
+	  29,
+	  30,
+	  31,
+	  32,
+	  33,
+	  34,
+	  35
+	],
+	"hotbarSlots": [
+	  45,
+	  46,
+	  47,
+	  48,
+	  49,
+	  50,
+	  51,
+	  52,
+	  53
+	],
+	"offHandSlots": [
+	  8
+	],
+	"backgroundSlots": [],
+	"background": {
+	  "position": {
+		"slots": [
+		  4,
+		  5,
+		  6,
+		  7,
+		  36,
+		  37,
+		  38,
+		  39,
+		  40,
+		  41,
+		  42,
+		  43,
+		  44
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:black_stained_glass_pane",
+		"count": 1
+	  },
+	  "displayName": "",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"targetItem": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {},
+	  "lore": [
+		"",
+		"<red>Click to remove"
+	  ],
+	  "hideToolTips": false
+	},
+	"userItem": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {},
+	  "lore": [
+		"",
+		"<green>Click to add"
+	  ],
+	  "hideToolTips": false
+	},
+	"statusIndex": 40,
+	"onlineStream": {
+	  "position": {
+		"slots": [
+		  40
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:lime_wool",
+		"count": 1
+	  },
+	  "displayName": "<green>Online",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"temporaryOfflineStream": {
+	  "position": {
+		"slots": [
+		  40
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:yellow_wool",
+		"count": 1
+	  },
+	  "displayName": "<green>Temporary Offline",
+	  "lore": [
+		"",
+		"Attempting to retrieve inventory..."
+	  ],
+	  "hideToolTips": false
+	},
+	"offlineStream": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:red_wool",
+		"count": 1
+	  },
+	  "displayName": "<red>Offline",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"offlineStreamThreshold": 50
+  },
+  "enderChestSeeGUI": {
+	"itemsSlot": [
+	  0,
+	  1,
+	  2,
+	  3,
+	  4,
+	  5,
+	  6,
+	  7,
+	  8,
+	  9,
+	  10,
+	  11,
+	  12,
+	  13,
+	  14,
+	  15,
+	  16,
+	  17,
+	  18,
+	  19,
+	  20,
+	  21,
+	  22,
+	  23,
+	  24,
+	  25,
+	  26
+	],
+	"backgroundSlots": [
+	  27,
+	  28,
+	  29,
+	  30,
+	  32,
+	  33,
+	  34,
+	  35
+	],
+	"offlineStreamThreshold": 50,
+	"targetItem": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {},
+	  "lore": [
+		"",
+		"<red>Click to remove"
+	  ],
+	  "hideToolTips": false
+	},
+	"userItem": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {},
+	  "lore": [
+		"",
+		"<green>Click to add"
+	  ],
+	  "hideToolTips": false
+	},
+	"onlineStream": {
+	  "position": {
+		"slots": [
+		  31
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:lime_wool",
+		"count": 1
+	  },
+	  "displayName": "<green>Online",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"temporaryOfflineStream": {
+	  "position": {
+		"slots": [
+		  31
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:yellow_wool",
+		"count": 1
+	  },
+	  "displayName": "<green>Temporary Offline",
+	  "lore": [
+		"",
+		"Attempting to retrieve inventory..."
+	  ],
+	  "hideToolTips": false
+	},
+	"offlineStream": {
+	  "position": {
+		"slots": [
+		  31
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:red_wool",
+		"count": 1
+	  },
+	  "displayName": "<red>Offline",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"backgroundItem": {
+	  "position": {
+		"slots": [
+		  27,
+		  28,
+		  29,
+		  30,
+		  32,
+		  33,
+		  34,
+		  35
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:gray_stained_glass_pane",
+		"count": 1
+	  },
+	  "displayName": "",
+	  "lore": [],
+	  "hideToolTips": false
 	}
   }
 }

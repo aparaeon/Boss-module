@@ -11,7 +11,7 @@
   "environment": "server",
   "entrypoints": {
 	"main": [
-	  "gg.mmorealms.module.example.backend.fabric.ExampleFabricModule"
+	  "gg.mmorealms.module.login_rewards.backend.fabric.LoginrewardsFabricModule"
 	]
   },
   "mixins": [],

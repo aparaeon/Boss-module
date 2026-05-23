@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "gg.mmorealms.module.essentials.backend.fabric.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+	"AbstractFurnaceBlockEntityMixin"
+  ],
+  "client": [],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

@@ -4,7 +4,9 @@ import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.ConfirmationGUI;
-import gg.mmorealms.module.core.backend.common.gui.PagedGUI;
+import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
+import gg.mmorealms.module.core.backend.common.gui.feature.interfaces.IPagedGUI;
 import gg.mmorealms.module.core.common.dto.PlayerList;
 import gg.mmorealms.module.realms.backend.common.RealmsBackendModule;
 import gg.mmorealms.module.realms.backend.common.config.RealmsConfig;
@@ -15,15 +17,23 @@ import gg.mmorealms.module.realms.common.dto.event.LoadRealmEvent;
 import java.util.List;
 import java.util.UUID;
 
-public class RealmVisitGUI extends PagedGUI {
+public class RealmVisitGUI extends GUI implements IPagedGUI {
 	private boolean showPublic;
 
 	private static final RealmsConfig CONFIG = RealmsBackendModule.instance().getConfig();
 
 	public RealmVisitGUI(User user, int page, boolean showPublic) {
-		super(user, new Settings().chestSize(6), page);
+		super(user,
+			new GUISettings()
+				.paged(
+					new GUISettings.PagedSettings()
+						.enabled(true)
+				)
+				.chestSize(6)
+		);
 
 		this.showPublic = showPublic;
+		this.setPage(page);
 
 		open();
 	}
@@ -38,11 +48,11 @@ public class RealmVisitGUI extends PagedGUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		setButton(CONFIG.pagedGUI.previous)
-				.onClick(this::previousPage);
+			.onClick(this::backPage);
 		setButton(CONFIG.pagedGUI.next)
-				.onClick(this::nextPage);
+			.onClick(this::nextPage);
 
 		if (showPublic) {
 			renderPublic();
@@ -58,7 +68,7 @@ public class RealmVisitGUI extends PagedGUI {
 
 	private void renderPublic() {
 		setButton(CONFIG.realmVisitGUI.publicFilter)
-				.onClick(this::toggleFilter);
+			.onClick(this::toggleFilter);
 
 		List<PlayerList.PlayerEntry> list = RealmsBackendModule.instance().getEngineManager().getPlayersList().getList();
 
@@ -75,8 +85,8 @@ public class RealmVisitGUI extends PagedGUI {
 			}
 
 			setButton(CONFIG.realmVisitGUI.publicRealm, CONFIG.pagedGUI.slots.get(slotIndex))
-					.onClick((click) -> teleportToRealm(click, entry.uuid()))
-					.placeholder("user", entry.username());
+				.onClick((click) -> teleportToRealm(click, entry.uuid()))
+				.placeholder("user", entry.username());
 
 			slotIndex++;
 		}
@@ -84,7 +94,7 @@ public class RealmVisitGUI extends PagedGUI {
 
 	private void renderPrivate() {
 		setButton(CONFIG.realmVisitGUI.privateFilter)
-				.onClick(this::toggleFilter);
+			.onClick(this::toggleFilter);
 
 		List<UUID> membershipList = RealmsUtils.getMembership(user.getUUID());
 
@@ -101,8 +111,8 @@ public class RealmVisitGUI extends PagedGUI {
 			}
 
 			setButton(CONFIG.realmVisitGUI.privateRealm, CONFIG.pagedGUI.slots.get(index - ownRealmSubtraction))
-					.onClick((click) -> privateInteraction(click, ownerUUID))
-					.placeholder("user", ownerUser.getUsername());
+				.onClick((click) -> privateInteraction(click, ownerUUID))
+				.placeholder("user", ownerUser.getUsername());
 		}
 	}
 
@@ -149,12 +159,12 @@ public class RealmVisitGUI extends PagedGUI {
 				}
 
 				realm.removeMember(user.getUUID());
-				new RealmVisitGUI(user, RealmVisitGUI.super.getPage(), showPublic);
+				new RealmVisitGUI(user, getPage(), showPublic);
 			}
 
 			@Override
 			protected void onCancel(ClickType click) {
-				new RealmVisitGUI(user, RealmVisitGUI.super.getPage(), showPublic);
+				new RealmVisitGUI(user, getPage(), showPublic);
 			}
 		}.open();
 	}

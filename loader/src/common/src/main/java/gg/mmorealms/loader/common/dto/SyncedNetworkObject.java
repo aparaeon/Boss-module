@@ -10,6 +10,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.naming.CommunicationException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 @Getter
@@ -22,8 +23,9 @@ public abstract class SyncedNetworkObject<Identifier, ObjectClass, DestinationSe
 		this.className = objectClass.getName();
 		this.methodsToSkip = methodsToSkip;
 
+		//noinspection unchecked
 		RemoteMethodExecuteRequest.registerObjectFetch(objectClass,
-				(identifier) -> getByIdentifier((Identifier) identifier));
+			(identifier) -> getByIdentifier((Identifier) identifier));
 	}
 
 	// For raw use of this class. Although it is recommended to use a specific subclass of it
@@ -39,18 +41,12 @@ public abstract class SyncedNetworkObject<Identifier, ObjectClass, DestinationSe
 
 	protected <T> T sendRequest(String destinationServer, Object... args) throws SyncedRequestException {
 		StackWalker.StackFrame stackFrame = StackWalker
-				.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
-				.walk(frames ->
-						frames.skip(methodsToSkip)
-								.findFirst()
-								.orElse(null)
-				);
-
-		if (stackFrame == null) {
-			RuntimeException exception = new RuntimeException("Can not call SyncedNetworkObject#sendRequest. StackFrame is empty.");
-			Logger.error(exception);
-			throw new RuntimeException(exception);
-		}
+			.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+			.walk(frames ->
+				Objects.requireNonNull(frames.skip(methodsToSkip)
+					.findFirst()
+					.orElse(null))
+			);
 
 		String methodName = stackFrame.getMethodName();
 
@@ -63,12 +59,12 @@ public abstract class SyncedNetworkObject<Identifier, ObjectClass, DestinationSe
 		}
 
 		CompletableFuture<T> future = new RemoteMethodExecuteRequest<T>(
-				destinationServer,
-				className,
-				methodName,
-				parameterTypes,
-				getIdentifier(),
-				args).send();
+			destinationServer,
+			className,
+			methodName,
+			parameterTypes,
+			getIdentifier(),
+			args).send();
 
 		T response;
 

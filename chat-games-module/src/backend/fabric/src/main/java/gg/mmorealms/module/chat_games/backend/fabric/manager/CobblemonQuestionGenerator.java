@@ -10,9 +10,11 @@ import com.cobblemon.mod.common.api.types.ElementalType;
 import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.raduvoinea.utils.logger.Logger;
+import gg.mmorealms.module.chat_games.backend.common.config.ChatGamesConfig;
 import gg.mmorealms.module.chat_games.backend.common.manager.AbstractPokemonQuestionGenerator;
 import gg.mmorealms.module.chat_games.common.dto.GeneratedQuestion;
 import gg.mmorealms.module.chat_games.common.dto.QuestionType;
+import gg.mmorealms.module.chat_games.common.utils.AnswerNormalizer;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +26,8 @@ public class CobblemonQuestionGenerator extends AbstractPokemonQuestionGenerator
 
 	private final EnumSet<QuestionType> loadedTypes = EnumSet.noneOf(QuestionType.class);
 
-	public CobblemonQuestionGenerator() {
+	public CobblemonQuestionGenerator(ChatGamesConfig config) {
+		super(config);
 	}
 
 	@Nullable
@@ -93,7 +96,7 @@ public class CobblemonQuestionGenerator extends AbstractPokemonQuestionGenerator
 			case DEX_ENTRY -> this.dexEntries = resolveDexEntries(PokemonSpecies.getImplemented());
 			case POKEMON_TYPE, TYPE_POKEMON -> this.pokemonTypes = resolvePokemonTypes(PokemonSpecies.getImplemented());
 			case POKEMON_ABILITY -> this.pokemonAbilities = resolvePokemonAbilities(PokemonSpecies.getImplemented());
-			case ABILITY_POKEMON -> this.abilityPokemon = resolveAbilityPokemon(PokemonSpecies.getImplemented());
+			case ABILITY_POKEMON -> resolveAbilityPokemon(PokemonSpecies.getImplemented());
 			case POKEMON_FORM -> this.pokemonForms = resolvePokemonForms(PokemonSpecies.getImplemented());
 			case EGG_GROUP_POKEMON -> this.eggGroupPokemon = resolveEggGroupPokemon(PokemonSpecies.getImplemented());
 		}
@@ -163,11 +166,12 @@ public class CobblemonQuestionGenerator extends AbstractPokemonQuestionGenerator
 		return result;
 	}
 
-	private Map<String, List<String>> resolveAbilityPokemon(Collection<Species> implemented) {
+	private void resolveAbilityPokemon(Collection<Species> implemented) {
 		Map<String, List<String>> result = new HashMap<>();
+		Map<String, String> displayNames = new HashMap<>();
 
 		for (Species species : implemented) {
-			Map<String, Set<String>> abilityToAnswers = new LinkedHashMap<>();
+			Map<String, Set<String>> keyToAnswers = new LinkedHashMap<>();
 
 			List<FormData> forms = species.getForms().isEmpty()
 				? List.of(species.getStandardForm())
@@ -186,7 +190,12 @@ public class CobblemonQuestionGenerator extends AbstractPokemonQuestionGenerator
 					.orElse(null);
 
 				for (String ability : formAbilities) {
-					Set<String> answers = abilityToAnswers.computeIfAbsent(ability, k -> new LinkedHashSet<>());
+					String key = AnswerNormalizer.normalize(ability);
+					if (key.isEmpty()) {
+						continue;
+					}
+					displayNames.putIfAbsent(key, ability);
+					Set<String> answers = keyToAnswers.computeIfAbsent(key, k -> new LinkedHashSet<>());
 					answers.add(species.getName());
 					if (megaName != null) {
 						answers.add(megaName);
@@ -194,12 +203,13 @@ public class CobblemonQuestionGenerator extends AbstractPokemonQuestionGenerator
 				}
 			}
 
-			for (Map.Entry<String, Set<String>> entry : abilityToAnswers.entrySet()) {
+			for (Map.Entry<String, Set<String>> entry : keyToAnswers.entrySet()) {
 				result.computeIfAbsent(entry.getKey(), k -> new ArrayList<>()).addAll(entry.getValue());
 			}
 		}
 
-		return result;
+		this.abilityPokemon = result;
+		this.abilityDisplayNames = displayNames;
 	}
 
 	private Map<String, List<String>> resolvePokemonForms(Collection<Species> implemented) {
@@ -211,17 +221,24 @@ public class CobblemonQuestionGenerator extends AbstractPokemonQuestionGenerator
 			}
 
 			for (FormData form : species.getForms()) {
-				String formName = form.getName();
-
-				if (formName.equalsIgnoreCase("Normal") || formName.contains("-") || EXCLUDED_FORM_NAMES.contains(formName.toLowerCase())) {
+				String normalizedName = normalizeFormName(form.getName());
+				if (normalizedName.isEmpty()
+					|| normalizedName.equals("normal")
+					|| normalizedName.equals("standard")
+					|| normalizedName.equals("base")
+					|| normalizedName.startsWith("mega")) {
 					continue;
 				}
 
-				result.computeIfAbsent(formName, k -> new ArrayList<>()).add(species.getName());
+				String displayKey = resolveFormDisplay(species.getName(), normalizedName);
+				if (EXCLUDED_FORM_NAMES.contains(displayKey)) {
+					continue;
+				}
+
+				String displayName = titleCase(displayKey);
+				result.computeIfAbsent(displayName, k -> new ArrayList<>()).add(species.getName());
 			}
 		}
-
-		result.entrySet().removeIf(entry -> entry.getValue().size() < 2);
 
 		return result;
 	}

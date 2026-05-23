@@ -31,10 +31,10 @@ public class NeoForgeLoader extends BackendLoader {
 	@Override
 	protected CommonCommandManager createCommandManager() {
 		NeoForgeCommandManager commandManager = new NeoForgeCommandManager(
-				this.getReflectionsCrawler().getReflections().from("gg.mmorealms"),
-				this.getCommandManagerConfig(),
-				this.server,
-				this.getInjectorHolder()
+			this.getReflectionsCrawler().getReflections().from("gg.mmorealms"),
+			this.getCommandManagerConfig(),
+			this.server,
+			this.getInjectorHolder()
 		);
 		this.miniMessageManager = commandManager.getMiniMessageManager();
 

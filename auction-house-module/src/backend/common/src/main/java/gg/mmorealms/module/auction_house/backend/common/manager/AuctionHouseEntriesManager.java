@@ -91,6 +91,7 @@ public class AuctionHouseEntriesManager {
 
 	public void deleteEntryFromCache(AuctionHouseEntry entry) {
 		if (entries == null) {
+			Logger.error("Entries is null");
 			return;
 		}
 
@@ -99,6 +100,7 @@ public class AuctionHouseEntriesManager {
 
 	public void deleteEntryFromCache(Long id) {
 		if (entries == null) {
+			Logger.error("Entries is null");
 			return;
 		}
 
@@ -109,6 +111,7 @@ public class AuctionHouseEntriesManager {
 
 	public boolean hasEntryInCache(AuctionHouseEntry entry) {
 		if (entries == null) {
+			Logger.error("Entries is null");
 			return false;
 		}
 

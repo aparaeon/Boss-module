@@ -9,6 +9,8 @@ import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
+import gg.mmorealms.module.core.backend.common.gui.feature.interfaces.IAutoRefreshGUI;
 import gg.mmorealms.module.essentials.backend.common.EssentialsBackendModule;
 import gg.mmorealms.module.essentials.backend.common.config.EssentialsConfig;
 import gg.mmorealms.module.essentials.backend.common.dto.InventorySlot;
@@ -19,22 +21,26 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.UUID;
 
-public class EnderChestSeeGUI extends GUI {
+public class EnderChestSeeGUI extends GUI implements IAutoRefreshGUI {
 
 	public static final String PLAYER_ENDER_CHEST_STREAM_TYPE = "player_ender_chest";
 
 	private final UUID targetUUID;
 	private final EssentialsConfig.EnderChestSeeGUI config;
 
-	private int ticks = 0;
 	private int offlineStreams = 0;
 
 	public EnderChestSeeGUI(User user, UUID targetUUID) {
 		super(
-				user,
-				new Settings()
-						.chestSize(4)
-						.manipulatePlayerSlots(true)
+			user,
+			new GUISettings()
+				.chestSize(4)
+				.manipulatePlayerSlots(true)
+				.autoRefresh(
+					new GUISettings.AutoRefreshSettings()
+						.enabled(true)
+						.tickInterval(4)
+				)
 		);
 		this.targetUUID = targetUUID;
 		this.config = EssentialsBackendModule.instance().getConfig().enderChestSeeGUI;
@@ -44,13 +50,12 @@ public class EnderChestSeeGUI extends GUI {
 	public String getTitleString() {
 		IUser target = IUser.getByUUID(targetUUID);
 		return new MessageBuilder("{target}'s Ender Chest") // TODO Config
-				.parse("target", target.getUsername())
-				.parse();
+			.parse("target", target.getUsername())
+			.parse();
 	}
 
-
 	@Override
-	public void setup() {
+	protected void draw() {
 		setButton(config.backgroundItem);
 
 		String streamData = StreamableResource.streamData(PLAYER_ENDER_CHEST_STREAM_TYPE + "#" + targetUUID);
@@ -68,10 +73,10 @@ public class EnderChestSeeGUI extends GUI {
 
 		SerializableEnderChest targetEnderChest = CommonLoader.instance().fromJson(streamData, SerializableEnderChest.class);
 		setButtons(
-				config.targetItem,
-				targetEnderChest.getItems(),
-				config.itemsSlot,
-				(ClickType click, Integer index) -> removeItem(click, index, InventorySlot.Type.PLAYER_ENDER_CHEST)
+			config.targetItem,
+			targetEnderChest.getItems(),
+			config.itemsSlot,
+			(ClickType click, Integer index) -> removeItem(click, index, InventorySlot.Type.PLAYER_ENDER_CHEST)
 		);
 
 		setPlayerInventory(config.userItem, this::addItem);
@@ -80,7 +85,7 @@ public class EnderChestSeeGUI extends GUI {
 	public void removeItem(ClickType click, int slot, InventorySlot.Type type) {
 		IUser target = IUser.getByUUID(targetUUID);
 		new SetItemEvent(target.getServerLocation().getServer(), target.getUUID(), new InventorySlot(type, slot,
-				CodecUtils.serialize(ItemStack.CODEC, ItemStack.EMPTY)
+			CodecUtils.serialize(ItemStack.CODEC, ItemStack.EMPTY)
 		)).send();
 	}
 
@@ -88,26 +93,16 @@ public class EnderChestSeeGUI extends GUI {
 		IUser target = IUser.getByUUID(targetUUID);
 
 		new AddItemEvent(
-				target.getServerLocation().getServer(),
-				target.getUUID(),
-				CodecUtils.serialize(ItemStack.CODEC, user.getPlayer().getInventory().getItem(slot)),
-				InventorySlot.Type.PLAYER_ENDER_CHEST
+			target.getServerLocation().getServer(),
+			target.getUUID(),
+			CodecUtils.serialize(ItemStack.CODEC, user.getPlayer().getInventory().getItem(slot)),
+			InventorySlot.Type.PLAYER_ENDER_CHEST
 		).send();
 	}
 
 	@Override
-	public void onTick() {
-		if (offlineStreams >= config.offlineStreamThreshold) {
-			setButton(config.offlineStream);
-			return;
-		}
-
-		ticks++;
-
-		if (ticks >= 4) {
-			ticks = 0;
-			refresh();
-		}
+	public boolean shouldAutoRefresh() {
+		return offlineStreams >= config.offlineStreamThreshold;
 	}
 
 }

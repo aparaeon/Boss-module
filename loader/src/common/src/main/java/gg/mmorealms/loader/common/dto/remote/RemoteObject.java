@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.naming.CommunicationException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.*;
 
 @SuppressWarnings({"FieldCanBeLocal", "unused"})
@@ -33,18 +34,12 @@ public abstract class RemoteObject<Identifier, ObjectInterface> {
 
 	protected <T> T sendRequest(Object... args) {
 		StackWalker.StackFrame stackFrame = StackWalker
-				.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
-				.walk(frames ->
-						frames.skip(1)
-								.findFirst()
-								.orElse(null)
-				);
-
-		if (stackFrame == null) {
-			RuntimeException exception = new RuntimeException("Can not call RemoteObject#sendRequest. StackFrame is empty.");
-			Logger.error(exception);
-			throw new RuntimeException(exception);
-		}
+			.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE)
+			.walk(frames ->
+				Objects.requireNonNull(frames.skip(1)
+					.findFirst()
+					.orElse(null))
+			);
 
 		String className = interfaceClass.getName();
 		String methodName = stackFrame.getMethodName();

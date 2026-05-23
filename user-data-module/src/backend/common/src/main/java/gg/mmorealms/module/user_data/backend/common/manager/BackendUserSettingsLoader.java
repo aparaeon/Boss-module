@@ -23,6 +23,7 @@ public class BackendUserSettingsLoader extends BackendPlayerDependentDatabaseLoa
 	@Override
 	public void onJoin(@NotNull ServerPlayer player) {
 		BackendUserSettings userSettings = IBackendUserSettings.getByPlayer(player);
+
 		for (IUserSetting<ServerPlayer> setting : userSettings.getSettings()) {
 			setting.apply(player);
 		}
@@ -30,7 +31,11 @@ public class BackendUserSettingsLoader extends BackendPlayerDependentDatabaseLoa
 
 	@Override
 	public void onLeave(@NotNull ServerPlayer player) {
+		BackendUserSettings userSettings = IBackendUserSettings.getByPlayer(player);
 
+		for (IUserSetting<ServerPlayer> setting : userSettings.getSettings()) {
+			setting.cleanup(player);
+		}
 	}
 
 	@Override

@@ -10,9 +10,9 @@ public class ModuleLoadException extends Exception {
 
 	public ModuleLoadException(Object module, String error, Exception cause) {
 		super(new MessageBuilder("Failed to load module {module}. Error: {error}")
-				.parse("module", module.toString())
-				.parse("error", error)
-				.parse(), cause);
+			.parse("module", module.toString())
+			.parse("error", error)
+			.parse(), cause);
 	}
 
 }

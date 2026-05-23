@@ -17,9 +17,9 @@ public interface ISavable extends ICacheable {
 	 */
 	default List<String> autoSaveMethods() {
 		return List.of(
-				"set",
-				"add",
-				"remove"
+			"set",
+			"add",
+			"remove"
 		);
 	}
 

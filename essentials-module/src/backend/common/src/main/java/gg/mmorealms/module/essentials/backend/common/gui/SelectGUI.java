@@ -4,6 +4,7 @@ import gg.mmorealms.loader.common.dto.ServerType;
 import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
 import gg.mmorealms.module.core.common.dto.server_location.IServerLocation;
 import gg.mmorealms.module.essentials.backend.common.EssentialsBackendModule;
 import gg.mmorealms.module.essentials.backend.common.config.EssentialsConfig;
@@ -12,7 +13,7 @@ public class SelectGUI extends GUI {
 	private final EssentialsConfig config = EssentialsBackendModule.instance().getConfig();
 
 	public SelectGUI(User user) {
-		super(user, new Settings().chestSize(6));
+		super(user, new GUISettings().chestSize(6));
 		open();
 	}
 
@@ -22,7 +23,7 @@ public class SelectGUI extends GUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		setButton(config.selectGUI.teleportSpawn)
 				.onClick(this::teleportSpawn);
 
@@ -46,8 +47,8 @@ public class SelectGUI extends GUI {
 
 	public void teleportWild(ClickType click) {
 		EssentialsBackendModule.instance().getServer().getCommands().performPrefixedCommand(
-			user.getPlayer().createCommandSourceStack(),
-			"/rtp"
+				user.getPlayer().createCommandSourceStack(),
+				"/rtp"
 		);
 	}
 }

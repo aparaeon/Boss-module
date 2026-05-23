@@ -27,7 +27,7 @@ object InternalLibs {
     val breeding:         InternalLib = InternalLib(base = "gg.mmorealms:breeding-module",          version = "1.0.57")
     val userData:         InternalLib = InternalLib(base = "gg.mmorealms:user-data-module",         version = "1.0.62")
     val chat:             InternalLib = InternalLib(base = "gg.mmorealms:chat-module",              version = "1.0.70")
-    val crates:           InternalLib = InternalLib(base = "gg.mmorealms:crates-module",            version = "1.0.60")
+    val crates:           InternalLib = InternalLib(base = "gg.mmorealms:crates-module",            version = "1.0.61")
     val discordChat:      InternalLib = InternalLib(base = "gg.mmorealms:discord-chat-module",      version = "1.0.48")
     val discordLink:      InternalLib = InternalLib(base = "gg.mmorealms:discord-link-module",      version = "1.0.53")
     val essentials:       InternalLib = InternalLib(base = "gg.mmorealms:essentials-module",        version = "1.0.102")

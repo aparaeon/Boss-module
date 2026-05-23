@@ -133,8 +133,12 @@ public abstract class GUI implements IGUI {
 	}
 
 	protected void close() {
-		CoreBackendModule.instance().getGuiManager().closeGUI(this.user);
+		if (this.closed) {
+			return;
+		}
+
 		this.closed = true;
+		CoreBackendModule.instance().getGuiManager().closeGUI(this.user);
 	}
 
 	public void open(ClickType clickType) {

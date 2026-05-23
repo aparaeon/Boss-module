@@ -18,10 +18,10 @@ public class FabricLoader extends BackendLoader implements ModInitializer {
 	@Override
 	protected FabricCommandManager createCommandManager() {
 		FabricCommandManager commandManager = new FabricCommandManager(
-				this.getReflectionsCrawler().getReflections().from("gg.mmorealms"),
-				this.getCommandManagerConfig(),
-				this.server,
-				this.getInjectorHolder()
+			this.getReflectionsCrawler().getReflections().from("gg.mmorealms"),
+			this.getCommandManagerConfig(),
+			this.server,
+			this.getInjectorHolder()
 		); // TODO document the gg.mmorealms
 		export(commandManager, CommonCommandManager.class);
 		export(commandManager, FabricCommandManager.class);

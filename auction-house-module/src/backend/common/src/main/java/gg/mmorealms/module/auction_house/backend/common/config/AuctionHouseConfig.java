@@ -1,6 +1,7 @@
 package gg.mmorealms.module.auction_house.backend.common.config;
 
 import com.raduvoinea.utils.generic.Time;
+import com.raduvoinea.utils.message_builder.MessageBuilder;
 import com.raduvoinea.utils.message_builder.MessageBuilderList;
 import gg.mmorealms.module.auction_house.backend.common.dto.AuctionHouseCategory;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
@@ -33,6 +34,7 @@ public class AuctionHouseConfig {
 			new AuctionHouseCategory("minerals", true, List.of("coal", "coal_block", "diamond", "diamond_block", "emerald", "emerald_block", "lapis_lazuli", "lapis_block", "raw_iron", "raw_iron_block", "iron_ingot", "iron_block", "raw_copper", "raw_copper_block", "copper_ingot", "copper_block", "exposed_copper", "weathered_copper", "oxidized_copper", "raw_gold", "raw_gold_block", "gold_ingot", "gold_block"
 			))
 	);
+	
 
 	// For the GUI to work the code makes the assumption that these categories are present
 	public AuctionHouseCategory otherCategory = new AuctionHouseCategory("other", true, new ArrayList<>());
@@ -40,6 +42,7 @@ public class AuctionHouseConfig {
 	public AuctionHouseCategory ownCategory = new AuctionHouseCategory("own_listings", false, new ArrayList<>());
 
 	public CurrencyType currency = CurrencyType.POKECOINS;
+	public double listingTaxPercent = 2.5;
 
 	public HashMap<String, String> pokemonSpecials = new HashMap<>() {{
 		put("mythical_galaxy", "Galaxy");
@@ -73,19 +76,16 @@ public class AuctionHouseConfig {
 				36, 37, 38, 39, 40, 41, 42, 43, 44
 		);
 
-		public GUIButton back = new GUIButton()
-				.display(Items.ARROW)
-				.displayName("<bold><white>Back")
+		public GUIButton back = GUIButton.of(Items.ARROW)
+				.name("<bold><white>Back")
 				.position(5, 0);
 
-		public GUIButton next = new GUIButton()
-				.display(Items.ARROW)
-				.displayName("<bold><white>Next")
+		public GUIButton next = GUIButton.of(Items.ARROW)
+				.name("<bold><white>Next")
 				.position(5, 8);
 
-		public GUIButton info = new GUIButton()
-				.display(Items.PAPER)
-				.displayName("<bold><white>Information")
+		public GUIButton info = GUIButton.of(Items.PAPER)
+				.name("<bold><white>Information")
 				.lore(
 						"<white>Here you can trade items with other players",
 						"<white>This uses the currency <yellow>{currency}",
@@ -93,43 +93,36 @@ public class AuctionHouseConfig {
 				)
 				.position(5, 4);
 
-		public GUIButton filter = new GUIButton()
-				.display(Items.BOOK)
-				.displayName("<bold><white>Filter")
+		public GUIButton filter = GUIButton.of(Items.BOOK)
+				.name("<bold><white>Filter")
 				.position(5, 2);
 
-		public GUIButton goToMain = new GUIButton()
-				.display(Items.BOOK)
-				.displayName("<bold><white>Go back to all categories")
+		public GUIButton goToMain = GUIButton.of(Items.BOOK)
+				.name("<bold><white>Go back to all categories")
 				.position(5, 2);
 
-		public GUIButton ownListings = new GUIButton()
-				.display(Items.PLAYER_HEAD)
+		public GUIButton ownListings = GUIButton.of(Items.PLAYER_HEAD)
 				.skullOwner("{user}")
-				.displayName("<bold><white>Own Listings")
+				.name("<bold><white>Own Listings")
 				.lore(
 						"<white>Here you can see your own listings",
 						"<white>Click to view"
 				)
 				.position(5, 3);
 
-		public GUIButton refresh = new GUIButton()
-				.display(Items.YELLOW_WOOL)
-				.displayName("<bold><white>Refresh")
+		public GUIButton refresh = GUIButton.of(Items.YELLOW_WOOL)
+				.name("<bold><white>Refresh")
 				.position(5, 5);
 
-		public GUIButton close = new GUIButton()
-				.display(Items.BARRIER)
-				.displayName("<bold><white>Close")
+		public GUIButton close = GUIButton.of(Items.BARRIER)
+				.name("<bold><white>Close")
 				.position(5, 6);
-
 	}
 
 	public static class Lang {
 		public String mustBeHoldingItem = "You must be holding an item to sell it";
 		public String maxEntries = "You have reached the maximum amount of listings you can have in the auction house";
-		public String itemListed = "Item listed";
-		public String pokemonListed = "Pokemon listed";
+		public String entryListed = "Your entry was listed on the auction house";
 		public String invalidIndex = "Invalid index";
 		public String invalidPrice = "Invalid price";
 		public String noCobblemon = "Cobblemon is not present on the server. This feature is disabled";
@@ -146,6 +139,7 @@ public class AuctionHouseConfig {
 		public String noPermissionToRemove = "Not permitted to remove this item";
 		public String locked = "<red>This item is in a locked state.";
 		public String rateLimitMessage = "<red>You are being rate-limited. Please slow down and try again later";
+		public MessageBuilder notEnoughMoneyForTax = new MessageBuilder("<red>You don't have enough money to cover the listing tax of {tax} {currency}.");
 
 		public MessageBuilderList entryLore = new MessageBuilderList(List.of(
 				"<aqua>Sold by: <white>%owner%",

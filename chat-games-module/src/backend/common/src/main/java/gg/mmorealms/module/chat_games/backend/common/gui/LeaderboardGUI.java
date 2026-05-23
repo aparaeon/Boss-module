@@ -5,14 +5,16 @@ import gg.mmorealms.module.chat_games.backend.common.config.ChatGamesConfig;
 import gg.mmorealms.module.chat_games.common.dto.LeaderboardEntry;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
-import gg.mmorealms.module.core.backend.common.gui.PagedGUI;
+import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
+import gg.mmorealms.module.core.backend.common.gui.feature.interfaces.IPagedGUI;
 import gg.mmorealms.module.essentials.common.dto.event.CommandExecuteEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class LeaderboardGUI extends PagedGUI {
+public class LeaderboardGUI extends GUI implements IPagedGUI {
 
 	private final List<LeaderboardEntry> overallEntries;
 	private final List<LeaderboardEntry> seasonEntries;
@@ -22,7 +24,10 @@ public class LeaderboardGUI extends PagedGUI {
 	private LeaderboardGUI(User user, List<LeaderboardEntry> overallEntries,
 	                       List<LeaderboardEntry> seasonEntries, boolean season,
 	                       Map<Integer, List<String>> seasonRewardLore) {
-		super(user, new Settings().chestSize(6));
+		super(user, new GUISettings()
+			.chestSize(6)
+			.paged(new GUISettings.PagedSettings()
+				.enabled(true)));
 		this.overallEntries = overallEntries;
 		this.seasonEntries = seasonEntries;
 		this.season = season;
@@ -46,7 +51,7 @@ public class LeaderboardGUI extends PagedGUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		setupContentBackground();
 		setupFooter();
 
@@ -70,7 +75,7 @@ public class LeaderboardGUI extends PagedGUI {
 	}
 
 	@Override
-	protected int getPagesCount() {
+	public int getPagesCount() {
 		List<LeaderboardEntry> entries = entries();
 		if (entries.isEmpty()) {
 			return 1;
@@ -85,9 +90,9 @@ public class LeaderboardGUI extends PagedGUI {
 		}
 
 		setButton(config().leaderboardGUI.previousPage)
-			.onClick(this::previousPage);
+			.onClick(this::backPage);
 
-		setButton(config().leaderboardGUI.header.clone()
+		setButton(config().leaderboardGUI.header.copy()
 			.placeholder("page", getPage() + 1)
 			.placeholder("total", entries().size()));
 
@@ -129,7 +134,7 @@ public class LeaderboardGUI extends PagedGUI {
 			default -> "<white>";
 		};
 
-		GUIButton button = config().leaderboardGUI.entry.clone()
+		GUIButton button = config().leaderboardGUI.entry.copy()
 			.placeholder("placement_color", placementColor)
 			.placeholder("placement", entry.getPlacement())
 			.placeholder("username", entry.getUsername())

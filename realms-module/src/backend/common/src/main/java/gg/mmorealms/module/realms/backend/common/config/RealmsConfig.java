@@ -137,11 +137,11 @@ public class RealmsConfig {
 		);
 
 		public GUIButton previous = GUIButton.empty()
-				.displayName("<yellow>Previous Page")
+				.name("<yellow>Previous Page")
 				.position(5, 1, 2, 1);
 
 		public GUIButton next = GUIButton.empty()
-				.displayName("<yellow>Next Page")
+				.name("<yellow>Next Page")
 				.position(5, 6, 2, 1);
 	}
 
@@ -261,106 +261,114 @@ public class RealmsConfig {
 		public String noPermissionTime = "<red>You are not allowed to change the time of the realm!";
 		public String noPermissionPokemonSpawn = "<red>You are not allowed to change the pokemon spawning option of this realm!";
 
-		public GUIButton privateLeftButton = new GUIButton()
-				.display(ItemBuilder.of()
-						.display(Items.PAPER)
-						.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1002))
+		public GUIButton privateLeftButton = GUIButton.of()
+				.display(
+						ItemBuilder.of()
+								.display(Items.PAPER)
+								.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1002))
+								.build()
 				)
-				.displayName("<red>Private")
+				.name("<red>Private")
 				.position(38);
 
 		public GUIButton privateRightButton = GUIButton.empty()
-				.displayName("<red>Private")
+				.name("<red>Private")
 				.position(39);
 
 		public GUIButton publicLeftButton = GUIButton.empty()
-				.displayName("<green>Public")
+				.name("<green>Public")
 				.position(38);
 
-		public GUIButton publicRightButton = new GUIButton()
-				.display(ItemBuilder.of()
-						.display(Items.PAPER)
-						.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1001))
+		public GUIButton publicRightButton = GUIButton.of()
+				.display(
+						ItemBuilder.of()
+								.display(Items.PAPER)
+								.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1001))
+								.build()
 				)
-				.displayName("<green>Public")
+				.name("<green>Public")
 				.position(39);
 
-		public GUIButton onTimeLeftButton = new GUIButton()
-				.display(ItemBuilder.of()
-						.display(Items.PAPER)
-						.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1003))
+		public GUIButton onTimeLeftButton = GUIButton.of()
+				.display(
+						ItemBuilder.of()
+								.display(Items.PAPER)
+								.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1003))
+								.build()
 				)
-				.displayName("<green>Day / night cycle ON")
+				.name("<green>Day / night cycle ON")
 				.position(23);
 
 		public GUIButton onTimeRightButton = GUIButton.empty()
-				.displayName("<green>Day / night cycle ON")
+				.name("<green>Day / night cycle ON")
 				.position(24);
 
 		public GUIButton offTimeButton = GUIButton.empty()
-				.displayName("<red>Day / night cycle OFF")
+				.name("<red>Day / night cycle OFF")
 				.position(2, 5, 2, 1);
 
 		public GUIButton onWeatherLeftButton = GUIButton.empty()
-				.display(ItemBuilder.of()
-						.display(Items.PAPER)
-						.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1004))
+				.display(
+						ItemBuilder.of()
+								.display(Items.PAPER)
+								.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1004))
+								.build()
 				)
-				.displayName("<aqua>Raining")
+				.name("<aqua>Raining")
 				.position(20);
 
 		public GUIButton onWeatherRightButton = GUIButton.empty()
-				.displayName("<aqua>Raining")
+				.name("<aqua>Raining")
 				.position(21);
 
 		public GUIButton offWeatherButton = GUIButton.empty()
-				.displayName("<green>Normal Weather")
+				.name("<green>Normal Weather")
 				.position(2, 2, 2, 1);
 
-		public GUIButton onPokemonSpawningLeftButton = new GUIButton()
-				.display(ItemBuilder.of()
-						.display(Items.PAPER)
-						.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1005))
+		public GUIButton onPokemonSpawningLeftButton = GUIButton.of()
+				.display(
+						ItemBuilder.of()
+								.display(Items.PAPER)
+								.dataComponent(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(1005))
+								.build()
 				)
-				.displayName("<green>Pokemon Spawning ON")
+				.name("<green>Pokemon Spawning ON")
 				.position(5);
 
 		public GUIButton onPokemonSpawningRightButton = GUIButton.empty()
-				.displayName("<green>Pokemon Spawning ON")
+				.name("<green>Pokemon Spawning ON")
 				.position(6);
 
 		public GUIButton offPokemonSpawningButton = GUIButton.empty()
-				.displayName("<red>Pokemon Spawning OFF")
+				.name("<red>Pokemon Spawning OFF")
 				.position(0, 5, 2, 1);
 	}
 
 	public static class RealmVisitGUI {
 		public GUIButton publicFilter = GUIButton.empty()
-				.displayName("<green>Public Realms")
+				.name("<green>Public Realms")
 				.position(49);
 
 		public GUIButton privateFilter = GUIButton.empty()
-				.displayName("<yellow>Private Realms")
+				.name("<yellow>Private Realms")
 				.position(49);
 
-		public GUIButton privateRealm = new GUIButton()
-				.displayName("{user}")
-				.display(Items.PLAYER_HEAD)
+		public GUIButton privateRealm = GUIButton.of(Items.PLAYER_HEAD)
+				.name("{user}")
 				.skullOwner("{user}")
 				.lore(List.of("<green>Left-Click to teleport to this realm",
 						"<red>Right-Click to stop being a member of this realm"
 				));
 
-		public GUIButton publicRealm = new GUIButton()
-				.displayName("{user}")
-				.display(Items.PLAYER_HEAD)
+		public GUIButton publicRealm = GUIButton.of(Items.PLAYER_HEAD)
+				.name("{user}")
 				.skullOwner("{user}")
 				.lore(List.of("<green>Left-click to teleport to the realm owner by <gold>{user}"));
 	}
 
 	public static class RealmMembersGUI {
 		public GUIButton members = GUIButton.empty()
-				.displayName("<green>Members")
+				.name("<green>Members")
 				.position(49);
 	}
 
@@ -368,21 +376,21 @@ public class RealmsConfig {
 		public String titleBase = "\uF812";
 
 		public GUIButton previous = GUIButton.empty()
-				.displayName("<yellow>Previous Realm Type")
+				.name("<yellow>Previous Realm Type")
 				.position(2, 0, 2, 2);
 
 		public GUIButton next = GUIButton.empty()
-				.displayName("<yellow>Next Realm Type")
+				.name("<yellow>Next Realm Type")
 				.position(2, 7, 2, 2);
 
 		public GUIButton create = GUIButton.empty()
-				.displayName("<green>Create Realm")
+				.name("<green>Create Realm")
 				.position(5, 3, 3, 1);
 	}
 
 	public static class RealmGUI {
 		public GUIButton teleport = GUIButton.empty()
-				.displayName("<green>Teleport")
+				.name("<green>Teleport")
 				.lore(List.of(
 						"",
 						"<gray>Teleport to your realm"
@@ -390,7 +398,7 @@ public class RealmsConfig {
 				.position(4, 3, 3, 1);
 
 		public GUIButton members = GUIButton.empty()
-				.displayName("<white>Members")
+				.name("<white>Members")
 				.lore(List.of(
 						"",
 						"<gray>View all members of this realm"
@@ -398,7 +406,7 @@ public class RealmsConfig {
 				.position(4, 0, 2, 2);
 
 		public GUIButton settings = GUIButton.empty()
-				.displayName("<white>Settings")
+				.name("<white>Settings")
 				.lore(List.of(
 						"",
 						"<gray>View all settings of this realm",

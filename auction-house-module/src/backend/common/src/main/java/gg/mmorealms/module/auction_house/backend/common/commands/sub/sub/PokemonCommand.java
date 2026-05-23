@@ -5,15 +5,11 @@ import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
 import com.raduvoinea.utils.dependency_injection.annotations.Inject;
 import com.raduvoinea.utils.generic.dto.Range;
-import com.raduvoinea.utils.logger.Logger;
-import gg.mmorealms.loader.common.exception.DatabaseSaveException;
 import gg.mmorealms.loader.common.manager.database.DatabaseManager;
 import gg.mmorealms.module.auction_house.backend.common.AuctionHouseBackendModule;
 import gg.mmorealms.module.auction_house.backend.common.commands.sub.SellCommand;
 import gg.mmorealms.module.auction_house.backend.common.config.AuctionHouseConfig;
-import gg.mmorealms.module.auction_house.backend.common.dto.database.AuctionHouseEntry;
-import gg.mmorealms.module.auction_house.backend.common.exception.RateLimitException;
-import gg.mmorealms.module.auction_house.common.event.AuctionHouseEntryAddedEvent;
+import gg.mmorealms.module.auction_house.backend.common.gui.impl.PokemonListingConfirmationGUI;
 import gg.mmorealms.module.core.backend.common.command.UserCommand;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.pokemon.backend.common.command.IPokemonPartyCommand;
@@ -66,46 +62,31 @@ public class PokemonCommand extends UserCommand implements IPokemonPartyCommand 
 		AtomicLong count = new AtomicLong();
 
 		DatabaseManager.instance().getSessionFactory().inSession((session ->
-				count.set(session.createQuery("SELECT COUNT(*) FROM auction_house_entries WHERE ownerUUID = :ownerUUID", Long.class)
-						.setParameter("ownerUUID", user.getUUID())
-						.getSingleResult()))
+			count.set(session.createQuery("SELECT COUNT(*) FROM auction_house_entries WHERE ownerUUID = :ownerUUID", Long.class)
+				.setParameter("ownerUUID", user.getUUID())
+				.getSingleResult()))
 		);
 
-		if (count.get() >= user.getCountPermission(AuctionHouseBackendModule.AUCTION_HOUSE_MAX_ENTRIES_PERMISSION_BASE, Range.of(0, 100))) { // TODO Config
+		if (count.get() >= user.getCountPermission(AuctionHouseBackendModule.AUCTION_HOUSE_MAX_ENTRIES_PERMISSION_BASE, Range.of(0, 100))) {
 			user.sendMessage(config.lang.maxEntries);
 			return;
 		}
 
 		IPokemon pokemon = getPokemonAtIndex(user, index);
+		IPokemonParty party = getPokemonParty(user);
+		party.setPokemon(index, null);
 
 		if (pokemon == null) {
 			user.sendMessage(config.lang.noPokemon);
 			return;
 		}
 
-        if (pokemon.isMega()) {
-            user.sendMessage(config.lang.noMega);
-            return;
-        }
-
-		AuctionHouseEntry entry;
-		try {
-			entry = new AuctionHouseEntry(user, AuctionHouseEntry.Type.POKEMON, pokemon, price);
-			entry.save();
-		} catch (DatabaseSaveException e) {
-			Logger.error(e);
-			user.sendMessage("<red>There was an error while trying to create an auction house entry.");
-			return;
-		} catch (RateLimitException e) {
-			Logger.error(e);
-			user.sendMessage(e.getMessage());
+		if (pokemon.isMega()) {
+			user.sendMessage(config.lang.noMega);
 			return;
 		}
 
-		IPokemonParty party = getPokemonParty(user);
-		party.setPokemon(index, null);
+		new PokemonListingConfirmationGUI(user, index, pokemon, price).open();
 
-		AuctionHouseBackendModule.instance().getEntriesManager().addEntryInCache(entry, true);
-		user.sendMessage(config.lang.pokemonListed);
 	}
 }

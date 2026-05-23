@@ -9,7 +9,9 @@ import gg.mmorealms.module.auction_house.backend.common.manager.AuctionHouseEntr
 import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.ConfirmationGUI;
-import gg.mmorealms.module.core.backend.common.gui.PagedGUI;
+import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
+import gg.mmorealms.module.core.backend.common.gui.feature.interfaces.IPagedGUI;
 import gg.mmorealms.module.core.common.utils.NumberUtils;
 import gg.mmorealms.module.economy.backend.common.dto.IBalances;
 import net.minecraft.world.item.ItemStack;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class AuctionHouseGUI extends PagedGUI {
+public class AuctionHouseGUI extends GUI implements IPagedGUI {
 
 	private AuctionHouseCategory category;
 	private final AuctionHouseConfig config = AuctionHouseBackendModule.instance().getConfig();
@@ -33,9 +35,17 @@ public class AuctionHouseGUI extends PagedGUI {
 	}
 
 	public AuctionHouseGUI(User user, AuctionHouseCategory category, int page) {
-		super(user, new Settings().chestSize(6), page);
+		super(user,
+			new GUISettings()
+				.paged(
+					new GUISettings.PagedSettings()
+						.enabled(true)
+				)
+				.chestSize(6)
+		);
 
 		this.category = category;
+		this.setPage(page);
 
 		open();
 	}
@@ -46,7 +56,7 @@ public class AuctionHouseGUI extends PagedGUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		IBalances currencies = IBalances.getByUser(getUser());
 		HashMap<String, Object> placeholders = new HashMap<>() {{
 			put("currency", AuctionHouseBackendModule.instance().getConfig().currency);
@@ -55,18 +65,18 @@ public class AuctionHouseGUI extends PagedGUI {
 		}};
 
 		setButton(config.gui.back)
-				.onClick(this::previousPage);
+			.onClick(this::backPage);
 		setButton(config.gui.next)
-				.onClick(this::nextPage);
+			.onClick(this::nextPage);
 
 		setFilterButton();
 		setButton(config.gui.ownListings)
-				.onClick(this::openOwnListings)
-				.placeholders(placeholders);
+			.onClick(this::openOwnListings)
+			.placeholders(placeholders);
 		setButton(config.gui.info)
-				.placeholders(placeholders);
+			.placeholders(placeholders);
 		setButton(config.gui.refresh)
-				.onClick(this::refresh);
+			.onClick(() -> refresh());
 		setButton(config.gui.close).onClick(this::close);
 
 		setEntries();
@@ -93,10 +103,10 @@ public class AuctionHouseGUI extends PagedGUI {
 		AuctionHouseCategory newCategory = categories.get((currentFilterIndex + 1) % categories.size());
 
 		setButton(AuctionHouseBackendModule.instance().getConfig().gui.filter)
-				.lore(filterLore)
-				.onClick((click) ->
-						new AuctionHouseGUI(getUser(), newCategory)
-				);
+			.lore(filterLore)
+			.onClick((click) ->
+				new AuctionHouseGUI(getUser(), newCategory)
+			);
 	}
 
 	private void setEntries() {
@@ -124,21 +134,21 @@ public class AuctionHouseGUI extends PagedGUI {
 
 			ItemStack itemStack = entry.getDisplayItem();
 			setButton(slots.get(index - start))
-					.displayName(itemStack.getHoverName().getString())
-					.display(itemStack)
-					.onClick((click) ->
-							new ConfirmationGUI(user) {
-								@Override
-								protected void onConfirm(ClickType click) {
-									purchase(click, entry);
-								}
+				.name(itemStack.getHoverName().getString())
+				.display(itemStack)
+				.onClick((click) ->
+					new ConfirmationGUI(user) {
+						@Override
+						protected void onConfirm() {
+							purchase(click, entry);
+						}
 
-								@Override
-								protected void onCancel(ClickType click) {
-									AuctionHouseGUI.super.open();
-								}
-							}.open()
-					);
+						@Override
+						protected void onCancel() {
+							AuctionHouseGUI.super.open();
+						}
+					}.open()
+				);
 		}
 	}
 

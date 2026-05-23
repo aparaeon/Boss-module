@@ -41,8 +41,8 @@ public class JarFileUtils {
 			} catch (Throwable exception) {
 				// TODO Maybe do something about this
 				Logger.warn(new MessageBuilder("Failed to load class {class_name}")
-						.parse("class_name", className)
-						.parse()
+					.parse("class_name", className)
+					.parse()
 				);
 				Logger.warn(exception);
 			}

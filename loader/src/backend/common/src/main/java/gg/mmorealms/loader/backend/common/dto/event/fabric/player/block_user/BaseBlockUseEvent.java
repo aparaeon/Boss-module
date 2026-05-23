@@ -44,7 +44,7 @@ public abstract class BaseBlockUseEvent extends LocalRequest<EventResult> {
 
 	public Vec3 getHitLocation() {
 		return new Vec3(positon.getX() + 0.5, positon.getY() + 0.5, positon.getZ() + 0.5)
-				.add(face.getStepX() * 0.5, face.getStepY() * 0.5, face.getStepZ() * 0.5);
+			.add(face.getStepX() * 0.5, face.getStepY() * 0.5, face.getStepZ() * 0.5);
 	}
 
 }

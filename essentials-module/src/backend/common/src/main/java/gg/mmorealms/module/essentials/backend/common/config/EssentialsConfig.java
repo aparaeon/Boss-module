@@ -5,6 +5,7 @@ import com.raduvoinea.utils.generic.Time;
 import com.raduvoinea.utils.generic.dto.Range;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.loader.backend.common.utils.CodecUtils;
+import gg.mmorealms.loader.common.dto.location.Location;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import gg.mmorealms.module.core.backend.common.utils.ItemBuilder;
 import gg.mmorealms.module.core.common.dto.PagedMessageGUIConfig;
@@ -19,6 +20,10 @@ import java.util.List;
 
 public class EssentialsConfig {
 	public int borderSize = 20000;
+	public Location spawnLocation = Location.builder(0.5, 60, 0.5)
+			.pitch(0)
+			.yaw(-90)
+			.build();
 
 	public Time repairCooldown = Time.minutes(5);
 	public Time smeltCooldown = Time.minutes(5);
@@ -36,15 +41,15 @@ public class EssentialsConfig {
 
 	public static class SelectGUI {
 		public GUIButton teleportSpawn = GUIButton.empty()
-				.displayName("Teleport to Spawn")
+				.name("Teleport to Spawn")
 				.position(4, 0, 3, 1);
 
 		public GUIButton teleportRealm = GUIButton.empty()
-				.displayName("Teleport to Realm")
+				.name("Teleport to Realm")
 				.position(4, 3, 3, 1);
 
 		public GUIButton teleportWild = GUIButton.empty()
-				.displayName("Teleport to Wild")
+				.name("Teleport to Wild")
 				.position(4, 6, 3, 1);
 	}
 
@@ -102,41 +107,37 @@ public class EssentialsConfig {
 
 		);
 
-		public GUIButton background = new GUIButton()
-				.display(Items.BLACK_STAINED_GLASS_PANE)
-				.displayName("")
+		public GUIButton background = GUIButton.of(Items.BLACK_STAINED_GLASS_PANE)
+				.name("")
 				.position(
 						4, 5, 6, 7,
 						36, 37, 38, 39, 40, 41, 42, 43, 44
 				);
 
-		public GUIButton targetItem = new GUIButton()
+		public GUIButton targetItem = GUIButton.of()
 				.lore(
 						"",
 						"<red>Click to remove"
 				);
-		public GUIButton userItem = new GUIButton()
+		public GUIButton userItem = GUIButton.of()
 				.lore(
 						"",
 						"<green>Click to add"
 				);
 
 		public int statusIndex = 40;
-		public GUIButton onlineStream = new GUIButton()
-				.display(Items.LIME_WOOL)
+		public GUIButton onlineStream = GUIButton.of(Items.LIME_WOOL)
 				.position(40)
-				.displayName("<green>Online");
-		public GUIButton temporaryOfflineStream = new GUIButton()
-				.display(Items.YELLOW_WOOL)
+				.name("<green>Online");
+		public GUIButton temporaryOfflineStream = GUIButton.of(Items.YELLOW_WOOL)
 				.position(40)
-				.displayName("<green>Temporary Offline")
+				.name("<green>Temporary Offline")
 				.lore(
 						"",
 						"Attempting to retrieve inventory..."
 				);
-		public GUIButton offlineStream = new GUIButton()
-				.display(Items.RED_WOOL)
-				.displayName("<red>Offline");
+		public GUIButton offlineStream = GUIButton.of(Items.RED_WOOL)
+				.name("<red>Offline");
 
 		public int offlineStreamThreshold = 50;
 
@@ -155,42 +156,38 @@ public class EssentialsConfig {
 
 		public int offlineStreamThreshold = 50;
 
-		public GUIButton targetItem = new GUIButton()
+		public GUIButton targetItem = GUIButton.of()
 				.lore(
 						"",
 						"<red>Click to remove"
 				);
 
-		public GUIButton userItem = new GUIButton()
+		public GUIButton userItem = GUIButton.of()
 				.lore(
 						"",
 						"<green>Click to add"
 				);
 
-		public GUIButton onlineStream = new GUIButton()
-				.display(Items.LIME_WOOL)
+		public GUIButton onlineStream = GUIButton.of(Items.LIME_WOOL)
 				.position(31)
-				.displayName("<green>Online");
+				.name("<green>Online");
 
-		public GUIButton temporaryOfflineStream = new GUIButton()
-				.display(Items.YELLOW_WOOL)
+		public GUIButton temporaryOfflineStream = GUIButton.of(Items.YELLOW_WOOL)
 				.position(31)
-				.displayName("<green>Temporary Offline")
+				.name("<green>Temporary Offline")
 				.lore(
 						"",
 						"Attempting to retrieve inventory..."
 				);
 
-		public GUIButton offlineStream = new GUIButton()
-				.display(Items.RED_WOOL)
+		public GUIButton offlineStream = GUIButton.of(Items.RED_WOOL)
 				.position(31)
-				.displayName("<red>Offline");
+				.name("<red>Offline");
 
-		public GUIButton backgroundItem = new GUIButton()
-				.display(Items.GRAY_STAINED_GLASS_PANE)
+		public GUIButton backgroundItem = GUIButton.of(Items.GRAY_STAINED_GLASS_PANE)
 				.position(
 						27, 28, 29, 30, 32, 33, 34, 35
 				)
-				.displayName("");
+				.name("");
 	}
 }

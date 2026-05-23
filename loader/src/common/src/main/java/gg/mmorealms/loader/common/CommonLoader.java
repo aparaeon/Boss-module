@@ -11,9 +11,12 @@ import com.raduvoinea.utils.file_manager.dto.gson.SerializableMapGsonTypeAdapter
 import com.raduvoinea.utils.file_manager.dto.gson.SerializableObjectTypeAdapter;
 import com.raduvoinea.utils.file_manager.dto.gson.SerializableSetGsonTypeAdapter;
 import com.raduvoinea.utils.generic.dto.Holder;
+import com.raduvoinea.utils.generic.time.TimeUnitProviderTypeAdapter;
 import com.raduvoinea.utils.generic.utils.NetworkUtils;
 import com.raduvoinea.utils.logger.Logger;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
+import com.raduvoinea.utils.message_builder.MessageBuilderManager;
+import com.raduvoinea.utils.message_builder.gson.KvMessageBuilderTypeAdapter;
 import com.raduvoinea.utils.message_builder.gson.MessageBuilderListTypeAdapter;
 import com.raduvoinea.utils.message_builder.gson.MessageBuilderTypeAdapter;
 import com.raduvoinea.utils.redis_manager.dto.RedisConfig;
@@ -71,8 +74,8 @@ public abstract class CommonLoader {
 	private final RedisConfig redisConfig;
 	private final DatabaseConfig databaseConfig;
 	private final CommandManagerConfig commandManagerConfig;
-	private final GsonSettings gsonSettings;
 
+	private final GsonSettings gsonSettings;        // exported
 	private final ClassLoader classLoader;          // exported
 	private final Reflections reflections;          // exported
 	private final FileManager fileManager;          // exported
@@ -100,57 +103,65 @@ public abstract class CommonLoader {
 
 		Logger.log("/base/log4j2.xml");
 		Configurator.reconfigure(
-				ConfigurationFactory.getInstance().getConfiguration(
-						LoggerContext.getContext(),
-						ConfigurationSource.fromUri(URI.create("/base/log4j2.xml"))
-				)
+			ConfigurationFactory.getInstance().getConfiguration(
+				LoggerContext.getContext(),
+				ConfigurationSource.fromUri(URI.create("/base/log4j2.xml"))
+			)
 		);
 
 		if (slf4jLogger != null) {
 			Logger.setInstance(new Slf4jLogHandler(slf4jLogger));
 		}
 
+		MessageBuilderManager.init(true);
+		MessageBuilderManager.instance().setLegacyMode(true);
+
 		Logger.debug("Initializing " + new MessageBuilder("{id} v{version}")
-				.parse("id", LoaderBuildConstants.ID)
-				.parse("version", LoaderBuildConstants.VERSION)
-				.parse());
+			.parse("id", LoaderBuildConstants.ID)
+			.parse("version", LoaderBuildConstants.VERSION)
+			.parse());
 
 		this.injectorHolder = Holder.of(new Injector());
 		export(injectorHolder);
 
 		this.environment = export(new Environment(
-				Environment.Type.valueOf(SecretsUtils.getEnvironmentVariable("ENVIRONMENT_TYPE")),
-				Environment.GameMode.valueOf(SecretsUtils.getEnvironmentVariable("ENVIRONMENT_GAMEMODE"))
+			Environment.Type.valueOf(SecretsUtils.getEnvironmentVariable("ENVIRONMENT_TYPE")),
+			Environment.GameMode.valueOf(SecretsUtils.getEnvironmentVariable("ENVIRONMENT_GAMEMODE"))
 		));
 
 		this.classLoader = CommonLoader.class.getClassLoader();
 		this.reflections = new Reflections(this.classLoader, false);
-		this.gsonSettings = new GsonSettings(this.classLoader);
+		this.gsonSettings = export(new GsonSettings(this.classLoader));
 
 		this.gsonSettings.updateGson((gsonBuilder) -> {
-//			gsonBuilder.registerTypeAdapterFactory(new InterfaceTypeFactory(this.classLoader, this::legacyClassMapper));
-
 			new MessageBuilderTypeAdapter(this.classLoader).register(gsonBuilder);
 			new MessageBuilderListTypeAdapter(this.classLoader).register(gsonBuilder);
+			new KvMessageBuilderTypeAdapter(this.classLoader).register(gsonBuilder);
+
 			new SerializableListGsonTypeAdapter(this.classLoader).register(gsonBuilder);
 			new SerializableMapGsonTypeAdapter(this.classLoader).register(gsonBuilder);
 			new SerializableObjectTypeAdapter(this.classLoader).register(gsonBuilder);
 			new SerializableSetGsonTypeAdapter(this.classLoader).register(gsonBuilder);
+
+			new TimeUnitProviderTypeAdapter(this.classLoader).register(gsonBuilder);
 		});
 
 
-		this.fileManager = export(new FileManager(this.gsonSettings.getUserFacingGsonHolder(), "config/core"));
+		this.fileManager = export(new FileManager(this.gsonSettings.getUserFacingGsonHolder(), "config/core", List.of(
+				environment.getGameMode().toString().toLowerCase(),
+				""
+		)));
 
 		this.commandManagerConfig = fileManager.load(CommandManagerConfig.class);
 		this.commandManagerConfig.basePermission = BASE_PERMISSION;
 
-		this.redisConfig = SecretsUtils.loadSecretsConfig(RedisConfig.class);
-		this.databaseConfig = SecretsUtils.loadSecretsConfig(DatabaseConfig.class);
+		this.redisConfig = SecretsUtils.loadSecretsConfig(RedisConfig.class, null, !DUMMY_MODE);
+		this.databaseConfig = SecretsUtils.loadSecretsConfig(DatabaseConfig.class, null, !DUMMY_MODE);
 		this.redisConfig.setRedisID(this.redisConfig.getRedisID().replace("{hostname}", NetworkUtils.getHostname()));
 
 		if (this.getServerID().contains("proxy")) {
 			this.redisConfig.setAdditionalListenChannels(
-					this.redisConfig.getChannel() + "#proxy"
+				this.redisConfig.getChannel() + "#proxy"
 			);
 		}
 
@@ -165,7 +176,7 @@ public abstract class CommonLoader {
 		this.moduleManager = export(new ModuleManager());
 		this.eventManager.register(new Listener());
 
-//		startMicrometerAndPrometheus();
+		//		startMicrometerAndPrometheus();
 	}
 
 	protected String legacyClassMapper(String className) {
@@ -181,12 +192,12 @@ public abstract class CommonLoader {
 
 			if (tld.equals("gg") && domain.equals("mmorealms") && (type.equals("module") || type.equals("loader"))) {
 				String output = String.join(".", List.of(
-						tld, domain, type, id, platform, rest
+					tld, domain, type, id, platform, rest
 				));
 				Logger.debug(new MessageBuilder("Converting class {old} to {new}")
-						.parse("old", className)
-						.parse("new", output)
-						.parse());
+					.parse("old", className)
+					.parse("new", output)
+					.parse());
 				return output;
 			}
 		}
@@ -272,12 +283,13 @@ public abstract class CommonLoader {
 
 		Logger.debug("Registering module " + instance.getClass().getName() + " with code source path: " + jarPath);
 		Logger.debug(new MessageBuilder("Registering module {module} from jar {jar_path})")
-				.parse("module", instance.getClass().getName())
-				.parse("jar_path", jarPathString)
-				.parse()
+			.parse("module", instance.getClass().getName())
+			.parse("jar_path", jarPathString)
+			.parse()
 		);
 
 		this.reflections.registerZip(jarPath.toFile());
 		this.moduleManager.registerPreInstantiatedModule(instance);
 	}
 }
+

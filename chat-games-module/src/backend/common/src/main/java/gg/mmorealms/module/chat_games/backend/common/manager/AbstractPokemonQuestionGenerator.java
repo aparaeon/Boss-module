@@ -1,6 +1,7 @@
 package gg.mmorealms.module.chat_games.backend.common.manager;
 
 import com.raduvoinea.utils.generic.RandomUtils;
+import gg.mmorealms.module.chat_games.backend.common.config.ChatGamesConfig;
 import gg.mmorealms.module.chat_games.common.dto.GeneratedQuestion;
 import gg.mmorealms.module.chat_games.common.dto.QuestionType;
 import gg.mmorealms.module.chat_games.common.utils.AnswerNormalizer;
@@ -10,6 +11,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class AbstractPokemonQuestionGenerator implements PokemonQuestionGenerator {
+
+	protected final ChatGamesConfig config;
+
+	protected AbstractPokemonQuestionGenerator(ChatGamesConfig config) {
+		this.config = config;
+	}
+
+	protected String resolveFormDisplay(String speciesName, String normalizedFormName) {
+		Map<String, String> speciesOverrides = config.formNameOverrides.getOrDefault(speciesName, Map.of());
+		return speciesOverrides.getOrDefault(normalizedFormName, normalizedFormName);
+	}
 
 	// Pokémon excluded entirely from POKEMON_FORM questions.
 	protected static final Set<String> EXCLUDED_FORM_POKEMON = Set.of("Arceus", "Silvally", "Gourgeist", "Floette");
@@ -56,6 +68,34 @@ public abstract class AbstractPokemonQuestionGenerator implements PokemonQuestio
 		Map.entry("undiscovered", "Undiscovered")
 	);
 
+	protected static String normalizeFormName(String input) {
+		if (input == null) {
+			return "";
+		}
+		return input.toLowerCase().replace('-', ' ').replace('_', ' ').trim();
+	}
+
+	protected static String titleCase(String input) {
+		if (input == null || input.isEmpty()) {
+			return input;
+		}
+		StringBuilder builder = new StringBuilder(input.length());
+		boolean atWordStart = true;
+		for (int i = 0; i < input.length(); i++) {
+			char c = input.charAt(i);
+			if (Character.isWhitespace(c)) {
+				atWordStart = true;
+				builder.append(c);
+			} else if (atWordStart) {
+				builder.append(Character.toUpperCase(c));
+				atWordStart = false;
+			} else {
+				builder.append(Character.toLowerCase(c));
+			}
+		}
+		return builder.toString();
+	}
+
 	@Nullable
 	protected static String eggGroupDisplayName(String key) {
 		if (key == null) {
@@ -71,6 +111,7 @@ public abstract class AbstractPokemonQuestionGenerator implements PokemonQuestio
 	protected Map<String, List<String>> pokemonTypes = Map.of();
 	protected Map<String, List<String>> pokemonAbilities = Map.of();
 	protected Map<String, List<String>> abilityPokemon = Map.of();
+	protected Map<String, String> abilityDisplayNames = Map.of();
 	protected Map<String, List<String>> pokemonForms = Map.of();
 	protected Map<String, List<String>> eggGroupPokemon = Map.of();
 	protected Map<String, String> dexEntries = Map.of();
@@ -230,56 +271,38 @@ public abstract class AbstractPokemonQuestionGenerator implements PokemonQuestio
 
 	@Nullable
 	private GeneratedQuestion buildAbilityPokemon() {
-		if (abilityPokemon.isEmpty()) {
-			return null;
-		}
-
-		List<String> abilities = new ArrayList<>(abilityPokemon.keySet());
-		String chosenAbility = RandomUtils.getRandom(abilities);
-
-		Set<String> answers = new HashSet<>();
-		for (String pokemon : abilityPokemon.get(chosenAbility)) {
-			addPokemonAnswers(answers, pokemon);
-		}
-
-		List<String> pokemonList = abilityPokemon.get(chosenAbility);
-		return new GeneratedQuestion(QuestionType.ABILITY_POKEMON.getKey(), chosenAbility, pokemonList.getFirst(), answers);
+		return buildKeyedPokemonQuestion(QuestionType.ABILITY_POKEMON, abilityPokemon, abilityDisplayNames);
 	}
 
 	@Nullable
 	private GeneratedQuestion buildPokemonForm() {
-		if (pokemonForms.isEmpty()) {
-			return null;
-		}
-
-		List<String> forms = new ArrayList<>(pokemonForms.keySet());
-		String chosenForm = RandomUtils.getRandom(forms);
-
-		Set<String> answers = new HashSet<>();
-		for (String pokemon : pokemonForms.get(chosenForm)) {
-			addPokemonAnswers(answers, pokemon);
-		}
-
-		List<String> pokemonList = pokemonForms.get(chosenForm);
-		return new GeneratedQuestion(QuestionType.POKEMON_FORM.getKey(), chosenForm, pokemonList.getFirst(), answers);
+		return buildKeyedPokemonQuestion(QuestionType.POKEMON_FORM, pokemonForms, Map.of());
 	}
 
 	@Nullable
 	private GeneratedQuestion buildEggGroupPokemon() {
-		if (eggGroupPokemon.isEmpty()) {
+		return buildKeyedPokemonQuestion(QuestionType.EGG_GROUP_POKEMON, eggGroupPokemon, Map.of());
+	}
+
+	@Nullable
+	private GeneratedQuestion buildKeyedPokemonQuestion(QuestionType type,
+	                                                    Map<String, List<String>> bucket,
+	                                                    Map<String, String> displayNameOverrides) {
+		if (bucket.isEmpty()) {
 			return null;
 		}
 
-		List<String> groups = new ArrayList<>(eggGroupPokemon.keySet());
-		String chosenGroup = RandomUtils.getRandom(groups);
+		List<String> keys = new ArrayList<>(bucket.keySet());
+		String chosenKey = RandomUtils.getRandom(keys);
+		List<String> pokemonList = bucket.get(chosenKey);
 
 		Set<String> answers = new HashSet<>();
-		for (String pokemon : eggGroupPokemon.get(chosenGroup)) {
+		for (String pokemon : pokemonList) {
 			addPokemonAnswers(answers, pokemon);
 		}
 
-		List<String> pokemonList = eggGroupPokemon.get(chosenGroup);
-		return new GeneratedQuestion(QuestionType.EGG_GROUP_POKEMON.getKey(), chosenGroup, pokemonList.getFirst(), answers);
+		String questionText = displayNameOverrides.getOrDefault(chosenKey, chosenKey);
+		return new GeneratedQuestion(type.getKey(), questionText, pokemonList.getFirst(), answers);
 	}
 
 	private static void addPokemonAnswers(Set<String> answers, String pokemonName) {

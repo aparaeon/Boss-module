@@ -10,7 +10,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "example-module"
+rootProject.name = "login-rewards-module"
 
 fun createProject(moduleArg: String, path: String) {
     var module: String = moduleArg
@@ -37,4 +37,3 @@ createProject("backend-common", "src/backend/common")
 createProject("backend-fabric", "src/backend/fabric")
 createProject("backend-neoforge", "src/backend/neoforge")
 createProject("velocity", "src/velocity")
-

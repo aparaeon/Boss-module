@@ -4,12 +4,25 @@ import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import net.minecraft.world.item.Items;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ChatGamesConfig {
 
 	public LeaderboardGUI leaderboardGUI = new LeaderboardGUI();
 	public ClaimGUI claimGUI = new ClaimGUI();
+
+	// Per-species form display overrides. Keyed by species name, then by the form's normalized
+	// name (lowercase, with hyphens/underscores collapsed to spaces). Use this when a species
+	// stores a generic form name internally (e.g. Calyrex form name = "Shadow") but the
+	// question should display the full descriptor ("Shadow Rider").
+	public Map<String, Map<String, String>> formNameOverrides = new LinkedHashMap<>() {{
+		put("Calyrex", new LinkedHashMap<>() {{
+			put("shadow", "Shadow Rider");
+			put("ice", "Ice Rider");
+		}});
+	}};
 
 	public static class LeaderboardGUI {
 		public String title = "All-Time Leaderboard";
@@ -24,61 +37,61 @@ public class ChatGamesConfig {
 
 		public GUIButton contentFiller = new GUIButton()
 			.display(Items.BLACK_STAINED_GLASS_PANE)
-			.displayName(" ");
+			.name(" ");
 
 		public List<Integer> footerSlots = List.of(45, 46, 47, 48, 49, 50, 51, 52, 53);
 
 		public GUIButton footerFiller = new GUIButton()
 			.display(Items.GRAY_STAINED_GLASS_PANE)
-			.displayName(" ");
+			.name(" ");
 
 		public GUIButton previousPage = new GUIButton()
 			.display(Items.ARROW)
-			.displayName("<gray>Previous Page")
+			.name("<gray>Previous Page")
 			.position(45);
 
 		public GUIButton nextPage = new GUIButton()
 			.display(Items.ARROW)
-			.displayName("<gray>Next Page")
+			.name("<gray>Next Page")
 			.position(53);
 
 		public GUIButton close = new GUIButton()
 			.display(Items.BARRIER)
-			.displayName("<red>Close")
+			.name("<red>Close")
 			.position(50);
 
 		public GUIButton header = new GUIButton()
 			.display(Items.NAME_TAG)
-			.displayName("<light_purple><bold>✦ Chat Games Leaderboard")
+			.name("<light_purple><bold>✦ Chat Games Leaderboard")
 			.lore(List.of("<gray>Page: <white>{page}", "<gray>Total Entries: <white>{total}"))
 			.position(49);
 
 		public GUIButton empty = new GUIButton()
 			.display(Items.BARRIER)
-			.displayName("<red>No leaderboard entries yet")
+			.name("<red>No leaderboard entries yet")
 			.lore(List.of("<gray>Play chat games to appear here."))
 			.position(22);
 
 		public GUIButton entry = new GUIButton()
 			.display(Items.PLAYER_HEAD)
-			.displayName("{placement_color}#{placement} <white>{username}")
+			.name("{placement_color}#{placement} <white>{username}")
 			.lore(List.of("<gray>Wins: <white>{wins}"));
 
 		public GUIButton toggleToSeason = new GUIButton()
 			.display(Items.CLOCK)
-			.displayName("<aqua>☽ Season View")
+			.name("<aqua>☽ Season View")
 			.lore(List.of("<gray>Click to view the season leaderboard"))
 			.position(48);
 
 		public GUIButton toggleToOverall = new GUIButton()
 			.display(Items.COMPASS)
-			.displayName("<aqua>✦ Overall View")
+			.name("<aqua>✦ Overall View")
 			.lore(List.of("<gray>Click to view the overall leaderboard"))
 			.position(48);
 
 		public GUIButton claimReward = new GUIButton()
 			.display(Items.NETHER_STAR)
-			.displayName("<gold>✦ Claim Season Reward")
+			.name("<gold>✦ Claim Season Reward")
 			.lore(List.of("<gray>Click to claim your reward", "<gray>if you placed in the top 3!"))
 			.position(51);
 	}
@@ -88,11 +101,11 @@ public class ChatGamesConfig {
 
 		public GUIButton filler = new GUIButton()
 			.display(Items.GRAY_STAINED_GLASS_PANE)
-			.displayName(" ");
+			.name(" ");
 
 		public GUIButton rewardInfo = new GUIButton()
 			.display(Items.NETHER_STAR)
-			.displayName("<gold><bold>✦ Season Reward")
+			.name("<gold><bold>✦ Season Reward")
 			.lore(List.of(
 				"<gray>Placement: <gold>#{placement}",
 				"<gray>Wins: <white>{wins}",
@@ -102,7 +115,7 @@ public class ChatGamesConfig {
 
 		public GUIButton slotsNeeded = new GUIButton()
 			.display(Items.CHEST)
-			.displayName("<yellow>Inventory Space Needed")
+			.name("<yellow>Inventory Space Needed")
 			.lore(List.of(
 				"<gray>Required: <white>{required} free slot(s)",
 				"<gray>Available: <white>{available} free slot(s)"
@@ -110,12 +123,12 @@ public class ChatGamesConfig {
 
 		public GUIButton claimButton = new GUIButton()
 			.display(Items.GREEN_STAINED_GLASS_PANE)
-			.displayName("<bold><green>✓ Claim Reward")
+			.name("<bold><green>✓ Claim Reward")
 			.lore(List.of("<gray>Click to collect your prize!"));
 
 		public GUIButton noSpaceButton = new GUIButton()
 			.display(Items.RED_STAINED_GLASS_PANE)
-			.displayName("<bold><red>✗ Not Enough Space")
+			.name("<bold><red>✗ Not Enough Space")
 			.lore(List.of(
 				"<red>You need <white>{required}</white> free slot(s).",
 				"<red>You only have <white>{available}</white> free slot(s).",
@@ -125,11 +138,11 @@ public class ChatGamesConfig {
 
 		public GUIButton rewardDisplay = new GUIButton()
 			.display(Items.EMERALD)
-			.displayName("<gold><bold>★ Your Rewards");
+			.name("<gold><bold>★ Your Rewards");
 
 		public GUIButton closeButton = new GUIButton()
 			.display(Items.BARRIER)
-			.displayName("<red>Close");
+			.name("<red>Close");
 
 		public MessageBuilder claimedMessage = new MessageBuilder(
 			"<green>You have successfully claimed your season reward!"

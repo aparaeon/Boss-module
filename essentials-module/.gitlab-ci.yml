@@ -1,0 +1,4 @@
+include:
+  - project: mmorealms/ci-templates
+    ref: master
+    file: .gitlab-ci.yml

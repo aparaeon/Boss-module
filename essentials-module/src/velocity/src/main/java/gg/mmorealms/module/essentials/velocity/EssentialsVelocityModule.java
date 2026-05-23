@@ -8,6 +8,7 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import gg.mmorealms.loader.velocity.dto.VelocityModule;
 import gg.mmorealms.module.core.common.dto.NetworkLocation;
+import gg.mmorealms.module.core.velocity.manager.ServerManager;
 import gg.mmorealms.module.essentials.EssentialsModuleBuildConstants;
 import gg.mmorealms.module.essentials.common.EssentialsCommonModule;
 import gg.mmorealms.module.essentials.velocity.config.EssentialsConfig;
@@ -15,6 +16,7 @@ import gg.mmorealms.module.essentials.velocity.config.SimpleCommandsConfig;
 import gg.mmorealms.module.essentials.velocity.manager.AlertManager;
 import gg.mmorealms.module.essentials.velocity.manager.CommandRegistrar;
 import gg.mmorealms.module.essentials.velocity.manager.TeleportManager;
+import gg.mmorealms.module.essentials.velocity.manager.WhitelistManager;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
@@ -41,13 +43,14 @@ public class EssentialsVelocityModule extends EssentialsCommonModule implements 
 	private @Inject FileManager fileManager;
 	private @Inject VelocityMiniMessageManager miniMessageManager;
 	private @Inject ProxyServer proxy;
-
+	private @Inject ServerManager serverManager;
 	private @Inject VelocityCommandManager commandManager;
 
 	private TeleportManager teleportManager;
 	private AlertManager alertManager;
 
 	private EssentialsConfig config; // exported
+	private WhitelistManager whitelistManager; // exported
 
 	public EssentialsVelocityModule() {
 		EssentialsVelocityModule.instance = this;
@@ -56,8 +59,11 @@ public class EssentialsVelocityModule extends EssentialsCommonModule implements 
 	@Override
 	public void onInit() {
 		this.config = export(fileManager.load(EssentialsConfig.class));
+		this.whitelistManager = export(new WhitelistManager(this.config));
+
 		this.teleportManager = new TeleportManager();
 		this.alertManager = new AlertManager();
+
 		SimpleCommandsConfig.init(fileManager);
 	}
 

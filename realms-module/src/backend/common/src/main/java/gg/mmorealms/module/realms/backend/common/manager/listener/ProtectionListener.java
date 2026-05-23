@@ -186,15 +186,14 @@ public class ProtectionListener implements IProtectionListener {
 	}
 
 	@Override
-	@EventHandler(order = OVERRIDE_ORDER)
-	public void onPlayerAttackBlockEvent(PlayerAttackBlockEvent event) {
-		event.setResult(checkPerms(event.getPlayer(), RealmPermission.BLOCK_ATTACK, event.getLocation()));
+	public void onPlayerCommandEvent(PlayerCommandEvent playerCommandEvent) {
+
 	}
 
 	@Override
 	@EventHandler(order = OVERRIDE_ORDER)
-	public void onPlayerCommandEvent(PlayerCommandEvent event) {
-
+	public void onPlayerAttackBlockEvent(PlayerAttackBlockEvent event) {
+		event.setResult(checkPerms(event.getPlayer(), RealmPermission.BLOCK_ATTACK, event.getLocation()));
 	}
 
 	@EventHandler(ignore = true)

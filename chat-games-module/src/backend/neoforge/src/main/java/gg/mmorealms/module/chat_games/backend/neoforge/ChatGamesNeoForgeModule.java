@@ -16,7 +16,7 @@ public class ChatGamesNeoForgeModule extends ChatGamesBackendModule {
 
 	@Override
 	protected PokemonQuestionGenerator createQuestionGenerator(ChatGamesConfig config) {
-		return new PixelmonQuestionGenerator();
+		return new PixelmonQuestionGenerator(config);
 	}
 
 }

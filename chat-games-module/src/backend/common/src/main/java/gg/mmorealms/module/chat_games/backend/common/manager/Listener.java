@@ -70,7 +70,7 @@ public class Listener {
 		}
 
 		User user = IUser.getByPlayer(player);
-		server.execute(() -> LeaderboardGUI.open(user, event.getOverallEntries(), event.getSeasonEntries(), event.isSeason(), event.getSeasonRewardLore()));
+		LeaderboardGUI.open(user, event.getOverallEntries(), event.getSeasonEntries(), event.isSeason(), event.getSeasonRewardLore());
 	}
 
 	@EventHandler
@@ -85,7 +85,7 @@ public class Listener {
 		}
 
 		User user = IUser.getByPlayer(player);
-		server.execute(() -> new RewardClaimGUI(user, event).open());
+		new RewardClaimGUI(user, event).open();
 	}
 
 }

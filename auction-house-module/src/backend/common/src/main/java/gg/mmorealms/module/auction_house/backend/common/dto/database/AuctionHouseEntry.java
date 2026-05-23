@@ -14,6 +14,7 @@ import gg.mmorealms.loader.common.manager.database.DatabaseLoader;
 import gg.mmorealms.module.auction_house.backend.common.AuctionHouseBackendModule;
 import gg.mmorealms.module.auction_house.backend.common.config.AuctionHouseConfig;
 import gg.mmorealms.module.auction_house.backend.common.dto.AuctionHouseCategory;
+import gg.mmorealms.module.auction_house.backend.common.dto.AuctionHouseListingEntry;
 import gg.mmorealms.module.auction_house.backend.common.exception.RateLimitException;
 import gg.mmorealms.module.auction_house.backend.common.manager.AuctionHouseEntriesManager;
 import gg.mmorealms.module.auction_house.common.event.AuctionHouseEntryRemovedEvent;
@@ -41,6 +42,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 // TODO Split auction_house_entries into pokemon_auction_house_entry and item_auction_house_entry
@@ -52,7 +54,7 @@ public class AuctionHouseEntry implements IDatabaseEntry<Long>, LockableResource
 	@Id
 	@jakarta.validation.constraints.NotNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private @Getter long id;
+	private @Getter Long id;
 
 	public UUID ownerUUID;
 	public String ownerName;
@@ -77,16 +79,21 @@ public class AuctionHouseEntry implements IDatabaseEntry<Long>, LockableResource
 		return new AuctionHouseEntry(id);
 	}
 
+	@Deprecated(forRemoval = true)
 	public AuctionHouseEntry(User user, Type type, ItemStack itemStack, Integer price) throws RateLimitException {
 		this(user, type, CodecUtils.serialize(ItemStack.CODEC, itemStack), price);
 	}
 
+	@Deprecated(forRemoval = true)
 	public AuctionHouseEntry(User user, Type type, IPokemon pokemon, Integer price) throws RateLimitException {
 		this(user, type, pokemon.serialize(), price);
 	}
 
-	@SneakyThrows
-	public AuctionHouseEntry(User user, Type type, JsonObject json, Integer price) {
+	public AuctionHouseEntry(User user, Type type, AuctionHouseListingEntry entry, Integer price) throws RateLimitException {
+		this(user, type, entry.serialize(), price);
+	}
+
+	public AuctionHouseEntry(User user, Type type, JsonObject json, Integer price) throws RateLimitException {
 		AuctionHouseEntriesManager.checkRateLimit();
 
 		this.ownerUUID = user.getUUID();
@@ -117,6 +124,8 @@ public class AuctionHouseEntry implements IDatabaseEntry<Long>, LockableResource
 				.parse("id", getId())
 				.parse("amount", price)
 				.parse("currency", AuctionHouseBackendModule.instance().getConfig().currency.getName()));
+
+		AuctionHouseBackendModule.instance().getEntriesManager().addEntryInCache(this, true);
 	}
 
 	private static String getCategory(ItemStack itemStack) {
@@ -332,7 +341,7 @@ public class AuctionHouseEntry implements IDatabaseEntry<Long>, LockableResource
 		if (o == null || getClass() != o.getClass()) return false;
 
 		AuctionHouseEntry that = (AuctionHouseEntry) o;
-		return id == that.id;
+		return Objects.equals(id, that.id);
 	}
 
 	@Override

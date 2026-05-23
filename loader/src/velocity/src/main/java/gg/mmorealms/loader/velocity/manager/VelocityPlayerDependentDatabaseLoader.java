@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public abstract class VelocityPlayerDependentDatabaseLoader<LoadedObject extends ISavable>
-		extends DatabaseLoader<UUID, LoadedObject, LoadedObject> {
+	extends DatabaseLoader<UUID, LoadedObject, LoadedObject> {
 
 	private static final HashSet<UUID> LOADER_PLAYER_UUIDs = new HashSet<>();
 

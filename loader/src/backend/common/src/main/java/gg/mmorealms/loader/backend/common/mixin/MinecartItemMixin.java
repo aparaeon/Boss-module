@@ -14,10 +14,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class MinecartItemMixin {
 
 	@Inject(method = "useOn",
-			at = @At(
-					value = "INVOKE_ASSIGN",
-					target = "Lnet/minecraft/world/item/context/UseOnContext;getItemInHand()Lnet/minecraft/world/item/ItemStack;"
-			), cancellable = true)
+		at = @At(
+			value = "INVOKE_ASSIGN",
+			target = "Lnet/minecraft/world/item/context/UseOnContext;getItemInHand()Lnet/minecraft/world/item/ItemStack;"
+		), cancellable = true)
 	private void onCreate(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
 		if ("true".equalsIgnoreCase(SecretsUtils.getEnvironmentVariable("DISABLE_MINECART_CRASH_FIX"))) {
 			return;

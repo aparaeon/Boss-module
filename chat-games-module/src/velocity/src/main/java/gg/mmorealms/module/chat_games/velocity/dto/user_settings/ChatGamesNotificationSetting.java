@@ -20,4 +20,9 @@ public class ChatGamesNotificationSetting implements IUserSetting<Player> {
 		// nop
 	}
 
+	@Override
+	public void cleanup(Player player) {
+		// nop
+	}
+
 }

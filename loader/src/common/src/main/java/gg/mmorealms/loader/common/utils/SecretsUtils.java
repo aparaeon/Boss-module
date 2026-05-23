@@ -49,8 +49,8 @@ public class SecretsUtils {
 		} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
 		         NoSuchMethodException exception) {
 			Logger.error(new MessageBuilder("Failed to construct secret instance of {type} Reverting back to file based configuration.")
-					.parse("type", clazz.getName())
-					.parse()
+				.parse("type", clazz.getName())
+				.parse()
 			);
 			Logger.error(exception);
 			return CommonLoader.instance().getFileManager().load(clazz);
@@ -62,8 +62,8 @@ public class SecretsUtils {
 
 			if (value == null) {
 				String message = new MessageBuilder("Failed to load secret {env_name} from environment variables.")
-						.parse("env_name", envName)
-						.parse();
+					.parse("env_name", envName)
+					.parse();
 
 				if (throwOnFailure) {
 					throw new RuntimeException(message);
@@ -77,16 +77,16 @@ public class SecretsUtils {
 				trySet(instance, field, value);
 				if (CommonLoader.DEBUG_MODE) {
 					Logger.debug(new MessageBuilder("Set secret {env_name} to {value}")
-							.parse("class", clazz.getSimpleName())
-							.parse("env_name", envName)
-							.parse("value", value)
-							.parse()
+						.parse("class", clazz.getSimpleName())
+						.parse("env_name", envName)
+						.parse("value", value)
+						.parse()
 					);
 				}
 			} catch (IllegalAccessException exception) {
 				String message = new MessageBuilder("Failed to load secret {env_name} from environment variables.")
-						.parse("env_name", envName)
-						.parse();
+					.parse("env_name", envName)
+					.parse();
 
 				if (throwOnFailure) {
 					throw new RuntimeException(message);
@@ -145,9 +145,10 @@ public class SecretsUtils {
 			return envValue;
 		}
 
-		Logger.warn(new MessageBuilder("Environment variable {key} not found. Using default value.")
-				.parse("key", key)
-				.parse()
+		Logger.warn(new MessageBuilder("Environment variable {key} not found. Using default value of `{default}`.")
+			.parse("key", key)
+			.parse("default", defaultValue)
+			.parse()
 		);
 		return defaultValue;
 	}

@@ -4,11 +4,11 @@ import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
 import gg.mmorealms.module.realms.backend.common.RealmsBackendModule;
 import gg.mmorealms.module.realms.backend.common.config.RealmsConfig;
 import gg.mmorealms.module.realms.backend.common.dto.realm.IRealm;
 import gg.mmorealms.module.realms.common.dto.RealmState;
-import gg.mmorealms.module.realms.common.dto.event.IsRealmCrashedRequest;
 
 public class RealmGUI extends GUI {
 
@@ -21,7 +21,7 @@ public class RealmGUI extends GUI {
 	}
 
 	public RealmGUI(User user, boolean sendMessages) {
-		super(user, new Settings().chestSize(6));
+		super(user, new GUISettings().chestSize(6));
 
 		this.realm = IRealm.getByOwner(this.getUser());
 
@@ -42,11 +42,11 @@ public class RealmGUI extends GUI {
 
 		MessageBuilder message = switch (realmState) {
 			case LOADING -> RealmsBackendModule.instance().getConfig().lang.realmStillLoading;
+			//noinspection DataFlowIssue
 			case LOADED -> null;
 			case CRASHED -> RealmsBackendModule.instance().getConfig().lang.realmOnCrashingServer;
 			case UNLOADING -> RealmsBackendModule.instance().getConfig().lang.realmUnloading;
-			case null ->
-					new MessageBuilder("<red>Something went wrong while trying to load your realm, please relog."); // TODO Config
+			case null -> new MessageBuilder("<red>Something went wrong while trying to load your realm, please relog."); // TODO Config
 		};
 
 		if (message == null) {
@@ -54,7 +54,7 @@ public class RealmGUI extends GUI {
 		}
 
 		user.sendMessage(message
-				.parse("pre", "Your")
+			.parse("pre", "Your")
 		);
 	}
 
@@ -64,13 +64,13 @@ public class RealmGUI extends GUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		setButton(CONFIG.realmGUI.teleport)
-				.onClick(this::teleportToRealm);
+			.onClick(this::teleportToRealm);
 		setButton(CONFIG.realmGUI.members)
-				.onClick(this::showMembers);
+			.onClick(this::showMembers);
 		setButton(CONFIG.realmGUI.settings)
-				.onClick(this::showSettings);
+			.onClick(this::showSettings);
 	}
 
 	public void teleportToRealm(ClickType action) {

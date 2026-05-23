@@ -29,9 +29,9 @@ public class Location implements ILocation {
 
 	public static LocationBuilder builder(double x, double y, double z) {
 		return builder()
-				.x(x)
-				.y(y)
-				.z(z);
+			.x(x)
+			.y(y)
+			.z(z);
 	}
 
 	public static Location min(Location... locations) {
@@ -86,22 +86,22 @@ public class Location implements ILocation {
 
 	public Location offsetNew(double x, double y, double z, float pitch, float yaw) {
 		return new Location(
-				world,
-				this.x + x,
-				this.y + y,
-				this.z + z,
-				this.pitch + pitch,
-				this.yaw + yaw
+			world,
+			this.x + x,
+			this.y + y,
+			this.z + z,
+			this.pitch + pitch,
+			this.yaw + yaw
 		);
 	}
 
 	public Location offsetNew(Location location) {
 		return offsetNew(
-				location.x,
-				location.y,
-				location.z,
-				location.pitch,
-				location.yaw
+			location.x,
+			location.y,
+			location.z,
+			location.pitch,
+			location.yaw
 		);
 	}
 
@@ -129,8 +129,12 @@ public class Location implements ILocation {
 	}
 
 	public boolean equalsCoords(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Location location)) return false;
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Location location)) {
+			return false;
+		}
 
 		return x == location.x && y == location.y && z == location.z;
 	}

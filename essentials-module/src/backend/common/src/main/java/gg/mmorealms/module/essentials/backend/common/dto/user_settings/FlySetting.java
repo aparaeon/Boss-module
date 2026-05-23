@@ -15,4 +15,11 @@ public class FlySetting implements IUserSetting<ServerPlayer> {
 		player.getAbilities().mayfly = value;
 		player.onUpdateAbilities();
 	}
+
+	@Override
+	public void cleanup(ServerPlayer player) {
+		player.getAbilities().flying = false;
+		player.getAbilities().mayfly = false;
+		player.onUpdateAbilities();
+	}
 }

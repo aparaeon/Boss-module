@@ -15,14 +15,19 @@ public class NightVisionSetting implements IUserSetting<ServerPlayer> {
 	public void apply(ServerPlayer player) {
 		if (value) {
 			player.addEffect(new MobEffectInstance(
-					MobEffects.NIGHT_VISION,
-					Integer.MAX_VALUE,
-					0,
-					false,
-					false
+				MobEffects.NIGHT_VISION,
+				Integer.MAX_VALUE,
+				0,
+				false,
+				false
 			));
 			return;
 		}
+		player.removeEffect(MobEffects.NIGHT_VISION);
+	}
+
+	@Override
+	public void cleanup(ServerPlayer player) {
 		player.removeEffect(MobEffects.NIGHT_VISION);
 	}
 }

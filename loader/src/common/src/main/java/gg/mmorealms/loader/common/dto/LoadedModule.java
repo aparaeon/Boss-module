@@ -35,14 +35,14 @@ public class LoadedModule {
 
 		if (!CommonModule.class.isAssignableFrom(moduleClass)) {
 			Logger.error(new MessageBuilder("Class {class} is not a subclass of CommonModule.")
-					.parse("class", moduleClass.getName())
+				.parse("class", moduleClass.getName())
 			);
 			return;
 		}
 
 		if (Modifier.isAbstract(moduleClass.getModifiers())) {
 			Logger.error(new MessageBuilder("Class {class} is abstract.")
-					.parse("class", moduleClass.getName())
+				.parse("class", moduleClass.getName())
 			);
 			return;
 		}
@@ -51,7 +51,7 @@ public class LoadedModule {
 
 		if (this.annotation == null) {
 			Logger.error(new MessageBuilder("Class {class} not any of its super classes is not annotated with @Module.")
-					.parse("class", moduleClass.getName())
+				.parse("class", moduleClass.getName())
 			);
 			return;
 		}
@@ -84,10 +84,10 @@ public class LoadedModule {
 	@Override
 	public String toString() {
 		return new MessageBuilder("{id} v{version} by {authors}")
-				.parse("id", annotation.id())
-				.parse("version", annotation.version())
-				.parse("authors", "[" + String.join(", ", annotation.authors()) + "]")
-				.parse();
+			.parse("id", annotation.id())
+			.parse("version", annotation.version())
+			.parse("authors", "[" + String.join(", ", annotation.authors()) + "]")
+			.parse();
 	}
 
 	public void checkDependencies(State targetState) throws MissingDependencyException {
@@ -104,7 +104,7 @@ public class LoadedModule {
 	public void create() throws ModuleLoadException, MissingDependencyException {
 		if (this.state != State.LOCATED) {
 			Logger.warn(new MessageBuilder("Module {id} is not in the LOCATED state.")
-					.parse("id", this.annotation.id())
+				.parse("id", this.annotation.id())
 			);
 			return;
 		}
@@ -113,7 +113,7 @@ public class LoadedModule {
 
 		if (this.moduleInstance != null) {
 			Logger.debug(new MessageBuilder("Module {id} already has a moduleInstance. Skipping instantiation...")
-					.parse("id", this.getId())
+				.parse("id", this.getId())
 			);
 			this.state = State.CREATED;
 			return;
@@ -132,7 +132,7 @@ public class LoadedModule {
 	public void init() throws ModuleLoadException, MissingDependencyException, ModuleException {
 		if (this.state != State.CREATED) {
 			Logger.warn(new MessageBuilder("Module {id} is not in the CREATED state.")
-					.parse("id", this.annotation.id())
+				.parse("id", this.annotation.id())
 			);
 			return;
 		}
@@ -149,7 +149,7 @@ public class LoadedModule {
 	public void enable() throws MissingDependencyException, ModuleException {
 		if (this.state != State.INITIALIZED) {
 			Logger.warn(new MessageBuilder("Module {id} is not in the INITIALIZED state.")
-					.parse("id", this.annotation.id())
+				.parse("id", this.annotation.id())
 			);
 			return;
 		}
@@ -164,7 +164,9 @@ public class LoadedModule {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object == null || getClass() != object.getClass()) return false;
+		if (object == null || getClass() != object.getClass()) {
+			return false;
+		}
 
 		LoadedModule that = (LoadedModule) object;
 		return that.id.equals(this.id);

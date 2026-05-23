@@ -9,7 +9,7 @@ public class DateUtils extends com.raduvoinea.utils.file_manager.utils.DateUtils
 
 	public static String formatTimestamp(long unixTimestamp, String format) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format)
-				.withZone(ZoneId.systemDefault());
+			.withZone(ZoneId.systemDefault());
 		return formatter.format(Instant.ofEpochMilli(unixTimestamp));
 	}
 

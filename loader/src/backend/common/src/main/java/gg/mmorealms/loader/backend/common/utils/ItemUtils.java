@@ -31,10 +31,10 @@ public class ItemUtils {
 		List<String> contents = getContainerContentsAsStringList(itemstack);
 
 		return result
-				.parse("item", itemstack.toString())
-				.parse("enchantments", enchants == null ? "" : " with enchants: " + enchants)
-				.parse("contents", contents == null ? "" : " with contents: " + contents)
-				.parse();
+			.parse("item", itemstack.toString())
+			.parse("enchantments", enchants == null ? "" : " with enchants: " + enchants)
+			.parse("contents", contents == null ? "" : " with contents: " + contents)
+			.parse();
 	}
 
 	private static List<String> getContainerContentsAsStringList(ItemStack itemstack) {
@@ -63,9 +63,9 @@ public class ItemUtils {
 		List<String> enchantList = new ArrayList<>();
 		for (Object2IntMap.Entry<Holder<Enchantment>> holderEntry : itemEnchantments.entrySet()) {
 			enchantList.add(new MessageBuilder("{enchant}: {level}")
-					.parse("enchant", holderEntry.getKey().getRegisteredName())
-					.parse("level", holderEntry.getIntValue())
-					.parse()
+				.parse("enchant", holderEntry.getKey().getRegisteredName())
+				.parse("level", holderEntry.getIntValue())
+				.parse()
 			);
 		}
 

@@ -1,6 +1,7 @@
 {
   "leaderboardGUI": {
 	"title": "All-Time Leaderboard",
+	"seasonTitle": "Monthly Leaderboard",
 	"slots": [
 	  0,
 	  1,
@@ -39,6 +40,18 @@
 	  34,
 	  35
 	],
+	"contentFiller": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:black_stained_glass_pane",
+		"count": 1
+	  },
+	  "displayName": " ",
+	  "lore": [],
+	  "hideToolTips": false
+	},
 	"footerSlots": [
 	  45,
 	  46,
@@ -50,68 +63,264 @@
 	  52,
 	  53
 	],
+	"footerFiller": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:gray_stained_glass_pane",
+		"count": 1
+	  },
+	  "displayName": " ",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"previousPage": {
+	  "position": {
+		"slots": [
+		  45
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:arrow",
+		"count": 1
+	  },
+	  "displayName": "<gray>Previous Page",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"nextPage": {
+	  "position": {
+		"slots": [
+		  53
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:arrow",
+		"count": 1
+	  },
+	  "displayName": "<gray>Next Page",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"close": {
+	  "position": {
+		"slots": [
+		  50
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:barrier",
+		"count": 1
+	  },
+	  "displayName": "<red>Close",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"header": {
+	  "position": {
+		"slots": [
+		  49
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:name_tag",
+		"count": 1
+	  },
+	  "displayName": "<light_purple><bold>✦ Chat Games Leaderboard",
+	  "lore": [
+		"<gray>Page: <white>{page}",
+		"<gray>Total Entries: <white>{total}"
+	  ],
+	  "hideToolTips": false
+	},
+	"empty": {
+	  "position": {
+		"slots": [
+		  22
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:barrier",
+		"count": 1
+	  },
+	  "displayName": "<red>No leaderboard entries yet",
+	  "lore": [
+		"<gray>Play chat games to appear here."
+	  ],
+	  "hideToolTips": false
+	},
+	"entry": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:player_head",
+		"count": 1
+	  },
+	  "displayName": "{placement_color}#{placement} <white>{username}",
+	  "lore": [
+		"<gray>Wins: <white>{wins}"
+	  ],
+	  "hideToolTips": false
+	},
+	"toggleToSeason": {
+	  "position": {
+		"slots": [
+		  48
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:clock",
+		"count": 1
+	  },
+	  "displayName": "<aqua>☽ Season View",
+	  "lore": [
+		"<gray>Click to view the season leaderboard"
+	  ],
+	  "hideToolTips": false
+	},
+	"toggleToOverall": {
+	  "position": {
+		"slots": [
+		  48
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:compass",
+		"count": 1
+	  },
+	  "displayName": "<aqua>✦ Overall View",
+	  "lore": [
+		"<gray>Click to view the overall leaderboard"
+	  ],
+	  "hideToolTips": false
+	},
 	"claimReward": {
-	  "displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+	  "position": {
+		"slots": [
+		  51
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:nether_star",
+		"count": 1
+	  },
 	  "displayName": "<gold>✦ Claim Season Reward",
 	  "lore": [
 		"<gray>Click to claim your reward",
 		"<gray>if you placed in the top 3!"
 	  ],
-	  "position": {"slots": [51]}
+	  "hideToolTips": false
 	}
   },
   "claimGUI": {
 	"title": "Season Reward — #{placement}",
 	"filler": {
-	  "displayJson": "{\"id\":\"minecraft:gray_stained_glass_pane\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:gray_stained_glass_pane",
+		"count": 1
+	  },
 	  "displayName": " ",
-	  "lore": []
+	  "lore": [],
+	  "hideToolTips": false
 	},
 	"rewardInfo": {
-	  "displayJson": "{\"id\":\"minecraft:nether_star\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:nether_star",
+		"count": 1
+	  },
 	  "displayName": "<gold><bold>✦ Season Reward",
 	  "lore": [
 		"<gray>Placement: <gold>#{placement}",
 		"<gray>Wins: <white>{wins}",
 		" ",
 		"<gray>Claim your reward to receive your prize!"
-	  ]
+	  ],
+	  "hideToolTips": false
 	},
 	"slotsNeeded": {
-	  "displayJson": "{\"id\":\"minecraft:chest\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:chest",
+		"count": 1
+	  },
 	  "displayName": "<yellow>Inventory Space Needed",
 	  "lore": [
 		"<gray>Required: <white>{required} free slot(s)",
 		"<gray>Available: <white>{available} free slot(s)"
-	  ]
+	  ],
+	  "hideToolTips": false
 	},
 	"claimButton": {
-	  "displayJson": "{\"id\":\"minecraft:green_stained_glass_pane\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:green_stained_glass_pane",
+		"count": 1
+	  },
 	  "displayName": "<bold><green>✓ Claim Reward",
 	  "lore": [
 		"<gray>Click to collect your prize!"
-	  ]
+	  ],
+	  "hideToolTips": false
 	},
 	"noSpaceButton": {
-	  "displayJson": "{\"id\":\"minecraft:red_stained_glass_pane\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:red_stained_glass_pane",
+		"count": 1
+	  },
 	  "displayName": "<bold><red>✗ Not Enough Space",
 	  "lore": [
 		"<red>You need <white>{required}</white> free slot(s).",
 		"<red>You only have <white>{available}</white> free slot(s).",
 		" ",
 		"<gray>Free up space and try again."
-	  ]
+	  ],
+	  "hideToolTips": false
 	},
 	"rewardDisplay": {
-	  "displayJson": "{\"id\":\"minecraft:emerald\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:emerald",
+		"count": 1
+	  },
 	  "displayName": "<gold><bold>★ Your Rewards",
-	  "lore": []
+	  "lore": [],
+	  "hideToolTips": false
 	},
 	"closeButton": {
-	  "displayJson": "{\"id\":\"minecraft:barrier\",\"count\":1}",
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:barrier",
+		"count": 1
+	  },
 	  "displayName": "<red>Close",
-	  "lore": []
+	  "lore": [],
+	  "hideToolTips": false
 	},
 	"claimedMessage": "<green>You have successfully claimed your season reward!"
+  },
+  "formNameOverrides": {
+	"Calyrex": {
+	  "shadow": "Shadow Rider",
+	  "ice": "Ice Rider"
+	}
   }
 }

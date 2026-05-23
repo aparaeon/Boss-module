@@ -9,6 +9,8 @@ import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
+import gg.mmorealms.module.core.backend.common.gui.feature.interfaces.IAutoRefreshGUI;
 import gg.mmorealms.module.essentials.backend.common.EssentialsBackendModule;
 import gg.mmorealms.module.essentials.backend.common.config.EssentialsConfig;
 import gg.mmorealms.module.essentials.backend.common.dto.InventorySlot;
@@ -21,22 +23,25 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 import java.util.UUID;
 
-public class InvSeeGUI extends GUI {
+public class InvSeeGUI extends GUI implements IAutoRefreshGUI {
 
 	public static final String PLAYER_INVENTORY_STREAM_TYPE = "player_inventory";
 
 	private final UUID targetUUID;
 	private final EssentialsConfig.InvSeeGUI config;
 
-	private int ticks = 0;
 	private int offlineStreams = 0;
 
 	public InvSeeGUI(User user, UUID targetUUID) {
 		super(
-				user,
-				new Settings()
-						.chestSize(6)
-						.manipulatePlayerSlots(true)
+			user,
+			new GUISettings()
+				.chestSize(6)
+				.manipulatePlayerSlots(true)
+				.autoRefresh(new GUISettings.AutoRefreshSettings()
+					.enabled(true)
+					.tickInterval(4)
+				)
 		);
 		this.targetUUID = targetUUID;
 		this.config = EssentialsBackendModule.instance().getConfig().invSeeGUI;
@@ -46,11 +51,12 @@ public class InvSeeGUI extends GUI {
 	public String getTitleString() {
 		IUser target = IUser.getByUUID(targetUUID);
 		return new MessageBuilder("{target}'s Inventory") // TODO Config
-				.parse("target", target.getUsername())
-				.parse();
+			.parse("target", target.getUsername())
+			.parse();
 	}
 
-	public void setup() {
+	@Override
+	public void draw() {
 		setButton(config.background);
 
 		String streamData = StreamableResource.streamData(PLAYER_INVENTORY_STREAM_TYPE + "#" + targetUUID);
@@ -77,16 +83,16 @@ public class InvSeeGUI extends GUI {
 		for (int index = 9; index < 36; index++) {
 			ItemStack itemStack = userPlayer.getInventory().getItem(index);
 			setButton(config.userItem, 54 + index - 9)
-					.display(itemStack)
-					.onClick(click -> this.addItem(click, itemStack));
+				.display(itemStack)
+				.onClick(click -> this.addItem(click, itemStack));
 		}
 
 		for (int index = 0; index < 9; index++) {
 			ItemStack itemStack = userPlayer.getInventory().getItem(index);
 			setButton(config.userItem,
-					54 + 27 + index)
-					.display(itemStack)
-					.onClick(click -> this.addItem(click, itemStack));
+				54 + 27 + index)
+				.display(itemStack)
+				.onClick(click -> this.addItem(click, itemStack));
 		}
 	}
 
@@ -97,41 +103,31 @@ public class InvSeeGUI extends GUI {
 
 			int finalIndex = index;
 			setButton(config.targetItem, slot)
-					.display(itemStack)
-					.onClick(click -> this.removeItem(click, slotType, finalIndex));
+				.display(itemStack)
+				.onClick(click -> this.removeItem(click, slotType, finalIndex));
 		}
 	}
 
 	public void removeItem(ClickType click, InventorySlot.Type slotType, int slot) {
 		IUser target = IUser.getByUUID(targetUUID);
 		new SetItemEvent(target.getServerLocation().getServer(), target.getUUID(), new InventorySlot(slotType, slot,
-				CodecUtils.serialize(ItemStack.CODEC, ItemStack.EMPTY)
+			CodecUtils.serialize(ItemStack.CODEC, ItemStack.EMPTY)
 		)).send();
 	}
 
 	public void addItem(ClickType click, ItemStack itemStack) {
 		IUser target = IUser.getByUUID(targetUUID);
 		new AddItemEvent(
-				target.getServerLocation().getServer(),
-				target.getUUID(),
-				CodecUtils.serialize(ItemStack.CODEC, itemStack),
-				InventorySlot.Type.PLAYER_INVENTORY
+			target.getServerLocation().getServer(),
+			target.getUUID(),
+			CodecUtils.serialize(ItemStack.CODEC, itemStack),
+			InventorySlot.Type.PLAYER_INVENTORY
 		).send();
 	}
 
 	@Override
-	public void onTick() {
-		if (offlineStreams >= config.offlineStreamThreshold) {
-			setButton(config.offlineStream, config.statusIndex);
-			return;
-		}
-
-		ticks++;
-
-		if (ticks >= 4) {
-			ticks = 0;
-			refresh();
-		}
+	public boolean shouldAutoRefresh() {
+		return offlineStreams >= config.offlineStreamThreshold;
 	}
 
 }

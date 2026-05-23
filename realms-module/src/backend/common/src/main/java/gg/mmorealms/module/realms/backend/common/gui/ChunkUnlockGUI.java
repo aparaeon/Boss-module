@@ -1,6 +1,7 @@
 package gg.mmorealms.module.realms.backend.common.gui;
 
 import gg.mmorealms.module.core.backend.common.dto.ClickType;
+import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.ConfirmationGUI;
 import gg.mmorealms.module.economy.backend.common.dto.IBalances;
@@ -34,6 +35,15 @@ public class ChunkUnlockGUI extends ConfirmationGUI {
 
 		realm.unlockChunk(targetChunkLocation);
 		this.close();
+	}
+
+	@Override
+	public GUIButton confirmButton() {
+		return super.confirmButton()
+			.lore(
+				"",
+				"<white><b>Price: " + CONFIG.realmExpansionPrice
+			);
 	}
 
 	private boolean checkBalance() {

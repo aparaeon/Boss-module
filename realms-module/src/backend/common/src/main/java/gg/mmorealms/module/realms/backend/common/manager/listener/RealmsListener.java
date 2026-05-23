@@ -173,9 +173,6 @@ public class RealmsListener {
 		}
 	}
 
-	/**
-	 * Set the world border for the player when they teleport to a realm
-	 */
 	@EventHandler(order = 1000)
 	private void onUserTeleport(UserTeleportEvent event) {
 		Realm realm = IRealm.getAtLocation(event.getLocation().toLocation());

@@ -3,18 +3,22 @@ package gg.mmorealms.module.essentials.velocity.command.whitelist;
 import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
 import com.raduvoinea.commandmanager.velocity.command.VelocityCommand;
+import com.raduvoinea.utils.dependency_injection.annotations.Inject;
 import com.velocitypowered.api.command.CommandSource;
 import gg.mmorealms.module.essentials.velocity.EssentialsVelocityModule;
+import gg.mmorealms.module.essentials.velocity.manager.WhitelistManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@Command(aliases = {"whitelist"})
+@Command(aliases = {"whitelist"}, arguments = "status")
 @Getter
 @Setter
 public class WhitelistCommand extends VelocityCommand {
+
+	private @Inject WhitelistManager whitelistManager;
 
 	public WhitelistCommand(CommonCommandManager commandManager) {
 		super(commandManager);
@@ -36,7 +40,7 @@ public class WhitelistCommand extends VelocityCommand {
 			sendMessage(sender, "Whitelist is now disabled."); // TODO Lang
 		}
 
-		EssentialsVelocityModule.instance().getConfig().whitelistEnabled = newSetting;
+		this.whitelistManager.setWhitelist(newSetting);
 	}
 
 

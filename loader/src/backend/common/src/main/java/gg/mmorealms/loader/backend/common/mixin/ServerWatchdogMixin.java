@@ -58,21 +58,21 @@ public abstract class ServerWatchdogMixin {
 
 	@Unique
 	private static final List<String> FILTERED_OUT_THREADS = List.of(
-			"luckperms",
-			"spark",
-			"ConfigSaver",
-			"Write-Updater",
-			"Read-Updater",
-			"VoiceChatServerThread",
-			"Common-Cleaner",
-			"Read-Poller",
-			"Server console handler"
+		"luckperms",
+		"spark",
+		"ConfigSaver",
+		"Write-Updater",
+		"Read-Updater",
+		"VoiceChatServerThread",
+		"Common-Cleaner",
+		"Read-Poller",
+		"Server console handler"
 	);
 
 	@Unique
 	private static final List<String> ALLOWED_PACKAGES = List.of(
-			"gg.mmorealms",
-			"net.minecraft"
+		"gg.mmorealms",
+		"net.minecraft"
 	);
 
 	@Unique
@@ -105,8 +105,8 @@ public abstract class ServerWatchdogMixin {
 			}
 
 			Logger.info(new MessageBuilder("Tick time: {milliseconds}ms")
-					.parse("milliseconds", (tickTime / TimeUtil.NANOSECONDS_PER_MILLISECOND))
-					.parse("nanoseconds", tickTime));
+				.parse("milliseconds", (tickTime / TimeUtil.NANOSECONDS_PER_MILLISECOND))
+				.parse("nanoseconds", tickTime));
 
 			if (tickTime < this.maxTickTimeNanos) {
 				try {
@@ -127,21 +127,21 @@ public abstract class ServerWatchdogMixin {
 
 			int playerCount = BackendLoader.instance().getServer().getPlayerList().getPlayers().size();
 			List<String> playerNames = BackendLoader.instance().getServer().getPlayerList().getPlayers().stream()
-					.map(ServerPlayer::getName)
-					.map(Component::getString)
-					.toList();
+				.map(ServerPlayer::getName)
+				.map(Component::getString)
+				.toList();
 
 			loader$writeAdditionalCrashReport(
-					"players.txt",
-					new MessageBuilder(
-							"""
-									Players Count: {count}
-									Players: {names}
-									"""
-					)
-							.parse("count", playerCount)
-							.parse("names", String.join(", ", playerNames))
-							.parse()
+				"players.txt",
+				new MessageBuilder(
+					"""
+						Players Count: {count}
+						Players: {names}
+						"""
+				)
+					.parse("count", playerCount)
+					.parse("names", String.join(", ", playerNames))
+					.parse()
 
 			);
 
@@ -244,9 +244,9 @@ public abstract class ServerWatchdogMixin {
 	private HashMap<String, StackTraceElement[]> loader$getActiveThreads() {
 		HashMap<String, StackTraceElement[]> result = new HashMap<>();
 
-		Thread.getAllStackTraces().forEach((thread, stackTrace) -> {
-			result.put(thread.getName(), stackTrace);
-		});
+		Thread.getAllStackTraces().forEach((thread, stackTrace) ->
+			result.put(thread.getName(), stackTrace)
+		);
 
 		return result;
 	}
@@ -341,11 +341,11 @@ public abstract class ServerWatchdogMixin {
 	@Unique
 	private Sampler.ExportProps loader$getExportProps(SparkPlatform platform) {
 		return (new Sampler.ExportProps())
-				.creator(new CommandSender.Data("CONSOLE", null))
-				.comment("watchdog trigger crash")
-				.mergeStrategy(
-						MergeStrategy.SEPARATE_PARENT_CALLS)
-				.classSourceLookup(() -> ClassSourceLookup.create(platform));
+			.creator(new CommandSender.Data("CONSOLE", null))
+			.comment("watchdog trigger crash")
+			.mergeStrategy(
+				MergeStrategy.SEPARATE_PARENT_CALLS)
+			.classSourceLookup(() -> ClassSourceLookup.create(platform));
 	}
 
 	@Unique
@@ -366,8 +366,8 @@ public abstract class ServerWatchdogMixin {
 	@Unique
 	private void loader$defaultLogic(long tickTime) {
 		Logger.error(new MessageBuilder("A single server tick took {single} seconds (should be max {max})")
-				.parse("single", String.format("%.2f", (float) tickTime / (float) TimeUtil.NANOSECONDS_PER_SECOND))
-				.parse("max", String.format("%.2f", this.server.tickRateManager().millisecondsPerTick() / (float) TimeUtil.MILLISECONDS_PER_SECOND)));
+			.parse("single", String.format("%.2f", (float) tickTime / (float) TimeUtil.NANOSECONDS_PER_SECOND))
+			.parse("max", String.format("%.2f", this.server.tickRateManager().millisecondsPerTick() / (float) TimeUtil.MILLISECONDS_PER_SECOND)));
 		Logger.error("Considering it to be crashed, server will forcibly shutdown.");
 		ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 		ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
@@ -390,13 +390,13 @@ public abstract class ServerWatchdogMixin {
 		CrashReportCategory performanceStatsCrashCategory = crashReport.addCategory("Performance stats");
 		performanceStatsCrashCategory.setDetail("Random tick rate", () -> this.server.getWorldData().getGameRules().getRule(GameRules.RULE_RANDOMTICKING).toString());
 		performanceStatsCrashCategory.setDetail("Level stats", () -> Streams.stream(this.server.getAllLevels())
-				.map((serverLevel) -> serverLevel.dimension() + ": " + serverLevel.getWatchdogStats())
-				.collect(Collectors.joining(",\n")));
+			.map((serverLevel) -> serverLevel.dimension() + ": " + serverLevel.getWatchdogStats())
+			.collect(Collectors.joining(",\n")));
 		Bootstrap.realStdoutPrintln("Crash report:\n" + crashReport.getFriendlyReport(ReportType.CRASH));
 		Path path = this.server.getServerDirectory().resolve("crash-reports").resolve("crash-" + Util.getFilenameFormattedDateTime() + "-server.txt");
 		if (crashReport.saveToFile(path, ReportType.CRASH)) {
 			Logger.error(new MessageBuilder("This crash report has been saved to: {crash_file_path}")
-					.parse("crash_file_path", path.toAbsolutePath()));
+				.parse("crash_file_path", path.toAbsolutePath()));
 		} else {
 			Logger.error("We were unable to save this crash report to disk.");
 		}

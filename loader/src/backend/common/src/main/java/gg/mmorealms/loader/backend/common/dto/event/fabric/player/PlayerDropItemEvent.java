@@ -20,6 +20,13 @@ public class PlayerDropItemEvent extends LocalRequest<Boolean> {
 		this.stack = player.getInventory().getItem(slot);
 	}
 
+	public PlayerDropItemEvent(ServerPlayer player, ItemStack stack) {
+		super(true);
+		this.player = player;
+		this.slot = player.getInventory().selected;
+		this.stack = stack;
+	}
+
 	public Location getLocation() {
 		return Location.of(player.getX(), player.getY(), player.getZ());
 	}

@@ -14,10 +14,10 @@ public class FabricBackendEvents {
 
 	public void registerEvents() {
 		ServerMessageEvents.ALLOW_GAME_MESSAGE.register(
-				(MinecraftServer server, Component message, boolean overlay) -> {
-					GameMessageEvent event = new GameMessageEvent(server, message, overlay);
-					return Boolean.TRUE.equals(event.fireSync());
-				}
+			(MinecraftServer server, Component message, boolean overlay) -> {
+				GameMessageEvent event = new GameMessageEvent(server, message, overlay);
+				return Boolean.TRUE.equals(event.fireSync());
+			}
 		);
 
 		UseEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {

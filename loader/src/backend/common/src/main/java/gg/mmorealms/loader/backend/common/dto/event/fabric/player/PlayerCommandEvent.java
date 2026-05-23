@@ -2,13 +2,10 @@ package gg.mmorealms.loader.backend.common.dto.event.fabric.player;
 
 import com.mojang.brigadier.ParseResults;
 import dev.architectury.event.EventResult;
-import gg.mmorealms.loader.common.dto.event.local.LocalEvent;
 import gg.mmorealms.loader.common.dto.event.local.LocalRequest;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
-import org.apache.logging.log4j.core.jmx.Server;
 
 @Getter
 public class PlayerCommandEvent extends LocalRequest<EventResult> {

@@ -10,7 +10,9 @@ public record ModuleID(String id) implements Comparable<ModuleID> {
 
 	@Override
 	public boolean equals(Object other) {
-		if (other == null || getClass() != other.getClass()) return false;
+		if (other == null || getClass() != other.getClass()) {
+			return false;
+		}
 
 		ModuleID moduleID = (ModuleID) other;
 		return id.equals(moduleID.id);

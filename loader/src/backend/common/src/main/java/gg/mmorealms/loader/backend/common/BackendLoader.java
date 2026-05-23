@@ -7,6 +7,7 @@ import gg.mmorealms.loader.backend.common.command.ModulesCommand;
 import gg.mmorealms.loader.backend.common.manager.BackendEvents;
 import gg.mmorealms.loader.backend.common.manager.Listener;
 import gg.mmorealms.loader.backend.common.manager.SyncedDatabaseLoader;
+import gg.mmorealms.loader.backend.common.manager.type_adapter.ItemStackTypeAdapter;
 import gg.mmorealms.loader.common.CommonLoader;
 import gg.mmorealms.loader.common.dto.ServerType;
 import gg.mmorealms.loader.common.manager.database.DatabaseLoader;
@@ -39,6 +40,10 @@ public abstract class BackendLoader extends CommonLoader {
 		this.serverType = export(ServerType.valueOf(SecretsUtils.getEnvironmentVariable("SERVER_TYPE")));
 
 		this.getEventManager().register(new Listener());
+
+		this.getGsonSettings().updateGson((gsonBuilder) -> {
+			new ItemStackTypeAdapter(this.getClassLoader()).register(gsonBuilder);
+		});
 	}
 
 	@Override

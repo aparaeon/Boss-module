@@ -11,9 +11,11 @@ import com.pixelmonmod.pixelmon.api.pokemon.species.moves.Moves;
 import com.pixelmonmod.pixelmon.api.pokemon.type.Type;
 import com.pixelmonmod.pixelmon.battles.attacks.ImmutableAttack;
 import com.raduvoinea.utils.logger.Logger;
+import gg.mmorealms.module.chat_games.backend.common.config.ChatGamesConfig;
 import gg.mmorealms.module.chat_games.backend.common.manager.AbstractPokemonQuestionGenerator;
 import gg.mmorealms.module.chat_games.common.dto.GeneratedQuestion;
 import gg.mmorealms.module.chat_games.common.dto.QuestionType;
+import gg.mmorealms.module.chat_games.common.utils.AnswerNormalizer;
 import net.minecraft.core.Holder;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,6 +26,10 @@ import java.util.stream.Collectors;
 public class PixelmonQuestionGenerator extends AbstractPokemonQuestionGenerator {
 
 	private final EnumSet<QuestionType> loadedTypes = EnumSet.noneOf(QuestionType.class);
+
+	public PixelmonQuestionGenerator(ChatGamesConfig config) {
+		super(config);
+	}
 
 	private static String capitalize(String input) {
 		if (input == null || input.isEmpty()) {
@@ -87,7 +93,7 @@ public class PixelmonQuestionGenerator extends AbstractPokemonQuestionGenerator 
 
 			case POKEMON_ABILITY -> this.pokemonAbilities = resolvePokemonAbilities(allSpecies);
 
-			case ABILITY_POKEMON -> this.abilityPokemon = resolveAbilityPokemon(allSpecies);
+			case ABILITY_POKEMON -> resolveAbilityPokemon(allSpecies);
 
 			case POKEMON_FORM -> this.pokemonForms = resolvePokemonForms(allSpecies);
 
@@ -234,11 +240,12 @@ public class PixelmonQuestionGenerator extends AbstractPokemonQuestionGenerator 
 		return result;
 	}
 
-	private Map<String, List<String>> resolveAbilityPokemon(List<Species> allSpecies) {
+	private void resolveAbilityPokemon(List<Species> allSpecies) {
 		Map<String, List<String>> result = new HashMap<>();
+		Map<String, String> displayNames = new HashMap<>();
 
 		for (Species species : allSpecies) {
-			Map<String, Set<String>> abilityToAnswers = new LinkedHashMap<>();
+			Map<String, Set<String>> keyToAnswers = new LinkedHashMap<>();
 
 			for (Stats form : species.getForms()) {
 				if (form == null) {
@@ -259,7 +266,12 @@ public class PixelmonQuestionGenerator extends AbstractPokemonQuestionGenerator 
 					if (name == null || name.isEmpty()) {
 						continue;
 					}
-					Set<String> answers = abilityToAnswers.computeIfAbsent(name, k -> new LinkedHashSet<>());
+					String key = AnswerNormalizer.normalize(name);
+					if (key.isEmpty()) {
+						continue;
+					}
+					displayNames.putIfAbsent(key, name);
+					Set<String> answers = keyToAnswers.computeIfAbsent(key, k -> new LinkedHashSet<>());
 					answers.add(species.getName());
 					if (megaName != null) {
 						answers.add(megaName);
@@ -267,12 +279,13 @@ public class PixelmonQuestionGenerator extends AbstractPokemonQuestionGenerator 
 				}
 			}
 
-			for (Map.Entry<String, Set<String>> entry : abilityToAnswers.entrySet()) {
+			for (Map.Entry<String, Set<String>> entry : keyToAnswers.entrySet()) {
 				result.computeIfAbsent(entry.getKey(), k -> new ArrayList<>()).addAll(entry.getValue());
 			}
 		}
 
-		return result;
+		this.abilityPokemon = result;
+		this.abilityDisplayNames = displayNames;
 	}
 
 	private Map<String, List<String>> resolvePokemonForms(List<Species> allSpecies) {
@@ -289,20 +302,26 @@ public class PixelmonQuestionGenerator extends AbstractPokemonQuestionGenerator 
 				}
 
 				String formName = form.getName();
-				if (formName == null ||
-					formName.equalsIgnoreCase("Normal") ||
-					formName.equalsIgnoreCase("Standard") ||
-					formName.equalsIgnoreCase("Base") ||
-					formName.contains("-")) {
+				if (formName == null) {
 					continue;
 				}
 
-				result.computeIfAbsent(formName, k -> new ArrayList<>())
+				String normalizedName = normalizeFormName(formName);
+				if (normalizedName.isEmpty()
+					|| normalizedName.equals("normal")
+					|| normalizedName.equals("standard")
+					|| normalizedName.equals("base")
+					|| normalizedName.startsWith("mega")
+					|| EXCLUDED_FORM_NAMES.contains(normalizedName)) {
+					continue;
+				}
+
+				String displayName = titleCase(normalizedName);
+				result.computeIfAbsent(displayName, k -> new ArrayList<>())
 					.add(species.getName());
 			}
 		}
 
-		result.entrySet().removeIf(e -> e.getValue().size() < 2);
 		return result;
 	}
 

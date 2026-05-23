@@ -1,21 +1,27 @@
 package gg.mmorealms.module.essentials.velocity.config;
 
 import com.raduvoinea.utils.message_builder.MessageBuilderList;
+import gg.mmorealms.module.essentials.velocity.dto.WhitelistState;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class EssentialsConfig {
 
-	public boolean whitelistEnabled = true;
-	public List<String> whitelist = List.of(
-			"_LightDream",
-			"LightDreamDev",
-			"Phantommmm",
-			"Alkatraz090",
-			"AlkatrazDev",
-			"ZeroDelusions",
-			"TouchMe" // Alt account of ZeroDelusions
+	public WhitelistState defaultWhitelistState = new WhitelistState(
+			true,
+			new ArrayList<>(),
+			new ArrayList<>(),
+			new HashSet<>(){{
+				add("_LightDream");
+				add("LightDreamDev");
+				add("Phantommmm");
+				add("Alkatraz090");
+				add("AlkatrazDev");
+				add("ZeroDelusions");
+				add("TouchMe");
+			}}
 	);
 
 	// https://webui.advntr.dev/
@@ -23,12 +29,5 @@ public class EssentialsConfig {
 			"<reset>          <b><gold>⚡ <gradient:#ff0000:white:aqua>ᴄᴏʙʙʟᴇᴍᴏɴ</gradient> <gold>ᴍᴍᴏ ʀᴇᴀʟᴍs ⚡<reset>",
 			"<reset>                          <#ff0000><b>- Beta -"
 	));
-
-	public void addToWhitelist(String name) {
-		if (!ArrayList.class.isAssignableFrom(whitelist.getClass())) {
-			whitelist = new ArrayList<>(whitelist);
-		}
-		whitelist.add(name);
-	}
 
 }

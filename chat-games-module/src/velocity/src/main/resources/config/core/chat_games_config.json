@@ -440,13 +440,19 @@
 	}
   ],
   "math": {
-    "addends": {"min": 1, "max": 1000},
-    "factors": {"min": 2, "max": 25}
+	"addends": {
+	  "min": 1,
+	  "max": 1000
+	},
+	"factors": {
+	  "min": 2,
+	  "max": 25
+	}
   },
   "roundDurationSeconds": 30,
   "intervalMinutes": {
-	"min": 1,
-	"max": 2
+	"min": 4,
+	"max": 6
   },
   "rewards": [
 	{
@@ -471,14 +477,14 @@
 	  ]
 	},
 	{
-	  "weight": 2.0,
+	  "weight": 1.0,
 	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <light_purple><bold>10 Gems</bold><newline>",
 	  "commands": [
 		"bal add {player} 10 Gems"
 	  ]
 	},
 	{
-	  "weight": 1.0,
+	  "weight": 0.5,
 	  "rewardMessage": "<newline><dark_gray> ▎ <light_purple>✦ <gray>Your reward: <yellow><bold>a Basic Crate Key</bold><newline>",
 	  "commands": [
 		"crates admin give_virtual_key {player} 1 basic"

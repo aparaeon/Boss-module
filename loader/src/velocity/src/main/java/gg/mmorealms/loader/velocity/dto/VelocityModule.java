@@ -1,6 +1,5 @@
 package gg.mmorealms.loader.velocity.dto;
 
-import com.raduvoinea.utils.lambda.lambda.non_throwing.ReturnArgLambda;
 import com.raduvoinea.utils.logger.Logger;
 import com.raduvoinea.utils.message_builder.GenericMessageBuilder;
 import com.velocitypowered.api.command.CommandSource;
@@ -9,13 +8,18 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import gg.mmorealms.loader.common.CommonLoader;
 import gg.mmorealms.loader.common.annotation.Module;
 import gg.mmorealms.loader.common.dto.CommonModule;
+import gg.mmorealms.loader.common.dto.IPlayerBasedModule;
+import gg.mmorealms.loader.common.utils.MojangUtils;
 import gg.mmorealms.loader.velocity.VelocityLoader;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public interface VelocityModule extends CommonModule {
+public interface VelocityModule extends CommonModule, IPlayerBasedModule<Player> {
 
 	default void velocity$afterConstruct() {
 		try {
@@ -75,39 +79,34 @@ public interface VelocityModule extends CommonModule {
 		}
 	}
 
+	@Override
+	default @org.jetbrains.annotations.Nullable Player getPlayerByUsername(String username) {
+		return VelocityLoader.instance().getProxy().getPlayer(username).orElse(null);
+	}
+
+	@Override
+	default void executeCommand(String command) {
+		VelocityLoader.instance().getProxy().getCommandManager().executeAsync(
+			VelocityLoader.instance().getProxy().getConsoleCommandSource(),
+			command
+		);
+	}
+
 	/**
-	 * @param uuidOrUsername    username or uuid-string
-	 * @param playerBehaviour   Will be executed when the target (provided by either its UUID or username) is online
-	 * @param uuidBehaviour     Will be executed whe the target (provided by its UUID) is offline
-	 * @param usernameBehaviour Will be executed when the target (provided by its username) is offline
-	 * @param <T>               type of object
+	 * Resolves a username or uuid-string to a {@link UUID}, hitting Mojang's API as a fallback when the
+	 * target is offline and only a username was provided.
 	 *
-	 * @return result
+	 * @param uuidOrUsername username or uuid-string
+	 * @return resolved UUID, or {@code null} if the username could not be resolved
 	 */
-	default <T> T getByUUIDOrUsername(
-		String uuidOrUsername,
-		ReturnArgLambda<T, Player> playerBehaviour,
-		ReturnArgLambda<T, UUID> uuidBehaviour,
-		ReturnArgLambda<T, String> usernameBehaviour
-	) {
-		try {
-			UUID uuid = UUID.fromString(uuidOrUsername);
-			Player player = VelocityLoader.instance().getProxy().getPlayer(uuid).orElse(null);
-
-			if (player != null) {
-				return playerBehaviour.run(player);
-			} else {
-				return uuidBehaviour.run(uuid);
-			}
-		} catch (Exception e) {
-			Player player = VelocityLoader.instance().getProxy().getPlayer(uuidOrUsername).orElse(null);
-
-			if (player != null) {
-				return playerBehaviour.run(player);
-			}
-
-			return usernameBehaviour.run(uuidOrUsername);
-		}
+	@Override
+	default @Nullable UUID getUUID(@NotNull String uuidOrUsername) {
+		return getByUUIDOrUsername(
+			uuidOrUsername,
+			Player::getUniqueId,
+			uuid -> uuid,
+			MojangUtils::getUUID
+		);
 	}
 
 	default String getDisplayName(String uuidOrUsername) {
@@ -117,5 +116,10 @@ public interface VelocityModule extends CommonModule {
 			(uuid) -> uuid + " (OFFLINE)",
 			(username) -> username
 		);
+	}
+
+	@Override
+	default @Nullable Player getPlayerByUUID(UUID uuid) {
+		return VelocityLoader.instance().getProxy().getPlayer(uuid).orElse(null);
 	}
 }

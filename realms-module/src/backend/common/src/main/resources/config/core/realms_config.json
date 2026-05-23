@@ -1,0 +1,690 @@
+{
+  "permission": "mmorealm.realm.{permission}",
+  "realmExpansionPrice": {
+	"currency": "GEMS",
+	"amount": 50
+  },
+  "checkBorder": {
+	"amount": 5,
+	"unit": "SECONDS"
+  },
+  "maxPagesForVisitorMessage": 1,
+  "maxLinesForVisitorMessage": 14,
+  "teleportBackDenyList": [
+	"minecraft:water",
+	"minecraft:lava",
+	"minecraft:stone"
+  ],
+  "realmTypeProperties": {
+	"CHERRY": {
+	  "name": "Cherry",
+	  "spawnOffset": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 512.0,
+		  "y": 69.0,
+		  "z": 512.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "display": "",
+	  "diskLocation": "cherry"
+	},
+	"PLAINS": {
+	  "name": "Plains",
+	  "spawnOffset": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 512.0,
+		  "y": 64.0,
+		  "z": 512.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "display": "",
+	  "diskLocation": "plains"
+	},
+	"SAVANNA": {
+	  "name": "Savanna",
+	  "spawnOffset": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 512.0,
+		  "y": 64.0,
+		  "z": 512.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "display": "",
+	  "diskLocation": "savanna"
+	},
+	"FOREST": {
+	  "name": "Forest",
+	  "spawnOffset": {
+		"class_name": "gg.mmorealms.loader.common.dto.location.Location",
+		"data": {
+		  "x": 512.0,
+		  "y": 69.0,
+		  "z": 512.0,
+		  "pitch": 0.0,
+		  "yaw": 0.0
+		}
+	  },
+	  "display": "",
+	  "diskLocation": "forest"
+	}
+  },
+  "visitorMessageItem": {
+	"id": "minecraft:writable_book",
+	"count": 1,
+	"components": {
+	  "minecraft:custom_name": "{\"color\":\"gold\",\"text\":\"Visitor Message\"}",
+	  "minecraft:max_stack_size": 99
+	}
+  },
+  "levelToWorldBorder": {
+	"1": 100,
+	"2": 200,
+	"3": 300,
+	"4": 400,
+	"5": 500,
+	"6": 600,
+	"7": 700,
+	"8": 800,
+	"9": 900
+  },
+  "realmGUI": {
+	"teleport": {
+	  "position": {
+		"slots": [
+		  39,
+		  40,
+		  41
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Teleport",
+	  "lore": [
+		"",
+		"<gray>Teleport to your realm"
+	  ],
+	  "hideToolTips": false
+	},
+	"members": {
+	  "position": {
+		"slots": [
+		  36,
+		  37,
+		  45,
+		  46
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<white>Members",
+	  "lore": [
+		"",
+		"<gray>View all members of this realm"
+	  ],
+	  "hideToolTips": false
+	},
+	"settings": {
+	  "position": {
+		"slots": [
+		  43,
+		  44,
+		  52,
+		  53
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<white>Settings",
+	  "lore": [
+		"",
+		"<gray>View all settings of this realm",
+		"<red>This feature is under development"
+	  ],
+	  "hideToolTips": false
+	}
+  },
+  "pagedGUI": {
+	"slots": [
+	  10,
+	  11,
+	  12,
+	  13,
+	  14,
+	  15,
+	  16,
+	  19,
+	  20,
+	  21,
+	  22,
+	  23,
+	  24,
+	  25,
+	  28,
+	  29,
+	  30,
+	  31,
+	  32,
+	  33,
+	  34
+	],
+	"previous": {
+	  "position": {
+		"slots": [
+		  46,
+		  47
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<yellow>Previous Page",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"next": {
+	  "position": {
+		"slots": [
+		  51,
+		  52
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<yellow>Next Page",
+	  "lore": [],
+	  "hideToolTips": false
+	}
+  },
+  "realmCreateGUI": {
+	"titleBase": "",
+	"previous": {
+	  "position": {
+		"slots": [
+		  18,
+		  19,
+		  27,
+		  28
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<yellow>Previous Realm Type",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"next": {
+	  "position": {
+		"slots": [
+		  25,
+		  26,
+		  34,
+		  35
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<yellow>Next Realm Type",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"create": {
+	  "position": {
+		"slots": [
+		  48,
+		  49,
+		  50
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Create Realm",
+	  "lore": [],
+	  "hideToolTips": false
+	}
+  },
+  "realmSettingsGUI": {
+	"noPermissionWeather": "<red>You are not allowed to change the weather of the realm!",
+	"noPermissionTime": "<red>You are not allowed to change the time of the realm!",
+	"noPermissionPokemonSpawn": "<red>You are not allowed to change the pokemon spawning option of this realm!",
+	"privateLeftButton": {
+	  "position": {
+		"slots": [
+		  38
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1002
+		}
+	  },
+	  "displayName": "<red>Private",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"privateRightButton": {
+	  "position": {
+		"slots": [
+		  39
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<red>Private",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"publicLeftButton": {
+	  "position": {
+		"slots": [
+		  38
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Public",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"publicRightButton": {
+	  "position": {
+		"slots": [
+		  39
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1001
+		}
+	  },
+	  "displayName": "<green>Public",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"onTimeLeftButton": {
+	  "position": {
+		"slots": [
+		  23
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1003
+		}
+	  },
+	  "displayName": "<green>Day / night cycle ON",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"onTimeRightButton": {
+	  "position": {
+		"slots": [
+		  24
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Day / night cycle ON",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"offTimeButton": {
+	  "position": {
+		"slots": [
+		  23,
+		  24
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<red>Day / night cycle OFF",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"onWeatherLeftButton": {
+	  "position": {
+		"slots": [
+		  20
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1004
+		}
+	  },
+	  "displayName": "<aqua>Raining",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"onWeatherRightButton": {
+	  "position": {
+		"slots": [
+		  21
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<aqua>Raining",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"offWeatherButton": {
+	  "position": {
+		"slots": [
+		  20,
+		  21
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Normal Weather",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"onPokemonSpawningLeftButton": {
+	  "position": {
+		"slots": [
+		  5
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1005
+		}
+	  },
+	  "displayName": "<green>Pokemon Spawning ON",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"onPokemonSpawningRightButton": {
+	  "position": {
+		"slots": [
+		  6
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Pokemon Spawning ON",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"offPokemonSpawningButton": {
+	  "position": {
+		"slots": [
+		  5,
+		  6
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<red>Pokemon Spawning OFF",
+	  "lore": [],
+	  "hideToolTips": false
+	}
+  },
+  "realmVisitGUI": {
+	"publicFilter": {
+	  "position": {
+		"slots": [
+		  49
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Public Realms",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"privateFilter": {
+	  "position": {
+		"slots": [
+		  49
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<yellow>Private Realms",
+	  "lore": [],
+	  "hideToolTips": false
+	},
+	"privateRealm": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:player_head",
+		"count": 1
+	  },
+	  "displayName": "{user}",
+	  "lore": [
+		"<green>Left-Click to teleport to this realm",
+		"<red>Right-Click to stop being a member of this realm"
+	  ],
+	  "hideToolTips": false,
+	  "skullOwner": "{user}"
+	},
+	"publicRealm": {
+	  "position": {
+		"slots": []
+	  },
+	  "baseItem": {
+		"id": "minecraft:player_head",
+		"count": 1
+	  },
+	  "displayName": "{user}",
+	  "lore": [
+		"<green>Left-click to teleport to the realm owner by <gold>{user}"
+	  ],
+	  "hideToolTips": false,
+	  "skullOwner": "{user}"
+	}
+  },
+  "realmMembersGUI": {
+	"members": {
+	  "position": {
+		"slots": [
+		  49
+		]
+	  },
+	  "baseItem": {
+		"id": "minecraft:paper",
+		"count": 1,
+		"components": {
+		  "minecraft:custom_model_data": 1000
+		}
+	  },
+	  "displayName": "<green>Members",
+	  "lore": [],
+	  "hideToolTips": false
+	}
+  },
+  "permissionMap": {
+	"SET_HOME": "You don't have permission to set a home on this realm!",
+	"COMMAND_TRUST": "<red>You can't trust new players on this realm!",
+	"BLOCK_PLACE": "<red>You can't place blocks in this realm!",
+	"CROP_STOMP": "<red>You don't have permission to stomp the crops on this realm!",
+	"EVERY_MEMBER": "<red>You are not a member of this realm",
+	"ENTITY_DAMAGE": "<red>You can't damage entities in this realm!",
+	"ENTITY_INTERACT": "",
+	"COMMAND_REMOVE": "<red>You can't remove members from this realm!",
+	"BLOCK_INTERACT": "<red>You can't interact with blocks in this realm!",
+	"COMMAND_CHANGE_VISITOR_MESSAGE": "<red>You don't have permission to change the visitor message!",
+	"DISPENSABLE_BLOCK_PLACE": "<red>You can't place dispensable blocks on this realm!",
+	"DECORATED_POT_INTERACT_EVENT": "<red>You can't interact with the decorated pots in this realm!",
+	"ENTITY_ATTACK": "<red>You can't attack entities in this realm!",
+	"ITEM_DROP_EVENT": "<red>You can't drop items in this realm!",
+	"SIGN_INTERACT_EVENT": "<red>You can't interact with the signs in this realm!",
+	"ITEM_USE_EVENT": "<red>You can't use items in this realm!",
+	"BLOCK_BREAK": "<red>You can't break blocks in this realm!",
+	"COMMAND_UNBAN": "<red>You don't have permission to unban players on this realm!",
+	"COMMAND_ADD": "<red>You can't add members to this realm!",
+	"ARMOR_STAND_INTERACT_EVENT": "<red>You can't interact with armor stands in this realm!",
+	"COMMAND_BAN": "<red>You don't have permission to ban players on this realm!",
+	"COMMAND_MEMBERS": "<red>You can't view the list of members on this realm!",
+	"BOAT_PLACE": "<red>You can't place boats in this realm!",
+	"COMMAND_DELETE": "<red>You can't delete this realm!",
+	"BLOCK_ATTACK": "<red>You can't attack blocks in this realm!"
+  },
+  "lang": {
+	"userNotFound": "<red>User not found",
+	"realmOnCrashingServer": "<yellow>{pre} realm was previously loaded on a server that crashed. Please wait a moment until we fully save it and rejoin the server again after.",
+	"realmUnloading": "<yellow>{pre} realm is getting saved. Please wait a moment...",
+	"realmJoinMessage": "<newline><hover:show_text:'<light_purple><bold>Click to teleport into the wild!</bold></light_purple>'><click:run_command:'/rtp'><green><bold>Welcome to {possesive} Realm — builds here are always saved!</bold></green><newline><newline><yellow><bold>{message}<newline><newline><light_purple><bold>──➤ {message2}<newline>\n",
+	"loadingRealmStart": "\n\n\n<green>We are loading {pre} realm on server {server}<green>. Please stand by...\n\n\n",
+	"playerHasNoRealm": "<red>The player does not have a realm",
+	"realmDeleted": "<green>Realm deleted",
+	"notInARealm": "<red>You are not in a realm",
+	"invalidParameter": "<red>Invalid {parameter}!",
+	"realmMemberEntry": "- <gray>{username} - {permission}",
+	"playerHasNoOwnRealm": "<red>You don't have a realm! <white>You can create one with the command /realm",
+	"alreadyInRealm": "<red>Player is already a member of this realm!",
+	"realmStillLoading": "<yellow>The realm is still loading. Please wait a moment...",
+	"realmAlreadyLoaded": "<green>Realm already loaded!",
+	"playerHasOwnRealmLoaded": "<green>Realm already loaded, use [/realm] to get to it!",
+	"realmAlreadyUnloaded": "<green>Realm already unloaded!",
+	"realmUnloadStart": "<green>The realm started to unload<newline><yellow>Warning:<white> you will not receive a confirmation message after it is finished",
+	"ownRealmVisit": "<red>You can't visit your own realm!",
+	"realmLoadFailed": "<red>Failed to load your realm. Please contact an administrator for assistance",
+	"adminLoadRealmReminder": "<red>Realm not loaded, please use [/realm admin load <player>] first!",
+	"grantedPermission": "<green>Granted <white>{target} {permission}<green> permission in the realm!",
+	"receivedPermission": "<green>Your permission level in the realm owned by <white>{owner}<green> is now {permission}!",
+	"memberAddedToRealm": "<green>Added <white>{target}<green> to this realm!",
+	"addedToRealm": "<green>You were added to a realm owned by <white>{owner}<green>!",
+	"targetNotMember": "<red>Player {target} is not a member of this realm!",
+	"memberRemovedFromRealm": "<green>Removed <white>{target} <green>from this realm!",
+	"removedFromRealm": "<green>You were removed from a realm owned by <white>{owner}<green>!",
+	"legendaryCaptureShared": "<green>Now members of your realm can capture legendary spawned for you!",
+	"legendaryCaptureOwnerOnly": "<green>Now only you can capture legendary spawned for you!",
+	"setSpawnMessage": "<green>You successfully changed the spawn to this realm!",
+	"invalidBan": "<red>You can only ban players with a lower rank than you.",
+	"playerBanned": "<green>Successfully banned player {user}",
+	"bannedNotice": "<red>You were banned from a realm owned by {owner}",
+	"playerUnbanned": "<green>Successfully unbanned player {user}",
+	"unbannedNotice": "<red>You were unbanned from a realm owned by {owner}",
+	"realmOwnerLeaveError": "<red>You are the owner of this realm. Use [/realm delete] if you want to delete it!",
+	"realmOwnerNotOnlineLeaveError": "<red>Please try again after we load the realm!",
+	"notRealmMember": "<red>You are not a member of a realm owned by {owner}!",
+	"invalidRemove": "<red>You can only remove players with a lower rank than yours.",
+	"invalidTrust": "<red>You can only change the rank of players with a lower trust level.",
+	"invalidTrustLimit": "<red>You may only promote players to a rank just below your own.",
+	"howDoYouGetInRealmSettingsWithoutARealm": "<bold><red>How did you get in this menu if you don't have a realm? Please contact an administrator.",
+	"realmLoaded": "\n\n<green>{pre} realm has been loaded onto server {server_id}<green>. You can now go to the realm\n\n\n\n",
+	"helpMessage": "<bold><aqua>Realm Help</aqua></bold>\n<yellow>Your <green>Realm<yellow> is your personal world — build your base, invite others, and make it your own!\n\n<bold><aqua>World Selection</aqua></bold>\n<hover:show_text:'<gray>Open the realm menu</gray>'><click:run_command:/realm><gold>/realm</gold></click></hover> <gray>– Open the Realm menu to manage and view details about your personal realm</gray>\n<hover:show_text:'<gray>Teleport to your personal realm</gray>'><click:run_command:/realm teleport><gold>/realm teleport</gold></click></hover> <gray>– Jump straight to your personal realm</gray>\n<hover:show_text:'<gray>Visit another player’s realm (if public or permitted)</gray>'><click:suggest_command:/realm visit ><gold>/realm visit <player></gold></click></hover> <gray>– Visit someone else’s realm</gray>\n<hover:show_text:'<gray>Click to pick your destination</gray>'><click:run_command:/select><gold>/select</gold></click></hover> <gray>– Opens the server select menu. You’ll also get a compass — just right-click with it!</gray>\n\n<bold><aqua>Realm Management</aqua></bold>\n<red><italic><bold>Note:</bold><yellow> All commands below act on the realm you're currently in, not the one you own.</italic>\n<hover:show_text:'<gray>No going back — this will erase this realm</gray>'><click:run_command:/realm delete><gold>/realm delete</gold></click></hover> <gray>– Permanently delete this realm</gray>\n<hover:show_text:'<gray>Set the spawn point for this realm</gray>'><click:run_command:/realm set_spawn><gold>/realm set_spawn</gold></click></hover> <gray>– Update the spawn location for this realm</gray>\n<hover:show_text:'<gray>See who’s part of this realm</gray>'><click:run_command:/realm members><gold>/realm members</gold></click></hover> <gray>– View members of this realm</gray>\n<hover:show_text:'<gray>Promote or demote a player’s rank in this realm</gray>'><click:suggest_command:/realm trust ><gold>/realm trust <player> <rank></gold></click></hover> <gray>– Change a player’s permission level in this realm</gray>\n<hover:show_text:'<gray>Invite a friend to this realm</gray>'><click:suggest_command:/realm invite ><gold>/realm invite <player></gold></click></hover> <gray>– Invite a player to this realm</gray>\n<hover:show_text:'<gray>Remove a player’s access to this realm</gray>'><click:suggest_command:/realm remove ><gold>/realm remove <player></gold></click></hover> <gray>– Remove a member from this realm</gray>\n<hover:show_text:'<gray>Ban a player from this realm</gray>'><click:suggest_command:/realm ban ><gold>/realm ban <player></gold></click></hover> <gray>– Ban someone from entering this realm</gray>\n<hover:show_text:'<gray>Unban a previously banned player</gray>'><click:suggest_command:/realm unban ><gold>/realm unban <player></gold></click></hover> <gray>– Allow a banned player back into this realm</gray>\n\n<bold><aqua>Ranks & Permissions</aqua></bold>\n<gold><bold>Manager</bold><gray>– Can use realm management commands (except <gold>/realm delete</gold>)\n<yellow><bold>Officer</bold><gray> – Can interact with blocks and containers (e.g., build, use chests)\n<aqua><bold>Member</bold><gray> – Can interact with entities (e.g., pokemons, animals)\n<bold>Visitor</bold><gray> – Can enter the realm even when you're offline\n",
+	"adminHelpMessage": "<bold><aqua>Realm Admin Commands</aqua></bold>\n<hover:show_text:'<gray>Permanently delete a player’s realm</gray>'><click:suggest_command:/realm admin delete ><gold>/realm admin delete <user></gold></click></hover> <gray>– Delete the specified user’s realm</gray>\n<hover:show_text:'<gray>Teleport to the center of a player’s realm</gray>'><click:suggest_command:/realm admin teleport ><gold>/realm admin teleport <user></gold></click></hover> <gray>– Jump to a user’s realm</gray>\n<hover:show_text:'<gray>Force-load a player’s realm if not already loaded</gray>'><click:suggest_command:/realm admin load ><gold>/realm admin load <player></gold></click></hover> <gray>– Load a player’s realm</gray>\n<hover:show_text:'<gray>Change the build border size of a player’s realm</gray>'><click:suggest_command:/realm admin border ><gold>/realm admin border <user> <level></gold></click></hover> <gray>– Set a user’s realm border level</gray>\n\n<bold><aqua>Developer / Debug Tools</aqua></bold>\n<hover:show_text:'<gray>Get your internal realm position offset</gray>'><click:run_command:/realm get_offset><gold>/realm get_offset</gold></click></hover> <gray>– Not typically needed by players</gray>\n<hover:show_text:'<gray>Get your region-level offset in the realm</gray>'><click:run_command:/realm get_region_offset><gold>/realm get_region_offset</gold></click></hover> <gray>– Mostly useful for developers or debugging</gray>\n"
+  },
+  "helpPageConfig": {
+	"tableColor": "<gold>",
+	"accentColor": "<yellow>",
+	"buttonsColor": "<red>",
+	"title": "Realm help",
+	"numberedList": false,
+	"entriesPerPage": 9
+  }
+}

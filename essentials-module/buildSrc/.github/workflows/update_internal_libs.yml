@@ -1,0 +1,73 @@
+name: Update Internal Libraries
+
+run-name: "Update internal libs"
+
+on:
+  repository_dispatch:
+    types: [ update-internal-libs-event ]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  update-internal-lib:
+    if: github.event.head_commit.author.name != 'Build Bot'
+    runs-on: self-hosted
+    timeout-minutes: 60
+
+    steps:
+      - uses: dopplerhq/secrets-fetch-action@v1.3.0
+        id: doppler
+        with:
+          doppler-token: ${{ secrets.DOPPLER_TOKEN }}
+          doppler-project: mmorealms
+          doppler-config: github-actions
+          inject-env-vars: true
+
+      - name: Reset Working Directory
+        run: |
+          git reset --hard HEAD || true
+          git clean -fdx || true
+          rm * -rf
+
+      - name: Checkout Repository (With Submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ env.MMOREALMS_PAT }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Installing dependencies
+        env:
+          GG_MMOREALMS_USERNAME: ${{ env.GG_MMOREALMS_USERNAME }}
+          GG_MMOREALMS_PASSWORD: ${{ env.GG_MMOREALMS_PASSWORD }}
+        run: |
+          if [ -f scripts/requirements.txt ]; 
+            then pip install -r scripts/requirements.txt; 
+          fi
+
+      - name: Updating versions
+        env:
+          GG_MMOREALMS_USERNAME: ${{ env.GG_MMOREALMS_USERNAME }}
+          GG_MMOREALMS_PASSWORD: ${{ env.GG_MMOREALMS_PASSWORD }}
+        run: |
+          python scripts/update_internal_libs.py
+
+      - name: Commit and push changes
+        run: |
+          export HOME=/root/actions-runner
+          git config --global user.name "Build Bot"
+          git config --global user.email "build-bot@github.com"
+          git add .
+          git diff --cached --quiet || git commit -m "Updated internal libraries"
+          git fetch origin ${{ github.ref_name }}
+          git merge origin/${{ github.ref_name }} --strategy=recursive -X theirs || true
+          git push origin ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

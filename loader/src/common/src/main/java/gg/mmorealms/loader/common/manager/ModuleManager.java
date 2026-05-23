@@ -36,8 +36,8 @@ public class ModuleManager {
 	public void registerPreInstantiatedModule(CommonModule moduleInstance) {
 		//noinspection unchecked
 		this.loadedModules.add(new LoadedModule(
-				(Class<CommonModule>) moduleInstance.getClass(),
-				moduleInstance
+			(Class<CommonModule>) moduleInstance.getClass(),
+			moduleInstance
 		));
 	}
 
@@ -46,7 +46,7 @@ public class ModuleManager {
 
 		Set<Class<CommonModule>> annotatedClasses = CommonLoader.instance().getReflectionsCrawler("gg.mmorealms").getOfType(CommonModule.class, false);
 		Logger.good(new MessageBuilder("Found {number} CommonModule classes.")
-				.parse("number", annotatedClasses.size())
+			.parse("number", annotatedClasses.size())
 		);
 		this.spacing();
 
@@ -63,9 +63,9 @@ public class ModuleManager {
 		int total = loadedModules.size();
 
 		Logger.goodOrWarn(new MessageBuilder("Created {created}/{total} LoadedModule instances.")
-						.parse("created", created)
-						.parse("total", total),
-				created == total
+				.parse("created", created)
+				.parse("total", total),
+			created == total
 		);
 		this.spacing();
 
@@ -80,11 +80,11 @@ public class ModuleManager {
 		}
 		Logger.good("Successfully found suitable load order for modules.");
 		Logger.info("Load order: " +
-				String.join(" -> ", loadedModules.stream()
-						.map(LoadedModule::getId)
-						.map(ModuleID::toString)
-						.toList()
-				));
+			String.join(" -> ", loadedModules.stream()
+				.map(LoadedModule::getId)
+				.map(ModuleID::toString)
+				.toList()
+			));
 		this.spacing();
 	}
 
@@ -111,9 +111,9 @@ public class ModuleManager {
 		int totalCount = loadedModules.size();
 
 		Logger.goodOrWarn(new MessageBuilder("Created {created}/{total} modules.\n")
-						.parse("created", createdCount)
-						.parse("total", totalCount),
-				createdCount == totalCount
+				.parse("created", createdCount)
+				.parse("total", totalCount),
+			createdCount == totalCount
 		);
 		this.spacing();
 	}
@@ -135,9 +135,9 @@ public class ModuleManager {
 		int totalCount = loadedModules.size();
 
 		Logger.goodOrWarn(new MessageBuilder("Initialized {initialized}/{total} modules.\n")
-						.parse("initialized", initializedCount)
-						.parse("total", totalCount),
-				initializedCount == totalCount
+				.parse("initialized", initializedCount)
+				.parse("total", totalCount),
+			initializedCount == totalCount
 		);
 		this.spacing();
 	}
@@ -158,9 +158,9 @@ public class ModuleManager {
 		int totalCount = loadedModules.size();
 
 		Logger.goodOrWarn(new MessageBuilder("Enabled {initialized}/{total} modules.\n")
-						.parse("initialized", enabledCount)
-						.parse("total", totalCount),
-				enabledCount == totalCount
+				.parse("initialized", enabledCount)
+				.parse("total", totalCount),
+			enabledCount == totalCount
 		);
 		this.spacing();
 	}
@@ -185,8 +185,8 @@ public class ModuleManager {
 
 	private int getLoadedModulesCountWithState(LoadedModule.State state) {
 		return loadedModules.stream()
-				.filter(loadedModule -> loadedModule.getState() == state)
-				.toList().size();
+			.filter(loadedModule -> loadedModule.getState() == state)
+			.toList().size();
 	}
 
 	@Override
@@ -195,18 +195,18 @@ public class ModuleManager {
 		List<LoadedModule> sortedModules = this.loadedModules.stream().sorted(Comparator.comparing(LoadedModule::getId)).toList();
 
 		List<String> modules = sortedModules.stream().map(
-				module -> switch (module.getState()) {
-					case FAILED -> "<red>";
-					case LOCATED, INITIALIZED, CREATED -> "<gold>";
-					case ENABLED -> "<green>";
-				} + module.getId() + "<white>"
+			module -> switch (module.getState()) {
+				case FAILED -> "<red>";
+				case LOCATED, INITIALIZED, CREATED -> "<gold>";
+				case ENABLED -> "<green>";
+			} + module.getId() + "<white>"
 		).toList();
 
 		return template
-				.parse("modules", modules)
-				.parse("enabled_count", getLoadedModulesCountWithState(LoadedModule.State.ENABLED))
-				.parse("total_count", loadedModules.size())
-				.parse();
+			.parse("modules", modules)
+			.parse("enabled_count", getLoadedModulesCountWithState(LoadedModule.State.ENABLED))
+			.parse("total_count", loadedModules.size())
+			.parse();
 	}
 
 }

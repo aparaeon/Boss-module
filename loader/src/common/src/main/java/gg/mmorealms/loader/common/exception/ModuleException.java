@@ -10,9 +10,21 @@ public class ModuleException extends Exception {
 	}
 
 	public ModuleException(CommonModule module, String error, Exception cause) {
-		super(new MessageBuilder("Exception in module {module}. Error: {error}")
-				.parse("module", module.toString())
-				.parse("error", error)
-				.parse(), cause);
+		super(
+				new MessageBuilder("Exception in module {module}. Error: {error}")
+						.parse("module", module.toString())
+						.parse("error", error)
+						.parse(),
+				cause
+		);
+	}
+
+	public ModuleException(CommonModule module, Exception cause) {
+		super(
+				new MessageBuilder("Exception in module {module}.")
+						.parse("module", module.toString())
+						.parse(),
+				cause
+		);
 	}
 }

@@ -7,6 +7,7 @@ import gg.mmorealms.module.user_data.velocity.database.VelocityUserSettings;
 import org.jetbrains.annotations.NotNull;
 
 public class VelocityUserSettingsLoader extends VelocityPlayerDependentDatabaseLoader<VelocityUserSettings> {
+
 	public VelocityUserSettingsLoader() {
 		super(VelocityUserSettings.class);
 	}
@@ -22,6 +23,10 @@ public class VelocityUserSettingsLoader extends VelocityPlayerDependentDatabaseL
 
 	@Override
 	public void onLeave(@NotNull Player player) {
+		VelocityUserSettings userSettings = VelocityUserSettings.getByUUID(player.getUniqueId());
 
+		for (IUserSetting<Player> setting : userSettings.getSettings()) {
+			setting.cleanup(player);
+		}
 	}
 }

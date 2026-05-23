@@ -9,10 +9,13 @@ import gg.mmorealms.loader.common.CommonLoader;
 import gg.mmorealms.loader.common.annotation.Module;
 import gg.mmorealms.loader.common.exception.ModuleException;
 import gg.mmorealms.loader.common.exception.ModuleLoadException;
+import gg.mmorealms.loader.common.utils.MojangUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Method;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 // TODO move the initialization logic to LoadedModule
@@ -68,8 +71,8 @@ public interface CommonModule {
 
 	private void registerListeners() {
 		Set<Class<?>> classes = this.getReflectionsCrawler().getMethodsAnnotatedWith(EventHandler.class)
-				.stream().map(Method::getDeclaringClass)
-				.collect(Collectors.toSet());
+			.stream().map(Method::getDeclaringClass)
+			.collect(Collectors.toSet());
 
 		for (Class<?> clazz : classes) {
 			Logger.debug("Registering event listener: " + clazz.getName());
@@ -116,6 +119,21 @@ public interface CommonModule {
 	}
 
 	void sendMessage(Object target, String message);
+
+	/**
+	 * Resolves a username or uuid-string to a {@link UUID}, hitting Mojang's API as a fallback when only
+	 * a username was provided.
+	 *
+	 * @param uuidOrUsername username or uuid-string
+	 * @return resolved UUID, or {@code null} if the username could not be resolved
+	 */
+	default @Nullable UUID getUUID(@NotNull String uuidOrUsername) {
+		try {
+			return UUID.fromString(uuidOrUsername);
+		} catch (IllegalArgumentException exception) {
+			return MojangUtils.getUUID(uuidOrUsername);
+		}
+	}
 
 	default Module getModuleAnnotation() {
 		return CommonLoader.instance().getModuleManager().getLoadedModule(this.getClass()).getAnnotation();

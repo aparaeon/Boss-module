@@ -7,20 +7,17 @@ import gg.mmorealms.loader.common.dto.event.impl.RemoteMethodExecuteRequest;
 import gg.mmorealms.loader.common.dto.remote.AutoSaveObject;
 import gg.mmorealms.loader.common.exception.DatabaseObjectCreationException;
 import gg.mmorealms.loader.common.manager.database.DatabaseLoader;
-import gg.mmorealms.loader.common.manager.database.DatabaseManager;
-import jakarta.persistence.NoResultException;
 import lombok.Getter;
-import org.hibernate.Session;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
 public abstract class SyncedDatabaseLoader<
-		Identifier,
-		ObjectInterface extends ISavable,
-		LoadedObject extends ObjectInterface,
-		RemoteObject extends ObjectInterface
-		> extends DatabaseLoader<Identifier, ObjectInterface, LoadedObject> {
+	Identifier,
+	ObjectInterface extends ISavable,
+	LoadedObject extends ObjectInterface,
+	RemoteObject extends ObjectInterface
+	> extends DatabaseLoader<Identifier, ObjectInterface, LoadedObject> {
 
 	protected final static int MAX_ATTEMPTS = 20;
 	protected final static int ATTEMPT_TIMEOUT = 200;
@@ -29,18 +26,18 @@ public abstract class SyncedDatabaseLoader<
 	protected final Class<RemoteObject> remoteObjectClass;
 
 	public SyncedDatabaseLoader(
-			Class<ObjectInterface> objectInterfaceClass,
-			Class<LoadedObject> loadedObjectClass,
-			Class<RemoteObject> remoteObjectClass
+		Class<ObjectInterface> objectInterfaceClass,
+		Class<LoadedObject> loadedObjectClass,
+		Class<RemoteObject> remoteObjectClass
 	) {
 		this(objectInterfaceClass, loadedObjectClass, remoteObjectClass, Time.minutes(5)); // TODO Config
 	}
 
 	public SyncedDatabaseLoader(
-			Class<ObjectInterface> objectInterfaceClass,
-			Class<LoadedObject> loadedObjectClass,
-			Class<RemoteObject> remoteObjectClass,
-			Time autoSaveInterval
+		Class<ObjectInterface> objectInterfaceClass,
+		Class<LoadedObject> loadedObjectClass,
+		Class<RemoteObject> remoteObjectClass,
+		Time autoSaveInterval
 	) {
 		super(loadedObjectClass, autoSaveInterval);
 
@@ -112,16 +109,13 @@ public abstract class SyncedDatabaseLoader<
 		return createRemoteObject(identifier, server);
 	}
 
-	public void cache(@NotNull Identifier identifier, @NotNull LoadedObject loadedObject) {
-		cache.put(identifier, loadedObject);
-	}
-
 	public abstract @Nullable String getRemoteServer(Identifier identifier);
 
 	protected abstract @NotNull RemoteObject createRemoteObject(@NotNull Identifier identifier, @NotNull String server);
 
 	/**
 	 * @param identifier The identifier of the object to be created
+	 *
 	 * @return The object created or null if the object could not be created. In case the object could not the created
 	 * the upstream will either handle the gg.mmorealms.loader.common.exception or throw a {@link DatabaseObjectCreationException}
 	 */

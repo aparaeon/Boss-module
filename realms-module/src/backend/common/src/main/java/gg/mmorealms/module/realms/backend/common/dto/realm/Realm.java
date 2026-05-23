@@ -4,7 +4,6 @@ import com.raduvoinea.utils.lambda.ScheduleUtils;
 import com.raduvoinea.utils.logger.Logger;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.loader.backend.common.dto.event.fabric.server.ServerTickEvent;
-import gg.mmorealms.loader.backend.common.manager.SyncedDatabaseLoader;
 import gg.mmorealms.loader.common.dto.ServerType;
 import gg.mmorealms.loader.common.dto.database.IDatabaseEntry;
 import gg.mmorealms.loader.common.dto.location.Location;
@@ -22,25 +21,21 @@ import gg.mmorealms.module.realms.backend.common.dto.member.TrustLevel;
 import gg.mmorealms.module.realms.backend.common.manager.RealmsLoader;
 import gg.mmorealms.module.realms.backend.common.manager.RealmsManager;
 import gg.mmorealms.module.realms.common.dto.RealmState;
-import gg.mmorealms.module.realms.common.dto.event.GetRealmStateRequest;
 import gg.mmorealms.module.realms.common.dto.event.LoadRealmEvent;
 import gg.mmorealms.module.realms.common.dto.event.RealmStateChangeEvent;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.Entity.RemovalReason;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.jetbrains.annotations.NotNull;
@@ -54,8 +49,8 @@ import java.util.stream.Stream;
 // TODO Add realm type
 @Entity(name = "realms")
 @Getter
-@NoArgsConstructor
 public class Realm implements IDatabaseEntry<UUID>, IRealm {
+
 
 	@Id
 	@jakarta.validation.constraints.NotNull
@@ -89,11 +84,19 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	private transient ChunkLocation chunkLocation;
 	private final transient AtomicBoolean inInIOOperation = new AtomicBoolean(false);
+	private final transient HologramsHandler hologramsHandler;
+	private final transient Set<ServerPlayer> activePlayers = new HashSet<>();
+
+	public Realm() {
+		this.hologramsHandler = new HologramsHandler(this);
+	}
 
 	public Realm(RealmType type, UUID ownerUUID, RegionLocation rootLocation) {
+		this();
+
 		Logger.debug(new MessageBuilder("Creating realm for user {user} at location {location}")
-				.parse("user", ownerUUID)
-				.parse("location", rootLocation)
+			.parse("user", ownerUUID)
+			.parse("location", rootLocation)
 		);
 
 		this.ownerUUID = ownerUUID;
@@ -112,6 +115,8 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	@Override
 	public void onEvict() {
+		//		RealmsBackendModule.instance().getHologramsManager().destroyAllForRealm(this.ownerUUID);
+
 		// Teleport everyone to spawn as this realm needs to be cleared
 		for (ServerPlayer serverPlayer : getPlayersOnRealm()) {
 			IUser user = IUser.getByPlayer(serverPlayer);
@@ -213,10 +218,10 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	public List<String> getMemberList() {
 		return members.entrySet().stream()
-				.sorted(Comparator.comparingInt((Map.Entry<UUID, TrustLevel> entry) -> entry.getValue().getLevel())
-						.reversed())
-				.flatMap(entry -> Stream.of(entry.getKey().toString(), entry.getValue().getDisplayName()))
-				.collect(Collectors.toList());
+			.sorted(Comparator.comparingInt((Map.Entry<UUID, TrustLevel> entry) -> entry.getValue().getLevel())
+				.reversed())
+			.flatMap(entry -> Stream.of(entry.getKey().toString(), entry.getValue().getDisplayName()))
+			.collect(Collectors.toList());
 	}
 
 	public TrustLevel getTrustLevel(UUID uuid) {
@@ -264,27 +269,27 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 	}
 
 	@Override
-	public SyncedDatabaseLoader<UUID, ?, ?, ?> getLoader() {
+	public RealmsLoader getLoader() {
 		return RealmsBackendModule.instance().getRealmsLoader();
 	}
 
 	private void saveToS3() {
 		if (this.getState() == RealmState.LOADING) {
 			Logger.warn(new MessageBuilder("Attempted to save realm {user} to S3 while it is still loading")
-					.parse("user", this.ownerUUID)
+				.parse("user", this.ownerUUID)
 			);
 			return;
 		}
 
 		if (!inInIOOperation.compareAndSet(false, true)) {
 			Logger.error(new MessageBuilder("Tried to save realm {user} to S3, but it is already in another IO operation")
-					.parse("user", this.ownerUUID)
+				.parse("user", this.ownerUUID)
 			);
 			return;
 		}
 
 		Logger.debug(new MessageBuilder("Saving {user} to S3")
-				.parse("user", this.ownerUUID)
+			.parse("user", this.ownerUUID)
 		);
 
 		for (WorldFile worldFile : getRegionFiles()) {
@@ -296,7 +301,7 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		}
 
 		Logger.debug(new MessageBuilder("Saved {user} to S3")
-				.parse("user", this.ownerUUID)
+			.parse("user", this.ownerUUID)
 		);
 
 		inInIOOperation.set(false);
@@ -308,20 +313,20 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		for (int offsetX = 0; offsetX < REGIONS_COUNT; offsetX++) {
 			for (int offsetZ = 0; offsetZ < REGIONS_COUNT; offsetZ++) {
 				String remotePath = remotePathBuilder
-						.parse("owner", this.ownerUUID)
-						.parse("x", offsetX)
-						.parse("z", offsetZ)
-						.parse();
+					.parse("owner", this.ownerUUID)
+					.parse("x", offsetX)
+					.parse("z", offsetZ)
+					.parse();
 				String localPath = localPathBuilder
-						.parse("x", this.getRootLocation().getX() + offsetX)
-						.parse("z", this.getRootLocation().getZ() + offsetZ)
-						.parse();
+					.parse("x", this.getRootLocation().getX() + offsetX)
+					.parse("z", this.getRootLocation().getZ() + offsetZ)
+					.parse();
 
 				files.add(
-						new WorldFile(
-								remotePath, offsetX, offsetZ,
-								Path.of(localPath), this.getRootLocation().getX() + offsetX, this.getRootLocation().getZ() + offsetZ
-						)
+					new WorldFile(
+						remotePath, offsetX, offsetZ,
+						Path.of(localPath), this.getRootLocation().getX() + offsetX, this.getRootLocation().getZ() + offsetZ
+					)
 				);
 			}
 		}
@@ -331,22 +336,22 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	public List<WorldFile> getEntitiesFiles() {
 		return getGenericWorldFiles(
-				new MessageBuilder("{owner}/entities/r.{x}.{z}.mca"),
-				new MessageBuilder("world/entities/r.{x}.{z}.mca")
+			new MessageBuilder("{owner}/entities/r.{x}.{z}.mca"),
+			new MessageBuilder("world/entities/r.{x}.{z}.mca")
 		);
 	}
 
 	public List<WorldFile> getRegionFiles() {
 		return getGenericWorldFiles(
-				new MessageBuilder("{owner}/region/r.{x}.{z}.mca"),
-				new MessageBuilder("world/region/r.{x}.{z}.mca")
+			new MessageBuilder("{owner}/region/r.{x}.{z}.mca"),
+			new MessageBuilder("world/region/r.{x}.{z}.mca")
 		);
 	}
 
 	public List<WorldFile> getOldRegionFiles() {
 		return getGenericWorldFiles(
-				new MessageBuilder("{owner}/r.{x}.{z}.mca"),
-				new MessageBuilder("world/region/r.{x}.{z}.mca")
+			new MessageBuilder("{owner}/r.{x}.{z}.mca"),
+			new MessageBuilder("world/region/r.{x}.{z}.mca")
 		);
 	}
 
@@ -401,14 +406,14 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		double maxZ = centerZ + size / 2;
 
 		AABB realmArea = new AABB(
-				minX, overworld.getMinBuildHeight(), minZ,
-				maxX, overworld.getMaxBuildHeight(), maxZ
+			minX, overworld.getMinBuildHeight(), minZ,
+			maxX, overworld.getMaxBuildHeight(), maxZ
 		);
 
 		List<? extends net.minecraft.world.entity.Entity> pokemons = overworld.getEntitiesOfClass(
-				PokemonBackendModule.instance().getPlatformImplementation().getNativePokemonEntityClass(),
-				realmArea,
-				entity -> true
+			PokemonBackendModule.instance().getPlatformImplementation().getNativePokemonEntityClass(),
+			realmArea,
+			entity -> true
 		);
 
 		for (net.minecraft.world.entity.Entity pokemon : pokemons) {
@@ -431,6 +436,7 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	@Override
 	public void unload() {
+		//		RealmsBackendModule.instance().getHologramsManager().destroyAllForRealm(this.ownerUUID);
 		RealmsBackendModule.instance().getRealmsLoader().clearCache(this.getOwnerUUID(), true);
 	}
 
@@ -446,8 +452,6 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		boolean south = !unlockedChunks[chunkX][chunkZ + 1];
 		boolean west = !unlockedChunks[chunkX - 1][chunkZ];
 		boolean east = !unlockedChunks[chunkX + 1][chunkZ];
-
-		AtomicBoolean placedAnyBlock = new AtomicBoolean(false);
 
 		ServerTickEvent.runOnMultipleTicks(0, 3, (i) -> {
 			for (int offset = i * 4; offset < (i + 1) * 4; offset++) {
@@ -470,26 +474,40 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 					if (!result) {
 						break;
 					}
-
-					placedAnyBlock.set(true);
 				}
 			}
+
+
 		}, 10);
 
 		ServerTickEvent.runOnTick(() -> {
-			if (placedAnyBlock.get()) {
-				placePriceTag(chunkX, chunkZ);
-			}
-		});
+			removeHolograms(chunkX, chunkZ);
+			placeHolograms(chunkX, chunkZ);
+		}, 15);
 	}
 
-	private void placePriceTag(int chunkX, int chunkZ) {
+	private void removeHolograms(int chunkX, int chunkZ) {
+		int blockX = (int) this.rootLocation.toLocation().getX() + chunkX * 16;
+		int blockZ = (int) this.rootLocation.toLocation().getZ() + chunkZ * 16;
+		double[][] positions = {
+			{blockX + 8.0, blockZ + 0.1},
+			{blockX + 8.0, blockZ + 15.9},
+			{blockX + 0.1, blockZ + 8.0},
+			{blockX + 15.9, blockZ + 8.0}
+		};
+
+		for (double[] position : positions) {
+			this.hologramsHandler.removeHologram(position);
+		}
+	}
+
+	private void placeHolograms(int chunkX, int chunkZ) {
 		if (!unlockedChunks[chunkX][chunkZ]) {
 			return;
 		}
 
 		if (chunkX <= 1 || chunkZ <= 1 ||
-				chunkX >= unlockedChunks.length - 1 || chunkZ >= unlockedChunks[0].length - 1) {
+			chunkX >= unlockedChunks.length - 1 || chunkZ >= unlockedChunks[0].length - 1) {
 			return;
 		}
 
@@ -501,20 +519,46 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		boolean west = !unlockedChunks[chunkX - 1][chunkZ];
 		boolean east = !unlockedChunks[chunkX + 1][chunkZ];
 
+		ServerLevel world = LocationUtils.getWorld("world");
+		RealmsConfig config = RealmsBackendModule.instance().getConfig();
+		Component text = RealmsBackendModule.instance().getMiniMessageManager().parse(
+			"<gold><b>Unlock this chunk<reset><newline><newline>" + config.realmExpansionPrice.toString() + "<newline><aqua>Click to unlock"
+		);
+
 		if (north) {
-			placeBorderPriceTagNorth(Location.of(x + 8, 100, z - 1));
+			Location location = Location.of(x + 8, 100, z - 1).offsetNew(0, 0, 1.1);
+			LocationUtils.setLocationToGround(location, new ArrayList<>());
+			location.offset(0, 2, 0);
+			this.hologramsHandler.addHologram(location.getX(), location.getY(), location.getZ(), 0, 0, text);
 		}
 		if (south) {
-			placeBorderPriceTagSouth(Location.of(x + 8, 100, z + 16));
+			Location location = Location.of(x + 8, 100, z + 16).offsetNew(0, 0, -0.1);
+			LocationUtils.setLocationToGround(location, new ArrayList<>());
+			location.offset(0, 2, 0);
+			this.hologramsHandler.addHologram(location.getX(), location.getY(), location.getZ(), 180, 0, text);
 		}
 		if (west) {
-			placeBorderPriceTagEast(Location.of(x - 1, 100, z + 8));
+			Location location = Location.of(x - 1, 100, z + 8).offsetNew(1.1, 0, 0);
+			LocationUtils.setLocationToGround(location, new ArrayList<>());
+			location.offset(0, 2, 0);
+			this.hologramsHandler.addHologram(location.getX(), location.getY(), location.getZ(), 270, 0, text);
 		}
 		if (east) {
-			placeBorderPriceTagWest(Location.of(x + 16, 100, z + 8));
+			Location location = Location.of(x + 16, 100, z + 8).offsetNew(-0.1, 0, 0);
+			LocationUtils.setLocationToGround(location, new ArrayList<>());
+			location.offset(0, 2, 0);
+			this.hologramsHandler.addHologram(location.getX(), location.getY(), location.getZ(), 90, 0, text);
 		}
 	}
 
+	public void resetHolograms() {
+		for (int x = 0; x < 64; x++) {
+			for (int z = 0; z < 64; z++) {
+				this.removeHolograms(x, z);
+				this.placeHolograms(x, z);
+			}
+		}
+	}
 
 	public void unlockChunk(ChunkLocation chunkLocation) {
 		chunkLocation = getChunkLocationOffset(chunkLocation);
@@ -524,13 +568,13 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	public void unlockChunk(int chunkX, int chunkZ) {
 		removeBorderBlocks(chunkX, chunkZ);
-		removeHologram(chunkX, chunkZ);
+		removeHolograms(chunkX, chunkZ);
 
 		unlockedChunks[chunkX][chunkZ] = true;
 		Logger.log(new MessageBuilder("User {user} has unlocked chunk {chunkX} {chunkZ}")
-				.parse("user", this.ownerUUID)
-				.parse("chunkX", chunkX)
-				.parse("chunkZ", chunkZ)
+			.parse("user", this.ownerUUID)
+			.parse("chunkX", chunkX)
+			.parse("chunkZ", chunkZ)
 		);
 
 		this.placeBorder(chunkX, chunkZ);
@@ -564,44 +608,6 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 	}
 
-	private void removeHologram(int chunkX, int chunkZ) {
-		ServerLevel world = LocationUtils.getWorld("world");
-
-		int x = (int) (this.getRootLocation().toLocation().getX() + chunkX * 16);
-		int z = (int) (this.getRootLocation().toLocation().getZ() + chunkZ * 16);
-
-		boolean north = unlockedChunks[chunkX][chunkZ - 1];
-		boolean south = unlockedChunks[chunkX][chunkZ + 1];
-		boolean west = unlockedChunks[chunkX - 1][chunkZ];
-		boolean east = unlockedChunks[chunkX + 1][chunkZ];
-
-		List<AABB> aabbs = new ArrayList<>();
-
-		if (north) {
-			Vec3 position = new Vec3(x + 8, 0, z - 1);
-			aabbs.add(new AABB(position.add(-2, -64, -2), position.add(2, 320, 2)));
-		}
-		if (south) {
-			Vec3 position = new Vec3(x + 8, 0, z + 16);
-			aabbs.add(new AABB(position.add(-2, -64, -2), position.add(2, 320, 2)));
-		}
-		if (west) {
-			Vec3 position = new Vec3(x - 1, 0, z + 8);
-			aabbs.add(new AABB(position.add(-2, -64, -2), position.add(2, 320, 2)));
-		}
-		if (east) {
-			Vec3 position = new Vec3(x + 16, 0, z + 8);
-			aabbs.add(new AABB(position.add(-2, -64, -2), position.add(2, 320, 2)));
-		}
-
-		for (AABB aabb : aabbs) {
-			List<Display.TextDisplay> entities = world.getEntities(EntityType.TEXT_DISPLAY, aabb, (entity) -> true);
-			for (Display.TextDisplay entity : entities) {
-				entity.remove(RemovalReason.DISCARDED);
-			}
-		}
-	}
-
 	private boolean placeBorderBlock(int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
 		ServerLevel world = LocationUtils.getWorld("world");
@@ -612,13 +618,13 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		}
 
 		if (world.getBlockState(pos).is(Blocks.AIR) ||
-				world.getBlockState(pos).is(Blocks.SHORT_GRASS) ||
-				world.getBlockState(pos).is(Blocks.PINK_PETALS) ||
-				world.getBlockState(pos).is(Blocks.TALL_GRASS)) {
+			world.getBlockState(pos).is(Blocks.SHORT_GRASS) ||
+			world.getBlockState(pos).is(Blocks.PINK_PETALS) ||
+			world.getBlockState(pos).is(Blocks.TALL_GRASS)) {
 			world.setBlock(
-					pos,
-					Blocks.GRAY_STAINED_GLASS.defaultBlockState(),
-					2
+				pos,
+				Blocks.GRAY_STAINED_GLASS.defaultBlockState(),
+				2
 			);
 		}
 
@@ -631,56 +637,29 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 		if (world.getBlockState(pos).is(Blocks.GRAY_STAINED_GLASS)) {
 			world.setBlock(
-					pos,
-					Blocks.AIR.defaultBlockState(),
-					2
+				pos,
+				Blocks.AIR.defaultBlockState(),
+				2
 			);
 		}
 	}
 
+	public void onPlayerLeave(ServerPlayer player) {
+		this.activePlayers.remove(player);
 
-	private void placeBorderPriceTagNorth(Location location) {
-		placeBorderPriceTag(location.offsetNew(0, 0, 1.1), 0, 0);
-	}
-
-	private void placeBorderPriceTagWest(Location location) {
-		placeBorderPriceTag(location.offsetNew(-0.1, 0, 0), 90, 0);
-	}
-
-	private void placeBorderPriceTagSouth(Location location) {
-		placeBorderPriceTag(location.offsetNew(0, 0, -0.1), 180, 0);
-	}
-
-	private void placeBorderPriceTagEast(Location location) {
-		placeBorderPriceTag(location.offsetNew(1.1, 0, 0), 270, 0);
-	}
-
-	private void placeBorderPriceTag(Location location, float yRot, float xRot) {
-		LocationUtils.setLocationToGround(location, new ArrayList<>());
-		location.offset(0, 2, 0);
-
-		ServerLevel world = LocationUtils.getWorld("world");
-
-		Display.TextDisplay hologram = new Display.TextDisplay(
-				EntityType.TEXT_DISPLAY,
-				world
-		);
-
-		RealmsConfig config = RealmsBackendModule.instance().getConfig();
-		hologram.setText(RealmsBackendModule.instance().getMiniMessageManager().parse("<gold><b>Unlock this chunk<reset><newline><newline>" + config.realmExpansionPrice.toString() + "<newline><aqua>Click to unlock")); // TODO Config
-
-		hologram.moveTo(
-				location.getX(),
-				location.getY(),
-				location.getZ(),
-				yRot,
-				xRot
-		);
-		hologram.addTag("hologram");
-		world.addFreshEntity(hologram);
+		this.hologramsHandler.removeFrom(player);
 	}
 
 	public void onPlayerJoin(ServerPlayer player) {
+		this.activePlayers.add(player);
+
+		for (Realm otherRealm : this.getLoader().getCache().values()) {
+			if (otherRealm != this) {
+				otherRealm.onPlayerLeave(player);
+			}
+		}
+
+		this.hologramsHandler.sendTo(player);
 	}
 
 	public void onWorldFilesLoaded() {
@@ -695,25 +674,13 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 	}
 
 	private void placeAllBorders() {
-		if (unlockedChunks != null) {
-			for (int x = 0; x < 64; x++) {
-				for (int z = 0; z < 64; z++) {
-					this.placeBorder(x, z);
+		if (unlockedChunks == null) {
+			unlockedChunks = new boolean[32 * REGIONS_COUNT][32 * REGIONS_COUNT];
+
+			for (int x = -5; x < 5; x++) {
+				for (int z = -5; z < 5; z++) {
+					unlockedChunks[32 + x][32 + z] = true;
 				}
-			}
-			return;
-		}
-
-		getOwner().sendMessage("<green>We are generating your realm borders. This is a one-time process and may take a few seconds.");
-
-		Logger.debug(new MessageBuilder("Creating unlocked chunks for user {user}")
-				.parse("user", this.ownerUUID)
-		);
-		unlockedChunks = new boolean[32 * REGIONS_COUNT][32 * REGIONS_COUNT];
-
-		for (int x = -5; x < 5; x++) {
-			for (int z = -5; z < 5; z++) {
-				unlockedChunks[32 + x][32 + z] = true;
 			}
 		}
 
@@ -738,7 +705,7 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 	public void load(IUser requester) {
 		if (this.inInIOOperation.compareAndSet(false, true)) {
 			Logger.warn(new MessageBuilder("Tried to load realm {user}, but it is already in another IO operation")
-					.parse("user", this.getOwnerUUID())
+				.parse("user", this.getOwnerUUID())
 			);
 			try {
 				Thread.sleep(1000);
@@ -762,16 +729,16 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 
 			if (serverPrettyName == null) {
 				Logger.error(new MessageBuilder(
-						"There was an error while trying to get server pretty name for server with id {server_id}")
-						.parse("server_id", serverID)
+					"There was an error while trying to get server pretty name for server with id {server_id}")
+					.parse("server_id", serverID)
 				);
 				serverPrettyName = serverID;
 			}
 		}
 
 		requester.sendMessage(config.lang.loadingRealmStart
-				.parse("server", serverPrettyName)
-				.parse("pre", requester.getUUID().equals(this.getOwnerUUID()) ? "your" : "the")
+			.parse("server", serverPrettyName)
+			.parse("pre", requester.getUUID().equals(this.getOwnerUUID()) ? "your" : "the")
 		);
 
 		RegionLocation rootLocation = realmsManager.getNextAllocation();
@@ -779,8 +746,8 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		RealmsBackendModule.instance().getRealmsLoader().cache(this.getOwnerUUID(), this);
 
 		Logger.log(new MessageBuilder("Placing the realm for {uuid} at {location}")
-				.parse("uuid", this.getOwnerUUID())
-				.parse("location", rootLocation)
+			.parse("uuid", this.getOwnerUUID())
+			.parse("location", rootLocation)
 		);
 
 		try {
@@ -795,16 +762,17 @@ public class Realm implements IDatabaseEntry<UUID>, IRealm {
 		}
 
 		Logger.log(new MessageBuilder("Loaded realm world for {uuid}")
-				.parse("uuid", this.getOwnerUUID())
+			.parse("uuid", this.getOwnerUUID())
 		);
 
 		requester.sendMessage(config.lang.realmLoaded
-				.parse("server_id", serverPrettyName)
-				.parse("pre", this.getOwnerUUID().equals(requester.getUUID()) ? "Your" : "The")
+			.parse("server_id", serverPrettyName)
+			.parse("pre", this.getOwnerUUID().equals(requester.getUUID()) ? "Your" : "The")
 		);
 
 		this.inInIOOperation.set(false);
 		this.setState(RealmState.LOADED);
 	}
+
 
 }

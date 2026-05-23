@@ -11,4 +11,6 @@ public interface IUserSetting<Player> extends ISerializable {
 
 	void apply(Player player);
 
+	void cleanup(Player player);
+
 }

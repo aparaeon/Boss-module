@@ -24,7 +24,7 @@ public abstract class ServerPlayerMixin {
 			return;
 		}
 
-		if (!new PlayerDropItemEvent(player).fireSync()) {
+		if (!new PlayerDropItemEvent(player, droppedItem).fireSync()) {
 			cir.setReturnValue(null);
 			addItem(droppedItem);
 			cir.cancel();

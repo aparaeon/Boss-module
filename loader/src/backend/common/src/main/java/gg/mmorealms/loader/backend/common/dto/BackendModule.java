@@ -8,10 +8,13 @@ import gg.mmorealms.loader.backend.common.annotation.OnlyOn;
 import gg.mmorealms.loader.common.CommonLoader;
 import gg.mmorealms.loader.common.dto.CommonModule;
 import gg.mmorealms.loader.common.dto.ServerType;
+import gg.mmorealms.loader.common.utils.MojangUtils;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -40,8 +43,8 @@ public interface BackendModule extends CommonModule {
 
 	default void executeCommand(String command) {
 		BackendLoader.instance().getServer().getCommands().performPrefixedCommand(
-				BackendLoader.instance().getServer().createCommandSourceStack(),
-				command
+			BackendLoader.instance().getServer().createCommandSourceStack(),
+			command
 		);
 	}
 
@@ -67,13 +70,14 @@ public interface BackendModule extends CommonModule {
 	 * @param uuidBehaviour     Will be executed whe the target (provided by its UUID) is offline
 	 * @param usernameBehaviour Will be executed when the target (provided by its username) is offline
 	 * @param <T>               type of object
+	 *
 	 * @return result
 	 */
 	default <T> T getByUUIDOrUsername(
-			String uuidOrUsername,
-			ReturnArgLambda<T, ServerPlayer> playerBehaviour,
-			ReturnArgLambda<T, UUID> uuidBehaviour,
-			ReturnArgLambda<T, String> usernameBehaviour
+		String uuidOrUsername,
+		ReturnArgLambda<T, ServerPlayer> playerBehaviour,
+		ReturnArgLambda<T, UUID> uuidBehaviour,
+		ReturnArgLambda<T, String> usernameBehaviour
 	) {
 		try {
 			UUID uuid = UUID.fromString(uuidOrUsername);
@@ -93,6 +97,23 @@ public interface BackendModule extends CommonModule {
 
 			return usernameBehaviour.run(uuidOrUsername);
 		}
+	}
+
+	/**
+	 * Resolves a username or uuid-string to a {@link UUID}, hitting Mojang's API as a fallback when the
+	 * target is offline and only a username was provided.
+	 *
+	 * @param uuidOrUsername username or uuid-string
+	 * @return resolved UUID, or {@code null} if the username could not be resolved
+	 */
+	@Override
+	default @Nullable UUID getUUID(@NotNull String uuidOrUsername) {
+		return getByUUIDOrUsername(
+			uuidOrUsername,
+			ServerPlayer::getUUID,
+			uuid -> uuid,
+			MojangUtils::getUUID
+		);
 	}
 
 	default void onlyOn(ServerType serverType, Lambda executor) {

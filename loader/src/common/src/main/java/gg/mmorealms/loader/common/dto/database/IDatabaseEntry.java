@@ -19,11 +19,21 @@ public interface IDatabaseEntry<Identifier> extends ISavable {
 
 		Logger.debug("Saving " + this.getClass().getSimpleName() + " with identifier " + getIdentifier());
 
-		try {
-			DatabaseManager.instance().upsert(this, (Class<IDatabaseEntry<Identifier>>) this.getClass(), getIdentifier());
-		} catch (Exception exception) {
-			throw new DatabaseSaveException(exception);
-		}
+		DatabaseManager.instance().getSessionFactory().inTransaction(transaction -> {
+			if (this.getIdentifier() == null) {
+				Logger.debug("Persisting " + this.getClass().getSimpleName() + " with identifier " + getIdentifier());
+				transaction.persist(this);
+			} else {
+				Object existingEntity = transaction.get(this.getClass(), getIdentifier());
+				if (existingEntity == null) {
+					Logger.debug("Persisting " + this.getClass().getSimpleName() + " with identifier " + getIdentifier());
+					transaction.persist(this);
+				} else {
+					Logger.debug("Merging " + this.getClass().getSimpleName() + " with identifier " + getIdentifier());
+					transaction.merge(this);
+				}
+			}
+		});
 	}
 
 	default void delete() {
@@ -32,7 +42,7 @@ public interface IDatabaseEntry<Identifier> extends ISavable {
 			loader.clearCache(getIdentifier(), false);
 		}
 
-		DatabaseManager.instance().delete(this.getClass(), getIdentifier());
+		DatabaseManager.instance().getSessionFactory().inTransaction(transaction -> transaction.remove(this));
 	}
 
 	DatabaseLoader<Identifier, ?, ?> getLoader();

@@ -24,10 +24,10 @@ import java.util.Map;
 
 @Getter
 public abstract class DatabaseLoader<
-		Identifier,
-		ObjectInterface extends ISavable,
-		LoadedObject extends ObjectInterface
-		> {
+	Identifier,
+	ObjectInterface extends ISavable,
+	LoadedObject extends ObjectInterface
+	> {
 
 	protected static final @Getter List<DatabaseLoader<?, ?, ?>> ALL = new ArrayList<>();
 
@@ -49,8 +49,8 @@ public abstract class DatabaseLoader<
 		this.tableName = loadedObjectClass.getAnnotation(Entity.class).name();
 
 		Field identifierField = Reflections.getFields(loadedObjectClass).stream()
-				.filter(field -> field.isAnnotationPresent(jakarta.persistence.Id.class))
-				.findFirst().orElse(null);
+			.filter(field -> field.isAnnotationPresent(jakarta.persistence.Id.class))
+			.findFirst().orElse(null);
 
 		if (identifierField == null) {
 			throw new RuntimeException("No identifier field found in " + loadedObjectClass.getName());
@@ -88,7 +88,7 @@ public abstract class DatabaseLoader<
 	}
 
 	protected @Nullable Identifier convertIdentifiers(@NotNull String alternativeIdentifierName, @NotNull Object alternativeIdentifier) {
-		if(CommonLoader.DUMMY_MODE){
+		if (CommonLoader.DUMMY_MODE) {
 			Logger.warn("Trying to convert identifiers for " + loadedObjectClass.getName() + " but dummy mode is enabled, returning null");
 			return null;
 		}
@@ -121,16 +121,16 @@ public abstract class DatabaseLoader<
 			try {
 				//noinspection SqlSourceToSinkFlow
 				identifier = session.createQuery(sql, identifierClass)
-						.setParameter("alternativeIdentifier", alternativeIdentifier)
-						.getSingleResult();
+					.setParameter("alternativeIdentifier", alternativeIdentifier)
+					.getSingleResult();
 
 			} catch (org.hibernate.sql.exec.ExecutionException error) {
 				alternativeIdentifier = CommonLoader.instance().toJson(alternativeIdentifier);
 
 				//noinspection SqlSourceToSinkFlow
 				identifier = session.createQuery(sql, identifierClass)
-						.setParameter("alternativeIdentifier", alternativeIdentifier)
-						.getSingleResult();
+					.setParameter("alternativeIdentifier", alternativeIdentifier)
+					.getSingleResult();
 			} catch (NoResultException error) {
 				identifier = null;
 			}
@@ -182,7 +182,7 @@ public abstract class DatabaseLoader<
 	}
 
 	protected @Nullable LoadedObject loadObject(@NotNull Identifier identifier) {
-		if(CommonLoader.DUMMY_MODE){
+		if (CommonLoader.DUMMY_MODE) {
 			Logger.warn("Trying to load object with identifier " + identifier + " for " + loadedObjectClass.getName() + " but dummy mode is enabled, returning null");
 			return null;
 		}
@@ -201,9 +201,9 @@ public abstract class DatabaseLoader<
 	public void cache(@NotNull Identifier identifier, @NotNull Object loadedObject) {
 		if (!loadedObjectClass.isAssignableFrom(loadedObject.getClass())) {
 			Logger.error(new MessageBuilder("Trying to cache object {object} with identifier {identifier} but it is not of type {type}")
-					.parse("object", loadedObject)
-					.parse("identifier", identifier)
-					.parse("type", loadedObjectClass.getName())
+				.parse("object", loadedObject)
+				.parse("identifier", identifier)
+				.parse("type", loadedObjectClass.getName())
 			);
 		}
 

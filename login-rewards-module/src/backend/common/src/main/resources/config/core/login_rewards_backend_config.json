@@ -1,0 +1,201 @@
+{
+  "gui": {
+    "title": "Daily Rewards",
+    "daySlots": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "filler": {
+      "baseItem": { "id": "minecraft:gray_stained_glass_pane", "count": 1 },
+      "displayName": " "
+    },
+    "claimedDay": {
+      "baseItem": { "id": "minecraft:book", "count": 1 },
+      "displayName": "<green>Day {day} Claimed",
+      "lore": [
+        "<gray>Reward day: <white>{reward_day}",
+        "<gray>Requirement: <white>{required}",
+        " ",
+        "{reward_lore}"
+      ]
+    },
+    "currentClaimableDay": {
+      "baseItem": { "id": "minecraft:chest", "count": 1 },
+      "displayName": "<green><bold>Day {day} Ready",
+      "lore": [
+        "<gray>Reward day: <white>{reward_day}",
+        "<gray>Today: <white>{today}<gray>/<white>{required}",
+        "<green>Click to claim this day.",
+        " ",
+        "{reward_lore}"
+      ]
+    },
+    "currentLockedDay": {
+      "baseItem": { "id": "minecraft:yellow_stained_glass_pane", "count": 1 },
+      "displayName": "<yellow>Day {day}",
+      "lore": [
+        "<gray>Reward day: <white>{reward_day}",
+        "<gray>Today: <white>{today}<gray>/<white>{required}",
+        "<gray>Remaining: <white>{remaining}",
+        " ",
+        "{reward_lore}"
+      ]
+    },
+    "futureDay": {
+      "baseItem": { "id": "minecraft:light_gray_stained_glass_pane", "count": 1 },
+      "displayName": "<gray>Day {day}",
+      "lore": [
+        "<gray>Reward day: <white>{reward_day}",
+        "<gray>Requirement: <white>{required}",
+        " ",
+        "{reward_lore}"
+      ]
+    },
+    "status": {
+      "baseItem": { "id": "minecraft:clock", "count": 1 },
+      "displayName": "<gold><bold>Daily Streak",
+      "lore": [
+        "<gray>Earned streak: <white>{streak}",
+        "<gray>Today: <white>{today}<gray>/<white>{required}",
+        "<gray>Claim window: <white>{claim_window}"
+      ],
+      "position": {
+        "slots": [
+          29
+        ]
+      }
+    },
+    "streakBrokenStatus": {
+      "baseItem": { "id": "minecraft:elytra", "count": 1 },
+      "displayName": "<red><bold>Streak Broken",
+      "lore": [
+        "<gray>Your previous streak was <white>{previous_streak}<gray>.",
+        "<gray>Your current streak is <white>{streak}<gray>.",
+        "<gray>Claim Day <white>{day}</white> to restart.",
+        "<gray>Today: <white>{today}<gray>/<white>{required}"
+      ],
+      "position": {
+        "slots": [
+          29
+        ]
+      }
+    },
+    "claimAll": {
+      "baseItem": { "id": "minecraft:emerald", "count": 1 },
+      "displayName": "<green><bold>Claim Reward",
+      "lore": [
+        "<gray>Day: <white>{day}",
+        "<green>Click to claim this reward."
+      ],
+      "position": {
+        "slots": [
+          31
+        ]
+      }
+    },
+    "claimAllLocked": {
+      "baseItem": { "id": "minecraft:gray_dye", "count": 1 },
+      "displayName": "<red><bold>No Rewards Ready",
+      "lore": [
+        "<gray>Day: <white>{day}",
+        "<gray>Playtime: <white>{today}<gray>/<white>{required}",
+        "<gray>Remaining: <white>{remaining}",
+        "<gray>Available in: <white>{available_in}"
+      ],
+      "position": {
+        "slots": [
+          31
+        ]
+      }
+    },
+    "noSpace": {
+      "baseItem": { "id": "minecraft:barrier", "count": 1 },
+      "displayName": "<red><bold>Not Enough Space",
+      "lore": [
+        "<gray>Need <white>{required_slots}</white> free inventory slots.",
+        "<gray>Available: <white>{available_slots}"
+      ],
+      "position": {
+        "slots": [
+          31
+        ]
+      }
+    },
+    "alreadyClaimed": {
+      "baseItem": { "id": "minecraft:gold_ingot", "count": 1 },
+      "displayName": "<yellow><bold>Already Claimed",
+      "lore": [
+        "<gray>Your next reward unlocks in <white>{available_in}<gray>.",
+        "<gray>Claim before: <white>{claim_window}"
+      ],
+      "position": {
+        "slots": [
+          31
+        ]
+      }
+    },
+    "close": {
+      "baseItem": { "id": "minecraft:barrier", "count": 1 },
+      "displayName": "<red>Close",
+      "position": {
+        "slots": [
+          33
+        ]
+      }
+    },
+    "prevPage": {
+      "baseItem": { "id": "minecraft:arrow", "count": 1 },
+      "displayName": "<yellow>← Previous Page",
+      "position": {
+        "slots": [
+          27
+        ]
+      }
+    },
+    "nextPage": {
+      "baseItem": { "id": "minecraft:arrow", "count": 1 },
+      "displayName": "<yellow>Next Page →",
+      "position": {
+        "slots": [
+          35
+        ]
+      }
+    },
+    "noRewardLore": [
+      "<gray>No reward details configured."
+    ]
+  },
+  "lang": {
+    "dayAlreadyClaimed": "<yellow>You already claimed Day {day}.",
+    "notCurrentDay": "<red>You can only claim Day {claim_day} right now.",
+    "alreadyClaimedToday": "<yellow>You've already claimed today's reward. Come back later.",
+    "notEnoughPlaytime": "<red>You haven't played enough today yet ({today}/{required}).",
+    "notEnoughSpace": "<red>You need {required_slots} free inventory slots (have {available_slots}).",
+    "claimSent": "<green>Claiming Day {day}..."
+  }
+}

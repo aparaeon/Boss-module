@@ -5,6 +5,7 @@ import gg.mmorealms.module.core.backend.common.dto.ClickType;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
 import gg.mmorealms.module.core.backend.common.gui.GUI;
+import gg.mmorealms.module.core.backend.common.gui.GUISettings;
 import gg.mmorealms.module.realms.backend.common.RealmsBackendModule;
 import gg.mmorealms.module.realms.backend.common.config.RealmsConfig;
 import gg.mmorealms.module.realms.backend.common.dto.RealmSettings;
@@ -16,7 +17,7 @@ public class RealmSettingsGUI extends GUI {
 	private final static RealmsConfig config = RealmsBackendModule.instance().getConfig();
 
 	public RealmSettingsGUI(User user) {
-		super(user, new Settings().chestSize(6));
+		super(user, new GUISettings().chestSize(6));
 
 		open();
 	}
@@ -27,7 +28,7 @@ public class RealmSettingsGUI extends GUI {
 	}
 
 	@Override
-	public void setup() {
+	public void draw() {
 		IRealm realm = IRealm.getByOwner(user);
 
 		if (realm == null) {

@@ -21,6 +21,8 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class CommonUserSettings<Player> implements IDatabaseEntry<UUID> {
 
+	private static List<Class<? extends IUserSetting<?>>> REGISTERED_SETTINGS = new ArrayList<>();
+
 	@Id
 	@jakarta.validation.constraints.NotNull
 	private @Getter UUID uuid;

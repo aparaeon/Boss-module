@@ -10,7 +10,7 @@ public class ChatGamesFabricModule extends ChatGamesBackendModule implements Mod
 
 	@Override
 	protected PokemonQuestionGenerator createQuestionGenerator(ChatGamesConfig config) {
-		return new CobblemonQuestionGenerator();
+		return new CobblemonQuestionGenerator(config);
 	}
 
 	@Override

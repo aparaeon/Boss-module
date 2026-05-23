@@ -32,9 +32,9 @@ public class AutoSaveObject<ObjectInterface extends ISavable> implements Invocat
 		}
 
 		return (ObjectInterface) Proxy.newProxyInstance(
-				CommonLoader.instance().getClassLoader(),
-				new Class[]{clazz},
-				new AutoSaveObject<>(object)
+			CommonLoader.instance().getClassLoader(),
+			new Class[]{clazz},
+			new AutoSaveObject<>(object)
 		);
 	}
 

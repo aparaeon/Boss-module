@@ -23,14 +23,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 @Plugin(
-		id = LoaderBuildConstants.ID,
-		name = LoaderBuildConstants.ID,
-		version = LoaderBuildConstants.VERSION,
-		authors = {"Radu Voinea"},
-		dependencies = {
-				@Dependency(id = "luckperms"),
-				@Dependency(id = "packetevents"),
-		}
+	id = LoaderBuildConstants.ID,
+	name = LoaderBuildConstants.ID,
+	version = LoaderBuildConstants.VERSION,
+	authors = {"Radu Voinea"},
+	dependencies = {
+		@Dependency(id = "luckperms"),
+		@Dependency(id = "packetevents"),
+	}
 )
 @Getter
 public class VelocityLoader extends CommonLoader {
@@ -91,8 +91,8 @@ public class VelocityLoader extends CommonLoader {
 	@Override
 	protected VelocityCommandManager createCommandManager() {
 		VelocityCommandManager commandManager = new VelocityCommandManager(this, this.proxy,
-				this.getReflectionsCrawler("gg.mmorealms"),
-				this.getCommandManagerConfig(), this.getInjectorHolder());
+			this.getReflectionsCrawler("gg.mmorealms"),
+			this.getCommandManagerConfig(), this.getInjectorHolder());
 		miniMessageManager = export(commandManager.getMiniMessageManager(), VelocityMiniMessageManager.class);
 		export(commandManager.getMiniMessageManager(), CommonMiniMessageManager.class);
 		export(commandManager.getMiniMessageManager(), VelocityMiniMessageManager.class);

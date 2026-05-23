@@ -1,7 +1,6 @@
 package gg.mmorealms.loader.common.dto.database.cache;
 
 import gg.mmorealms.loader.common.dto.database.ICacheable;
-import gg.mmorealms.loader.common.dto.event.CacheEvictEvent;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,7 +46,7 @@ public class Cache<Key, CachedObject extends ICacheable> extends ConcurrentHashM
 		}
 
 		cachedObject.onEvict();
-//		new CacheEvictEvent<>(cachedObjectClass, cachedObject).fireSync();
+		//		new CacheEvictEvent<>(cachedObjectClass, cachedObject).fireSync();
 
 		return cachedObject;
 	}
