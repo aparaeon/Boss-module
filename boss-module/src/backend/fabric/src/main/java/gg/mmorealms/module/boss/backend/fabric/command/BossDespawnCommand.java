@@ -60,35 +60,55 @@ public class BossDespawnCommand extends BackendCommand {
 		BossConfig.Lang lang = mod.getConfig().lang;
 		BossManager mgr = mod.getBossManager();
 
-		if (arguments.isEmpty()) {
+		// Framework returns fixed-size list with NULLs for unprovided optionals — test by value.
+		String targetArg = arguments.isEmpty() ? null : arguments.get(0);
+		if (targetArg == null) {
 			mod.sendLang(sender, lang.adminUsageDespawn);
 			return;
 		}
-
-		String target = arguments.get(0).toLowerCase();
+		String target = targetArg.toLowerCase();
 
 		switch (target) {
 			case "all": {
-				int count = mgr.handleDespawnRequest(null, null, true, true);
-				mod.sendLang(sender, lang.adminDespawnSuccessAll.parse("count", count));
+				int cleaned = 0;
+				int queued = 0;
+				// Snapshot to avoid mutating the active map while iterating.
+				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
+					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) cleaned++;
+					else queued++;
+				}
+				mod.sendLang(sender, lang.adminDespawnSuccessAll.parse("count", cleaned));
+				if (queued > 0) {
+					mod.sendLang(sender, lang.adminDespawnQueuedBattle.parse("short_id", queued + " in-battle"));
+				}
 				return;
 			}
 			case "tier": {
-				if (arguments.size() < 2) {
+				String tierArg = arguments.size() < 2 ? null : arguments.get(1);
+				if (tierArg == null) {
 					mod.sendLang(sender, lang.adminUsageDespawnTier);
 					return;
 				}
 				BossTier filter;
 				try {
-					filter = BossTier.valueOf(arguments.get(1).toUpperCase());
+					filter = BossTier.valueOf(tierArg.toUpperCase());
 				} catch (IllegalArgumentException e) {
-					mod.sendLang(sender, lang.adminTierUnknown.parse("tier", arguments.get(1)));
+					mod.sendLang(sender, lang.adminTierUnknown.parse("tier", tierArg));
 					return;
 				}
-				int count = mgr.handleDespawnRequest(null, filter, false, true);
+				int cleaned = 0;
+				int queued = 0;
+				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
+					if (boss.tier() != filter) continue;
+					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) cleaned++;
+					else queued++;
+				}
 				mod.sendLang(sender, lang.adminDespawnSuccessTier
-						.parse("count", count)
+						.parse("count", cleaned)
 						.parse("tier", filter.name()));
+				if (queued > 0) {
+					mod.sendLang(sender, lang.adminDespawnQueuedBattle.parse("short_id", queued + " in-battle"));
+				}
 				return;
 			}
 			default: {
@@ -102,11 +122,16 @@ public class BossDespawnCommand extends BackendCommand {
 					mod.sendLang(sender, lang.adminBossNotFound.parse("value", target));
 					return;
 				}
-				mgr.handleDespawnRequest(boss.pokemonUUID(), null, false, true);
-				mod.sendLang(sender, lang.adminDespawnSuccess
-						.parse("tier", boss.tier().name())
-						.parse("species", boss.species())
-						.parse("short_id", BossManager.shortId(boss.pokemonUUID())));
+				BossManager.DespawnOutcome outcome = mgr.dispatchDespawn(boss);
+				String shortId = BossManager.shortId(boss.pokemonUUID());
+				if (outcome == BossManager.DespawnOutcome.QUEUED_BATTLE) {
+					mod.sendLang(sender, lang.adminDespawnQueuedBattle.parse("short_id", shortId));
+				} else {
+					mod.sendLang(sender, lang.adminDespawnSuccess
+							.parse("tier", boss.tier().name())
+							.parse("species", boss.species())
+							.parse("short_id", shortId));
+				}
 			}
 		}
 	}

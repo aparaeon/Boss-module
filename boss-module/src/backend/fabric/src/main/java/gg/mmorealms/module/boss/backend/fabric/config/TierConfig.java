@@ -55,11 +55,6 @@ public class TierConfig {
 
 	public AnnounceLevel announceOnSpawn = AnnounceLevel.OFF;
 	public AnnounceLevel announceOnDefeat = AnnounceLevel.OFF;
-	/**
-	 * Sound resource id played on TITLE-level announcements. Null/empty = no sound.
-	 * Only honored when {@code announceOnSpawn == TITLE}. Example: {@code minecraft:entity.wither.spawn}.
-	 */
-	public @Nullable String titleSound;
 
 	public transient ChatFormatting glowChatFmt;
 
@@ -79,10 +74,10 @@ public class TierConfig {
 				tc.levelRange = new Range(10, 30);
 				tc.scale = 1.2F;
 					tc.maxIvs = true;
-					tc.maxActive = 4;
-					tc.minActive = 2;
+					tc.maxActive = 2;
+					tc.minActive = 1;
 					tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
-					tc.announceOnDefeat = AnnounceLevel.WORLD_CHAT;
+					tc.announceOnDefeat = AnnounceLevel.OFF;
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(0, 349);
 					tc.rewardRolls = 1;
@@ -103,10 +98,10 @@ public class TierConfig {
 				tc.levelRange = new Range(20, 40);
 				tc.scale = 1.3F;
 					tc.maxIvs = true;
-					tc.maxActive = 3;
-					tc.minActive = 2;
+					tc.maxActive = 2;
+					tc.minActive = 1;
 					tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
-					tc.announceOnDefeat = AnnounceLevel.WORLD_CHAT;
+					tc.announceOnDefeat = AnnounceLevel.OFF;
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(350, 449);
 					tc.rewardRolls = 1;
@@ -131,8 +126,8 @@ public class TierConfig {
 					tc.minActive = 1;
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(450, 529);
-					tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
-					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
+					tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
+					tc.announceOnDefeat = AnnounceLevel.OFF;
 					tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 5, 4, 0.4);
 					tc.rewardRolls = 2;
 					tc.rewards = List.of(
@@ -156,8 +151,8 @@ public class TierConfig {
 					tc.minActive = 1;
 				tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(530, 9999);
-					tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
-					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
+					tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
+					tc.announceOnDefeat = AnnounceLevel.OFF;
 					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 15, 0.5);
 					tc.rewardRolls = 2;
 					tc.rewards = List.of(
@@ -177,11 +172,11 @@ public class TierConfig {
 				tc.levelRange = new Range(90, 120);
 				tc.scale = 2.2F;
 				tc.maxIvs = true;
-				tc.maxActive = 1;
+				tc.maxActive = 2;
+				tc.minActive = 1;
 				tc.pokemonClasses = List.of(PokemonClass.LEGENDARY);
-				tc.announceOnSpawn = AnnounceLevel.TITLE;
+				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
-					tc.titleSound = "minecraft:entity.wither.spawn";
 					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 20, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:end_rod", 5, 4, 0.4);
 					tc.rewardRolls = 3;
@@ -190,7 +185,7 @@ public class TierConfig {
 							reward(15, 3, 6, "give {user} cobblemon:rare_candy {quantity}"),
 							reward(12, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
 							reward(11, 1, 1, "give {user} cobblemon:life_orb {quantity}"),
-							reward(10, 200, 500, "balance add {user} {quantity} pokecoins"),
+							namedReward(10, 200, 500, "Pokecoins", "balance add {user} {quantity} pokecoins"),
 							reward(9, 1, 3, "give {user} cobblemon:dragon_gem {quantity}"),
 							reward(8, 1, 1, "give {user} cobblemon:sun_stone {quantity}"),
 							reward(7, 1, 1, "give {user} cobblemon:helix_fossil {quantity}"),
@@ -204,20 +199,20 @@ public class TierConfig {
 				tc.levelRange = new Range(100, 130);
 				tc.scale = 2.5F;
 				tc.maxIvs = true;
-				tc.maxActive = 1;
+				tc.maxActive = 2;
+				tc.minActive = 1;
 				tc.includeAllMegaCapable = true;
-				tc.announceOnSpawn = AnnounceLevel.TITLE;
+				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
-					tc.titleSound = "minecraft:block.beacon.activate";
 					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 15, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:soul_fire_flame", 4, 5, 0.5);
 					tc.rewardRolls = 3;
 					tc.rewards = List.of(
 							reward(17, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
-							reward(16, 1, 1, "give_group {user} megastone"),
+							namedReward(16, 1, 1, "Mega Stone", "give_group {user} megastone"),
 							reward(12, 1, 1, "give {user} cobblemon:life_orb {quantity}"),
 							reward(11, 1, 1, "give {user} cobblemon:ability_capsule {quantity}"),
-							reward(10, 200, 500, "balance add {user} {quantity} pokecoins"),
+							namedReward(10, 200, 500, "Pokecoins", "balance add {user} {quantity} pokecoins"),
 							reward(9, 1, 1, "give {user} cobblemon:choice_band {quantity}"),
 							reward(8, 1, 3, "give {user} cobblemon:fire_gem {quantity}"),
 							reward(8, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
@@ -231,11 +226,11 @@ public class TierConfig {
 				tc.levelRange = new Range(120, 150);
 				tc.scale = 3.0F;
 				tc.maxIvs = true;
-				tc.maxActive = 1;
+				tc.maxActive = 2;
+				tc.minActive = 1;
 				tc.pokemonClasses = List.of(PokemonClass.MYTHICAL, PokemonClass.ULTRA_BEAST);
-				tc.announceOnSpawn = AnnounceLevel.TITLE;
+				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
-					tc.titleSound = "minecraft:entity.wither.spawn";
 					tc.spawnEffect = EffectConfig.burst("minecraft:dragon_breath", 25, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:flame", 3, 6, 0.5);
 					tc.rewardRolls = 3;
@@ -244,10 +239,10 @@ public class TierConfig {
 							reward(13, 4, 8, "give {user} cobblemon:rare_candy {quantity}"),
 							reward(13, 1, 2, "give {user} cobblemon:ability_patch {quantity}"),
 							reward(11, 1, 1, "give {user} cobblemon:sacred_ash {quantity}"),
-							reward(10, 500, 1000, "balance add {user} {quantity} pokecoins"),
+							namedReward(10, 500, 1000, "Pokecoins", "balance add {user} {quantity} pokecoins"),
 							reward(9, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
 							reward(9, 1, 1, "give {user} cobblemon:old_amber_fossil {quantity}"),
-							reward(8, 1, 1, "plushie give_class {user} MYTHICAL false"),
+							namedReward(8, 1, 1, "Mythical Plushie", "plushie give_class {user} MYTHICAL false"),
 							reward(8, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
 							reward(5, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
@@ -260,7 +255,18 @@ public class TierConfig {
 			return new BossReward(
 					weight,
 					new Range(minQuantity, maxQuantity),
-					new MessageBuilderList(Arrays.asList(commands))
+					new MessageBuilderList(Arrays.asList(commands)),
+					null
+			);
+		}
+
+		/** Use for rewards whose first command is NOT a {@code give namespace:item} — the auto-label fallback fails on those. */
+		private static BossReward namedReward(double weight, int minQuantity, int maxQuantity, String displayName, String... commands) {
+			return new BossReward(
+					weight,
+					new Range(minQuantity, maxQuantity),
+					new MessageBuilderList(Arrays.asList(commands)),
+					displayName
 			);
 		}
 	}

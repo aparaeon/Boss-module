@@ -32,43 +32,38 @@ public class BossConfig {
 
 	public static class Lang {
 		/* ---------- Announcements ---------- */
-		/** WORLD_CHAT-level spawn line (sent only to players in the boss's world). */
+		/** WORLD_CHAT spawn — light tone, sent only to wild-shard players in the boss's dimension. */
 		public MessageBuilder bossSpawnedAnnouncementWorld = new MessageBuilder(
-				"<dark_gray>[<{glow_color}>Boss</dark_gray>] <{glow_color}>A wild Lv.{level} {tier_display} <bold>{species}</bold> has appeared nearby!"
+				"<light_purple>[Boss] <{glow_color}>A <bold>{tier_display}</bold> <{glow_color}>{species} <gray>appeared in <{glow_color}>{biome}<gray>!"
 		);
-		/** GLOBAL_CHAT-level spawn line (proxy broadcast). */
+		/** GLOBAL_CHAT spawn — used for LEG/MEGA/MYTH only. */
 		public MessageBuilder bossSpawnedAnnouncementGlobal = new MessageBuilder(
-				"<dark_gray>» <{glow_color}><bold>BOSS</bold></dark_gray> » <{glow_color}>A {tier_display} <bold>{species}</bold> has appeared in the Wild!"
+				"<{glow_color}>«« <bold>WILD BOSS</bold> »» <{glow_color}>A <bold>{tier_display}</bold> <bold>{species}</bold> <{glow_color}>has appeared in the Wild!"
 		);
-		/** TITLE-level spawn — chat broadcast (shown above title), then the title + subtitle below. */
-		public MessageBuilder bossSpawnedAnnouncementTitleChat = new MessageBuilder(
-				"<dark_gray>» <{glow_color}><bold>★ {tier_display} BOSS ★</bold></dark_gray> » <{glow_color}><bold>{species}</bold> <gray>has been spotted in the Wild!"
-		);
-		public MessageBuilder bossSpawnedAnnouncementTitleMain = new MessageBuilder(
-				"<{glow_color}><bold>★ {tier_display} BOSS ★</bold>"
-		);
-		public MessageBuilder bossSpawnedAnnouncementTitleSub = new MessageBuilder(
-				"<{glow_color}>{species} <gray>has appeared!"
-		);
-		/** WORLD_CHAT-level defeat line. */
+		/** WORLD_CHAT defeat — opt-in only; default behaviour for low tiers is OFF (winner-only personal message). */
 		public MessageBuilder bossDefeatedAnnouncementWorld = new MessageBuilder(
-				"<dark_gray>[<{glow_color}>Boss</dark_gray>] <{glow_color}>{player} defeated the {tier_display} <bold>{species}</bold>!"
+				"<light_purple>[Boss] <{glow_color}>{player} defeated the <bold>{tier_display}</bold> <bold>{species}</bold>!"
 		);
-		/** GLOBAL_CHAT-level defeat line. */
+		/** GLOBAL_CHAT defeat — used for LEG/MEGA/MYTH. */
 		public MessageBuilder bossDefeatedAnnouncementGlobal = new MessageBuilder(
-				"<dark_gray>» <{glow_color}><bold>BOSS DEFEATED</bold></dark_gray> » <yellow>{player}</yellow> <{glow_color}>defeated the {tier_display} <bold>{species}</bold>!"
+				"<{glow_color}>«« <bold>BOSS DEFEATED</bold> »» <yellow><bold>{player}</bold></yellow> <{glow_color}>has vanquished the <bold>{tier_display}</bold> <bold>{species}</bold>!"
 		);
-		/** TITLE-level defeat — chat broadcast + title + subtitle. */
-		public MessageBuilder bossDefeatedAnnouncementTitleChat = new MessageBuilder(
-				"<dark_gray>» <{glow_color}><bold>★ {tier_display} BOSS DEFEATED ★</bold></dark_gray> » <yellow>{player}</yellow> <{glow_color}>vanquished the <bold>{species}</bold>!"
+		/** Nameplate above the boss entity. Species/level live in the battle UI; keep this terse. */
+		public MessageBuilder bossDisplayName = new MessageBuilder("<{glow_color}><bold>★ {tier_display} Boss ★</bold>");
+
+		/* ---------- Personal defeat — always to winner, regardless of announceOnDefeat ---------- */
+		public MessageBuilder bossPersonalDefeat = new MessageBuilder(
+				"<green>You defeated the <{glow_color}><bold>{tier_display} {species}</bold><green>!"
 		);
-		public MessageBuilder bossDefeatedAnnouncementTitleMain = new MessageBuilder(
-				"<{glow_color}><bold>★ BOSS DEFEATED ★</bold>"
+
+		/* ---------- Reward summary — only to winner, only when rewards rolled ---------- */
+		public MessageBuilder bossRewardWinnerHeader = new MessageBuilder(
+				"<dark_gray>«« <{glow_color}><bold>BOSS REWARDS</bold></dark_gray> »» <{glow_color}>You defeated the <bold>{tier_display} {species}</bold>:"
 		);
-		public MessageBuilder bossDefeatedAnnouncementTitleSub = new MessageBuilder(
-				"<yellow>{player}</yellow> <{glow_color}>defeated <bold>{species}</bold>"
+		/** Single aggregated line — {rewards} is a comma-joined list of '<quantity>x <item>' entries. */
+		public MessageBuilder bossRewardWinnerSummary = new MessageBuilder(
+				"<{glow_color}>You received <yellow>{rewards}<{glow_color}>!"
 		);
-		public MessageBuilder bossDisplayName = new MessageBuilder("<{glow_color}>★ {tier_display} {species} ★ <gray>Lv.{level}");
 
 		/* ---------- Admin command — root usage ---------- */
 		public MessageBuilder adminUsageRoot = new MessageBuilder(
@@ -93,10 +88,9 @@ public class BossConfig {
 		public MessageBuilder adminListEmpty = new MessageBuilder("<gray>No active bosses on this server.");
 		public MessageBuilder adminListHeader = new MessageBuilder("<yellow>Active bosses ({count}):");
 		public MessageBuilder adminListRow = new MessageBuilder(
-				"<gold>{short_id} <white>{tier} <green>{species} <gray>lv.{level} <dark_gray>| <gray>{location}"
+				"<gold>{short_id} <white>{tier} <green>{species} <gray>lv.{level}{origin} <dark_gray>| <gray>{location}"
 		);
 		public MessageBuilder adminListLocation = new MessageBuilder("<gray>{dimension} <dark_gray>{x} {y} {z}");
-		public MessageBuilder adminListLocationUnloaded = new MessageBuilder("<dark_gray>(entity not loaded)");
 
 		/* ---------- Admin command — errors ---------- */
 		public MessageBuilder adminModuleNotInitialized = new MessageBuilder("<red>Boss module is not initialized on this server.");
@@ -112,5 +106,6 @@ public class BossConfig {
 		public MessageBuilder adminSpawnFailed = new MessageBuilder("<red>Boss spawn failed — check server log.");
 		public MessageBuilder adminShortIdInvalid = new MessageBuilder("<red>Short-ID must be exactly 8 hex characters. Use /boss admin list to see active short-IDs.");
 		public MessageBuilder adminBossNotFound = new MessageBuilder("<red>No active boss matches <white>{value}<red>. Use tab-complete or /boss admin list.");
+		public MessageBuilder adminDespawnQueuedBattle = new MessageBuilder("<yellow>Boss <white>{short_id}<yellow> is currently in battle — queued to despawn once the battle ends.");
 	}
 }

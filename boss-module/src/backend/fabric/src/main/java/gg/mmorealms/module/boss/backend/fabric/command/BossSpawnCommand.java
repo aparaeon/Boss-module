@@ -78,13 +78,13 @@ public class BossSpawnCommand extends BackendCommand {
 				if (context.getSource().getEntity() instanceof ServerPlayer p) {
 					BlockPos pos = p.blockPosition();
 					return switch (argument) {
-						case "x" -> List.of(String.valueOf(pos.getX()), "~");
-						case "y" -> List.of(String.valueOf(pos.getY()), "~");
-						case "z" -> List.of(String.valueOf(pos.getZ()), "~");
+						case "x" -> List.of(String.valueOf(pos.getX()));
+						case "y" -> List.of(String.valueOf(pos.getY()));
+						case "z" -> List.of(String.valueOf(pos.getZ()));
 						default -> List.of();
 					};
 				}
-				return List.of("~");
+				return List.of();
 			}
 			default:
 				return List.of();
@@ -102,46 +102,51 @@ public class BossSpawnCommand extends BackendCommand {
 		}
 		BossConfig.Lang lang = mod.getConfig().lang;
 
-		if (arguments.isEmpty()) {
+		// The command framework returns a fixed-size list with NULL for any unprovided
+		// optional arg, so `arguments.size()` does NOT reflect what the user typed.
+		// Test each slot with arg(i) != null, not size > i.
+		String tierArg = arg(arguments, 0);
+		if (tierArg == null) {
 			mod.sendLang(sender, lang.adminUsageSpawn);
 			return;
 		}
 
 		BossTier tier;
 		try {
-			tier = BossTier.valueOf(arguments.get(0).toUpperCase());
+			tier = BossTier.valueOf(tierArg.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			mod.sendLang(sender, lang.adminTierUnknown.parse("tier", arguments.get(0)));
+			mod.sendLang(sender, lang.adminTierUnknown.parse("tier", tierArg));
 			return;
 		}
 
-		String species = arguments.size() > 1 ? arguments.get(1) : null;
+		String species = arg(arguments, 1);
 
 		Integer level = null;
-		if (arguments.size() > 2) {
+		String levelArg = arg(arguments, 2);
+		if (levelArg != null) {
 			try {
-				level = Integer.parseInt(arguments.get(2));
+				level = Integer.parseInt(levelArg);
 			} catch (NumberFormatException nfe) {
-				mod.sendLang(sender, lang.adminLevelInvalid.parse("value", arguments.get(2)));
+				mod.sendLang(sender, lang.adminLevelInvalid.parse("value", levelArg));
 				return;
 			}
 		}
 
-		boolean shiny = arguments.size() > 3 && Boolean.parseBoolean(arguments.get(3));
+		boolean shiny = Boolean.parseBoolean(arg(arguments, 3));
 
 		// Coords: all three of x, y, z must be present together or all omitted. Mixed = reject.
 		BlockPos forcedPos = null;
-		if (arguments.size() > 4) {
-			if (arguments.size() < 7) {
-				mod.sendLang(sender, lang.adminCoordsIncomplete);
-				return;
-			}
-			ServerPlayer anchorForRelative = sender instanceof ServerPlayer p ? p : null;
+		String xArg = arg(arguments, 4);
+		String yArg = arg(arguments, 5);
+		String zArg = arg(arguments, 6);
+		int provided = (xArg != null ? 1 : 0) + (yArg != null ? 1 : 0) + (zArg != null ? 1 : 0);
+		if (provided > 0 && provided < 3) {
+			mod.sendLang(sender, lang.adminCoordsIncomplete);
+			return;
+		}
+		if (provided == 3) {
 			try {
-				int x = parseCoord(arguments.get(4), anchorForRelative, Axis.X);
-				int y = parseCoord(arguments.get(5), anchorForRelative, Axis.Y);
-				int z = parseCoord(arguments.get(6), anchorForRelative, Axis.Z);
-				forcedPos = new BlockPos(x, y, z);
+				forcedPos = new BlockPos(Integer.parseInt(xArg), Integer.parseInt(yArg), Integer.parseInt(zArg));
 			} catch (NumberFormatException nfe) {
 				mod.sendLang(sender, lang.adminCoordsInvalid.parse("value", nfe.getMessage()));
 				return;
@@ -227,23 +232,14 @@ public class BossSpawnCommand extends BackendCommand {
 		return null;
 	}
 
-	private enum Axis { X, Y, Z }
-
-	/** Parse a coord token. Supports absolute int and relative '~' / '~N' (for player senders). */
-	private int parseCoord(String token, @Nullable ServerPlayer relative, Axis axis) throws NumberFormatException {
-		if (token.startsWith("~")) {
-			if (relative == null) {
-				throw new NumberFormatException("relative '" + token + "' requires a player sender");
-			}
-			int base = switch (axis) {
-				case X -> relative.blockPosition().getX();
-				case Y -> relative.blockPosition().getY();
-				case Z -> relative.blockPosition().getZ();
-			};
-			String rest = token.substring(1);
-			return rest.isEmpty() ? base : base + Integer.parseInt(rest);
-		}
-		return Integer.parseInt(token);
+	/**
+	 * Safe accessor — returns null for any out-of-range slot. The command framework
+	 * returns a fixed-size list with NULLs for unprovided optional args, so we treat
+	 * "null in slot" and "slot doesn't exist" as the same thing.
+	 */
+	private static @Nullable String arg(@NotNull List<String> arguments, int i) {
+		if (i < 0 || i >= arguments.size()) return null;
+		return arguments.get(i);
 	}
 
 	private static List<String> cachedSpeciesNames() {

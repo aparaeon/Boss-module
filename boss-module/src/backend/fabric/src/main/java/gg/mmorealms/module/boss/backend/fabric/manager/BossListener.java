@@ -8,7 +8,6 @@ import gg.mmorealms.loader.backend.common.annotation.OnlyOn;
 import com.raduvoinea.utils.event_manager.annotation.EventHandler;
 import gg.mmorealms.loader.common.dto.ServerType;
 import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
-import gg.mmorealms.module.boss.common.event.BossDespawnEvent;
 import gg.mmorealms.module.boss.common.event.BossSpawnEvent;
 import gg.mmorealms.module.pokemon.backend.fabric.dto.event.BattleWonEvent;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,23 +44,6 @@ public class BossListener {
 		if (spawner != null) {
 			spawner.handleSpawnRequest(ev); // already hops to main internally
 		}
-	}
-
-	@EventHandler
-	public void onBossDespawn(BossDespawnEvent ev) {
-		BossFabricModule mod = BossFabricModule.instance();
-		if (mod == null) return;
-		BossManager mgr = mod.getBossManager();
-		if (mgr == null) return;
-		// Network event handlers may arrive off main thread; hop fire-and-forget.
-		// force=true: BossDespawnEvent is always admin-initiated (from Velocity command or
-		// admin tooling), so it should bypass the isBusy() queue and clean up immediately.
-		mod.runOnMain(() -> mgr.handleDespawnRequest(
-				ev.getPokemonUUID(),
-				ev.getTierFilter(),
-				ev.isDespawnAll(),
-				true
-		));
 	}
 
 	@EventHandler

@@ -95,6 +95,16 @@ public final class SpawnPositionFinder {
 			return pos;
 		}
 
+		// Donut search failed (terrain too dense / surface Y outside config window).
+		// Fallback to the anchor's own surface — sloppier visually but admin spawns + system
+		// refills always succeed when invoked by a player.
+		int anchorX = anchorPos.getX();
+		int anchorZ = anchorPos.getZ();
+		int anchorY = level.getHeight(heightmapType, anchorX, anchorZ);
+		BlockPos fallback = new BlockPos(anchorX, anchorY, anchorZ);
+		if (hasFootprintClearance(level, fallback, fitRadius)) {
+			return fallback;
+		}
 		return null;
 	}
 

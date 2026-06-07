@@ -42,22 +42,33 @@ public class BossListCommand extends BackendCommand {
 		mod.sendLang(sender, lang.adminListHeader.parse("count", active.size()));
 		for (ActiveBoss boss : active) {
 			PokemonEntity entity = mod.findEntity(boss.entityUUID());
-			String location;
-			if (entity == null || entity.isRemoved()) {
-				location = lang.adminListLocationUnloaded.parse();
+			int x;
+			int y;
+			int z;
+			String dimension;
+			if (entity != null && !entity.isRemoved()) {
+				x = (int) entity.getX();
+				y = (int) entity.getY();
+				z = (int) entity.getZ();
+				dimension = entity.level().dimension().location().getPath();
 			} else {
-				location = lang.adminListLocation
-						.parse("dimension", entity.level().dimension().location().getPath())
-						.parse("x", (int) entity.getX())
-						.parse("y", (int) entity.getY())
-						.parse("z", (int) entity.getZ())
-						.parse();
+				x = boss.spawnPos().getX();
+				y = boss.spawnPos().getY();
+				z = boss.spawnPos().getZ();
+				dimension = boss.spawnDimension().getPath();
 			}
+			String location = lang.adminListLocation
+					.parse("dimension", dimension)
+					.parse("x", x)
+					.parse("y", y)
+					.parse("z", z)
+					.parse();
 			mod.sendLang(sender, lang.adminListRow
 					.parse("short_id", BossManager.shortId(boss.pokemonUUID()))
 					.parse("tier", boss.tier().name())
 					.parse("species", boss.species())
 					.parse("level", boss.level())
+					.parse("origin", boss.systemSpawned() ? "" : " <dark_gray>[admin]")
 					.parse("location", location));
 		}
 	}

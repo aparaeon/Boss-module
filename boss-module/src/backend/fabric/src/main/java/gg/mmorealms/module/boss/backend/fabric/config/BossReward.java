@@ -6,6 +6,7 @@ import com.raduvoinea.utils.message_builder.MessageBuilderList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,6 +16,12 @@ public class BossReward implements IWeighted {
 	private double weight;
 	private Range quantity;
 	private MessageBuilderList rewardCommands;
+	/**
+	 * Human-readable name shown in the winner's reward summary message
+	 * (e.g. "Rare Candy", "Pokécoins"). Null falls back to a best-effort
+	 * label parsed from the first reward command.
+	 */
+	private @Nullable String displayName;
 
 	@Override
 	public double getWeight() {

@@ -85,11 +85,9 @@ public class BossSpawner {
 			return AdminSpawnResult.of(AdminSpawnStatus.LEVEL_OUT_OF_RANGE);
 		}
 
-		// Admin spawns always bypass per-tier caps (per design decision — admins can flood-test or
-		// stage events without flag flips). System-driven spawns still respect maxActive.
-		manager.forceReserveTier(tier);
-
-		boolean owned = false;
+		// Admin spawns DO NOT touch the per-tier counter — admin bosses are visible in /boss admin list
+		// but don't count toward maxActive (so admins can flood-test) and don't satisfy minActive
+		// (so the system still spawns its own bosses). spawnBoss writes systemSpawned=false to NBT.
 		try {
 			SpeciesPick pick = resolveSpecies(tier, tc, species, /*enforceTierPool=*/ true);
 			if (pick == null) {
@@ -100,9 +98,8 @@ public class BossSpawner {
 			if (position == null) {
 				return AdminSpawnResult.of(AdminSpawnStatus.POSITION_NOT_FOUND);
 			}
-			UUID spawnedUUID = spawnBoss(server, anchor, position, tier, tc, pick, resolvedLevel, shiny);
-			owned = spawnedUUID != null;
-			if (!owned) {
+			UUID spawnedUUID = spawnBoss(server, anchor, position, tier, tc, pick, resolvedLevel, shiny, /*systemSpawned=*/ false);
+			if (spawnedUUID == null) {
 				return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
 			}
 			return AdminSpawnResult.success(spawnedUUID, pick.species(), resolvedLevel,
@@ -111,13 +108,46 @@ public class BossSpawner {
 			Logger.error("Admin boss spawn pipeline failed for tier " + tier
 					+ " — " + StackTraceUtils.toString(t));
 			return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
+		}
+	}
+
+
+	/**
+	 * System-initiated refill spawn — called by {@code BossManager.tryRefillTier} when a
+	 * tier drops below its {@code minActive} floor. Uses {@code tryReserveTier} to be
+	 * cap-safe under races and flags the boss as system-spawned (counts toward floor/cap).
+	 * Fire-and-forget; outcome logged.
+	 */
+	public AdminSpawnResult systemRefillSpawn(@NotNull ServerPlayer anchor, @NotNull BossTier tier) {
+		MinecraftServer server = anchor.getServer();
+		if (server == null) return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
+		TierConfig tc = config.tiers.get(tier);
+		if (tc == null) return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
+
+		if (!manager.tryReserveTier(tier)) {
+			return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
+		}
+		boolean owned = false;
+		try {
+			SpeciesPick pick = resolveSpecies(tier, tc, null, /*enforceTierPool=*/ true);
+			if (pick == null) return AdminSpawnResult.of(AdminSpawnStatus.SPECIES_NOT_FOUND);
+			int level = (int) RandomUtils.getRandom(tc.levelRange);
+			BlockPos position = SpawnPositionFinder.find(anchor, tc, config);
+			if (position == null) return AdminSpawnResult.of(AdminSpawnStatus.POSITION_NOT_FOUND);
+			UUID uuid = spawnBoss(server, anchor, position, tier, tc, pick, level, /*shiny=*/ false, /*systemSpawned=*/ true);
+			owned = uuid != null;
+			if (!owned) return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
+			return AdminSpawnResult.success(uuid, pick.species(), level, position.getX(), position.getY(), position.getZ());
+		} catch (Throwable t) {
+			Logger.error("System refill spawn pipeline failed for tier " + tier
+					+ " — " + StackTraceUtils.toString(t));
+			return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
 		} finally {
 			if (!owned) {
 				manager.releaseTier(tier);
 			}
 		}
 	}
-
 
 	public enum AdminSpawnStatus {
 		SUCCESS,
@@ -194,7 +224,7 @@ public class BossSpawner {
 				return;
 			}
 
-			owned = spawnBoss(server, anchor, position, ev.getTier(), tc, pick, level, ev.isShiny()) != null;
+			owned = spawnBoss(server, anchor, position, ev.getTier(), tc, pick, level, ev.isShiny(), /*systemSpawned=*/ true) != null;
 		} catch (Throwable t) {
 			Logger.error("Boss spawn failed for tier " + ev.getTier()
 					+ " — " + StackTraceUtils.toString(t));
@@ -352,7 +382,8 @@ public class BossSpawner {
 			@NotNull TierConfig tc,
 			@NotNull SpeciesPick pick,
 			int level,
-			boolean shiny
+			boolean shiny,
+			boolean systemSpawned
 	) {
 		ServerLevel sl = anchor.serverLevel();
 		String species = pick.species();
@@ -411,8 +442,27 @@ public class BossSpawner {
 			tag.putString(BossNbtKeys.SPECIES, species);
 			tag.putInt(BossNbtKeys.LEVEL, level);
 			tag.putLong(BossNbtKeys.SPAWNED_AT, spawnedAt);
+			tag.putBoolean(BossNbtKeys.SYSTEM_SPAWNED, systemSpawned);
+			tag.putInt(BossNbtKeys.SPAWN_X, position.getX());
+			tag.putInt(BossNbtKeys.SPAWN_Y, position.getY());
+			tag.putInt(BossNbtKeys.SPAWN_Z, position.getZ());
+			tag.putString(BossNbtKeys.SPAWN_DIMENSION, sl.dimension().location().toString());
 
 			applyBossName(entity, tc, tier, species, level);
+
+			// Persistence + invulnerability MUST be set before addFreshEntity so Cobblemon's
+			// despawner can't grab the entity on the very next tick before we flag it.
+			// Mirrors LegendarySpawner.createAndSpawn (legendaries-module).
+			//
+			// setPersistenceRequired: blocks PokemonEntity.checkDespawn (the line that discards
+			// ownerless wild pokemon on a timer) AND flips shouldBeSaved() to true so the entity
+			// survives chunk unload. Without this, bosses vanish when the player walks away.
+			//
+			// setInvulnerable: blocks direct-damage cheese (sticks, fall, lava). Cobblemon
+			// battles mutate Pokemon.currentHealth directly, never entity.hurt(), so battles
+			// still work.
+			entity.setPersistenceRequired();
+			entity.setInvulnerable(true);
 
 			if (!sl.addFreshEntity(entity)) {
 				Logger.warn("Boss spawn rejected by world (addFreshEntity returned false) for " + species
@@ -433,7 +483,13 @@ public class BossSpawner {
 				}
 			}
 
-			ActiveBoss boss = new ActiveBoss(pokemonUUID, entity.getUUID(), tier, species, level, spawnedAt);
+			// Tier-counter accounting: system path already reserved via tryReserveTier in
+			// processSpawnFromEvent. Admin path does NOT touch the counter. handleEntityLoad
+			// re-reserves for system bosses on restart. So no increment here either way.
+			ActiveBoss boss = new ActiveBoss(
+					pokemonUUID, entity.getUUID(), tier, species, level, spawnedAt,
+					systemSpawned, position, sl.dimension().location()
+			);
 			if (!manager.registerActive(boss)) {
 				Logger.warn("Boss already registered for UUID " + pokemonUUID + "; rolling back");
 				return null;
@@ -531,11 +587,13 @@ public class BossSpawner {
 
 		switch (lvl) {
 			case WORLD_CHAT -> {
+				String biome = readableBiome((net.minecraft.server.level.ServerLevel) entity.level(), entity.blockPosition());
 				String message = config.lang.bossSpawnedAnnouncementWorld
 						.parse("glow_color", glow)
 						.parse("tier_display", tc.displayName)
 						.parse("species", species)
 						.parse("level", level)
+						.parse("biome", biome)
 						.parse("x", x).parse("y", y).parse("z", z)
 						.parse();
 				net.minecraft.network.chat.Component comp = BossFabricModule.instance()
@@ -553,28 +611,21 @@ public class BossSpawner {
 						.parse();
 				new gg.mmorealms.module.chat.common.dto.GlobalMessageEvent(message).send();
 			}
-			case TITLE -> {
-				String chat = config.lang.bossSpawnedAnnouncementTitleChat
-						.parse("glow_color", glow)
-						.parse("tier_display", tc.displayName)
-						.parse("species", species)
-						.parse("level", level)
-						.parse();
-				String title = config.lang.bossSpawnedAnnouncementTitleMain
-						.parse("glow_color", glow)
-						.parse("tier_display", tc.displayName)
-						.parse("species", species)
-						.parse();
-				String sub = config.lang.bossSpawnedAnnouncementTitleSub
-						.parse("glow_color", glow)
-						.parse("tier_display", tc.displayName)
-						.parse("species", species)
-						.parse();
-				new gg.mmorealms.module.boss.common.event.BossTitleAnnouncementEvent(
-						chat, title, sub, tc.titleSound
-				).send();
-			}
 			default -> {}
+		}
+	}
+
+	/**
+	 * Player-readable biome name — mirrors {@code LegendaryInfoUtils.createSpawnInfo:21-23}
+	 * exactly. No shared util exists; the 3-liner is the established repo pattern.
+	 */
+	private static String readableBiome(@NotNull net.minecraft.server.level.ServerLevel level, @NotNull BlockPos pos) {
+		try {
+			net.minecraft.resources.ResourceLocation id = net.minecraft.resources.ResourceLocation
+					.parse(level.getBiome(pos).getRegisteredName());
+			return net.minecraft.network.chat.Component.translatable(id.toLanguageKey("biome")).getString();
+		} catch (Throwable t) {
+			return "the Wild";
 		}
 	}
 }

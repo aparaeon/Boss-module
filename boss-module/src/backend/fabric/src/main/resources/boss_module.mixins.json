@@ -4,7 +4,8 @@
 	"package": "gg.mmorealms.module.boss.backend.fabric.mixin",
 	"compatibilityLevel": "JAVA_21",
 	"mixins": [
-		"BossBattleBuilderMixin"
+		"BossBattleBuilderMixin",
+		"BossPokemonEntityMixin"
 	],
 	"client": [],
 	"injectors": {
