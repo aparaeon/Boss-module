@@ -17,19 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Auto-scanned listener (loader/.../CommonModule.registerListeners).
- * Handles ONLY MMO framework @EventHandler events.
- *
- * Fabric and Cobblemon-native callbacks (POKEMON_FAINTED, ENTITY_LOAD)
- * are registered in BossFabricModule.onInit() and delegate directly to BossManager.
- *
- * No-arg constructor — framework instantiates after onInit completes.
- * Do NOT new BossListener() or export(...) anywhere.
- *
- * BattleWonEvent registration model verified via repo precedent:
- *   pokemon-module wraps Cobblemon BATTLE_VICTORY into a LocalEvent fired via fireAsync().
- *   gyms-module/.../Listener.java:41-42 listens with @EventHandler. Same pattern here.
- *   Since fireAsync() means we land off the main thread, wrap entity/world mutations in server.execute(...).
+ * Auto-scanned listener for MMO @EventHandler events. Fabric/Cobblemon-native callbacks live in BossFabricModule.
+ * BattleWonEvent fires off-main (fireAsync) → wrap entity/world mutations in runOnMain.
  */
 @OnlyOn(servers = ServerType.WILD)
 public class BossListener {
@@ -67,7 +56,7 @@ public class BossListener {
 					ServerPlayer winner = mod.getServer() != null
 							? mod.getServer().getPlayerList().getPlayer(winnerUuid) : null;
 					if (winner == null) {
-						manager.handleDefeatWithoutReward(defeatedBossUuid,
+						manager.handleDefeatWithoutReward(defeatedBossUuid, winnerUuid,
 								"winner " + winnerUuid + " disconnected before reward dispatch");
 						return;
 					}
@@ -75,7 +64,7 @@ public class BossListener {
 				});
 			} else {
 				// Battle was won but no PlayerBattleActor on the winning side (e.g. AI-only).
-				mod.runOnMain(() -> manager.handleDefeatWithoutReward(defeatedBossUuid,
+				mod.runOnMain(() -> manager.handleDefeatWithoutReward(defeatedBossUuid, null,
 						"no player on winning side"));
 			}
 		}
@@ -86,11 +75,7 @@ public class BossListener {
 		}
 	}
 
-	/**
-	 * Returns the originalPokemon UUID of any actor in the list that matches a registered active boss.
-	 * Uses {@code originalPokemon.uuid} because effectedPokemon may be a battle-clone with a different UUID
-	 * (Cobblemon BattlePokemon.kt:46-51 — clone path for player-controlled battles).
-	 */
+	/** Match by {@code originalPokemon.uuid} — effectedPokemon may be a battle-clone with a different UUID. */
 	private @Nullable UUID findBossUuidIn(@Nullable List<BattleActor> actors) {
 		if (actors == null) return null;
 		BossManager manager = BossFabricModule.instance().getBossManager();

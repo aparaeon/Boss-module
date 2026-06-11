@@ -1,6 +1,9 @@
 package gg.mmorealms.module.boss.backend.fabric;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.raduvoinea.commandmanager.backend.fabric.FabricMiniMessageManager;
 import com.raduvoinea.utils.dependency_injection.annotations.Inject;
 import com.raduvoinea.utils.file_manager.FileManager;
@@ -17,6 +20,7 @@ import gg.mmorealms.module.boss.backend.fabric.manager.BossManager;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossNbtKeys;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossSpawner;
 import gg.mmorealms.module.boss.common.BossTier;
+import gg.mmorealms.module.mega_evolution.backend.fabric.dto.MegaEvolution;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import net.minecraft.nbt.CompoundTag;
 import lombok.Getter;
@@ -29,10 +33,13 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 @Getter
@@ -44,10 +51,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 
 	private @Inject FabricMiniMessageManager miniMessageManager;
 	private @Inject FileManager fileManager;
-	// CRITICAL: must be @Inject — the loader exports MinecraftServer via BackendLoader.onStart
-	// BEFORE setupModules() is called (which dispatches our onInit). Registering our own
-	// ServerLifecycleEvents.SERVER_STARTED listener from onInit() fires too late and never runs.
-	// Matches LegendariesModule line 25 pattern.
+	/** Must be @Inject — loader populates this before onInit; SERVER_STARTED listener would fire too late. */
 	private @Inject MinecraftServer server;
 
 	private BossConfig config;
@@ -65,39 +69,164 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 
 	@Override
 	public void onInit() throws ModuleException {
-		// WILD server gate: skip backend init entirely on non-WILD shards.
-		// BossListener has @OnlyOn(WILD) for defence-in-depth, but we also avoid loading
-		// config + spinning up managers + subscribing Cobblemon events on Spawn/Realms/Gym backends.
+		// WILD-only gate. BossListener has @OnlyOn(WILD) for defense-in-depth.
 		if (getServerType() != ServerType.WILD) {
 			Logger.info("Boss module skipping init on non-WILD server (type=" + getServerType() + ").");
 			return;
 		}
 
+		migrateLegacyConfig();
 		this.config = fileManager.load(BossConfig.class);
+		applyCurrentConfigDefaults(config);
 		validateConfig(config);
 
-		this.bossManager = new BossManager(config);
+		this.bossManager = new BossManager(config, fileManager);
 		this.bossSpawner = new BossSpawner(config, bossManager);
-
-		// server is already @Inject-populated by the loader at this point.
-		// Bosses are setInvulnerable(true) on spawn — only the battle system can faint them,
-		// and that path goes through BattleWonEvent → handleDefeat → dispatchRewards. No
-		// POKEMON_FAINTED listener needed; it would race the battle-win path.
 
 		ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
 			if (!(entity instanceof PokemonEntity pe)) return;
 			runOnMain(() -> handleEntityLoad(pe));
 		});
 
+		// Re-apply team on START_TRACKING — covers far-walk-back, dimension change, reconnect.
+		net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents.START_TRACKING
+				.register((entity, player) -> {
+					if (!(entity instanceof PokemonEntity pe)) return;
+					CompoundTag tag = pe.getPokemon().getPersistentData();
+					if (!tag.getBoolean(BossNbtKeys.BOSS)) return;
+					BossTier tier;
+					try {
+						tier = BossTier.valueOf(tag.getString(BossNbtKeys.TIER));
+					} catch (IllegalArgumentException e) {
+						return;
+					}
+					TierConfig tc = config.tiers.get(tier);
+					MinecraftServer s = this.server;
+					if (tc == null || s == null) return;
+					runOnMain(() -> {
+						if (!pe.isRemoved()) {
+							bossManager.applyBossTeam(s, pe, tc);
+						}
+					});
+				});
+
 		net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register(
 				(handler, sender, s) -> bossManager.bootstrapFillAllTiers()
 		);
 
-		// Initial bootstrap — runs now in case players are already online when module inits
-		// (e.g. /reload or hot-jar swap). Idempotent — no-op when count is at floor.
+		// BATTLE_FLED is separate from BATTLE_VICTORY — sweep pendingDespawns on flee so queued admin despawns fire.
+		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_FLED.subscribe(
+				com.cobblemon.mod.common.api.Priority.NORMAL,
+				event -> {
+					runOnMain(() -> {
+						if (bossManager != null) bossManager.retryPendingDespawns();
+					});
+					return kotlin.Unit.INSTANCE;
+				}
+		);
+
+		// Initial bootstrap for /reload + hot-jar swap. Idempotent.
 		bossManager.bootstrapFillAllTiers();
 
-		// BossListener auto-registers via reflection scan after this method returns.
+		// Low-frequency retry for refills that failed (no eligible anchor / POSITION_NOT_FOUND).
+		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
+				() -> bossManager.refillSweep(),
+				com.raduvoinea.utils.generic.Time.minutes(5)
+		);
+
+		// Re-assert glow team + flag on loaded bosses; repairs (and logs) any glow drift.
+		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
+				() -> bossManager.glowSweep(),
+				com.raduvoinea.utils.generic.Time.seconds(15)
+		);
+
+		logTierSettings();
+	}
+
+	/** Log effective tier settings on boot. */
+	private void logTierSettings() {
+		for (BossTier tier : BossTier.values()) {
+			TierConfig tc = config.tiers.get(tier);
+			Logger.info("Boss tier " + tier + ": minActive=" + tc.minActive
+					+ " maxActive=" + tc.maxActive
+					+ " despawnAfter=" + (tc.despawnAfter.toMilliseconds() / 1000) + "s"
+					+ " announceSpawn=" + tc.announceOnSpawn
+					+ " announceDefeat=" + tc.announceOnDefeat);
+		}
+	}
+
+	/** Preserve rewards/species edits, but force current visual/refill defaults into old configs. */
+	private void applyCurrentConfigDefaults(@NotNull BossConfig cfg) {
+		if (cfg.lang == null) {
+			cfg.lang = new BossConfig.Lang();
+		}
+		if (cfg.tiers == null) {
+			cfg.tiers = new java.util.EnumMap<>(BossTier.class);
+		}
+		BossConfig.Lang lang = new BossConfig.Lang();
+		cfg.lang.bossSpawnedAnnouncementWorld = lang.bossSpawnedAnnouncementWorld;
+		cfg.lang.bossSpawnedAnnouncementGlobal = lang.bossSpawnedAnnouncementGlobal;
+		cfg.lang.bossDefeatedAnnouncementWorld = lang.bossDefeatedAnnouncementWorld;
+		cfg.lang.bossDefeatedAnnouncementGlobal = lang.bossDefeatedAnnouncementGlobal;
+		cfg.lang.bossDisplayName = lang.bossDisplayName;
+		cfg.lang.bossPersonalDefeat = lang.bossPersonalDefeat;
+		cfg.lang.bossRewardWinnerHeader = lang.bossRewardWinnerHeader;
+		cfg.lang.bossRewardWinnerSummary = lang.bossRewardWinnerSummary;
+
+		for (BossTier tier : BossTier.values()) {
+			TierConfig tc = cfg.tiers.get(tier);
+			if (tc == null) {
+				tc = TierConfig.defaultsFor(tier);
+				cfg.tiers.put(tier, tc);
+			}
+			TierConfig defaults = TierConfig.defaultsFor(tier);
+			tc.displayName = defaults.displayName;
+			tc.glowColor = defaults.glowColor;
+			if (tc.minActive <= 0 && defaults.minActive > 0) {
+				Logger.warn("Boss tier " + tier + " had minActive=" + tc.minActive
+						+ " in boss_config.json; raising to " + defaults.minActive + ".");
+				tc.minActive = defaults.minActive;
+			}
+			if (tc.maxActive < tc.minActive) {
+				Logger.warn("Boss tier " + tier + " had maxActive=" + tc.maxActive
+						+ " below minActive=" + tc.minActive + "; raising maxActive to " + tc.minActive + ".");
+				tc.maxActive = tc.minActive;
+			}
+		}
+		fileManager.save(cfg);
+	}
+
+	/* ---------- Config migration ---------- */
+
+	/** Reset pre-AnnounceLevel configs before Gson parses them. */
+	private void migrateLegacyConfig() {
+		String raw = fileManager.readFile("", "boss_config.json");
+		if (raw.isEmpty()) {
+			return;
+		}
+		boolean legacy = false;
+		try {
+			JsonObject root = JsonParser.parseString(raw).getAsJsonObject();
+			JsonObject tiers = root.getAsJsonObject("tiers");
+			if (tiers == null) {
+				return;
+			}
+			for (Map.Entry<String, JsonElement> entry : tiers.entrySet()) {
+				JsonElement announce = entry.getValue().getAsJsonObject().get("announceOnSpawn");
+				if (announce != null && announce.isJsonPrimitive() && announce.getAsJsonPrimitive().isBoolean()) {
+					legacy = true;
+					break;
+				}
+			}
+		} catch (Throwable t) {
+			Logger.warn("Could not inspect boss_config.json for legacy schema: " + t.getMessage());
+			return;
+		}
+		if (!legacy) {
+			return;
+		}
+		Logger.warn("Legacy boss_config.json detected (boolean announceOnSpawn) — regenerating defaults.");
+		fileManager.writeFile("", "boss_config.json", "");
 	}
 
 	/* ---------- Validation ---------- */
@@ -157,6 +286,9 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					throw new ModuleException(this, "Tier " + tier + " reward[" + i + "] rewardCommands is null");
 				}
 			}
+			// Normalize first — Cobblemon's getByName throws (uncaught) on uppercase path chars.
+			tc.extraSpecies = normalizeSpeciesList(tc.extraSpecies);
+			tc.excludedSpecies = normalizeSpeciesList(tc.excludedSpecies);
 			// Species in extraSpecies / excludedSpecies must resolve at boot, not at first spawn.
 			for (String s : tc.extraSpecies) {
 				if (PokemonSpecies.INSTANCE.getByName(s) == null) {
@@ -168,6 +300,19 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					throw new ModuleException(this, "Tier " + tier + " excludedSpecies contains unknown species: " + s);
 				}
 			}
+			// MEGA extras act as the spawn allowlist — a non-mega-capable entry would otherwise
+			// spawn a base form wearing the Mega nameplate. Fail loud at boot instead.
+			if (tier == BossTier.MEGA) {
+				for (String s : tc.extraSpecies) {
+					boolean megaCapable = MegaEvolution.stream().anyMatch(me ->
+							me.getSpeciesName() != null
+									&& me.getSpeciesName().equalsIgnoreCase(s)
+									&& me.getMegaAspect() != null && !me.getMegaAspect().isEmpty());
+					if (!megaCapable) {
+						throw new ModuleException(this, "Tier MEGA extraSpecies contains non-mega-capable species: " + s);
+					}
+				}
+			}
 			tc.glowChatFmt = parseGlowColor(tc.glowColor, tier);
 			resolveEffectParticles(tc.spawnEffect, "spawnEffect", tier);
 			resolveEffectParticles(tc.ambientEffect, "ambientEffect", tier);
@@ -176,6 +321,13 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 				throw new ModuleException(this,"Tier " + tier + " ambientEffect requires intervalSeconds > 0");
 			}
 		}
+	}
+
+	private static List<String> normalizeSpeciesList(List<String> speciesList) {
+		if (speciesList == null) {
+			return List.of();
+		}
+		return speciesList.stream().map(name -> name.trim().toLowerCase(Locale.ROOT)).toList();
 	}
 
 	private ChatFormatting parseGlowColor(String value, BossTier tier) throws ModuleException {
@@ -219,8 +371,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			return; // not a boss
 		}
 
-		// Was this boss admin-despawned while in an unloaded chunk? Discard now, don't
-		// re-register — otherwise the boss comes back when the player returns.
+		// Boss admin-despawned while chunk was unloaded — discard now, don't re-register.
 		if (bossManager.consumePendingDiscard(entity.getUUID())) {
 			tag.putBoolean(BossNbtKeys.BOSS, false);
 			entity.discard();
@@ -282,23 +433,28 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 				spawnDim
 		);
 
-		// putIfAbsent → counter increment only on new insert (idempotent across chunk reload).
-		// Only system bosses count toward the per-tier floor/cap.
+		// putIfAbsent → counter increment only on new insert. Only system bosses count toward the floor.
 		boolean newRegistration = bossManager.registerActive(boss);
 		if (newRegistration && systemSpawned) {
 			bossManager.forceReserveTier(tier);
 		}
+		if (newRegistration) {
+			Logger.info("Boss reloaded: " + tier + " " + tag.getString(BossNbtKeys.SPECIES)
+					+ " lv." + tag.getInt(BossNbtKeys.LEVEL)
+					+ " (" + entity.getUUID().toString().substring(0, 8) + ")"
+					+ (systemSpawned ? " [system]" : " [admin]") + " on chunk load");
+		}
 
-		// Re-assert persistence + invulnerability on chunk reload as defense-in-depth.
-		// Vanilla NBT persists both flags, but Cobblemon's tick-driven despawner checks
-		// isPersistenceRequired on every checkDespawn — if the flag ever drifts, the boss
-		// is gone. Cheap no-op when already set.
+		// Re-assert persistence + invulnerability defense-in-depth (cheap no-op when already set).
 		entity.setPersistenceRequired();
 		entity.setInvulnerable(true);
 
-		// Team owned by BossManager. Scheduled tasks are idempotent — they cancel-and-replace.
-		// Defer team apply by 5 ticks so clients have the entity tracked before the
-		// team-membership packet lands — otherwise the entity renders without team color.
+		// Re-apply the nickname so bosses spawned under an older name format pick up the current template.
+		if (bossSpawner != null) {
+			bossSpawner.applyBossName(entity, tc, tag.getString(BossNbtKeys.SPECIES), tag.getInt(BossNbtKeys.LEVEL));
+		}
+
+		// Defer team apply by 500ms so clients track the entity before the team-membership packet.
 		MinecraftServer s = this.server;
 		if (s != null) {
 			com.raduvoinea.utils.lambda.ScheduleUtils.runTaskLater(
@@ -307,7 +463,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 							bossManager.applyBossTeam(s, entity, tc);
 						}
 					}),
-					com.raduvoinea.utils.generic.Time.milliseconds(250)
+					com.raduvoinea.utils.generic.Time.milliseconds(500)
 			);
 		}
 		bossManager.scheduleDespawn(boss);
@@ -325,11 +481,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		return null;
 	}
 
-	/**
-	 * Fire-and-forget hop to main thread. Returns false if server is unavailable
-	 * (shutdown / not started yet) — caller can short-circuit if needed.
-	 * Used everywhere off-thread code touches entity / world / scoreboard state.
-	 */
+	/** Hop to main thread. Returns false if the server is unavailable (shutdown / not yet started). */
 	public boolean runOnMain(Runnable r) {
 		MinecraftServer s = this.server;
 		if (s == null) return false;

@@ -1,6 +1,7 @@
 package gg.mmorealms.module.boss.backend.fabric.manager;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.raduvoinea.utils.file_manager.FileManager;
 import com.raduvoinea.utils.generic.RandomUtils;
 import com.raduvoinea.utils.generic.Time;
 import com.raduvoinea.utils.lambda.CancelableTimeTask;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
@@ -32,10 +34,15 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class BossManager {
 
+	private static final int MAX_REFILL_ANCHOR_ATTEMPTS = 5;
+	private static final long BOOTSTRAP_DEBOUNCE_MS = 60_000L;
+
 	private final BossConfig config;
+	private final FileManager fileManager;
 
 	private final Map<UUID, ActiveBoss> active = new ConcurrentHashMap<>();
 	private final Map<BossTier, AtomicInteger> tierCounts = new EnumMap<>(BossTier.class);
@@ -44,16 +51,18 @@ public class BossManager {
 	private final Map<UUID, CancelableTimeTask> particleTasks = new ConcurrentHashMap<>();
 
 	private final Set<UUID> pendingDespawns = ConcurrentHashMap.newKeySet();
-	/**
-	 * Boss entity UUIDs whose entity wasn't loaded at cleanup time. On the next
-	 * {@code ENTITY_LOAD} the entity is discarded (and NBT marker cleared) instead of
-	 * being re-registered — otherwise admin despawns are silently reverted on chunk
-	 * reload (player walks away + comes back → boss is back).
-	 */
-	private final Set<UUID> pendingDiscardOnLoad = ConcurrentHashMap.newKeySet();
+	/** Tiers with a short-retry already queued after a failed refill — prevents parallel retry chains. */
+	private final Set<BossTier> refillRetryScheduled = ConcurrentHashMap.newKeySet();
+	private @Nullable CancelableTimeTask pendingDespawnSweepTask;
+	/** Entity UUIDs flagged to discard on next ENTITY_LOAD — persisted so admin despawns survive restarts. */
+	private final BossPendingDiscards pendingDiscards;
 
-	public BossManager(BossConfig config) {
+	private final AtomicLong lastBootstrapAt = new AtomicLong(0);
+
+	public BossManager(BossConfig config, FileManager fileManager) {
 		this.config = config;
+		this.fileManager = fileManager;
+		this.pendingDiscards = fileManager.load(BossPendingDiscards.class);
 		for (BossTier tier : BossTier.values()) {
 			tierCounts.put(tier, new AtomicInteger(0));
 		}
@@ -102,11 +111,7 @@ public class BossManager {
 		return active.values();
 	}
 
-	/**
-	 * Find an active boss whose pokemonUUID starts with this exactly-8-character hex short ID.
-	 * Returns null for any input that is not exactly 8 chars long — partial prefixes are
-	 * rejected to prevent accidentally targeting the wrong boss.
-	 */
+	/** Find boss by exact 8-char hex short-ID. Non-8-char inputs return null to avoid ambiguous matches. */
 	public @Nullable ActiveBoss findByShortId(@NotNull String shortId) {
 		if (shortId.length() != 8) return null;
 		String lower = shortId.toLowerCase();
@@ -122,10 +127,7 @@ public class BossManager {
 		return pokemonUUID.toString().substring(0, 8);
 	}
 
-	/**
-	 * Internal-use rollback for {@link BossSpawner}: undo cache + tasks for a partially-spawned boss
-	 * without releasing the tier counter (caller releases once, after all rollback steps).
-	 */
+	/** Rollback helper for {@link BossSpawner} — undoes cache + tasks; caller releases tier counter. */
 	public void rollbackRegistration(@NotNull UUID pokemonUUID) {
 		active.remove(pokemonUUID);
 		cancelTasks(pokemonUUID);
@@ -173,7 +175,9 @@ public class BossManager {
 		BossFabricModule.instance().runOnMain(() -> {
 			PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
 			if (entity == null || entity.isRemoved()) {
-				cancelTasks(boss.pokemonUUID());
+				// Unloaded ≠ dead — stop particles only; the despawn timer keeps running.
+				// Particles reschedule via handleEntityLoad on chunk reload.
+				cancelParticleTask(boss.pokemonUUID());
 				return;
 			}
 			ServerLevel sl = (ServerLevel) entity.level();
@@ -185,9 +189,13 @@ public class BossManager {
 		});
 	}
 
+	private void cancelParticleTask(@NotNull UUID pokemonUUID) {
+		Optional.ofNullable(particleTasks.remove(pokemonUUID)).ifPresent(CancelableTimeTask::cancel);
+	}
+
 	private void cancelTasks(@NotNull UUID pokemonUUID) {
 		Optional.ofNullable(despawnTasks.remove(pokemonUUID)).ifPresent(CancelableTimeTask::cancel);
-		Optional.ofNullable(particleTasks.remove(pokemonUUID)).ifPresent(CancelableTimeTask::cancel);
+		cancelParticleTask(pokemonUUID);
 		pendingDespawns.remove(pokemonUUID);
 	}
 
@@ -198,64 +206,60 @@ public class BossManager {
 	public enum CleanupKind {
 		/** Boss defeated by a player — rewards + announcement + discard entity. */
 		DEFEAT,
-		/** Boss defeated but no rewardable target (winner offline / AI-only winner) — discard entity, no rewards/announcement. */
+		/** Boss defeated but no rewardable target (winner offline / AI-only winner) — discard entity, no rewards; GLOBAL_CHAT defeat announcement still fires. */
 		DEFEAT_NO_REWARD,
 		/** Despawn timer / admin despawn — discard entity, no rewards/announcement. */
 		AUTO_DESPAWN
 	}
 
 	public void handleDefeat(@NotNull UUID pokemonUUID, @NotNull ServerPlayer winner) {
-		cleanup(pokemonUUID, CleanupKind.DEFEAT, winner, null);
+		cleanup(pokemonUUID, CleanupKind.DEFEAT, winner, null, null);
 	}
 
-	public void handleDefeatWithoutReward(@NotNull UUID pokemonUUID, @NotNull String reason) {
-		cleanup(pokemonUUID, CleanupKind.DEFEAT_NO_REWARD, null, reason);
+	public void handleDefeatWithoutReward(@NotNull UUID pokemonUUID, @Nullable UUID winnerUUID, @NotNull String reason) {
+		cleanup(pokemonUUID, CleanupKind.DEFEAT_NO_REWARD, null, winnerUUID, reason);
 	}
 
-	/**
-	 * Was the given entityUUID flagged for hard-despawn-on-load? Removes the flag if so.
-	 * Called from {@code handleEntityLoad}.
-	 */
+	/** Returns true (and clears the persisted flag) if this entityUUID was flagged for hard-despawn-on-load. */
 	public boolean consumePendingDiscard(@NotNull UUID entityUUID) {
-		return pendingDiscardOnLoad.remove(entityUUID);
+		if (!pendingDiscards.entityUUIDs.remove(entityUUID)) {
+			return false;
+		}
+		savePendingDiscards();
+		return true;
 	}
 
-	/**
-	 * Fill every tier up to {@link TierConfig#minActive}, staggered 5 seconds apart so the
-	 * first player to join after a server restart sees announcements drip in instead of a
-	 * 7-line flurry on a single tick. Idempotent — each tier short-circuits if already at floor.
-	 * tryRefillTier internally hops to main for the actual spawn, so off-main scheduling is safe.
-	 */
+	/** writeFile, not save() — save()'s writeFileAndBackup would litter a timestamped backup on every change. */
+	private void savePendingDiscards() {
+		fileManager.writeFile("", "boss_pending_discards.json", BossFabricModule.instance().toJson(pendingDiscards));
+	}
+
+	/** Fill every tier up to {@link TierConfig#minActive}, staggered 5s apart. Debounced — JOIN fires this on every login. */
 	public void bootstrapFillAllTiers() {
-		Logger.info("bootstrapFillAllTiers called — scheduling staggered refill checks for all 7 tiers");
+		long now = System.currentTimeMillis();
+		long previous = lastBootstrapAt.get();
+		if (now - previous < BOOTSTRAP_DEBOUNCE_MS || !lastBootstrapAt.compareAndSet(previous, now)) {
+			return;
+		}
+		Logger.info("Bootstrap: scheduling staggered refill checks for all tiers");
 		BossTier[] tiers = BossTier.values();
+		// All tiers (incl. index 0) get a +5s buffer so the player-join race can't skip the first tier.
 		for (int i = 0; i < tiers.length; i++) {
 			BossTier tier = tiers[i];
-			if (i == 0) {
-				tryRefillTier(tier);
-			} else {
-				ScheduleUtils.runTaskLater(() -> tryRefillTier(tier), Time.seconds(i * 5L));
-			}
+			ScheduleUtils.runTaskLater(() -> tryRefillTier(tier), Time.seconds((i + 1) * 5L));
 		}
 	}
 
-	/**
-	 * Ordering matters for crash-safety:
-	 *   1. Atomic active.remove → cache+tier guard.
-	 *   2. releaseTier.
-	 *   3. cancelTasks.
-	 *   4. removeBossTeam.
-	 *   5. Clear {@code mmo_realms_boss} NBT marker BEFORE reward dispatch — if the JVM dies between
-	 *      marker-clear and any later step, the entity reloads as a non-boss Pokemon (no re-fight,
-	 *      no double rewards). If the entity is missing at this point, log WARN — duplicate
-	 *      prevention cannot be guaranteed if the chunk later reloads with a stale marker.
-	 *   6. dispatchRewards (DEFEAT only).
-	 *   7. discard entity if loaded; else flag entityUUID for hard-despawn-on-reload so a
-	 *      chunk reload can't re-register the boss.
-	 *   8. announceDefeat (DEFEAT only).
-	 */
+	/** Low-frequency safety net — re-attempts refills that failed (e.g. POSITION_NOT_FOUND) without waiting for a join or boss death. */
+	public void refillSweep() {
+		for (BossTier tier : BossTier.values()) {
+			tryRefillTier(tier);
+		}
+	}
+
+	/** Ordered for crash-safety: remove → release → cancel tasks → clear NBT → rewards → discard → announce. */
 	private void cleanup(@NotNull UUID pokemonUUID, @NotNull CleanupKind kind,
-	                     @Nullable ServerPlayer winner, @Nullable String reason) {
+	                     @Nullable ServerPlayer winner, @Nullable UUID offlineWinnerUUID, @Nullable String reason) {
 		ActiveBoss boss = active.remove(pokemonUUID);
 		if (boss == null) {
 			Logger.debug("Boss cleanup [" + kind + "] skipped — UUID " + pokemonUUID
@@ -284,7 +288,8 @@ public class BossManager {
 		if (entity != null) {
 			entity.getPokemon().getPersistentData().putBoolean(BossNbtKeys.BOSS, false);
 		} else {
-			pendingDiscardOnLoad.add(boss.entityUUID());
+			pendingDiscards.entityUUIDs.add(boss.entityUUID());
+			savePendingDiscards();
 			Logger.info("Boss entity " + boss.entityUUID() + " not loaded at cleanup [" + kind
 					+ "]; flagged for hard-despawn on next chunk load.");
 		}
@@ -300,7 +305,10 @@ public class BossManager {
 		}
 
 		if (kind == CleanupKind.DEFEAT && winner != null) {
-			announceDefeat(boss, winner);
+			announceDefeat(boss, usernameOf(winner), winner.serverLevel());
+		} else if (kind == CleanupKind.DEFEAT_NO_REWARD) {
+			IUser offlineUser = offlineWinnerUUID != null ? IUser.getByUUID(offlineWinnerUUID) : null;
+			announceDefeat(boss, offlineUser != null ? offlineUser.getUsername() : "Unknown Trainer", null);
 		}
 
 		if (reason != null) {
@@ -308,8 +316,7 @@ public class BossManager {
 					+ ") cleanup [" + kind + "]: " + reason);
 		}
 
-		// Immediate one-shot refill if the tier dropped below its floor. Only meaningful for
-		// system bosses — admin spawns don't reduce the floor when removed.
+		// One-shot refill if a system boss died — admin removals don't affect the floor.
 		if (boss.systemSpawned()) {
 			tryRefillTier(boss.tier());
 		}
@@ -323,25 +330,12 @@ public class BossManager {
 				.parse());
 	}
 
-	/**
-	 * Backend-local refill — when system-spawned active count drops below
-	 * {@link TierConfig#minActive}, spawn until the floor is met (or the first spawn fails).
-	 * Skips when the floor is 0 (refill disabled) or no online players exist.
-	 * <p>
-	 * Recheck + player lookup + spawn loop all run inside the main-thread closure.
-	 * Main-thread execution serializes queued refill tasks, so concurrent bootstrap/JOIN
-	 * triggers can't double-spawn — the second closure sees the floor already met and bails.
-	 * <p>
-	 * The loop bails on the first failed spawn (e.g. SpawnPositionFinder can't find a spot)
-	 * to avoid infinite tight-loop retries on persistent failure. Iteration cap = minActive
-	 * as a defense-in-depth bound.
-	 */
+	/** Refill a tier up to {@link TierConfig#minActive}. */
 	private void tryRefillTier(@NotNull BossTier tier) {
 		TierConfig tc = config.tiers.get(tier);
 		if (tc == null || tc.minActive <= 0) {
 			return;
 		}
-		// Cheap off-thread early-out; the authoritative check is inside the closure below.
 		if (tierCounts.get(tier).get() >= tc.minActive) {
 			return;
 		}
@@ -349,29 +343,55 @@ public class BossManager {
 		MinecraftServer s = mod != null ? mod.getServer() : null;
 		if (s == null) return;
 		s.execute(() -> {
-			List<ServerPlayer> online = s.getPlayerList().getPlayers();
-			if (online.isEmpty()) {
-				Logger.debug("Refill skipped for tier " + tier + ": no online players.");
+			List<String> allowedDims = SpawnPositionFinder.allowedDimensions(tc, config);
+			List<ServerPlayer> anchors = new ArrayList<>();
+			for (ServerPlayer player : s.getPlayerList().getPlayers()) {
+				if (allowedDims.contains(player.serverLevel().dimension().location().toString())) {
+					anchors.add(player);
+				}
+			}
+			if (anchors.isEmpty()) {
+				Logger.debug("Refill skipped for tier " + tier + ": no players in an allowed dimension; retrying in 30s.");
+				scheduleRefillRetry(tier);
 				return;
 			}
 			BossSpawner spawner = mod.getBossSpawner();
 			if (spawner == null) return;
-			for (int attempt = 0; attempt < tc.minActive; attempt++) {
-				// Authoritative recheck on main thread before each spawn.
-				if (tierCounts.get(tier).get() >= tc.minActive) {
-					return;
+			Collections.shuffle(anchors);
+			List<ServerPlayer> candidates = anchors.size() > MAX_REFILL_ANCHOR_ATTEMPTS
+					? anchors.subList(0, MAX_REFILL_ANCHOR_ATTEMPTS)
+					: anchors;
+			while (tierCounts.get(tier).get() < tc.minActive) {
+				BossSpawner.AdminSpawnResult result = null;
+				for (ServerPlayer anchor : candidates) {
+					result = spawner.systemRefillSpawn(anchor, tier);
+					if (result.status() == BossSpawner.AdminSpawnStatus.SUCCESS) {
+						Logger.info("Boss tier " + tier + " refilled near " + anchor.getGameProfile().getName());
+						break;
+					}
+					Logger.debug("Refill anchor " + anchor.getGameProfile().getName() + " failed for tier "
+							+ tier + ": " + result.status());
 				}
-				ServerPlayer anchor = online.get(RandomUtils.getRandom(0, online.size() - 1));
-				Logger.info("Boss tier " + tier + " refill " + (attempt + 1) + "/" + tc.minActive
-						+ " near " + anchor.getGameProfile().getName());
-				BossSpawner.AdminSpawnResult res = spawner.systemRefillSpawn(anchor, tier);
-				if (res.status() != BossSpawner.AdminSpawnStatus.SUCCESS) {
-					Logger.warn("Refill spawn for tier " + tier + " failed: " + res.status()
-							+ " (stopping further attempts this pass)");
+				if (result == null || result.status() != BossSpawner.AdminSpawnStatus.SUCCESS) {
+					Logger.warn("Refill spawn for tier " + tier + " failed near " + candidates.size()
+							+ " anchor(s)" + (result != null ? " (last: " + result.status() + ")" : "")
+							+ "; retrying in 30s.");
+					scheduleRefillRetry(tier);
 					return;
 				}
 			}
 		});
+	}
+
+	/** Short retry after a failed refill. */
+	private void scheduleRefillRetry(@NotNull BossTier tier) {
+		if (!refillRetryScheduled.add(tier)) {
+			return;
+		}
+		ScheduleUtils.runTaskLater(() -> {
+			refillRetryScheduled.remove(tier);
+			tryRefillTier(tier);
+		}, Time.seconds(30));
 	}
 
 	public void retryPendingDespawns() {
@@ -384,12 +404,9 @@ public class BossManager {
 				continue;
 			}
 			PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
-			if (entity == null || entity.isRemoved()) {
+			if (entity == null || entity.isRemoved() || !entity.isBusy()) {
 				pendingDespawns.remove(uuid);
-				cleanup(uuid, CleanupKind.AUTO_DESPAWN, null, null);
-			} else if (!entity.isBusy()) {
-				pendingDespawns.remove(uuid);
-				cleanup(uuid, CleanupKind.AUTO_DESPAWN, null, null);
+				cleanup(uuid, CleanupKind.AUTO_DESPAWN, null, null, null);
 			}
 		}
 	}
@@ -399,11 +416,7 @@ public class BossManager {
 	/** Outcome of a single boss despawn request — used by callers to pick the admin reply. */
 	public enum DespawnOutcome { CLEANED, QUEUED_BATTLE }
 
-	/**
-	 * Per-boss dispatch. Queues via {@link #pendingDespawns} when the boss is in battle
-	 * (discarding mid-battle would corrupt Cobblemon's battle state); otherwise cleans up
-	 * synchronously. Callers iterate {@link #getAllActive()} themselves for fan-out.
-	 */
+	/** Per-boss dispatch — queues if mid-battle (would corrupt battle state), else cleans up. */
 	public DespawnOutcome dispatchDespawn(@NotNull ActiveBoss boss) {
 		PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
 		Logger.info("dispatchDespawn " + shortId(boss.pokemonUUID()) + " — entity=" + (entity != null)
@@ -411,10 +424,32 @@ public class BossManager {
 				+ " busy=" + (entity != null && entity.isBusy()));
 		if (entity != null && entity.isBusy()) {
 			pendingDespawns.add(boss.pokemonUUID());
+			startPendingDespawnSweep();
 			return DespawnOutcome.QUEUED_BATTLE;
 		}
-		cleanup(boss.pokemonUUID(), CleanupKind.AUTO_DESPAWN, null, "admin despawn");
+		cleanup(boss.pokemonUUID(), CleanupKind.AUTO_DESPAWN, null, null, "admin despawn");
 		return DespawnOutcome.CLEANED;
+	}
+
+	/** Timer fallback for queued mid-battle despawns — battle-end events can be missed (e.g. mid-battle disconnect). */
+	private synchronized void startPendingDespawnSweep() {
+		if (pendingDespawnSweepTask != null && !pendingDespawnSweepTask.isCanceled()) {
+			return;
+		}
+		pendingDespawnSweepTask = ScheduleUtils.runTaskTimer(this::sweepPendingDespawns, Time.seconds(15));
+	}
+
+	private void sweepPendingDespawns() {
+		if (pendingDespawns.isEmpty()) {
+			synchronized (this) {
+				if (pendingDespawnSweepTask != null) {
+					pendingDespawnSweepTask.cancel();
+					pendingDespawnSweepTask = null;
+				}
+			}
+			return;
+		}
+		BossFabricModule.instance().runOnMain(this::retryPendingDespawns);
 	}
 
 	/* ---------- Rewards ---------- */
@@ -427,9 +462,7 @@ public class BossManager {
 					+ ", rewards.size=" + tc.rewards.size() + ")");
 			return;
 		}
-		// Prefer IUser for nickname-aware username (matches gyms convention).
-		IUser user = IUser.getByUUID(winner.getUUID());
-		String username = user != null ? user.getUsername() : winner.getGameProfile().getName();
+		String username = usernameOf(winner);
 		Logger.info("Dispatching " + tc.rewardRolls + " reward roll(s) for boss " + boss.tier()
 				+ " " + boss.species() + " to " + username);
 
@@ -457,43 +490,61 @@ public class BossManager {
 					.parse("entity_uuid", boss.entityUUID().toString())
 					.parse("quantity", quantity)
 					.parse();
-			for (String cmd : commands) {
-				try {
-					BossFabricModule.instance().executeCommand(cmd);
-				} catch (Throwable t) {
-					Logger.warn("Reward command failed for boss " + boss.pokemonUUID()
-							+ " (tier=" + boss.tier() + ", species=" + boss.species()
+				boolean commandsSucceeded = true;
+				for (String cmd : commands) {
+					try {
+						if (!executeRewardCommand(cmd)) {
+							commandsSucceeded = false;
+							Logger.warn("Reward command returned no success for boss " + boss.pokemonUUID()
+									+ " (tier=" + boss.tier() + ", species=" + boss.species()
+									+ ", winner=" + winner.getUUID() + "): " + cmd);
+						}
+					} catch (Throwable t) {
+						commandsSucceeded = false;
+						Logger.warn("Reward command failed for boss " + boss.pokemonUUID()
+								+ " (tier=" + boss.tier() + ", species=" + boss.species()
 							+ ", winner=" + winner.getUUID() + "): " + cmd
 							+ " — " + t.getClass().getSimpleName() + ": " + t.getMessage());
 				}
 			}
-			String display = reward.getDisplayName() != null && !reward.getDisplayName().isBlank()
-					? reward.getDisplayName()
-					: extractDisplayLabel(commands);
-			rolledEntries.add(quantity + "x " + display);
+			// Only list rewards whose commands all succeeded — the summary must not overstate.
+			if (commandsSucceeded) {
+				String display = reward.getDisplayName() != null && !reward.getDisplayName().isBlank()
+						? reward.getDisplayName()
+						: extractDisplayLabel(commands);
+				rolledEntries.add(quantity + "x " + display);
+			}
 		}
 
-		sendToWinner(winner, config.lang.bossRewardWinnerSummary
-				.parse("glow_color", glow)
-				.parse("rewards", String.join(", ", rolledEntries))
-				.parse());
+		if (!rolledEntries.isEmpty()) {
+			sendToWinner(winner, config.lang.bossRewardWinnerSummary
+					.parse("glow_color", glow)
+					.parse("rewards", String.join(", ", rolledEntries))
+					.parse());
+			}
+		}
+
+	private boolean executeRewardCommand(@NotNull String cmd) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
+		MinecraftServer server = BossFabricModule.instance().getServer();
+		if (server == null) {
+			return false;
+		}
+		return server.getCommands().getDispatcher().execute(cmd, server.createCommandSourceStack()) > 0;
+	}
+
+	/** Prefer IUser for nickname-aware username (matches gyms convention). */
+	private static String usernameOf(@NotNull ServerPlayer player) {
+		IUser user = IUser.getByUUID(player.getUUID());
+		return user != null ? user.getUsername() : player.getGameProfile().getName();
 	}
 
 	private void sendToWinner(@NotNull ServerPlayer winner, @NotNull String parsedMiniMessage) {
 		winner.sendSystemMessage(BossFabricModule.instance().getMiniMessageManager().parse(parsedMiniMessage));
 	}
 
-	/**
-	 * Best-effort human label from a reward command list. Picks the first non-placeholder
-	 * token that contains a ':' or looks item-shaped — usually the item id
-	 * ({@code cobblemon:rare_candy}) or balance currency ({@code pokecoins}). Last-resort
-	 * fallback is just "reward".
-	 */
+	/** Best-effort label from a reward command — looks for {@code namespace:slug}. Set {@code displayName} explicitly for other shapes. */
 	private static String extractDisplayLabel(@NotNull List<String> commands) {
 		if (commands.isEmpty()) return "reward";
-		// Look for a namespaced item id (namespace:slug) in the first command — that's the
-		// only pattern we can infer reliably from. Other shapes (give_group <key>, balance
-		// add <currency>, plushie give_class ...) should set BossReward.displayName explicitly.
 		for (String token : commands.get(0).split("\\s+")) {
 			if (token.startsWith("{") || !token.contains(":")) continue;
 			String slug = token.substring(token.indexOf(':') + 1);
@@ -504,10 +555,7 @@ public class BossManager {
 
 	private static final Set<String> ACRONYM_TOKENS = Set.of("xl", "xs", "ev", "iv", "hp", "pp");
 
-	/**
-	 * Title-case each space-separated word; preserve known acronyms in upper case.
-	 * "rare candy" → "Rare Candy", "exp candy xl" → "Exp Candy XL".
-	 */
+	/** Title-case words; uppercase known acronyms. "exp candy xl" → "Exp Candy XL". */
 	private static String titleCase(@NotNull String input) {
 		String[] words = input.split(" ");
 		StringBuilder out = new StringBuilder(input.length());
@@ -535,17 +583,53 @@ public class BossManager {
 		ServerScoreboard sb = server.getScoreboard();
 		String name = teamName(entity.getPokemon().getUuid());
 		PlayerTeam team = sb.getPlayerTeam(name);
-		if (team == null) {
+		boolean freshTeam = (team == null);
+		if (freshTeam) {
 			team = sb.addPlayerTeam(name);
 		}
-		// Always set color — covers (a) fresh team, (b) reload with stale team from prior config,
-		// (c) admin reloaded config mid-session. Without this, recolors silently fail.
+		// Skip no-op writes — both setColor and addPlayerToTeam broadcast to all players.
 		ChatFormatting color = tc.glowChatFmt != null ? tc.glowChatFmt : ChatFormatting.WHITE;
-		team.setColor(color);
-		sb.addPlayerToTeam(entity.getScoreboardName(), team);
+		boolean colorFixed = team.getColor() != color;
+		if (colorFixed) {
+			team.setColor(color);
+		}
+		String scoreboardName = entity.getScoreboardName();
+		boolean memberFixed = !team.getPlayers().contains(scoreboardName);
+		if (memberFixed) {
+			sb.addPlayerToTeam(scoreboardName, team);
+		}
+		boolean glowFixed = !entity.hasGlowingTag();
 		entity.setGlowingTag(true);
-		Logger.debug("Applied boss team " + name + " color=" + color + " glow=true to entity "
-				+ entity.getScoreboardName() + " (tier=" + tc.displayName + ", shiny=" + entity.getPokemon().getShiny() + ")");
+		// Drift on a previously-applied boss means something cleared glow state — log it so the
+		// loss vector shows up in server logs instead of only as a missing outline in-game.
+		if (!freshTeam && (colorFixed || memberFixed || glowFixed)) {
+			Logger.info("Boss glow drift repaired on " + scoreboardName + " (team=" + name + "):"
+					+ (colorFixed ? " color" : "") + (memberFixed ? " membership" : "") + (glowFixed ? " glowFlag" : ""));
+		}
+	}
+
+	/** Periodic re-assert of team color + membership + glow flag for every loaded boss. Idempotent — no packets when state is already correct. */
+	public void glowSweep() {
+		if (active.isEmpty()) {
+			return;
+		}
+		BossFabricModule mod = BossFabricModule.instance();
+		MinecraftServer server = mod != null ? mod.getServer() : null;
+		if (server == null) {
+			return;
+		}
+		server.execute(() -> {
+			for (ActiveBoss boss : active.values()) {
+				PokemonEntity entity = mod.findEntity(boss.entityUUID());
+				if (entity == null || entity.isRemoved()) {
+					continue;
+				}
+				TierConfig tc = config.tiers.get(boss.tier());
+				if (tc != null) {
+					applyBossTeam(server, entity, tc);
+				}
+			}
+		});
 	}
 
 	public void removeBossTeam(@NotNull MinecraftServer server, @NotNull UUID pokemonUUID) {
@@ -558,18 +642,20 @@ public class BossManager {
 
 	/* ---------- Announce helper ---------- */
 
-	private void announceDefeat(@NotNull ActiveBoss boss, @NotNull ServerPlayer winner) {
+	/** {@code worldLevel} is null when the winner is offline — WORLD_CHAT has no target then and stays silent; GLOBAL_CHAT still fires. */
+	private void announceDefeat(@NotNull ActiveBoss boss, @NotNull String username, @Nullable ServerLevel worldLevel) {
 		TierConfig tc = config.tiers.get(boss.tier());
 		gg.mmorealms.module.boss.common.AnnounceLevel lvl = tc.announceOnDefeat;
 		if (lvl == null || lvl == gg.mmorealms.module.boss.common.AnnounceLevel.OFF) {
 			return;
 		}
-		IUser user = IUser.getByUUID(winner.getUUID());
-		String username = user != null ? user.getUsername() : winner.getGameProfile().getName();
 		String glow = tc.glowColor.toLowerCase();
 
 		switch (lvl) {
 			case WORLD_CHAT -> {
+				if (worldLevel == null) {
+					return;
+				}
 				String message = config.lang.bossDefeatedAnnouncementWorld
 						.parse("glow_color", glow)
 						.parse("tier_display", tc.displayName)
@@ -578,7 +664,7 @@ public class BossManager {
 						.parse();
 				net.minecraft.network.chat.Component comp = BossFabricModule.instance()
 						.getMiniMessageManager().parse(message);
-				for (ServerPlayer p : winner.serverLevel().players()) {
+				for (ServerPlayer p : worldLevel.players()) {
 					p.sendSystemMessage(comp);
 				}
 			}

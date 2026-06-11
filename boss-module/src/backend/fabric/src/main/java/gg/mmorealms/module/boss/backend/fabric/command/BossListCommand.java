@@ -68,7 +68,7 @@ public class BossListCommand extends BackendCommand {
 					.parse("tier", boss.tier().name())
 					.parse("species", boss.species())
 					.parse("level", boss.level())
-					.parse("origin", boss.systemSpawned() ? "" : " <dark_gray>[admin]")
+					.parse("origin", boss.systemSpawned() ? " <dark_gray>[system]" : " <dark_gray>[admin]")
 					.parse("location", location));
 		}
 	}

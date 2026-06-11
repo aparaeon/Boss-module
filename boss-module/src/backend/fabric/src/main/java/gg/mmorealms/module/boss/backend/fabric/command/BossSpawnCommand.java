@@ -102,9 +102,7 @@ public class BossSpawnCommand extends BackendCommand {
 		}
 		BossConfig.Lang lang = mod.getConfig().lang;
 
-		// The command framework returns a fixed-size list with NULL for any unprovided
-		// optional arg, so `arguments.size()` does NOT reflect what the user typed.
-		// Test each slot with arg(i) != null, not size > i.
+		// Framework hands us a fixed-size list with NULL for omitted optional args; check arg(i) != null.
 		String tierArg = arg(arguments, 0);
 		if (tierArg == null) {
 			mod.sendLang(sender, lang.adminUsageSpawn);
@@ -151,6 +149,12 @@ public class BossSpawnCommand extends BackendCommand {
 				mod.sendLang(sender, lang.adminCoordsInvalid.parse("value", nfe.getMessage()));
 				return;
 			}
+		}
+
+		// Console has no dimension context — anchoring forced coords on players.get(0) is a coin flip.
+		if (forcedPos != null && !(sender instanceof ServerPlayer)) {
+			mod.sendLang(sender, lang.adminCoordsRequirePlayer);
+			return;
 		}
 
 		ServerPlayer anchor = resolveAnchor(sender, mod);
@@ -201,9 +205,6 @@ public class BossSpawnCommand extends BackendCommand {
 			case POSITION_NOT_FOUND:
 				mod.sendLang(sender, lang.adminPositionNotFound);
 				break;
-			case ANCHOR_NOT_FOUND:
-				mod.sendLang(sender, lang.adminNoAnchor);
-				break;
 			case SPAWN_FAILED:
 			default:
 				mod.sendLang(sender, lang.adminSpawnFailed);
@@ -232,11 +233,7 @@ public class BossSpawnCommand extends BackendCommand {
 		return null;
 	}
 
-	/**
-	 * Safe accessor — returns null for any out-of-range slot. The command framework
-	 * returns a fixed-size list with NULLs for unprovided optional args, so we treat
-	 * "null in slot" and "slot doesn't exist" as the same thing.
-	 */
+	/** Null-safe accessor — out-of-range and null-in-slot both return null. */
 	private static @Nullable String arg(@NotNull List<String> arguments, int i) {
 		if (i < 0 || i >= arguments.size()) return null;
 		return arguments.get(i);

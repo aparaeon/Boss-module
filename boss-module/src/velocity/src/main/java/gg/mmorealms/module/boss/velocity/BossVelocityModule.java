@@ -2,6 +2,7 @@ package gg.mmorealms.module.boss.velocity;
 
 import com.raduvoinea.utils.dependency_injection.annotations.Inject;
 import com.raduvoinea.utils.file_manager.FileManager;
+import com.raduvoinea.utils.logger.Logger;
 import com.velocitypowered.api.plugin.Plugin;
 import gg.mmorealms.loader.common.exception.ModuleException;
 import gg.mmorealms.loader.velocity.dto.VelocityModule;
@@ -45,6 +46,11 @@ public class BossVelocityModule extends BossComonModule implements VelocityModul
 
 	@Override
 	public void onEnable() throws ModuleException {
+		// Rarity model kept dormant — backend occupancy refill owns spawning for now.
+		if (config.baseSpawnChance <= 0 && config.playerSpawnChanceBias <= 0) {
+			Logger.info("Boss spawn scheduler dormant — baseSpawnChance and playerSpawnChanceBias are both 0.");
+			return;
+		}
 		this.lifecycleManager.start();
 	}
 

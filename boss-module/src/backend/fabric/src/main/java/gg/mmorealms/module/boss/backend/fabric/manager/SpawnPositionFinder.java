@@ -3,9 +3,12 @@ package gg.mmorealms.module.boss.backend.fabric.manager;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
 import gg.mmorealms.module.boss.backend.fabric.config.TierConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,25 +16,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-// TODO(v2): extract to core-module/SpawnPositionFinder.
-// Light-weight finder for wild-boss MVP. Legendaries has a heavier finder
-// (LegendarySpawner.SpawnPositionFinder ~250 lines with cave/underwater spawning +
-// DimensionSpawnConfiguration). We use a simpler donut-around-player approach which
-// suffices for surface wild spawns.
-//
-// MVP supports:
-//   - Donut spawn radius around anchor (spawnRangeFromPlayer.min .. .max)
-//   - Heightmap-based surface Y (ignoreLeaves toggle)
-//   - Per-tier biome whitelist (fully-qualified IDs only — #tag entries are v2)
-//   - Per-tier or global allowedDimensions filter (anchor's dimension only — no cross-dim teleport)
-//   - canPokemonFitCheckRadius footprint clearance (matters for large-scale bosses up to 3.0x)
-//   - Fluid rejection at footprint + below center (no underwater/lava spawns in v1)
-//
-// Explicitly v2 (NOT implemented):
-//   - Cave / underground spawning
-//   - Underwater / lava spawning
-//   - Biome tag (#tag) lookup
-//   - Nether/End custom heightmap awareness (dimension whitelist mitigates)
+// Donut-around-player surface finder. Supports: dimension filter, biome whitelist (FQ IDs + #tags),
+// footprint clearance, fluid rejection. No cave/underwater support yet.
 public final class SpawnPositionFinder {
 
 	private SpawnPositionFinder() {}
@@ -44,11 +30,8 @@ public final class SpawnPositionFinder {
 		ServerLevel level = anchor.serverLevel();
 
 		// Dimension filter
-		List<String> allowedDims = tier.allowedDimensions != null && !tier.allowedDimensions.isEmpty()
-				? tier.allowedDimensions
-				: global.allowedDimensions;
 		String currentDim = level.dimension().location().toString();
-		if (!allowedDims.contains(currentDim)) {
+		if (!allowedDimensions(tier, global).contains(currentDim)) {
 			return null;
 		}
 
@@ -79,8 +62,7 @@ public final class SpawnPositionFinder {
 
 			BlockPos pos = new BlockPos(x, y, z);
 
-			// Biome whitelist (if non-empty). Match repo convention: getRegisteredName() per
-			// legendaries-module/.../LegendaryInfoUtils.java:21. Fully-qualified IDs only in MVP.
+			// Biome whitelist match — supports fully-qualified IDs and #tags.
 			if (tier.biomes != null && !tier.biomes.isEmpty()) {
 				if (!biomeMatches(level, pos, tier.biomes)) {
 					continue;
@@ -95,17 +77,16 @@ public final class SpawnPositionFinder {
 			return pos;
 		}
 
-		// Donut search failed (terrain too dense / surface Y outside config window).
-		// Fallback to the anchor's own surface — sloppier visually but admin spawns + system
-		// refills always succeed when invoked by a player.
-		int anchorX = anchorPos.getX();
-		int anchorZ = anchorPos.getZ();
-		int anchorY = level.getHeight(heightmapType, anchorX, anchorZ);
-		BlockPos fallback = new BlockPos(anchorX, anchorY, anchorZ);
-		if (hasFootprintClearance(level, fallback, fitRadius)) {
-			return fallback;
-		}
+		// No anchor-column fallback — it bypassed the biome/Y checks and could drop a boss on the
+		// anchor's head. Callers retry later (refill sweep) instead.
 		return null;
+	}
+
+	/** Tier override wins; else the global list. Also used by {@link BossManager} to pre-filter refill anchors. */
+	public static @NotNull List<String> allowedDimensions(@NotNull TierConfig tier, @NotNull BossConfig global) {
+		return tier.allowedDimensions != null && !tier.allowedDimensions.isEmpty()
+				? tier.allowedDimensions
+				: global.allowedDimensions;
 	}
 
 	private static boolean biomeMatches(ServerLevel level, BlockPos pos, List<String> whitelist) {
@@ -120,7 +101,16 @@ public final class SpawnPositionFinder {
 		}
 		for (String entry : whitelist) {
 			if (entry.startsWith("#")) {
-				// TODO(v2): biome tag support via BiomeTags lookup.
+				// Biome tag — resolve and check holder membership (mirrors legendaries' BiomeManager.processBiomeTag).
+				try {
+					TagKey<Biome> tagKey = TagKey.create(Registries.BIOME,
+							ResourceLocation.parse(entry.substring(1)));
+					if (level.getBiome(pos).is(tagKey)) {
+						return true;
+					}
+				} catch (Throwable t) {
+					// Malformed tag string — treat as no match, same as the old silent-skip behavior.
+				}
 				continue;
 			}
 			if (entry.equalsIgnoreCase(biomeId)) {
@@ -130,17 +120,7 @@ public final class SpawnPositionFinder {
 		return false;
 	}
 
-	/**
-	 * Footprint clearance check over a (2r+1)x(2r+1) square centered on pos.
-	 * For each (x, z) cell:
-	 *   - pos (y) and pos+1 (y+1) must be air AND fluid-free (no underwater/lava in v1)
-	 * Center additionally requires:
-	 *   - pos-1 (y-1) is solid AND fluid-free (avoid lava-on-ground or floating water)
-	 * radius 0 → only center column (1x1 footprint, vanilla pokemon size).
-	 * radius 1 → 3x3 footprint (MVP default — balances "looks reasonable for scaled bosses" vs
-	 *            "doesn't starve in trees/mountains/villages"). Admin can raise to 2 (5x5) for
-	 *            true 3.0x-scale clearance if they accept higher failure rate.
-	 */
+	/** Footprint clearance over (2r+1)² cells: head+feet air, center floor solid; all fluid-free. */
 	private static boolean hasFootprintClearance(ServerLevel level, BlockPos center, int radius) {
 		// Center column: must have solid, fluid-free ground.
 		BlockPos below = center.below();

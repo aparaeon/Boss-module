@@ -34,35 +34,37 @@ public class BossConfig {
 		/* ---------- Announcements ---------- */
 		/** WORLD_CHAT spawn — light tone, sent only to wild-shard players in the boss's dimension. */
 		public MessageBuilder bossSpawnedAnnouncementWorld = new MessageBuilder(
-				"<light_purple>[Boss] <{glow_color}>A <bold>{tier_display}</bold> <{glow_color}>{species} <gray>appeared in <{glow_color}>{biome}<gray>!"
+				"<dark_gray>« <{glow_color}>★ <dark_gray>» <gray>A wild {tier_display} <{glow_color}><bold>{species}</bold><gray> appeared in <white>{biome}<gray>!"
 		);
 		/** GLOBAL_CHAT spawn — used for LEG/MEGA/MYTH only. */
 		public MessageBuilder bossSpawnedAnnouncementGlobal = new MessageBuilder(
-				"<{glow_color}>«« <bold>WILD BOSS</bold> »» <{glow_color}>A <bold>{tier_display}</bold> <bold>{species}</bold> <{glow_color}>has appeared in the Wild!"
+				"<{glow_color}>«« <bold>★ WILD BOSS ★</bold> »» <gray>A {tier_display} <{glow_color}><bold>{species}</bold><gray> has risen in the Wild!"
 		);
 		/** WORLD_CHAT defeat — opt-in only; default behaviour for low tiers is OFF (winner-only personal message). */
 		public MessageBuilder bossDefeatedAnnouncementWorld = new MessageBuilder(
-				"<light_purple>[Boss] <{glow_color}>{player} defeated the <bold>{tier_display}</bold> <bold>{species}</bold>!"
+				"<dark_gray>« <{glow_color}>★ <dark_gray>» <yellow><bold>{player}</bold><gray> defeated the {tier_display} <{glow_color}><bold>{species}</bold><gray>!"
 		);
 		/** GLOBAL_CHAT defeat — used for LEG/MEGA/MYTH. */
 		public MessageBuilder bossDefeatedAnnouncementGlobal = new MessageBuilder(
-				"<{glow_color}>«« <bold>BOSS DEFEATED</bold> »» <yellow><bold>{player}</bold></yellow> <{glow_color}>has vanquished the <bold>{tier_display}</bold> <bold>{species}</bold>!"
+				"<{glow_color}>«« <bold>★ BOSS DEFEATED ★</bold> »» <yellow><bold>{player}</bold><gray> has vanquished the {tier_display} <{glow_color}><bold>{species}</bold><gray>!"
 		);
-		/** Nameplate above the boss entity. Species/level live in the battle UI; keep this terse. */
-		public MessageBuilder bossDisplayName = new MessageBuilder("<{glow_color}><bold>★ {tier_display} Boss ★</bold>");
+		/** Two-line boss nickname for nameplates and battle UI. */
+		public MessageBuilder bossDisplayName = new MessageBuilder(
+				"<{glow_color}><bold>★ {tier_display} Boss ★</bold>\n<white>{species} <gray>Lv.{level}"
+		);
 
 		/* ---------- Personal defeat — always to winner, regardless of announceOnDefeat ---------- */
 		public MessageBuilder bossPersonalDefeat = new MessageBuilder(
-				"<green>You defeated the <{glow_color}><bold>{tier_display} {species}</bold><green>!"
+				"<gradient:#FFD700:#FFA500><bold>⚔ VICTORY!</bold></gradient> <white>You defeated the {tier_display} <{glow_color}><bold>{species}</bold><white>!"
 		);
 
 		/* ---------- Reward summary — only to winner, only when rewards rolled ---------- */
 		public MessageBuilder bossRewardWinnerHeader = new MessageBuilder(
-				"<dark_gray>«« <{glow_color}><bold>BOSS REWARDS</bold></dark_gray> »» <{glow_color}>You defeated the <bold>{tier_display} {species}</bold>:"
+				"<dark_gray>«« <gradient:#FFE259:#FFA751><bold>✦ BOSS REWARDS ✦</bold></gradient> <dark_gray>»»"
 		);
 		/** Single aggregated line — {rewards} is a comma-joined list of '<quantity>x <item>' entries. */
 		public MessageBuilder bossRewardWinnerSummary = new MessageBuilder(
-				"<{glow_color}>You received <yellow>{rewards}<{glow_color}>!"
+				"<gray>You received <yellow>{rewards}<gray>!"
 		);
 
 		/* ---------- Admin command — root usage ---------- */
@@ -101,6 +103,7 @@ public class BossConfig {
 		public MessageBuilder adminSpeciesNotInPool = new MessageBuilder("<red>Species <white>{species}<red> is not in tier <white>{tier}<red> spawn pool. Edit the tier config to add it.");
 		public MessageBuilder adminCoordsIncomplete = new MessageBuilder("<red>Coordinates require all three values: <white>x y z<red>.");
 		public MessageBuilder adminCoordsInvalid = new MessageBuilder("<red>Invalid coordinate: <white>{value}");
+		public MessageBuilder adminCoordsRequirePlayer = new MessageBuilder("<red>Forced coordinates require a player sender — run in-game or omit <white>x y z<red>.");
 		public MessageBuilder adminNoAnchor = new MessageBuilder("<red>No eligible anchor player on this server.");
 		public MessageBuilder adminPositionNotFound = new MessageBuilder("<red>Could not find a valid spawn position near anchor.");
 		public MessageBuilder adminSpawnFailed = new MessageBuilder("<red>Boss spawn failed — check server log.");

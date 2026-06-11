@@ -10,11 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-/**
- * Parent for /boss admin {spawn,despawn,list}. The extra "admin" level avoids vanilla /bossbar
- * tab-completion collision and signals these are operator-only commands. Usage text is shared
- * with the root via the same lang field.
- */
+/** Parent for /boss admin {spawn,despawn,list}. The "admin" level avoids /bossbar tab-complete collision. */
 @Command(aliases = {"admin"}, parent = BossCommand.class)
 public class BossAdminCommand extends BackendCommand {
 

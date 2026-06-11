@@ -7,11 +7,13 @@ import gg.mmorealms.module.boss.common.BossTier;
 import java.util.EnumMap;
 import java.util.Map;
 
+/** Weighted-rarity scheduler — DORMANT (backend occupancy model wins). Raise {@code baseSpawnChance} to re-enable. */
 public class BossVelocityConfig {
 
 	public Time spawnInterval = Time.minutes(10);
-	public double baseSpawnChance = 30.0;
-	public double playerSpawnChanceBias = 2.0;
+	/** Dormant while both chance values are 0 — the scheduler doesn't even start. Raise either to re-enable the weighted lottery. */
+	public double baseSpawnChance = 0.0;
+	public double playerSpawnChanceBias = 0.0;
 
 	public Map<BossTier, Integer> tierWeights = new EnumMap<>(BossTier.class) {{
 		put(BossTier.COMMON, 40);
