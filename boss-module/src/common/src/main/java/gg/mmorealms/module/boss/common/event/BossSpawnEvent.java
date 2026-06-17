@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
-
 @Getter
 public class BossSpawnEvent extends NetworkEvent {
 	private final BossTier tier;
@@ -25,8 +24,7 @@ public class BossSpawnEvent extends NetworkEvent {
 			boolean shiny,
 			@Nullable Integer level,
 			@Nullable UUID requesterUUID,
-			@NotNull List<UUID> eligiblePlayerUUIDs
-	) {
+			@NotNull List<UUID> eligiblePlayerUUIDs) {
 		super(targetServerId);
 		this.tier = tier;
 		this.species = species;

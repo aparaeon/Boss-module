@@ -1,12 +1,16 @@
 package gg.mmorealms.module.boss.backend.fabric.config;
 
 import com.raduvoinea.utils.generic.Time;
+import com.raduvoinea.utils.generic.dto.IWeighted;
 import com.raduvoinea.utils.generic.dto.Range;
 import com.raduvoinea.utils.message_builder.MessageBuilderList;
-import gg.mmorealms.module.boss.common.AnnounceLevel;
 import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.pokemon.backend.common.dto.pokemon_class.PokemonClass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.particles.SimpleParticleType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -50,45 +54,89 @@ public class TierConfig {
 
 	public transient ChatFormatting glowChatFmt;
 
-	/**
-	 * Returns a sane default TierConfig matching the v3 spec table.
-	 * Module ships with these baked in so first-install boot passes validation without
-	 * requiring admins to write any JSON. rewardRolls defaults to 0 + empty rewards
-	 * (passes validation) so admins explicitly opt in to loot via config edit.
-	 */
+	public enum AnnounceLevel {
+		OFF,
+		WORLD_CHAT,
+		GLOBAL_CHAT
+	}
+
+	public static class EffectConfig {
+		public boolean enabled = false;
+		public List<String> particles = List.of();
+		public Integer intervalSeconds;
+		public int count = 5;
+		public double offset = 0.5;
+
+		public transient List<SimpleParticleType> particleOptions;
+
+		public static EffectConfig burst(String particleId, int count, double offset) {
+			EffectConfig e = new EffectConfig();
+			e.enabled = true;
+			e.particles = List.of(particleId);
+			e.count = count;
+			e.offset = offset;
+			return e;
+		}
+
+		public static EffectConfig recurring(String particleId, int intervalSeconds, int count, double offset) {
+			EffectConfig e = new EffectConfig();
+			e.enabled = true;
+			e.particles = List.of(particleId);
+			e.intervalSeconds = intervalSeconds;
+			e.count = count;
+			e.offset = offset;
+			return e;
+		}
+	}
+
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	public static class BossReward implements IWeighted {
+		private double weight;
+		private Range quantity;
+		private MessageBuilderList rewardCommands;
+		private @Nullable String displayName;
+
+		@Override
+		public double getWeight() {
+			return weight;
+		}
+	}
+
 	public static TierConfig defaultsFor(BossTier tier) {
 		TierConfig tc = new TierConfig();
-			switch (tier) {
-				case COMMON -> {
+		switch (tier) {
+			case COMMON -> {
 				tc.displayName = "<b><gradient:#C9D6DF:#F8F9FA>Common</gradient></b>";
 				tc.glowColor = "white";
 				tc.levelRange = new Range(10, 30);
 				tc.scale = 1.2F;
-					tc.maxIvs = true;
-					tc.maxActive = 1;
-					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(2); // TESTING value
-					tc.announceOnSpawn = AnnounceLevel.OFF;
-					tc.announceOnDefeat = AnnounceLevel.OFF;
-					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
-					tc.bstRange = new Range(0, 349);
-					tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 8, 2, 0.3);
-					tc.rewardRolls = 1;
-					tc.rewards = List.of(
-							reward(30, 2, 4, "give {user} cobblemon:poke_ball {quantity}"),
-							reward(18, 1, 2, "give {user} cobblemon:rare_candy {quantity}"),
-							reward(12, 1, 2, "give {user} cobblemon:great_ball {quantity}"),
-							reward(10, 1, 1, "give {user} cobblemon:exp_candy_s {quantity}"),
-							reward(8, 1, 2, "give {user} cobblemon:potion {quantity}"),
-							reward(7, 2, 4, "give {user} cobblemon:premier_ball {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:link_cable {quantity}"),
-							reward(4, 1, 2, "give {user} cobblemon:oran_berry {quantity}"),
-							reward(3, 1, 1, "give {user} cobblemon:fire_stone {quantity}"),
-							reward(2, 1, 1, "give {user} cobblemon:water_stone {quantity}"),
-							reward(1, 1, 1, "give {user} cobblemon:adamant_mint {quantity}")
-					);
-				}
-				case UNCOMMON -> {
+				tc.maxIvs = true;
+				tc.maxActive = 1;
+				tc.minActive = 1;
+				tc.despawnAfter = Time.minutes(2);
+				tc.announceOnSpawn = AnnounceLevel.OFF;
+				tc.announceOnDefeat = AnnounceLevel.OFF;
+				tc.pokemonClasses = List.of(PokemonClass.NORMAL);
+				tc.bstRange = new Range(0, 349);
+				tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 8, 2, 0.3);
+				tc.rewardRolls = 1;
+				tc.rewards = List.of(
+						reward(30, 2, 4, "give {user} cobblemon:poke_ball {quantity}"),
+						reward(18, 1, 2, "give {user} cobblemon:rare_candy {quantity}"),
+						reward(12, 1, 2, "give {user} cobblemon:great_ball {quantity}"),
+						reward(10, 1, 1, "give {user} cobblemon:exp_candy_s {quantity}"),
+						reward(8, 1, 2, "give {user} cobblemon:potion {quantity}"),
+						reward(7, 2, 4, "give {user} cobblemon:premier_ball {quantity}"),
+						reward(5, 1, 1, "give {user} cobblemon:link_cable {quantity}"),
+						reward(4, 1, 2, "give {user} cobblemon:oran_berry {quantity}"),
+						reward(3, 1, 1, "give {user} cobblemon:fire_stone {quantity}"),
+						reward(2, 1, 1, "give {user} cobblemon:water_stone {quantity}"),
+						reward(1, 1, 1, "give {user} cobblemon:adamant_mint {quantity}")
+				);
+			}
+			case UNCOMMON -> {
 				tc.displayName = "<b><gradient:#11998E:#38EF7D>Uncommon</gradient></b>";
 				tc.glowColor = "green";
 				tc.levelRange = new Range(20, 40);
@@ -96,7 +144,7 @@ public class TierConfig {
 					tc.maxIvs = true;
 					tc.maxActive = 1;
 					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(2); // TESTING value
+					tc.despawnAfter = Time.minutes(2);
 					tc.announceOnSpawn = AnnounceLevel.OFF;
 					tc.announceOnDefeat = AnnounceLevel.OFF;
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
@@ -125,7 +173,7 @@ public class TierConfig {
 				tc.maxIvs = true;
 				tc.maxActive = 1;
 					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(2); // TESTING value
+					tc.despawnAfter = Time.minutes(2);
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(450, 529);
 					tc.announceOnSpawn = AnnounceLevel.OFF;
@@ -154,7 +202,7 @@ public class TierConfig {
 				tc.maxIvs = true;
 				tc.maxActive = 1;
 					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(3); // TESTING value
+					tc.despawnAfter = Time.minutes(3);
 				tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(530, 9999);
 					tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
@@ -183,7 +231,7 @@ public class TierConfig {
 				tc.maxIvs = true;
 				tc.maxActive = 1;
 				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(3); // TESTING value
+				tc.despawnAfter = Time.minutes(3);
 				tc.pokemonClasses = List.of(PokemonClass.LEGENDARY);
 				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
@@ -216,7 +264,7 @@ public class TierConfig {
 				tc.maxIvs = true;
 				tc.maxActive = 1;
 				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(3); // TESTING value
+				tc.despawnAfter = Time.minutes(3);
 				tc.includeAllMegaCapable = true;
 				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
@@ -249,7 +297,7 @@ public class TierConfig {
 				tc.maxIvs = true;
 				tc.maxActive = 1;
 				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(3); // TESTING value
+				tc.despawnAfter = Time.minutes(3);
 				// Ultra Beasts are bundled into Mythical — treated as mythical-equivalent power level.
 				tc.pokemonClasses = List.of(PokemonClass.MYTHICAL, PokemonClass.ULTRA_BEAST);
 				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
@@ -278,7 +326,6 @@ public class TierConfig {
 			}
 			return tc;
 		}
-
 		private static BossReward reward(double weight, int minQuantity, int maxQuantity, String... commands) {
 			return new BossReward(
 					weight,
@@ -287,8 +334,6 @@ public class TierConfig {
 					null
 			);
 		}
-
-		/** Use for rewards whose first command is NOT a {@code give namespace:item} — the auto-label fallback fails on those. */
 		private static BossReward namedReward(double weight, int minQuantity, int maxQuantity, String displayName, String... commands) {
 			return new BossReward(
 					weight,

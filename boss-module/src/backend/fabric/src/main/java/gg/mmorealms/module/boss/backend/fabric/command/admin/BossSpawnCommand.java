@@ -1,4 +1,4 @@
-package gg.mmorealms.module.boss.backend.fabric.command;
+package gg.mmorealms.module.boss.backend.fabric.command.admin;
 
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.Species;
@@ -28,8 +28,6 @@ import java.util.stream.Collectors;
 @Command(aliases = {"spawn"}, arguments = {"tier", "?species", "?level", "?shiny", "?x", "?y", "?z"},
 		parent = BossAdminCommand.class)
 public class BossSpawnCommand extends BackendCommand {
-
-	/** Cached full species name list — Cobblemon registry is immutable at runtime. */
 	private static volatile @Nullable List<String> SPECIES_NAME_CACHE;
 
 	public BossSpawnCommand(CommonCommandManager commandManager) {
@@ -90,7 +88,6 @@ public class BossSpawnCommand extends BackendCommand {
 				return List.of();
 		}
 	}
-
 	@Override
 	protected void executeCommon(@NotNull CommandSource sender, @NotNull List<String> arguments) {
 		BossFabricModule mod = BossFabricModule.instance();
@@ -102,7 +99,6 @@ public class BossSpawnCommand extends BackendCommand {
 		}
 		BossConfig.Lang lang = mod.getConfig().lang;
 
-		// Framework hands us a fixed-size list with NULL for omitted optional args; check arg(i) != null.
 		String tierArg = arg(arguments, 0);
 		if (tierArg == null) {
 			mod.sendLang(sender, lang.adminUsageSpawn);
@@ -131,8 +127,6 @@ public class BossSpawnCommand extends BackendCommand {
 		}
 
 		boolean shiny = Boolean.parseBoolean(arg(arguments, 3));
-
-		// Coords: all three of x, y, z must be present together or all omitted. Mixed = reject.
 		BlockPos forcedPos = null;
 		String xArg = arg(arguments, 4);
 		String yArg = arg(arguments, 5);
@@ -150,8 +144,6 @@ public class BossSpawnCommand extends BackendCommand {
 				return;
 			}
 		}
-
-		// Console has no dimension context — anchoring forced coords on players.get(0) is a coin flip.
 		if (forcedPos != null && !(sender instanceof ServerPlayer)) {
 			mod.sendLang(sender, lang.adminCoordsRequirePlayer);
 			return;
@@ -222,7 +214,6 @@ public class BossSpawnCommand extends BackendCommand {
 
 	private @Nullable BossTier parseTierFromContext(@NotNull CommandContext<CommandSourceStack> context) {
 		String input = context.getInput();
-		// Tokenize after "spawn" — defensive across "/boss admin spawn TIER ..." or aliases.
 		String[] tokens = input.split("\\s+");
 		for (int i = 0; i < tokens.length - 1; i++) {
 			if (tokens[i].equalsIgnoreCase("spawn")) {
@@ -233,7 +224,6 @@ public class BossSpawnCommand extends BackendCommand {
 		return null;
 	}
 
-	/** Null-safe accessor — out-of-range and null-in-slot both return null. */
 	private static @Nullable String arg(@NotNull List<String> arguments, int i) {
 		if (i < 0 || i >= arguments.size()) return null;
 		return arguments.get(i);

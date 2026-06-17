@@ -22,17 +22,13 @@ import lombok.experimental.Accessors;
 )
 @Getter
 public class BossVelocityModule extends BossComonModule implements VelocityModule {
-
 	@Getter
 	@Accessors(fluent = true)
 	protected static BossVelocityModule instance;
-
 	private @Inject ServerManager serverManager;
 	private @Inject FileManager fileManager;
-
 	private BossVelocityConfig config;
 	private BossLifecycleManager lifecycleManager;
-
 	public BossVelocityModule() {
 		BossVelocityModule.instance = this;
 	}
@@ -43,7 +39,6 @@ public class BossVelocityModule extends BossComonModule implements VelocityModul
 		validate(this.config);
 		this.lifecycleManager = export(new BossLifecycleManager(this.config, this.serverManager));
 	}
-
 	@Override
 	public void onEnable() throws ModuleException {
 		// Rarity model kept dormant — backend occupancy refill owns spawning for now.
@@ -53,7 +48,6 @@ public class BossVelocityModule extends BossComonModule implements VelocityModul
 		}
 		this.lifecycleManager.start();
 	}
-
 	private void validate(BossVelocityConfig cfg) throws ModuleException {
 		if (cfg.spawnInterval == null || cfg.spawnInterval.toMilliseconds() <= 0) {
 			throw new ModuleException(this,"spawnInterval must be > 0");

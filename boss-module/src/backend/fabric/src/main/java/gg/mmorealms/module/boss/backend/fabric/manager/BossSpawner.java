@@ -5,6 +5,7 @@ import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.IVs;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.cobblemon.mod.common.api.pokemon.stats.Stats;
 import com.cobblemon.mod.common.pokemon.properties.UncatchableProperty;
 import com.raduvoinea.utils.generic.RandomUtils;
 import com.raduvoinea.utils.logger.Logger;
@@ -12,6 +13,8 @@ import com.raduvoinea.utils.logger.utils.StackTraceUtils;
 import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
 import gg.mmorealms.module.boss.backend.fabric.config.TierConfig;
+import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.ActiveBoss;
+import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.NbtKeys;
 import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.boss.common.event.BossSpawnEvent;
 import gg.mmorealms.module.mega_evolution.backend.fabric.dto.MegaEvolution;
@@ -55,7 +58,6 @@ public class BossSpawner {
 		server.execute(() -> processSpawnFromEvent(server, ev));
 	}
 
-	/** Backend admin entry point. Synchronous; admin is local — no network event. */
 	public AdminSpawnResult adminSpawn(
 			@NotNull ServerPlayer anchor,
 			@NotNull BossTier tier,
@@ -82,7 +84,6 @@ public class BossSpawner {
 			return AdminSpawnResult.of(AdminSpawnStatus.LEVEL_OUT_OF_RANGE);
 		}
 
-		// Admin spawns bypass the per-tier counter — they don't count toward maxActive or satisfy minActive.
 		try {
 			SpeciesPick pick = resolveSpecies(tier, tc, species, /*enforceTierPool=*/ true);
 			if (pick == null) {
@@ -99,15 +100,12 @@ public class BossSpawner {
 			}
 			return AdminSpawnResult.success(spawnedUUID, pick.species(), resolvedLevel,
 					position.getX(), position.getY(), position.getZ());
-		} catch (Throwable t) {
+		} catch (RuntimeException t) {
 			Logger.error("Admin boss spawn pipeline failed for tier " + tier
 					+ " — " + StackTraceUtils.toString(t));
 			return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
 		}
 	}
-
-
-	/** System refill spawn — called by {@link BossManager#tryRefillTier}. Cap-safe via {@code tryReserveTier}. */
 	public AdminSpawnResult systemRefillSpawn(@NotNull ServerPlayer anchor, @NotNull BossTier tier) {
 		MinecraftServer server = anchor.getServer();
 		if (server == null) return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
@@ -128,7 +126,7 @@ public class BossSpawner {
 			owned = uuid != null;
 			if (!owned) return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
 			return AdminSpawnResult.success(uuid, pick.species(), level, position.getX(), position.getY(), position.getZ());
-		} catch (Throwable t) {
+		} catch (RuntimeException t) {
 			Logger.error("System refill spawn pipeline failed for tier " + tier
 					+ " — " + StackTraceUtils.toString(t));
 			return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
@@ -166,13 +164,11 @@ public class BossSpawner {
 			return;
 		}
 
-		// Re-filter eligiblePlayerUUIDs for online state (disconnect race guard).
 		List<ServerPlayer> online = ev.getEligiblePlayerUUIDs().stream()
 				.map(server.getPlayerList()::getPlayer)
 				.filter(Objects::nonNull)
-				.collect(Collectors.toList());
+				.toList();
 
-		// Anchor: admin's online location preferred; else random eligible.
 		ServerPlayer anchor = null;
 		if (ev.getRequesterUUID() != null) {
 			anchor = server.getPlayerList().getPlayer(ev.getRequesterUUID());
@@ -190,7 +186,6 @@ public class BossSpawner {
 			return;
 		}
 
-		// spawnBoss owns world rollback; this finally only releases the tier counter on failure.
 		boolean owned = false;
 		try {
 			SpeciesPick pick = resolveSpecies(ev.getTier(), tc, ev.getSpecies(), /*enforceTierPool=*/ true);
@@ -201,7 +196,7 @@ public class BossSpawner {
 
 			int level = resolveLevel(tc, ev);
 			if (level < 0) {
-				return; // out of range — no clamp
+				return;
 			}
 
 			BlockPos position = SpawnPositionFinder.find(anchor, tc, config);
@@ -212,7 +207,7 @@ public class BossSpawner {
 			}
 
 			owned = spawnBoss(server, anchor, position, ev.getTier(), tc, pick, level, ev.isShiny(), /*systemSpawned=*/ true) != null;
-		} catch (Throwable t) {
+		} catch (RuntimeException t) {
 			Logger.error("Boss spawn failed for tier " + ev.getTier()
 					+ " — " + StackTraceUtils.toString(t));
 		} finally {
@@ -222,45 +217,29 @@ public class BossSpawner {
 		}
 	}
 
-	/** Resolved species + optional mega aspect (null for non-MEGA tiers). */
 	private record SpeciesPick(String species, @Nullable String megaAspect) {}
 
-	/** Lowercase/trim so Cobblemon's ResourceLocation-backed lookup can't throw on uppercase input. */
 	private static @Nullable String normalizeSpecies(@Nullable String species) {
 		if (species == null) return null;
 		String normalized = species.trim().toLowerCase(Locale.ROOT);
 		return normalized.isEmpty() ? null : normalized;
 	}
 
-	/** Unified species resolver. {@code enforceTierPool=true} rejects forced species outside the tier pool. */
 	private @Nullable SpeciesPick resolveSpecies(@NotNull BossTier tier, @NotNull TierConfig tc,
 	                                             @Nullable String forcedInput, boolean enforceTierPool) {
 		String forced = normalizeSpecies(forcedInput);
 		if (forced != null) {
 			if (PokemonSpecies.INSTANCE.getByName(forced) == null) {
-				return null; // unknown species
+				return null;
 			}
 			if (enforceTierPool && !speciesInTierPool(tier, tc, forced)) {
 				return null;
 			}
-			// For MEGA tier, forced species needs its mega aspect or it spawns as base form.
-			// Pick the first MegaEvolution entry matching the species (Charizard X+Y both qualify).
-			String forcedAspect = null;
-			if (tier == BossTier.MEGA) {
-				forcedAspect = MegaEvolution.stream()
-						.filter(me -> me.getSpeciesName() != null
-								&& me.getSpeciesName().equalsIgnoreCase(forced))
-						.findFirst()
-						.map(MegaEvolution::getMegaAspect)
-						.orElse(null);
-				if (forcedAspect == null && enforceTierPool) {
-					return null;
-				}
-			}
+			String forcedAspect = tier == BossTier.MEGA ? megaAspect(forced) : null;
+			if (tier == BossTier.MEGA && forcedAspect == null && enforceTierPool) return null;
 			return new SpeciesPick(forced, forcedAspect);
 		}
 
-		// MEGA tier: pick from megaCandidates, which gives us both species + aspect (never a base form).
 		if (tier == BossTier.MEGA) {
 			List<MegaEvolution> candidates = megaCandidates(tc);
 			if (candidates.isEmpty()) {
@@ -270,7 +249,6 @@ public class BossSpawner {
 			return new SpeciesPick(chosen.getSpeciesName(), chosen.getMegaAspect());
 		}
 
-		// Default tier: union of PokemonClass pools + extraSpecies − excludedSpecies.
 		List<String> pool = buildSpeciesPool(tc);
 		if (pool.isEmpty()) {
 			return null;
@@ -279,7 +257,6 @@ public class BossSpawner {
 		return new SpeciesPick(picked, null);
 	}
 
-	/** MEGA pool — only species with a valid mega aspect. {@code extraSpecies} is the allowlist when {@code includeAllMegaCapable=false}. */
 	private @NotNull List<MegaEvolution> megaCandidates(@NotNull TierConfig tc) {
 		return MegaEvolution.stream()
 				.filter(me -> me.getSpeciesName() != null
@@ -290,6 +267,14 @@ public class BossSpawner {
 				.collect(Collectors.toList());
 	}
 
+	private static @Nullable String megaAspect(@NotNull String species) {
+		return MegaEvolution.stream()
+				.filter(me -> me.getSpeciesName() != null && me.getSpeciesName().equalsIgnoreCase(species))
+				.findFirst()
+				.map(MegaEvolution::getMegaAspect)
+				.orElse(null);
+	}
+
 	private boolean speciesInTierPool(@NotNull BossTier tier, @NotNull TierConfig tc, @NotNull String species) {
 		if (tier == BossTier.MEGA) {
 			return megaCandidates(tc).stream()
@@ -298,7 +283,6 @@ public class BossSpawner {
 		return buildSpeciesPool(tc).stream().anyMatch(s -> s.equalsIgnoreCase(species));
 	}
 
-	/** Pool for the autocomplete suggester — must mirror {@link #speciesInTierPool} so tab-complete never suggests a rejected species. */
 	public @NotNull List<String> buildSpeciesPoolForTier(@NotNull BossTier tier, @NotNull TierConfig tc) {
 		if (tier == BossTier.MEGA) {
 			return megaCandidates(tc).stream()
@@ -313,16 +297,9 @@ public class BossSpawner {
 		Set<String> excluded = new HashSet<>(tc.excludedSpecies);
 		Set<String> union = new HashSet<>();
 
-		// PokemonClass species lists live in pokemon-module's shared config.
 		if (tc.pokemonClasses != null && !tc.pokemonClasses.isEmpty()) {
-			Map<PokemonClass, List<String>> classMap =
-					PokemonBackendModule.instance().getConfig().pokemonClasses;
-			for (PokemonClass pc : tc.pokemonClasses) {
-				List<String> classSpecies = classMap.get(pc);
-				if (classSpecies != null) {
-					union.addAll(classSpecies);
-				}
-			}
+			Map<PokemonClass, List<String>> classMap = PokemonBackendModule.instance().getConfig().pokemonClasses;
+			tc.pokemonClasses.stream().map(classMap::get).filter(Objects::nonNull).forEach(union::addAll);
 		}
 		if (tc.extraSpecies != null) {
 			union.addAll(tc.extraSpecies);
@@ -345,14 +322,13 @@ public class BossSpawner {
 		if (ev.getLevel() != null) {
 			int lvl = ev.getLevel();
 			if (lvl < tc.levelRange.getMin() || lvl > tc.levelRange.getMax()) {
-				return -1; // reject; no clamp
+				return -1;
 			}
 			return lvl;
 		}
 		return (int) RandomUtils.getRandom(tc.levelRange);
 	}
 
-	/** Build + register the boss. Returns Pokémon UUID on success; null on failure (partial state rolled back). */
 	private @Nullable UUID spawnBoss(
 			@NotNull MinecraftServer server,
 			@NotNull ServerPlayer anchor,
@@ -373,7 +349,6 @@ public class BossSpawner {
 		boolean entityAdded = false;
 		boolean teamApplied = false;
 		boolean registered = false;
-		// success → true only after every post-register step completes; otherwise finally unwinds.
 		boolean success = false;
 
 		try {
@@ -385,7 +360,6 @@ public class BossSpawner {
 				props.setAspects(Set.of(pick.megaAspect()));
 			}
 			if (tc.maxIvs) {
-				// minPerfectIVs = 6 → all 6 stats guaranteed at IVs.MAX_VALUE (31).
 				props.setIvs(IVs.createRandomIVs(6));
 			}
 			props.getCustomProperties().add(UncatchableProperty.INSTANCE.uncatchable());
@@ -411,20 +385,19 @@ public class BossSpawner {
 			// Scale persists via Cobblemon's scaleModifier codec.
 			new CobblemonPokemon(pokemon).setScale(tc.scale);
 
-			// Boss markers on Cobblemon's Pokemon.persistentData. Captured by the entity's first save.
 			long spawnedAt = System.currentTimeMillis();
 			net.minecraft.nbt.CompoundTag tag = pokemon.getPersistentData();
-			tag.putBoolean(BossNbtKeys.BOSS, true);
-			tag.putInt(BossNbtKeys.SCHEMA, BossNbtKeys.SCHEMA_VERSION);
-			tag.putString(BossNbtKeys.TIER, tier.name());
-			tag.putString(BossNbtKeys.SPECIES, species);
-			tag.putInt(BossNbtKeys.LEVEL, level);
-			tag.putLong(BossNbtKeys.SPAWNED_AT, spawnedAt);
-			tag.putBoolean(BossNbtKeys.SYSTEM_SPAWNED, systemSpawned);
-			tag.putInt(BossNbtKeys.SPAWN_X, position.getX());
-			tag.putInt(BossNbtKeys.SPAWN_Y, position.getY());
-			tag.putInt(BossNbtKeys.SPAWN_Z, position.getZ());
-			tag.putString(BossNbtKeys.SPAWN_DIMENSION, sl.dimension().location().toString());
+			tag.putBoolean(NbtKeys.BOSS, true);
+			tag.putInt(NbtKeys.SCHEMA, NbtKeys.SCHEMA_VERSION);
+			tag.putString(NbtKeys.TIER, tier.name());
+			tag.putString(NbtKeys.SPECIES, species);
+			tag.putInt(NbtKeys.LEVEL, level);
+			tag.putLong(NbtKeys.SPAWNED_AT, spawnedAt);
+			tag.putBoolean(NbtKeys.SYSTEM_SPAWNED, systemSpawned);
+			tag.putInt(NbtKeys.SPAWN_X, position.getX());
+			tag.putInt(NbtKeys.SPAWN_Y, position.getY());
+			tag.putInt(NbtKeys.SPAWN_Z, position.getZ());
+			tag.putString(NbtKeys.SPAWN_DIMENSION, sl.dimension().location().toString());
 
 			applyBossName(entity, tc, species, level);
 
@@ -462,7 +435,6 @@ public class BossSpawner {
 				}
 			}
 
-			// Counter already reserved upstream (tryReserveTier for system, no-op for admin).
 			ActiveBoss boss = new ActiveBoss(
 					pokemonUUID, entity.getUUID(), tier, species, level, spawnedAt,
 					systemSpawned, position, sl.dimension().location()
@@ -483,7 +455,7 @@ public class BossSpawner {
 					+ " at (" + position.getX() + "," + position.getY() + "," + position.getZ() + ")"
 					+ (systemSpawned ? " [system]" : " [admin]"));
 			return pokemonUUID;
-		} catch (Throwable t) {
+		} catch (RuntimeException t) {
 			Logger.error("Boss spawn pipeline failed for " + species + " at " + position
 					+ " — " + StackTraceUtils.toString(t));
 			return null;
@@ -495,7 +467,6 @@ public class BossSpawner {
 		}
 	}
 
-	/** Undo partial spawn side effects. Caller releases the tier counter separately. */
 	private void rollbackPartialSpawn(
 			@NotNull MinecraftServer server,
 			@Nullable Pokemon pokemon,
@@ -513,14 +484,13 @@ public class BossSpawner {
 		}
 		if (entityAdded && entity != null) {
 			if (pokemon != null) {
-				pokemon.getPersistentData().putBoolean(BossNbtKeys.BOSS, false);
+				pokemon.getPersistentData().putBoolean(NbtKeys.BOSS, false);
 			}
 			entity.discard();
 		}
 	}
 
 	public void applyBossName(PokemonEntity entity, TierConfig tc, String species, int level) {
-		// Per-tier nameplate override wins; else fall back to the global lang template.
 		com.raduvoinea.utils.message_builder.MessageBuilder base = (tc.nameplateFormat != null)
 				? new com.raduvoinea.utils.message_builder.MessageBuilder(tc.nameplateFormat)
 				: config.lang.bossDisplayName;
@@ -540,21 +510,16 @@ public class BossSpawner {
 		entity.setCustomNameVisible(true);
 	}
 
-	/** Balanced 510-EV spread — 85 to each of the 6 stats. */
 	private void applyMaxEvs(@NotNull Pokemon pokemon) {
 		com.cobblemon.mod.common.pokemon.EVs evs = pokemon.getEvs();
-		evs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.HP, 85);
-		evs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, 85);
-		evs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, 85);
-		evs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, 85);
-		evs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, 85);
-		evs.set(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, 85);
+		List.of(Stats.HP, Stats.ATTACK, Stats.DEFENCE, Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED)
+				.forEach(stat -> evs.set(stat, 85));
 	}
 
 	private void announceSpawn(@NotNull BossTier tier, @NotNull TierConfig tc, @NotNull String species,
 	                           int level, @NotNull PokemonEntity entity) {
-		gg.mmorealms.module.boss.common.AnnounceLevel lvl = tc.announceOnSpawn;
-		if (lvl == null || lvl == gg.mmorealms.module.boss.common.AnnounceLevel.OFF) {
+		TierConfig.AnnounceLevel lvl = tc.announceOnSpawn;
+		if (lvl == null || lvl == TierConfig.AnnounceLevel.OFF) {
 			return;
 		}
 		int x = (int) entity.getX();
@@ -592,13 +557,12 @@ public class BossSpawner {
 		}
 	}
 
-	/** Player-readable biome name — mirrors {@code LegendaryInfoUtils.createSpawnInfo}. */
 	private static String readableBiome(@NotNull net.minecraft.server.level.ServerLevel level, @NotNull BlockPos pos) {
 		try {
 			net.minecraft.resources.ResourceLocation id = net.minecraft.resources.ResourceLocation
 					.parse(level.getBiome(pos).getRegisteredName());
 			return net.minecraft.network.chat.Component.translatable(id.toLanguageKey("biome")).getString();
-		} catch (Throwable t) {
+		} catch (RuntimeException t) {
 			return "the Wild";
 		}
 	}

@@ -1,5 +1,4 @@
 package gg.mmorealms.module.boss.velocity.manager;
-
 import gg.mmorealms.module.core.common.utils.AliasTable;
 import com.raduvoinea.utils.lambda.CancelableTimeTask;
 import com.raduvoinea.utils.lambda.ScheduleUtils;
@@ -21,9 +20,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-
 public class BossLifecycleManager {
-
 	private final BossVelocityConfig config;
 	private final ServerManager serverManager;
 	private @Nullable CancelableTimeTask spawnTask;
@@ -33,7 +30,6 @@ public class BossLifecycleManager {
 		this.serverManager = serverManager;
 		buildTierSampler();
 	}
-
 	private void buildTierSampler() {
 		AliasTable<BossTier> sampler = new AliasTable<>();
 		for (var entry : config.tierWeights.entrySet()) {
@@ -47,7 +43,6 @@ public class BossLifecycleManager {
 		sampler.build();
 		this.config.tierSampler = sampler;
 	}
-
 	public synchronized void start() {
 		if (spawnTask != null && !spawnTask.isCanceled()) {
 			return;
@@ -55,42 +50,34 @@ public class BossLifecycleManager {
 		Logger.info("Starting boss spawn coordinator (interval: " + config.spawnInterval + ")");
 		spawnTask = ScheduleUtils.runTaskTimer(this::tick, config.spawnInterval);
 	}
-
 	public synchronized void stop() {
 		if (spawnTask != null) {
 			spawnTask.cancel();
 			spawnTask = null;
 		}
 	}
-
 	private void tick() {
-		// Roll spawn chance.
 		AfkManager afk = AnalyticsVelocityModule.instance().getAfkManager();
 		int activeNonAfk = countAllNonAfk(afk);
 		double effective = config.baseSpawnChance + (activeNonAfk * config.playerSpawnChanceBias);
 		if (ThreadLocalRandom.current().nextDouble(100.0) >= effective) {
 			return;
 		}
-
-		// Pick AFK-aware target backend.
 		EngineServer target = pickTargetServer(afk);
 		if (target == null) {
 			Logger.debug("BossScheduler: no eligible WILD backend; skipping tick.");
 			return;
 		}
-
 		BossTier tier = config.tierSampler.next();
 		if (tier == null) {
 			Logger.warn("BossScheduler: tier sampler returned null; check tierWeights.");
 			return;
 		}
-
 		List<UUID> eligible = buildEligibleUUIDs(target, afk);
 		if (eligible.isEmpty()) {
 			Logger.debug("BossScheduler: no eligible non-AFK players on chosen backend; skipping tick.");
 			return;
 		}
-
 		new BossSpawnEvent(
 				target.getServerID(),
 				tier,
@@ -101,7 +88,6 @@ public class BossLifecycleManager {
 				eligible
 		).send();
 	}
-
 	private int countAllNonAfk(AfkManager afk) {
 		int total = 0;
 		for (EngineServer es : serverManager.getServers(ServerType.WILD)) {
@@ -113,7 +99,6 @@ public class BossLifecycleManager {
 		}
 		return total;
 	}
-
 	public @Nullable EngineServer pickTargetServer(AfkManager afk) {
 		List<EngineServer> candidates = serverManager.getServers(ServerType.WILD).stream()
 				.filter(es -> {
@@ -131,7 +116,6 @@ public class BossLifecycleManager {
 				}))
 				.orElse(null);
 	}
-
 	public List<UUID> buildEligibleUUIDs(EngineServer target, AfkManager afk) {
 		RegisteredServer rs = target.getProxyServer();
 		if (rs == null) return List.of();

@@ -13,7 +13,6 @@ public class BossConfig {
 	public List<String> allowedDimensions = List.of("minecraft:overworld");
 	public Range spawnRangeFromPlayer = new Range(50, 200);
 	public int maxCandidateAttempts = 50;
-	public int biomeSearchStartPositionY = 70;
 	public boolean ignoreLeaves = true;
 	public Range randomSpawnRangeY = new Range(60, 120);
 	public int canPokemonFitCheckRadius = 1;
@@ -31,43 +30,33 @@ public class BossConfig {
 	}
 
 	public static class Lang {
-		/* ---------- Announcements ---------- */
-		/** WORLD_CHAT spawn — light tone, sent only to wild-shard players in the boss's dimension. */
 		public MessageBuilder bossSpawnedAnnouncementWorld = new MessageBuilder(
 				"<dark_gray>« <{glow_color}>★ <dark_gray>» <gray>A wild {tier_display} <{glow_color}><bold>{species}</bold><gray> appeared in <white>{biome}<gray>!"
 		);
-		/** GLOBAL_CHAT spawn — used for LEG/MEGA/MYTH only. */
 		public MessageBuilder bossSpawnedAnnouncementGlobal = new MessageBuilder(
 				"<{glow_color}>«« <bold>★ WILD BOSS ★</bold> »» <gray>A {tier_display} <{glow_color}><bold>{species}</bold><gray> has risen in the Wild!"
 		);
-		/** WORLD_CHAT defeat — opt-in only; default behaviour for low tiers is OFF (winner-only personal message). */
 		public MessageBuilder bossDefeatedAnnouncementWorld = new MessageBuilder(
 				"<dark_gray>« <{glow_color}>★ <dark_gray>» <yellow><bold>{player}</bold><gray> defeated the {tier_display} <{glow_color}><bold>{species}</bold><gray>!"
 		);
-		/** GLOBAL_CHAT defeat — used for LEG/MEGA/MYTH. */
 		public MessageBuilder bossDefeatedAnnouncementGlobal = new MessageBuilder(
 				"<{glow_color}>«« <bold>★ BOSS DEFEATED ★</bold> »» <yellow><bold>{player}</bold><gray> has vanquished the {tier_display} <{glow_color}><bold>{species}</bold><gray>!"
 		);
-		/** Two-line boss nickname for nameplates and battle UI. */
 		public MessageBuilder bossDisplayName = new MessageBuilder(
 				"<{glow_color}><bold>★ {tier_display} Boss ★</bold>\n<white>{species} <gray>Lv.{level}"
 		);
 
-		/* ---------- Personal defeat — always to winner, regardless of announceOnDefeat ---------- */
 		public MessageBuilder bossPersonalDefeat = new MessageBuilder(
 				"<gradient:#FFD700:#FFA500><bold>⚔ VICTORY!</bold></gradient> <white>You defeated the {tier_display} <{glow_color}><bold>{species}</bold><white>!"
 		);
 
-		/* ---------- Reward summary — only to winner, only when rewards rolled ---------- */
 		public MessageBuilder bossRewardWinnerHeader = new MessageBuilder(
 				"<dark_gray>«« <gradient:#FFE259:#FFA751><bold>✦ BOSS REWARDS ✦</bold></gradient> <dark_gray>»»"
 		);
-		/** Single aggregated line — {rewards} is a comma-joined list of '<quantity>x <item>' entries. */
 		public MessageBuilder bossRewardWinnerSummary = new MessageBuilder(
 				"<gray>You received <yellow>{rewards}<gray>!"
 		);
 
-		/* ---------- Admin command — root usage ---------- */
 		public MessageBuilder adminUsageRoot = new MessageBuilder(
 				"<yellow>/boss admin <gray>subcommands:\n"
 						+ "<gray>  spawn <tier> [species] [level] [shiny] [x y z]\n"
@@ -78,7 +67,6 @@ public class BossConfig {
 		public MessageBuilder adminUsageDespawn = new MessageBuilder("<red>/boss admin despawn <all | tier <tier> | <short-id>>");
 		public MessageBuilder adminUsageDespawnTier = new MessageBuilder("<red>/boss admin despawn tier <tier>");
 
-		/* ---------- Admin command — success ---------- */
 		public MessageBuilder adminSpawnSuccess = new MessageBuilder(
 				"<green>Spawned <white>{tier} <green>{species} <gray>lv.{level}{shiny_suffix} <gray>at <aqua>({x}, {y}, {z}) <dark_gray>| <gold>{short_id}"
 		);
@@ -86,7 +74,6 @@ public class BossConfig {
 		public MessageBuilder adminDespawnSuccess = new MessageBuilder("<green>Despawn requested: <white>{tier} <green>{species} <dark_gray>({short_id})");
 		public MessageBuilder adminDespawnSuccessAll = new MessageBuilder("<green>Requested despawn of {count} boss(es).");
 		public MessageBuilder adminDespawnSuccessTier = new MessageBuilder("<green>Requested despawn of {count} {tier} boss(es).");
-		/* ---------- Admin command — list ---------- */
 		public MessageBuilder adminListEmpty = new MessageBuilder("<gray>No active bosses on this server.");
 		public MessageBuilder adminListHeader = new MessageBuilder("<yellow>Active bosses ({count}):");
 		public MessageBuilder adminListRow = new MessageBuilder(
@@ -94,7 +81,6 @@ public class BossConfig {
 		);
 		public MessageBuilder adminListLocation = new MessageBuilder("<gray>{dimension} <dark_gray>{x} {y} {z}");
 
-		/* ---------- Admin command — errors ---------- */
 		public MessageBuilder adminModuleNotInitialized = new MessageBuilder("<red>Boss module is not initialized on this server.");
 		public MessageBuilder adminTierUnknown = new MessageBuilder("<red>Unknown tier: <white>{tier}");
 		public MessageBuilder adminLevelInvalid = new MessageBuilder("<red>Invalid level: <white>{value}");

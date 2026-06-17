@@ -1,16 +1,15 @@
-package gg.mmorealms.module.boss.backend.fabric.command;
+package gg.mmorealms.module.boss.backend.fabric.command.admin;
 
 import com.raduvoinea.commandmanager.backend.common.command.BackendCommand;
 import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
 import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
+import gg.mmorealms.module.boss.backend.fabric.command.BossCommand;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
 import net.minecraft.commands.CommandSource;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-
-/** Parent for /boss admin {spawn,despawn,list}. The "admin" level avoids /bossbar tab-complete collision. */
 @Command(aliases = {"admin"}, parent = BossCommand.class)
 public class BossAdminCommand extends BackendCommand {
 

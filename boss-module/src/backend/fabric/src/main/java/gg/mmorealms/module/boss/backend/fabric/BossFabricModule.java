@@ -12,13 +12,11 @@ import gg.mmorealms.loader.common.dto.ServerType;
 import gg.mmorealms.loader.common.exception.ModuleException;
 import gg.mmorealms.module.boss.backend.common.BossBackendModule;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
-import gg.mmorealms.module.boss.backend.fabric.config.BossReward;
-import gg.mmorealms.module.boss.backend.fabric.config.EffectConfig;
 import gg.mmorealms.module.boss.backend.fabric.config.TierConfig;
-import gg.mmorealms.module.boss.backend.fabric.manager.ActiveBoss;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager;
-import gg.mmorealms.module.boss.backend.fabric.manager.BossNbtKeys;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossSpawner;
+import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.ActiveBoss;
+import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.NbtKeys;
 import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.mega_evolution.backend.fabric.dto.MegaEvolution;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
@@ -48,10 +46,8 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 	@Getter
 	@Accessors(fluent = true)
 	protected static BossFabricModule instance;
-
 	private @Inject FabricMiniMessageManager miniMessageManager;
 	private @Inject FileManager fileManager;
-	/** Must be @Inject — loader populates this before onInit; SERVER_STARTED listener would fire too late. */
 	private @Inject MinecraftServer server;
 
 	private BossConfig config;
@@ -74,7 +70,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			Logger.info("Boss module skipping init on non-WILD server (type=" + getServerType() + ").");
 			return;
 		}
-
 		migrateLegacyConfig();
 		this.config = fileManager.load(BossConfig.class);
 		applyCurrentConfigDefaults(config);
@@ -87,16 +82,14 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			if (!(entity instanceof PokemonEntity pe)) return;
 			runOnMain(() -> handleEntityLoad(pe));
 		});
-
-		// Re-apply team on START_TRACKING — covers far-walk-back, dimension change, reconnect.
 		net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents.START_TRACKING
 				.register((entity, player) -> {
 					if (!(entity instanceof PokemonEntity pe)) return;
 					CompoundTag tag = pe.getPokemon().getPersistentData();
-					if (!tag.getBoolean(BossNbtKeys.BOSS)) return;
+					if (!tag.getBoolean(NbtKeys.BOSS)) return;
 					BossTier tier;
 					try {
-						tier = BossTier.valueOf(tag.getString(BossNbtKeys.TIER));
+						tier = BossTier.valueOf(tag.getString(NbtKeys.TIER));
 					} catch (IllegalArgumentException e) {
 						return;
 					}
@@ -113,8 +106,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents.JOIN.register(
 				(handler, sender, s) -> bossManager.bootstrapFillAllTiers()
 		);
-
-		// BATTLE_FLED is separate from BATTLE_VICTORY — sweep pendingDespawns on flee so queued admin despawns fire.
 		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_FLED.subscribe(
 				com.cobblemon.mod.common.api.Priority.NORMAL,
 				event -> {
@@ -124,55 +115,21 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					return kotlin.Unit.INSTANCE;
 				}
 		);
-
-		// Initial bootstrap for /reload + hot-jar swap. Idempotent.
 		bossManager.bootstrapFillAllTiers();
-
-		// Low-frequency retry for refills that failed (no eligible anchor / POSITION_NOT_FOUND).
 		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
 				() -> bossManager.refillSweep(),
 				com.raduvoinea.utils.generic.Time.minutes(5)
 		);
-
-		// Re-assert glow team + flag on loaded bosses; repairs (and logs) any glow drift.
 		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
 				() -> bossManager.glowSweep(),
 				com.raduvoinea.utils.generic.Time.seconds(15)
 		);
-
-		logTierSettings();
 	}
-
-	/** Log effective tier settings on boot. */
-	private void logTierSettings() {
-		for (BossTier tier : BossTier.values()) {
-			TierConfig tc = config.tiers.get(tier);
-			Logger.info("Boss tier " + tier + ": minActive=" + tc.minActive
-					+ " maxActive=" + tc.maxActive
-					+ " despawnAfter=" + (tc.despawnAfter.toMilliseconds() / 1000) + "s"
-					+ " announceSpawn=" + tc.announceOnSpawn
-					+ " announceDefeat=" + tc.announceOnDefeat);
-		}
-	}
-
-	/** Preserve rewards/species edits, but force current visual/refill defaults into old configs. */
 	private void applyCurrentConfigDefaults(@NotNull BossConfig cfg) {
-		if (cfg.lang == null) {
-			cfg.lang = new BossConfig.Lang();
-		}
+		cfg.lang = new BossConfig.Lang();
 		if (cfg.tiers == null) {
 			cfg.tiers = new java.util.EnumMap<>(BossTier.class);
 		}
-		BossConfig.Lang lang = new BossConfig.Lang();
-		cfg.lang.bossSpawnedAnnouncementWorld = lang.bossSpawnedAnnouncementWorld;
-		cfg.lang.bossSpawnedAnnouncementGlobal = lang.bossSpawnedAnnouncementGlobal;
-		cfg.lang.bossDefeatedAnnouncementWorld = lang.bossDefeatedAnnouncementWorld;
-		cfg.lang.bossDefeatedAnnouncementGlobal = lang.bossDefeatedAnnouncementGlobal;
-		cfg.lang.bossDisplayName = lang.bossDisplayName;
-		cfg.lang.bossPersonalDefeat = lang.bossPersonalDefeat;
-		cfg.lang.bossRewardWinnerHeader = lang.bossRewardWinnerHeader;
-		cfg.lang.bossRewardWinnerSummary = lang.bossRewardWinnerSummary;
-
 		for (BossTier tier : BossTier.values()) {
 			TierConfig tc = cfg.tiers.get(tier);
 			if (tc == null) {
@@ -196,29 +153,24 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		fileManager.save(cfg);
 	}
 
-	/* ---------- Config migration ---------- */
-
-	/** Reset pre-AnnounceLevel configs before Gson parses them. */
 	private void migrateLegacyConfig() {
 		String raw = fileManager.readFile("", "boss_config.json");
 		if (raw.isEmpty()) {
 			return;
 		}
-		boolean legacy = false;
+		boolean legacy;
 		try {
 			JsonObject root = JsonParser.parseString(raw).getAsJsonObject();
 			JsonObject tiers = root.getAsJsonObject("tiers");
 			if (tiers == null) {
 				return;
 			}
-			for (Map.Entry<String, JsonElement> entry : tiers.entrySet()) {
-				JsonElement announce = entry.getValue().getAsJsonObject().get("announceOnSpawn");
-				if (announce != null && announce.isJsonPrimitive() && announce.getAsJsonPrimitive().isBoolean()) {
-					legacy = true;
-					break;
-				}
-			}
-		} catch (Throwable t) {
+			legacy = tiers.entrySet().stream()
+					.map(Map.Entry::getValue)
+					.map(JsonElement::getAsJsonObject)
+					.map(obj -> obj.get("announceOnSpawn"))
+					.anyMatch(el -> el != null && el.isJsonPrimitive() && el.getAsJsonPrimitive().isBoolean());
+		} catch (RuntimeException t) {
 			Logger.warn("Could not inspect boss_config.json for legacy schema: " + t.getMessage());
 			return;
 		}
@@ -228,8 +180,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		Logger.warn("Legacy boss_config.json detected (boolean announceOnSpawn) — regenerating defaults.");
 		fileManager.writeFile("", "boss_config.json", "");
 	}
-
-	/* ---------- Validation ---------- */
 
 	private void validateConfig(BossConfig cfg) throws ModuleException {
 		if (cfg.tiers == null || cfg.tiers.isEmpty()) {
@@ -268,9 +218,8 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			if (tc.rewardRolls > 0 && tc.rewards.isEmpty()) {
 				throw new ModuleException(this,"Tier " + tier + " has rewardRolls > 0 but rewards is empty");
 			}
-			// Validate each reward entry — fail-loud at boot rather than at first dispatch.
 			for (int i = 0; i < tc.rewards.size(); i++) {
-				BossReward r = tc.rewards.get(i);
+				TierConfig.BossReward r = tc.rewards.get(i);
 				if (r == null) {
 					throw new ModuleException(this, "Tier " + tier + " reward[" + i + "] is null");
 				}
@@ -286,10 +235,8 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					throw new ModuleException(this, "Tier " + tier + " reward[" + i + "] rewardCommands is null");
 				}
 			}
-			// Normalize first — Cobblemon's getByName throws (uncaught) on uppercase path chars.
 			tc.extraSpecies = normalizeSpeciesList(tc.extraSpecies);
 			tc.excludedSpecies = normalizeSpeciesList(tc.excludedSpecies);
-			// Species in extraSpecies / excludedSpecies must resolve at boot, not at first spawn.
 			for (String s : tc.extraSpecies) {
 				if (PokemonSpecies.INSTANCE.getByName(s) == null) {
 					throw new ModuleException(this, "Tier " + tier + " extraSpecies contains unknown species: " + s);
@@ -300,8 +247,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					throw new ModuleException(this, "Tier " + tier + " excludedSpecies contains unknown species: " + s);
 				}
 			}
-			// MEGA extras act as the spawn allowlist — a non-mega-capable entry would otherwise
-			// spawn a base form wearing the Mega nameplate. Fail loud at boot instead.
 			if (tier == BossTier.MEGA) {
 				for (String s : tc.extraSpecies) {
 					boolean megaCapable = MegaEvolution.stream().anyMatch(me ->
@@ -324,10 +269,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 	}
 
 	private static List<String> normalizeSpeciesList(List<String> speciesList) {
-		if (speciesList == null) {
-			return List.of();
-		}
-		return speciesList.stream().map(name -> name.trim().toLowerCase(Locale.ROOT)).toList();
+		return speciesList == null ? List.of() : speciesList.stream().map(name -> name.trim().toLowerCase(Locale.ROOT)).toList();
 	}
 
 	private ChatFormatting parseGlowColor(String value, BossTier tier) throws ModuleException {
@@ -341,7 +283,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		}
 	}
 
-	private void resolveEffectParticles(EffectConfig effect, String label, BossTier tier) throws ModuleException {
+	private void resolveEffectParticles(TierConfig.EffectConfig effect, String label, BossTier tier) throws ModuleException {
 		if (effect == null || !effect.enabled) return;
 		if (effect.particles == null || effect.particles.isEmpty()) {
 			throw new ModuleException(this,"Tier " + tier + " " + label + " enabled but particles list is empty");
@@ -363,34 +305,30 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		effect.particleOptions = resolved;
 	}
 
-	/* ---------- Entity load (called via onInit-registered ENTITY_LOAD) ---------- */
-
 	public void handleEntityLoad(PokemonEntity entity) {
 		CompoundTag tag = entity.getPokemon().getPersistentData();
-		if (!tag.getBoolean(BossNbtKeys.BOSS)) {
-			return; // not a boss
+		if (!tag.getBoolean(NbtKeys.BOSS)) {
+			return;
 		}
-
-		// Boss admin-despawned while chunk was unloaded — discard now, don't re-register.
 		if (bossManager.consumePendingDiscard(entity.getUUID())) {
-			tag.putBoolean(BossNbtKeys.BOSS, false);
+			tag.putBoolean(NbtKeys.BOSS, false);
 			entity.discard();
 			Logger.info("Discarded boss entity " + entity.getUUID() + " on chunk reload (pending hard-despawn).");
 			return;
 		}
 
-		int schemaVersion = tag.contains(BossNbtKeys.SCHEMA)
-				? tag.getInt(BossNbtKeys.SCHEMA)
-				: 1; // missing = treat as v1 (backward compat)
+		int schemaVersion = tag.contains(NbtKeys.SCHEMA)
+				? tag.getInt(NbtKeys.SCHEMA)
+				: 1;
 
-		if (schemaVersion > BossNbtKeys.SCHEMA_VERSION) {
+		if (schemaVersion > NbtKeys.SCHEMA_VERSION) {
 			Logger.error("Boss NBT schema v" + schemaVersion + " is newer than supported v"
-					+ BossNbtKeys.SCHEMA_VERSION + "; discarding entity " + entity.getUUID());
+					+ NbtKeys.SCHEMA_VERSION + "; discarding entity " + entity.getUUID());
 			entity.discard();
 			return;
 		}
 
-		String tierName = tag.getString(BossNbtKeys.TIER);
+		String tierName = tag.getString(NbtKeys.TIER);
 		BossTier tier;
 		try {
 			tier = BossTier.valueOf(tierName);
@@ -406,55 +344,44 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			entity.discard();
 			return;
 		}
-
-		// systemSpawned: missing in v1 schema → treat as system (legacy bosses count toward floor).
-		boolean systemSpawned = !tag.contains(BossNbtKeys.SYSTEM_SPAWNED)
-				|| tag.getBoolean(BossNbtKeys.SYSTEM_SPAWNED);
-		// Spawn pos: v2+ stored in NBT; v1 (legacy) falls back to the entity's current position.
-		net.minecraft.core.BlockPos spawnPos = tag.contains(BossNbtKeys.SPAWN_X)
+		boolean systemSpawned = !tag.contains(NbtKeys.SYSTEM_SPAWNED)
+				|| tag.getBoolean(NbtKeys.SYSTEM_SPAWNED);
+		net.minecraft.core.BlockPos spawnPos = tag.contains(NbtKeys.SPAWN_X)
 				? new net.minecraft.core.BlockPos(
-						tag.getInt(BossNbtKeys.SPAWN_X),
-						tag.getInt(BossNbtKeys.SPAWN_Y),
-						tag.getInt(BossNbtKeys.SPAWN_Z))
+						tag.getInt(NbtKeys.SPAWN_X),
+						tag.getInt(NbtKeys.SPAWN_Y),
+						tag.getInt(NbtKeys.SPAWN_Z))
 				: entity.blockPosition();
-		net.minecraft.resources.ResourceLocation spawnDim = tag.contains(BossNbtKeys.SPAWN_DIMENSION)
-				? net.minecraft.resources.ResourceLocation.parse(tag.getString(BossNbtKeys.SPAWN_DIMENSION))
+		net.minecraft.resources.ResourceLocation spawnDim = tag.contains(NbtKeys.SPAWN_DIMENSION)
+				? net.minecraft.resources.ResourceLocation.parse(tag.getString(NbtKeys.SPAWN_DIMENSION))
 				: entity.level().dimension().location();
 
 		ActiveBoss boss = new ActiveBoss(
 				entity.getPokemon().getUuid(),
 				entity.getUUID(),
 				tier,
-				tag.getString(BossNbtKeys.SPECIES),
-				tag.getInt(BossNbtKeys.LEVEL),
-				tag.getLong(BossNbtKeys.SPAWNED_AT),
+				tag.getString(NbtKeys.SPECIES),
+				tag.getInt(NbtKeys.LEVEL),
+				tag.getLong(NbtKeys.SPAWNED_AT),
 				systemSpawned,
 				spawnPos,
 				spawnDim
 		);
-
-		// putIfAbsent → counter increment only on new insert. Only system bosses count toward the floor.
 		boolean newRegistration = bossManager.registerActive(boss);
 		if (newRegistration && systemSpawned) {
 			bossManager.forceReserveTier(tier);
 		}
 		if (newRegistration) {
-			Logger.info("Boss reloaded: " + tier + " " + tag.getString(BossNbtKeys.SPECIES)
-					+ " lv." + tag.getInt(BossNbtKeys.LEVEL)
+			Logger.info("Boss reloaded: " + tier + " " + tag.getString(NbtKeys.SPECIES)
+					+ " lv." + tag.getInt(NbtKeys.LEVEL)
 					+ " (" + entity.getUUID().toString().substring(0, 8) + ")"
 					+ (systemSpawned ? " [system]" : " [admin]") + " on chunk load");
 		}
-
-		// Re-assert persistence + invulnerability defense-in-depth (cheap no-op when already set).
 		entity.setPersistenceRequired();
 		entity.setInvulnerable(true);
-
-		// Re-apply the nickname so bosses spawned under an older name format pick up the current template.
 		if (bossSpawner != null) {
-			bossSpawner.applyBossName(entity, tc, tag.getString(BossNbtKeys.SPECIES), tag.getInt(BossNbtKeys.LEVEL));
+			bossSpawner.applyBossName(entity, tc, tag.getString(NbtKeys.SPECIES), tag.getInt(NbtKeys.LEVEL));
 		}
-
-		// Defer team apply by 500ms so clients track the entity before the team-membership packet.
 		MinecraftServer s = this.server;
 		if (s != null) {
 			com.raduvoinea.utils.lambda.ScheduleUtils.runTaskLater(
@@ -469,9 +396,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		bossManager.scheduleDespawn(boss);
 		bossManager.scheduleAmbientParticles(boss);
 	}
-
-	/* ---------- Lookup helpers ---------- */
-
 	public @Nullable PokemonEntity findEntity(UUID entityUUID) {
 		if (server == null) return null;
 		for (var level : server.getAllLevels()) {
@@ -480,16 +404,12 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		}
 		return null;
 	}
-
-	/** Hop to main thread. Returns false if the server is unavailable (shutdown / not yet started). */
 	public boolean runOnMain(Runnable r) {
 		MinecraftServer s = this.server;
 		if (s == null) return false;
 		s.execute(r);
 		return true;
 	}
-
-	/** Render a lang MessageBuilder via MiniMessage and dispatch to the command sender. */
 	public void sendLang(@org.jetbrains.annotations.NotNull net.minecraft.commands.CommandSource sender,
 	                     @org.jetbrains.annotations.NotNull com.raduvoinea.utils.message_builder.MessageBuilder mb) {
 		sender.sendSystemMessage(miniMessageManager.parse(mb.parse()));

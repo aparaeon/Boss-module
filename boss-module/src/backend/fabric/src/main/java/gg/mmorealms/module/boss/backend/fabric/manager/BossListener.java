@@ -15,11 +15,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
-
-/**
- * Auto-scanned listener for MMO @EventHandler events. Fabric/Cobblemon-native callbacks live in BossFabricModule.
- * BattleWonEvent fires off-main (fireAsync) → wrap entity/world mutations in runOnMain.
- */
 @OnlyOn(servers = ServerType.WILD)
 public class BossListener {
 
@@ -41,9 +36,6 @@ public class BossListener {
 		if (mod == null) return;
 		BossManager manager = mod.getBossManager();
 		if (manager == null) return;
-
-		// Locate any boss UUID among the losers. Wild PvE battles have a single PokemonBattleActor
-		// on the losing side, but iterate the full list to be defensive.
 		UUID defeatedBossUuid = findBossUuidIn(ev.getLosers());
 
 		if (defeatedBossUuid != null) {
@@ -51,7 +43,6 @@ public class BossListener {
 			Logger.debug("BattleWon: detected boss defeat uuid=" + defeatedBossUuid
 					+ " winner=" + winnerUuid);
 			if (winnerUuid != null) {
-				// fireAsync → off main thread. Hop to main for entity/world/command work.
 				mod.runOnMain(() -> {
 					ServerPlayer winner = mod.getServer() != null
 							? mod.getServer().getPlayerList().getPlayer(winnerUuid) : null;
@@ -63,19 +54,14 @@ public class BossListener {
 					manager.handleDefeat(defeatedBossUuid, winner);
 				});
 			} else {
-				// Battle was won but no PlayerBattleActor on the winning side (e.g. AI-only).
 				mod.runOnMain(() -> manager.handleDefeatWithoutReward(defeatedBossUuid, null,
 						"no player on winning side"));
 			}
 		}
-
-		// Only sweep pending despawns when there's actually work to do.
 		if (defeatedBossUuid != null || manager.hasPendingDespawns()) {
 			mod.runOnMain(manager::retryPendingDespawns);
 		}
 	}
-
-	/** Match by {@code originalPokemon.uuid} — effectedPokemon may be a battle-clone with a different UUID. */
 	private @Nullable UUID findBossUuidIn(@Nullable List<BattleActor> actors) {
 		if (actors == null) return null;
 		BossManager manager = BossFabricModule.instance().getBossManager();
@@ -89,7 +75,6 @@ public class BossListener {
 		}
 		return null;
 	}
-
 	private @Nullable UUID findFirstPlayerUuidIn(@Nullable List<BattleActor> actors) {
 		if (actors == null) return null;
 		for (BattleActor actor : actors) {

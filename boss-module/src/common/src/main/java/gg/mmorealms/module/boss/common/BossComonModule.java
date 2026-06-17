@@ -5,7 +5,6 @@ import gg.mmorealms.module.boss.BossModuleBuildConstants;
 import gg.mmorealms.loader.common.annotation.Module;
 import lombok.Getter;
 import lombok.experimental.Accessors;
-
 @Getter
 @Module(
 	id = BossModuleBuildConstants.ID,
@@ -14,11 +13,9 @@ import lombok.experimental.Accessors;
 	dependencies = BossModuleBuildConstants.DEPENDENCIES
 )
 public abstract class BossComonModule implements CommonModule {
-
 	@Getter
 	@Accessors(fluent = true)
 	protected static BossComonModule instance;
-
 	public BossComonModule() {
 		BossComonModule.instance = this;
 	}

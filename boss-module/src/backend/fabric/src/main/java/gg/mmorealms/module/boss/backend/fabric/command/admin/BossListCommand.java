@@ -1,4 +1,4 @@
-package gg.mmorealms.module.boss.backend.fabric.command;
+package gg.mmorealms.module.boss.backend.fabric.command.admin;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.raduvoinea.commandmanager.backend.common.command.BackendCommand;
@@ -6,8 +6,8 @@ import com.raduvoinea.commandmanager.common.annotation.Command;
 import com.raduvoinea.commandmanager.common.manager.CommonCommandManager;
 import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
-import gg.mmorealms.module.boss.backend.fabric.manager.ActiveBoss;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager;
+import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.ActiveBoss;
 import net.minecraft.commands.CommandSource;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +38,6 @@ public class BossListCommand extends BackendCommand {
 			mod.sendLang(sender, lang.adminListEmpty);
 			return;
 		}
-
 		mod.sendLang(sender, lang.adminListHeader.parse("count", active.size()));
 		for (ActiveBoss boss : active) {
 			PokemonEntity entity = mod.findEntity(boss.entityUUID());

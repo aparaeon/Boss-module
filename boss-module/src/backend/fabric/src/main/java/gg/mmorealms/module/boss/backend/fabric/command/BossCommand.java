@@ -12,7 +12,6 @@ import java.util.List;
 
 @Command(aliases = {"boss", "bossadmin", "mmoboss"})
 public class BossCommand extends BackendCommand {
-
 	public BossCommand(CommonCommandManager commandManager) {
 		super(commandManager);
 	}
