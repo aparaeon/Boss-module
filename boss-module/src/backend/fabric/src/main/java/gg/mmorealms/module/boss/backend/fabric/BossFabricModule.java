@@ -182,6 +182,12 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 	}
 
 	private void validateConfig(BossConfig cfg) throws ModuleException {
+		if (cfg.spawnRangeFromPlayer == null || cfg.spawnRangeFromPlayer.getMin() > cfg.spawnRangeFromPlayer.getMax()) {
+			throw new ModuleException(this, "BossConfig.spawnRangeFromPlayer min must be <= max");
+		}
+		if (cfg.randomSpawnRangeY == null || cfg.randomSpawnRangeY.getMin() > cfg.randomSpawnRangeY.getMax()) {
+			throw new ModuleException(this, "BossConfig.randomSpawnRangeY min must be <= max");
+		}
 		if (cfg.tiers == null || cfg.tiers.isEmpty()) {
 			throw new ModuleException(this,"BossConfig.tiers is empty");
 		}
