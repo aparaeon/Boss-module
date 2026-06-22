@@ -3,6 +3,9 @@ package gg.mmorealms.module.boss.backend.fabric.config;
 import com.raduvoinea.utils.generic.dto.Range;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.module.boss.common.BossTier;
+import gg.mmorealms.module.boss.common.BossTierTheme;
+import gg.mmorealms.module.core.backend.common.dto.GUIButton;
+import net.minecraft.world.item.Items;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -19,7 +22,17 @@ public class BossConfig {
 
 	public Map<BossTier, TierConfig> tiers = defaultTiers();
 
+	public DialogueGUI dialogueGUI = new DialogueGUI();
 	public Lang lang = new Lang();
+
+	public static class DialogueGUI {
+		public GUIButton battleButton = GUIButton.of(Items.DIAMOND_SWORD)
+				.position(5, 2)
+				.name("<green><bold>⚔ Battle");
+		public GUIButton leaveButton = GUIButton.of(Items.BARRIER)
+				.position(5, 6)
+				.name("<red><bold>✗ Leave");
+	}
 
 	private static Map<BossTier, TierConfig> defaultTiers() {
 		Map<BossTier, TierConfig> map = new EnumMap<>(BossTier.class);
@@ -31,70 +44,110 @@ public class BossConfig {
 
 	public static class Lang {
 		public MessageBuilder bossSpawnedAnnouncementWorld = new MessageBuilder(
-				"<dark_gray>« <{glow_color}>★ <dark_gray>» <gray>A wild {tier_display} <{glow_color}><bold>{species}</bold><gray> appeared in <white>{biome}<gray>!"
+				"{announcement_title}\n{announcement_line}"
 		);
 		public MessageBuilder bossSpawnedAnnouncementGlobal = new MessageBuilder(
-				"<{glow_color}>«« <bold>★ WILD BOSS ★</bold> »» <gray>A {tier_display} <{glow_color}><bold>{species}</bold><gray> has risen in the Wild!"
+				"{announcement_title}\n{announcement_line}"
 		);
 		public MessageBuilder bossDefeatedAnnouncementWorld = new MessageBuilder(
-				"<dark_gray>« <{glow_color}>★ <dark_gray>» <yellow><bold>{player}</bold><gray> defeated the {tier_display} <{glow_color}><bold>{species}</bold><gray>!"
+				"{announcement_title}\n{announcement_line}"
 		);
 		public MessageBuilder bossDefeatedAnnouncementGlobal = new MessageBuilder(
-				"<{glow_color}>«« <bold>★ BOSS DEFEATED ★</bold> »» <yellow><bold>{player}</bold><gray> has vanquished the {tier_display} <{glow_color}><bold>{species}</bold><gray>!"
+				"{announcement_title}\n{announcement_line}"
 		);
 		public MessageBuilder bossDisplayName = new MessageBuilder(
-				"<{glow_color}><bold>★ {tier_display} Boss ★</bold>\n<white>{species} <gray>Lv.{level}"
+				BossTierTheme.bossDisplayNameTemplate()
 		);
 
 		public MessageBuilder bossPersonalDefeat = new MessageBuilder(
-				"<gradient:#FFD700:#FFA500><bold>⚔ VICTORY!</bold></gradient> <white>You defeated the {tier_display} <{glow_color}><bold>{species}</bold><white>!"
+				BossTierTheme.personalDefeatTemplate()
+		);
+
+		public MessageBuilder bossVictoryLegendaryTitle = new MessageBuilder(
+				BossTierTheme.victoryLegendaryTitleTemplate()
+		);
+		public List<String> bossVictoryLegendarySubtitles = List.of(
+				"You conquered the Legendary boss {species}.",
+				"The legendary {species} has met its match.",
+				"Few have stood where you stand now."
+		);
+		public MessageBuilder bossVictoryMegaTitle = new MessageBuilder(
+				BossTierTheme.victoryMegaTitleTemplate()
+		);
+		public List<String> bossVictoryMegaSubtitles = List.of(
+				"You obliterated the Mega boss {species}.",
+				"The mighty {species} was no match for you.",
+				"You have done the impossible."
+		);
+		public MessageBuilder bossVictoryMythicalTitle = new MessageBuilder(
+				BossTierTheme.victoryMythicalTitleTemplate()
+		);
+		public List<String> bossVictoryMythicalSubtitles = List.of(
+				"You defeated the Mythical boss {species}.",
+				"The myths were wrong. You proved it.",
+				"What was eternal is no more.",
+				"The myth of {species} ends here."
 		);
 
 		public MessageBuilder bossRewardWinnerHeader = new MessageBuilder(
-				"<dark_gray>«« <gradient:#FFE259:#FFA751><bold>✦ BOSS REWARDS ✦</bold></gradient> <dark_gray>»»"
+				BossTierTheme.rewardHeaderTemplate()
 		);
 		public MessageBuilder bossRewardWinnerSummary = new MessageBuilder(
-				"<gray>You received <yellow>{rewards}<gray>!"
+				BossTierTheme.rewardSummaryTemplate()
 		);
 
 		public MessageBuilder adminUsageRoot = new MessageBuilder(
-				"<yellow>/boss admin <gray>subcommands:\n"
-						+ "<gray>  spawn <tier> [species] [level] [shiny] [x y z]\n"
-						+ "<gray>  despawn <all | tier <tier> | <short-id>>\n"
-						+ "<gray>  list <dark_gray>(show active bosses with their short-IDs)"
+				BossTierTheme.adminUsageRootTemplate()
 		);
-		public MessageBuilder adminUsageSpawn = new MessageBuilder("<red>/boss admin spawn <tier> [species] [level] [shiny] [x y z]");
-		public MessageBuilder adminUsageDespawn = new MessageBuilder("<red>/boss admin despawn <all | tier <tier> | <short-id>>");
-		public MessageBuilder adminUsageDespawnTier = new MessageBuilder("<red>/boss admin despawn tier <tier>");
+		public MessageBuilder adminUsageSpawn = new MessageBuilder(BossTierTheme.adminUsageSpawnTemplate());
+		public MessageBuilder adminUsageDespawn = new MessageBuilder(BossTierTheme.adminUsageDespawnTemplate());
+		public MessageBuilder adminUsageDespawnTier = new MessageBuilder(BossTierTheme.adminUsageDespawnTierTemplate());
 
 		public MessageBuilder adminSpawnSuccess = new MessageBuilder(
-				"<green>Spawned <white>{tier} <green>{species} <gray>lv.{level}{shiny_suffix} <gray>at <aqua>({x}, {y}, {z}) <dark_gray>| <gold>{short_id}"
+				BossTierTheme.adminSpawnSuccessTemplate()
 		);
-		public MessageBuilder adminSpawnShinySuffix = new MessageBuilder(" <yellow>✨");
-		public MessageBuilder adminDespawnSuccess = new MessageBuilder("<green>Despawn requested: <white>{tier} <green>{species} <dark_gray>({short_id})");
-		public MessageBuilder adminDespawnSuccessAll = new MessageBuilder("<green>Requested despawn of {count} boss(es).");
-		public MessageBuilder adminDespawnSuccessTier = new MessageBuilder("<green>Requested despawn of {count} {tier} boss(es).");
-		public MessageBuilder adminListEmpty = new MessageBuilder("<gray>No active bosses on this server.");
-		public MessageBuilder adminListHeader = new MessageBuilder("<yellow>Active bosses ({count}):");
+		public MessageBuilder adminSpawnShinySuffix = new MessageBuilder(BossTierTheme.adminSpawnShinySuffixTemplate());
+		public MessageBuilder adminDespawnSuccess = new MessageBuilder(
+				BossTierTheme.adminDespawnSuccessTemplate()
+		);
+		public MessageBuilder adminDespawnSuccessAll = new MessageBuilder(
+				BossTierTheme.adminDespawnSuccessAllTemplate()
+		);
+		public MessageBuilder adminDespawnSuccessTier = new MessageBuilder(
+				BossTierTheme.adminDespawnSuccessTierTemplate()
+		);
+		public MessageBuilder adminListEmpty = new MessageBuilder(BossTierTheme.adminListEmptyTemplate());
+		public MessageBuilder adminListHeader = new MessageBuilder(BossTierTheme.adminListHeaderTemplate());
 		public MessageBuilder adminListRow = new MessageBuilder(
-				"<gold>{short_id} <white>{tier} <green>{species} <gray>lv.{level}{origin} <dark_gray>| <gray>{location}"
+				BossTierTheme.adminListRowTemplate()
 		);
-		public MessageBuilder adminListLocation = new MessageBuilder("<gray>{dimension} <dark_gray>{x} {y} {z}");
+		public MessageBuilder adminListLocation = new MessageBuilder(BossTierTheme.adminListLocationTemplate());
 
-		public MessageBuilder adminModuleNotInitialized = new MessageBuilder("<red>Boss module is not initialized on this server.");
-		public MessageBuilder adminTierUnknown = new MessageBuilder("<red>Unknown tier: <white>{tier}");
-		public MessageBuilder adminLevelInvalid = new MessageBuilder("<red>Invalid level: <white>{value}");
-		public MessageBuilder adminLevelOutOfRange = new MessageBuilder("<red>Level <white>{level}<red> is outside tier <white>{tier}<red> range (<white>{min}<red>-<white>{max}<red>).");
-		public MessageBuilder adminSpeciesUnknown = new MessageBuilder("<red>Unknown Pokémon species: <white>{species}");
-		public MessageBuilder adminSpeciesNotInPool = new MessageBuilder("<red>Species <white>{species}<red> is not in tier <white>{tier}<red> spawn pool. Edit the tier config to add it.");
-		public MessageBuilder adminCoordsIncomplete = new MessageBuilder("<red>Coordinates require all three values: <white>x y z<red>.");
-		public MessageBuilder adminCoordsInvalid = new MessageBuilder("<red>Invalid coordinate: <white>{value}");
-		public MessageBuilder adminCoordsRequirePlayer = new MessageBuilder("<red>Forced coordinates require a player sender — run in-game or omit <white>x y z<red>.");
-		public MessageBuilder adminNoAnchor = new MessageBuilder("<red>No eligible anchor player on this server.");
-		public MessageBuilder adminPositionNotFound = new MessageBuilder("<red>Could not find a valid spawn position near anchor.");
-		public MessageBuilder adminSpawnFailed = new MessageBuilder("<red>Boss spawn failed — check server log.");
-		public MessageBuilder adminShortIdInvalid = new MessageBuilder("<red>Short-ID must be exactly 8 hex characters. Use /boss admin list to see active short-IDs.");
-		public MessageBuilder adminBossNotFound = new MessageBuilder("<red>No active boss matches <white>{value}<red>. Use tab-complete or /boss admin list.");
-		public MessageBuilder adminDespawnQueuedBattle = new MessageBuilder("<yellow>Boss <white>{short_id}<yellow> is currently in battle — queued to despawn once the battle ends.");
+		public MessageBuilder adminModuleNotInitialized = new MessageBuilder(BossTierTheme.adminModuleNotInitializedTemplate());
+		public MessageBuilder adminTierUnknown = new MessageBuilder(BossTierTheme.adminTierUnknownTemplate());
+		public MessageBuilder adminLevelInvalid = new MessageBuilder(BossTierTheme.adminLevelInvalidTemplate());
+		public MessageBuilder adminLevelOutOfRange = new MessageBuilder(BossTierTheme.adminLevelOutOfRangeTemplate());
+		public MessageBuilder adminSpeciesUnknown = new MessageBuilder(BossTierTheme.adminSpeciesUnknownTemplate());
+		public MessageBuilder adminSpeciesNotInPool = new MessageBuilder(BossTierTheme.adminSpeciesNotInPoolTemplate());
+		public MessageBuilder adminCoordsIncomplete = new MessageBuilder(BossTierTheme.adminCoordsIncompleteTemplate());
+		public MessageBuilder adminCoordsInvalid = new MessageBuilder(BossTierTheme.adminCoordsInvalidTemplate());
+		public MessageBuilder adminCoordsRequirePlayer = new MessageBuilder(BossTierTheme.adminCoordsRequirePlayerTemplate());
+		public MessageBuilder adminNoAnchor = new MessageBuilder(BossTierTheme.adminNoAnchorTemplate());
+		public MessageBuilder adminPositionNotFound = new MessageBuilder(BossTierTheme.adminPositionNotFoundTemplate());
+		public MessageBuilder adminSpawnFailed = new MessageBuilder(BossTierTheme.adminSpawnFailedTemplate());
+		public MessageBuilder adminShortIdInvalid = new MessageBuilder(BossTierTheme.adminShortIdInvalidTemplate());
+		public MessageBuilder adminBossNotFound = new MessageBuilder(BossTierTheme.adminBossNotFoundTemplate());
+		public MessageBuilder adminDespawnQueuedBattle = new MessageBuilder(
+				BossTierTheme.adminDespawnQueuedBattleTemplate()
+		);
+		public MessageBuilder adminDespawnQueuedCount = new MessageBuilder(
+				BossTierTheme.adminDespawnQueuedCountTemplate()
+		);
+		public MessageBuilder adminDespawnSuccessAllWithIds = new MessageBuilder(
+				BossTierTheme.adminDespawnSuccessAllWithIdsTemplate()
+		);
+		public MessageBuilder adminDespawnSuccessTierWithIds = new MessageBuilder(
+				BossTierTheme.adminDespawnSuccessTierWithIdsTemplate()
+		);
 	}
 }

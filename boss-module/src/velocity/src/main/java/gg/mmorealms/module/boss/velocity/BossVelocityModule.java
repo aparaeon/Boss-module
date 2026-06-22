@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
 		id = BossModuleBuildConstants.ID,
 		name = BossModuleBuildConstants.ID,
 		version = BossModuleBuildConstants.VERSION,
-		authors = {"Radu Voinea"}
+		authors = {"Aparaeon"}
 )
 @Getter
 public class BossVelocityModule extends BossComonModule implements VelocityModule {
@@ -41,19 +41,11 @@ public class BossVelocityModule extends BossComonModule implements VelocityModul
 	}
 	@Override
 	public void onEnable() throws ModuleException {
-		// Rarity model kept dormant — backend occupancy refill owns spawning for now.
-		if (config.baseSpawnChance <= 0 && config.playerSpawnChanceBias <= 0) {
-			Logger.info("Boss spawn scheduler dormant — baseSpawnChance and playerSpawnChanceBias are both 0.");
-			return;
-		}
 		this.lifecycleManager.start();
 	}
 	private void validate(BossVelocityConfig cfg) throws ModuleException {
 		if (cfg.spawnInterval == null || cfg.spawnInterval.toMilliseconds() <= 0) {
 			throw new ModuleException(this,"spawnInterval must be > 0");
-		}
-		if (cfg.baseSpawnChance < 0) {
-			throw new ModuleException(this,"baseSpawnChance must be >= 0");
 		}
 		if (cfg.tierWeights == null || cfg.tierWeights.isEmpty()) {
 			throw new ModuleException(this,"tierWeights must be non-empty");

@@ -71,14 +71,26 @@ public class BossDespawnCommand extends BackendCommand {
 			case "all": {
 				int cleaned = 0;
 				int queued = 0;
+				List<String> cleanedIds = new ArrayList<>();
+				List<String> queuedIds = new ArrayList<>();
 				// Snapshot to avoid mutating the active map while iterating.
 				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
-					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) cleaned++;
-					else queued++;
+					String shortId = BossManager.shortId(boss.pokemonUUID());
+					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) {
+						cleaned++;
+						cleanedIds.add(shortId);
+					} else {
+						queued++;
+						queuedIds.add(shortId);
+					}
 				}
-				mod.sendLang(sender, lang.adminDespawnSuccessAll.parse("count", cleaned));
+				mod.sendLang(sender, lang.adminDespawnSuccessAllWithIds
+						.parse("count", cleaned)
+						.parse("short_ids", String.join(", ", cleanedIds)));
 				if (queued > 0) {
-					mod.sendLang(sender, lang.adminDespawnQueuedBattle.parse("short_id", queued + " in-battle"));
+					mod.sendLang(sender, lang.adminDespawnQueuedCount
+							.parse("count", queued)
+							.parse("short_ids", String.join(", ", queuedIds)));
 				}
 				return;
 			}
@@ -97,16 +109,27 @@ public class BossDespawnCommand extends BackendCommand {
 				}
 				int cleaned = 0;
 				int queued = 0;
+				List<String> cleanedIds = new ArrayList<>();
+				List<String> queuedIds = new ArrayList<>();
 				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
 					if (boss.tier() != filter) continue;
-					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) cleaned++;
-					else queued++;
+					String shortId = BossManager.shortId(boss.pokemonUUID());
+					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) {
+						cleaned++;
+						cleanedIds.add(shortId);
+					} else {
+						queued++;
+						queuedIds.add(shortId);
+					}
 				}
-				mod.sendLang(sender, lang.adminDespawnSuccessTier
+				mod.sendLang(sender, lang.adminDespawnSuccessTierWithIds
 						.parse("count", cleaned)
-						.parse("tier", filter.name()));
+						.parse("tier", filter.name())
+						.parse("short_ids", String.join(", ", cleanedIds)));
 				if (queued > 0) {
-					mod.sendLang(sender, lang.adminDespawnQueuedBattle.parse("short_id", queued + " in-battle"));
+					mod.sendLang(sender, lang.adminDespawnQueuedCount
+							.parse("count", queued)
+							.parse("short_ids", String.join(", ", queuedIds)));
 				}
 				return;
 			}

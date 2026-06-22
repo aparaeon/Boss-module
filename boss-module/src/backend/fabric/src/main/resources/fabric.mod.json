@@ -4,7 +4,7 @@
   "version": "${version}",
   "name": "${id}",
   "description": "",
-  "authors": [],
+  "authors": ["Aparaeon"],
   "contact": {},
   "license": "All-Rights-Reserved",
   "icon": "assets/icon.png",

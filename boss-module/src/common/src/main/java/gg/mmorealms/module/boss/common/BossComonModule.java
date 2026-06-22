@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Module(
 	id = BossModuleBuildConstants.ID,
 	version = BossModuleBuildConstants.VERSION,
-	authors = {"Radu Voinea"},
+	authors = {"Aparaeon"},
 	dependencies = BossModuleBuildConstants.DEPENDENCIES
 )
 public abstract class BossComonModule implements CommonModule {

@@ -12,8 +12,13 @@ import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
 import gg.mmorealms.module.boss.backend.fabric.config.TierConfig;
 import gg.mmorealms.module.boss.common.BossTier;
+import gg.mmorealms.module.boss.common.BossTierTheme;
 import gg.mmorealms.module.chat.common.dto.GlobalMessageEvent;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
+import com.raduvoinea.utils.message_builder.MessageBuilder;
+import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -299,6 +304,7 @@ public class BossManager {
 
 		if (kind == CleanupKind.DEFEAT && winner != null) {
 			TierConfig tc = config.tiers.get(boss.tier());
+			sendVictoryTitle(winner, boss);
 			sendPersonalDefeat(winner, boss, tc);
 			dispatchRewards(boss, winner);
 		}
@@ -326,11 +332,41 @@ public class BossManager {
 
 	private void sendPersonalDefeat(@NotNull ServerPlayer winner, @NotNull ActiveBoss boss, @NotNull TierConfig tc) {
 		sendToWinner(winner, config.lang.bossPersonalDefeat
-				.parse("glow_color", tc.glowColor.toLowerCase())
-				.parse("tier_display", tc.displayName)
 				.parse("species", boss.species())
 				.parse());
 	}
+
+	private void sendVictoryTitle(@NotNull ServerPlayer winner, @NotNull ActiveBoss boss) {
+		String speciesDisplay = speciesDisplayName(boss.species());
+		VictoryScreen screen = victoryScreenFor(boss.tier());
+		if (screen == null) {
+			return;
+		}
+		sendTitlePopup(winner, screen.title().parse(), pickVictorySubtitle(screen.subtitles(), speciesDisplay));
+	}
+
+	private void sendTitlePopup(@NotNull ServerPlayer winner, @NotNull String title, @NotNull String subtitle) {
+		var miniMessage = BossFabricModule.instance().getMiniMessageManager();
+		winner.connection.send(new ClientboundSetTitlesAnimationPacket(10, 70, 20));
+		winner.connection.send(new ClientboundSetTitleTextPacket(miniMessage.parse(title)));
+		winner.connection.send(new ClientboundSetSubtitleTextPacket(miniMessage.parse(subtitle)));
+	}
+
+	private @Nullable VictoryScreen victoryScreenFor(@NotNull BossTier tier) {
+		return switch (tier) {
+			case LEGENDARY -> new VictoryScreen(config.lang.bossVictoryLegendaryTitle, config.lang.bossVictoryLegendarySubtitles);
+			case MEGA -> new VictoryScreen(config.lang.bossVictoryMegaTitle, config.lang.bossVictoryMegaSubtitles);
+			case MYTHICAL -> new VictoryScreen(config.lang.bossVictoryMythicalTitle, config.lang.bossVictoryMythicalSubtitles);
+			default -> null;
+		};
+	}
+
+	private static String pickVictorySubtitle(@NotNull List<String> variants, @NotNull String speciesDisplay) {
+		String picked = variants.isEmpty() ? "" : variants.get(RandomUtils.getRandom(0, variants.size() - 1));
+		return picked.replace("{species}", speciesDisplay);
+	}
+
+	private record VictoryScreen(@NotNull MessageBuilder title, @NotNull List<String> subtitles) {}
 
 	private void tryRefillTier(@NotNull BossTier tier) {
 		TierConfig tc = config.tiers.get(tier);
@@ -628,6 +664,7 @@ public class BossManager {
 			return;
 		}
 		String glow = tc.glowColor.toLowerCase();
+		String speciesDisplay = speciesDisplayName(boss.species());
 
 		switch (lvl) {
 			case WORLD_CHAT -> {
@@ -635,27 +672,51 @@ public class BossManager {
 					return;
 				}
 				String message = config.lang.bossDefeatedAnnouncementWorld
+						.parse("announcement_title", BossTierTheme.title(boss.tier(), BossTierTheme.BannerKind.DEFEAT))
+						.parse("announcement_line", BossTierTheme.defeatLine(boss.tier(), speciesDisplay, username))
 						.parse("glow_color", glow)
 						.parse("tier_display", tc.displayName)
-						.parse("species", boss.species())
+						.parse("species", speciesDisplay)
+						.parse("species_display", speciesDisplay)
 						.parse("player", username)
 						.parse();
-				net.minecraft.network.chat.Component comp = BossFabricModule.instance()
-						.getMiniMessageManager().parse(message);
-				for (ServerPlayer p : worldLevel.players()) {
-					p.sendSystemMessage(comp);
-				}
+				sendWorldChat(worldLevel, message);
 			}
 			case GLOBAL_CHAT -> {
 				String message = config.lang.bossDefeatedAnnouncementGlobal
-						.parse("glow_color", glow)
-						.parse("tier_display", tc.displayName)
-						.parse("species", boss.species())
-						.parse("player", username)
+						.parse("announcement_title", BossTierTheme.title(boss.tier(), BossTierTheme.BannerKind.DEFEAT))
+						.parse("announcement_line", BossTierTheme.defeatLine(boss.tier(), speciesDisplay, username))
 						.parse();
-				new GlobalMessageEvent(message).send();
+				sendGlobalChat(message);
 			}
 			default -> {}
 		}
+	}
+
+	private void sendWorldChat(@NotNull ServerLevel worldLevel, @NotNull String message) {
+		net.minecraft.network.chat.Component comp = BossFabricModule.instance()
+				.getMiniMessageManager().parse(message);
+		for (ServerPlayer p : worldLevel.players()) {
+			p.sendSystemMessage(comp);
+		}
+	}
+
+	private void sendGlobalChat(@NotNull String message) {
+		new GlobalMessageEvent(message).send();
+	}
+
+	private static String speciesDisplayName(@NotNull String species) {
+		com.cobblemon.mod.common.pokemon.Species resolved = com.cobblemon.mod.common.api.pokemon.PokemonSpecies.INSTANCE.getByName(species);
+		if (resolved != null) {
+			return capitalizeFirst(resolved.getTranslatedName().getString());
+		}
+		return capitalizeFirst(species);
+	}
+
+	private static String capitalizeFirst(@NotNull String text) {
+		if (text.isEmpty()) {
+			return text;
+		}
+		return Character.toUpperCase(text.charAt(0)) + text.substring(1);
 	}
 }

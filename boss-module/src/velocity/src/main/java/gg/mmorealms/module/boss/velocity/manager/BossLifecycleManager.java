@@ -18,7 +18,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 public class BossLifecycleManager {
 	private final BossVelocityConfig config;
@@ -58,11 +57,6 @@ public class BossLifecycleManager {
 	}
 	private void tick() {
 		AfkManager afk = AnalyticsVelocityModule.instance().getAfkManager();
-		int activeNonAfk = countAllNonAfk(afk);
-		double effective = config.baseSpawnChance + (activeNonAfk * config.playerSpawnChanceBias);
-		if (ThreadLocalRandom.current().nextDouble(100.0) >= effective) {
-			return;
-		}
 		EngineServer target = pickTargetServer(afk);
 		if (target == null) {
 			Logger.debug("BossScheduler: no eligible WILD backend; skipping tick.");
@@ -87,17 +81,6 @@ public class BossLifecycleManager {
 				null,
 				eligible
 		).send();
-	}
-	private int countAllNonAfk(AfkManager afk) {
-		int total = 0;
-		for (EngineServer es : serverManager.getServers(ServerType.WILD)) {
-			RegisteredServer rs = es.getProxyServer();
-			if (rs == null) continue;
-			for (Player p : rs.getPlayersConnected()) {
-				if (!afk.isAfk(p.getUniqueId())) total++;
-			}
-		}
-		return total;
 	}
 	public @Nullable EngineServer pickTargetServer(AfkManager afk) {
 		List<EngineServer> candidates = serverManager.getServers(ServerType.WILD).stream()

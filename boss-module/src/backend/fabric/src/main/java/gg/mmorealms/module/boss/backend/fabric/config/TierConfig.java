@@ -48,9 +48,14 @@ public class TierConfig {
 
 	public List<BossReward> rewards = List.of();
 	public int rewardRolls = 0;
+	public List<List<String>> dialogueBoxes = List.of();
 
 	public AnnounceLevel announceOnSpawn = AnnounceLevel.OFF;
 	public AnnounceLevel announceOnDefeat = AnnounceLevel.OFF;
+
+	public int attackBoostStages = 0;
+	public int defenceBoostStages = 0;
+	public int speedBoostStages = 0;
 
 	public transient ChatFormatting glowChatFmt;
 
@@ -89,6 +94,10 @@ public class TierConfig {
 		}
 	}
 
+	private static List<String> dialogue(String... lines) {
+		return List.of(lines);
+	}
+
 	@NoArgsConstructor
 	@AllArgsConstructor
 	@Getter
@@ -110,17 +119,27 @@ public class TierConfig {
 			case COMMON -> {
 				tc.displayName = "<b><gradient:#C9D6DF:#F8F9FA>Common</gradient></b>";
 				tc.glowColor = "white";
+				tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+					tc.attackBoostStages = 1;
+					tc.defenceBoostStages = 1;
 				tc.levelRange = new Range(10, 30);
-				tc.scale = 1.2F;
+				tc.scale = 2.0F;
 				tc.maxIvs = true;
-				tc.maxActive = 1;
+				tc.maxActive = 2;
 				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(2);
+				tc.despawnAfter = Time.minutes(5);
 				tc.announceOnSpawn = AnnounceLevel.OFF;
 				tc.announceOnDefeat = AnnounceLevel.OFF;
 				tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 				tc.bstRange = new Range(0, 349);
 				tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 8, 2, 0.3);
+				tc.dialogueBoxes = List.of(
+						dialogue("A stubborn presence holds this stretch of the wild.", "The land refuses to look empty while it stands here."),
+						dialogue("A low-born threat keeps watch over its territory.", "Nothing here is given freely."),
+						dialogue("The air carries the weight of a creature shaped by the wild.", "It has no interest in yielding."),
+						dialogue("A modest power still demands respect.", "Even the smallest bosses leave a mark."),
+						dialogue("A simple boss remains rooted in unfamiliar ground.", "The wild has made it hard to move.")
+				);
 				tc.rewardRolls = 1;
 				tc.rewards = List.of(
 						reward(30, 2, 4, "give {user} cobblemon:poke_ball {quantity}"),
@@ -139,17 +158,27 @@ public class TierConfig {
 			case UNCOMMON -> {
 				tc.displayName = "<b><gradient:#11998E:#38EF7D>Uncommon</gradient></b>";
 				tc.glowColor = "green";
+					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+					tc.attackBoostStages = 1;
+					tc.defenceBoostStages = 2;
 				tc.levelRange = new Range(20, 40);
-				tc.scale = 1.3F;
+				tc.scale = 2.2F;
 					tc.maxIvs = true;
-					tc.maxActive = 1;
+					tc.maxActive = 2;
 					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(2);
+					tc.despawnAfter = Time.minutes(5);
 					tc.announceOnSpawn = AnnounceLevel.OFF;
 					tc.announceOnDefeat = AnnounceLevel.OFF;
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(350, 449);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:happy_villager", 7, 3, 0.3);
+					tc.dialogueBoxes = List.of(
+							dialogue("A rogue presence lingers where it was never meant to stay.", "It learned to survive by moving first."),
+							dialogue("A wandering boss has sharpened itself on hard roads.", "Comfort was never part of its story."),
+							dialogue("The wild has turned this one into a restless threat.", "Stillness does not suit it."),
+							dialogue("A lone power keeps to the margins.", "It has no need for a crowd."),
+							dialogue("A clever boss survives by being difficult to catch.", "That lesson was learned well.")
+					);
 					tc.rewardRolls = 1;
 					tc.rewards = List.of(
 							reward(25, 2, 4, "give {user} cobblemon:great_ball {quantity}"),
@@ -166,20 +195,31 @@ public class TierConfig {
 					);
 				}
 				case RARE -> {
-				tc.displayName = "<b><gradient:#36D1DC:#5B86E5>Rare</gradient></b>";
-				tc.glowColor = "blue";
+					tc.displayName = "<b><gradient:#36D1DC:#5B86E5>Rare</gradient></b>";
+					tc.glowColor = "blue";
+					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+					tc.attackBoostStages = 2;
+					tc.defenceBoostStages = 2;
+					tc.speedBoostStages = 1;
 				tc.levelRange = new Range(35, 55);
-				tc.scale = 1.5F;
+				tc.scale = 2.5F;
 				tc.maxIvs = true;
-				tc.maxActive = 1;
+				tc.maxActive = 2;
 					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(2);
+					tc.despawnAfter = Time.minutes(5);
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(450, 529);
-					tc.announceOnSpawn = AnnounceLevel.OFF;
-					tc.announceOnDefeat = AnnounceLevel.OFF;
-					tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 5, 4, 0.4);
-					tc.rewardRolls = 2;
+						tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
+						tc.announceOnDefeat = AnnounceLevel.WORLD_CHAT;
+						tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 5, 4, 0.4);
+						tc.dialogueBoxes = List.of(
+								dialogue("A rare power settles into the battlefield.", "Its presence feels tempered by many fights."),
+								dialogue("This boss carries the silence of a veteran.", "Nothing about it feels accidental."),
+								dialogue("A refined threat stands in the open.", "Its strength has been tested and kept."),
+								dialogue("The encounter tightens around a serious opponent.", "This is no casual presence."),
+								dialogue("A battle-hardened force has made itself known.", "Few wins come easily against it.")
+						);
+						tc.rewardRolls = 2;
 					tc.rewards = List.of(
 							reward(22, 3, 6, "give {user} cobblemon:ultra_ball {quantity}"),
 							reward(18, 2, 4, "give {user} cobblemon:rare_candy {quantity}"),
@@ -194,21 +234,32 @@ public class TierConfig {
 							reward(2, 1, 1, "give {user} cobblemon:ability_capsule {quantity}")
 					);
 				}
-				case ULTRA_RARE -> {
-				tc.displayName = "<b><gradient:#DA22FF:#9733EE>Ultra Rare</gradient></b>";
-				tc.glowColor = "light_purple";
+					case ULTRA_RARE -> {
+					tc.displayName = "<b><gradient:#DA22FF:#FFF59D:#9733EE>Ultra Rare</gradient></b>";
+					tc.glowColor = "light_purple";
+					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+					tc.attackBoostStages = 3;
+					tc.defenceBoostStages = 3;
+					tc.speedBoostStages = 1;
 				tc.levelRange = new Range(60, 90);
-				tc.scale = 1.8F;
+				tc.scale = 2.8F;
 				tc.maxIvs = true;
-				tc.maxActive = 1;
+				tc.maxActive = 2;
 					tc.minActive = 1;
-					tc.despawnAfter = Time.minutes(3);
-				tc.pokemonClasses = List.of(PokemonClass.NORMAL);
-					tc.bstRange = new Range(530, 9999);
-					tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
-					tc.announceOnDefeat = AnnounceLevel.OFF;
-					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 15, 0.5);
-					tc.rewardRolls = 2;
+					tc.despawnAfter = Time.minutes(5);
+						tc.pokemonClasses = List.of(PokemonClass.NORMAL);
+						tc.bstRange = new Range(530, 9999);
+						tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
+						tc.announceOnDefeat = AnnounceLevel.WORLD_CHAT;
+						tc.spawnEffect = EffectConfig.burst("minecraft:end_rod", 18, 0.5);
+						tc.dialogueBoxes = List.of(
+								dialogue("An unusually powerful presence gathers in the wild.", "The air around it feels heavier than it should."),
+								dialogue("A near-elite boss stands where ordinary encounters fade.", "Its rarity only sharpens the danger."),
+								dialogue("The battlefield bends around a force like this.", "It has the posture of something exceptional."),
+								dialogue("A boss of rare stature leaves a deep pressure behind.", "Even its stillness feels intentional."),
+								dialogue("A presence like this does not belong to the ordinary.", "It turns the encounter into a warning.")
+						);
+						tc.rewardRolls = 2;
 					tc.rewards = List.of(
 							reward(20, 2, 4, "give {user} cobblemon:rare_candy {quantity}"),
 							reward(18, 1, 3, "give {user} cobblemon:exp_candy_l {quantity}"),
@@ -223,21 +274,32 @@ public class TierConfig {
 							reward(3, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
-				case LEGENDARY -> {
-				tc.displayName = "<b><gradient:#FFB300:#FFF59D:#FFB300>Legendary</gradient></b>";
-				tc.glowColor = "gold";
+					case LEGENDARY -> {
+					tc.displayName = "<b><gradient:#FFB300:#FFF59D:#FFB300>Legendary</gradient></b>";
+					tc.glowColor = "gold";
+					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+					tc.attackBoostStages = 4;
+					tc.defenceBoostStages = 4;
+					tc.speedBoostStages = 1;
 				tc.levelRange = new Range(90, 120);
-				tc.scale = 2.2F;
+				tc.scale = 3.5F;
 				tc.maxIvs = true;
 				tc.maxActive = 1;
-				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(3);
-				tc.pokemonClasses = List.of(PokemonClass.LEGENDARY);
-				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
-					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
-					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 20, 0.5);
-					tc.ambientEffect = EffectConfig.recurring("minecraft:end_rod", 5, 4, 0.4);
-					tc.rewardRolls = 3;
+				tc.minActive = 0;
+				tc.despawnAfter = Time.minutes(10);
+						tc.pokemonClasses = List.of(PokemonClass.LEGENDARY);
+						tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
+						tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
+						tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 20, 0.5);
+						tc.ambientEffect = EffectConfig.recurring("minecraft:end_rod", 5, 4, 0.4);
+						tc.dialogueBoxes = List.of(
+								dialogue("A legendary presence has taken shape.", "The old stories feel closer when it stands here."),
+								dialogue("A name-worthy boss lingers like history refusing to disappear.", "Nothing about it feels temporary."),
+								dialogue("The battlefield carries the weight of something enduring.", "Legends do not arrive by accident."),
+								dialogue("A force that outlasted many challengers has returned.", "Its silence speaks like authority."),
+								dialogue("The air itself seems to remember this boss.", "That kind of memory is hard to erase.")
+						);
+						tc.rewardRolls = 3;
 					tc.rewards = List.of(
 							reward(15, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
 							reward(13, 3, 6, "give {user} cobblemon:rare_candy {quantity}"),
@@ -258,18 +320,30 @@ public class TierConfig {
 				case MEGA -> {
 				// 2-stop only — 3-stop on a 4-letter word stripes per-letter.
 				tc.displayName = "<b><gradient:#FF0080:#7928CA>Mega</gradient></b>";
+				tc.attackBoostStages = 5;
+				tc.defenceBoostStages = 4;
+				tc.speedBoostStages = 2;
+				// Cobblemon renders its own "Lv. X" for mega-form Pokémon; omit ours to avoid duplication.
+				tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species}";
 				tc.glowColor = "aqua";
 				tc.levelRange = new Range(100, 130);
-				tc.scale = 2.5F;
+				tc.scale = 4.0F;
 				tc.maxIvs = true;
 				tc.maxActive = 1;
-				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(3);
-				tc.includeAllMegaCapable = true;
-				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
+				tc.minActive = 0;
+					tc.despawnAfter = Time.minutes(10);
+					tc.includeAllMegaCapable = true;
+					tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
 					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 15, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:soul_fire_flame", 4, 5, 0.5);
+					tc.dialogueBoxes = List.of(
+							dialogue("A transformed power hangs unstable in the air.", "Its strength feels less contained than before."),
+							dialogue("A violent evolution has turned this boss into a disaster.", "The form itself looks ready to erupt."),
+							dialogue("The battlefield strains under raw, unsteady force.", "This is power without comfort."),
+							dialogue("A sharpened storm has taken shape here.", "It feels built to break momentum."),
+							dialogue("Something immense and volatile is standing in place.", "The encounter already feels dangerous.")
+					);
 					tc.rewardRolls = 3;
 					tc.rewards = List.of(
 							reward(15, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
@@ -292,18 +366,29 @@ public class TierConfig {
 				case MYTHICAL -> {
 				tc.displayName = "<b><gradient:#FF1744:#FFD700:#FF1744>Mythical</gradient></b>";
 				tc.glowColor = "red";
+					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+					tc.attackBoostStages = 5;
+					tc.defenceBoostStages = 5;
+					tc.speedBoostStages = 2;
 				tc.levelRange = new Range(120, 150);
-				tc.scale = 3.0F;
+				tc.scale = 4.0F;
 				tc.maxIvs = true;
 				tc.maxActive = 1;
-				tc.minActive = 1;
-				tc.despawnAfter = Time.minutes(3);
-				// Ultra Beasts are bundled into Mythical — treated as mythical-equivalent power level.
-				tc.pokemonClasses = List.of(PokemonClass.MYTHICAL, PokemonClass.ULTRA_BEAST);
-				tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
+				tc.minActive = 0;
+				tc.despawnAfter = Time.minutes(10);
+					// Ultra Beasts are bundled into Mythical — treated as mythical-equivalent power level.
+					tc.pokemonClasses = List.of(PokemonClass.MYTHICAL, PokemonClass.ULTRA_BEAST);
+					tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
 					tc.spawnEffect = EffectConfig.burst("minecraft:dragon_breath", 25, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:flame", 3, 6, 0.5);
+					tc.dialogueBoxes = List.of(
+							dialogue("An ancient presence has surfaced where it should not be.", "The world seems smaller around it."),
+							dialogue("A forgotten power has returned with old weight still intact.", "Its age feels older than the story around it."),
+							dialogue("The encounter has crossed into something nearly myth-bound.", "There is history in the air."),
+							dialogue("A relic of a harsher age stands in the wild.", "It carries the silence of long memory."),
+							dialogue("Something beyond ordinary rarity has awakened here.", "The battlefield feels like a borrowed place.")
+					);
 					tc.rewardRolls = 3;
 					tc.rewards = List.of(
 							reward(12, 3, 5, "give {user} cobblemon:exp_candy_xl {quantity}"),

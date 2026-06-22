@@ -80,6 +80,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 
 		ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
 			if (!(entity instanceof PokemonEntity pe)) return;
+			// Must defer; sync handling re-enters addFreshEntity and breaks all boss spawns.
 			runOnMain(() -> handleEntityLoad(pe));
 		});
 		net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents.START_TRACKING
@@ -115,6 +116,39 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					return kotlin.Unit.INSTANCE;
 				}
 		);
+		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_STARTED_POST.subscribe(
+				com.cobblemon.mod.common.api.Priority.NORMAL,
+				event -> {
+					for (com.cobblemon.mod.common.battles.ActiveBattlePokemon abp : event.getBattle().getActivePokemon()) {
+						com.cobblemon.mod.common.battles.pokemon.BattlePokemon bp = abp.getBattlePokemon();
+						if (bp == null) continue;
+						CompoundTag tag = bp.getOriginalPokemon().getPersistentData();
+						if (!tag.getBoolean(NbtKeys.BOSS)) continue;
+						String tierName = tag.getString(NbtKeys.TIER);
+						BossTier tier;
+						try {
+							tier = BossTier.valueOf(tierName);
+						} catch (IllegalArgumentException e) {
+							continue;
+						}
+						TierConfig tc = config.tiers.get(tier);
+						if (tc == null) continue;
+						try {
+							Map<com.cobblemon.mod.common.api.pokemon.stats.Stat, Integer> changes = bp.getStatChanges();
+							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, tc.attackBoostStages);
+							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, tc.attackBoostStages);
+							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, tc.defenceBoostStages);
+							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, tc.defenceBoostStages);
+							if (tc.speedBoostStages != 0) {
+								changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, tc.speedBoostStages);
+							}
+						} catch (UnsupportedOperationException uoe) {
+							Logger.error("Boss stat boost failed for tier " + tier + " — statChanges map is unmodifiable: " + uoe.getMessage());
+						}
+					}
+					return kotlin.Unit.INSTANCE;
+				}
+		);
 		bossManager.bootstrapFillAllTiers();
 		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
 				() -> bossManager.refillSweep(),
@@ -139,6 +173,11 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			TierConfig defaults = TierConfig.defaultsFor(tier);
 			tc.displayName = defaults.displayName;
 			tc.glowColor = defaults.glowColor;
+			tc.announceOnSpawn = defaults.announceOnSpawn;
+			tc.announceOnDefeat = defaults.announceOnDefeat;
+			if (tc.dialogueBoxes == null || tc.dialogueBoxes.isEmpty()) {
+				tc.dialogueBoxes = defaults.dialogueBoxes;
+			}
 			if (tc.minActive <= 0 && defaults.minActive > 0) {
 				Logger.warn("Boss tier " + tier + " had minActive=" + tc.minActive
 						+ " in boss_config.json; raising to " + defaults.minActive + ".");

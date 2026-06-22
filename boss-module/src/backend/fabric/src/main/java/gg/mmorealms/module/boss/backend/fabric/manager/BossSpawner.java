@@ -16,6 +16,7 @@ import gg.mmorealms.module.boss.backend.fabric.config.TierConfig;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.ActiveBoss;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.NbtKeys;
 import gg.mmorealms.module.boss.common.BossTier;
+import gg.mmorealms.module.boss.common.BossTierTheme;
 import gg.mmorealms.module.boss.common.event.BossSpawnEvent;
 import gg.mmorealms.module.mega_evolution.backend.fabric.dto.MegaEvolution;
 import gg.mmorealms.module.pokemon.backend.common.PokemonBackendModule;
@@ -26,10 +27,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -180,41 +183,58 @@ public class BossSpawner {
 			Logger.warn("BossSpawnEvent: no online anchor player; aborting");
 			return;
 		}
-
-		if (!manager.tryReserveTier(ev.getTier())) {
-			Logger.info("Tier " + ev.getTier() + " is at cap (" + tc.maxActive + "); spawn aborted");
+		BossTier spawnTier = resolveUncappedTier(ev.getTier());
+		if (spawnTier == null) {
+			Logger.debug("BossScheduler: all tiers at cap; tick dropped.");
 			return;
 		}
+		TierConfig spawnTc = config.tiers.get(spawnTier);
 
 		boolean owned = false;
 		try {
-			SpeciesPick pick = resolveSpecies(ev.getTier(), tc, ev.getSpecies(), /*enforceTierPool=*/ true);
+			SpeciesPick pick = resolveSpecies(spawnTier, spawnTc, ev.getSpecies(), /*enforceTierPool=*/ true);
 			if (pick == null) {
-				Logger.warn("Could not resolve species for tier " + ev.getTier() + "; aborting");
+				Logger.warn("Could not resolve species for tier " + spawnTier + "; aborting");
 				return;
 			}
 
-			int level = resolveLevel(tc, ev);
+			int level = resolveLevel(spawnTc, ev);
 			if (level < 0) {
 				return;
 			}
 
-			BlockPos position = SpawnPositionFinder.find(anchor, tc, config);
+			BlockPos position = SpawnPositionFinder.find(anchor, spawnTc, config);
 			if (position == null) {
 				Logger.warn("Could not find valid spawn position for " + pick.species()
 						+ " near " + anchor.getName().getString());
 				return;
 			}
 
-			owned = spawnBoss(server, anchor, position, ev.getTier(), tc, pick, level, ev.isShiny(), /*systemSpawned=*/ true) != null;
+			owned = spawnBoss(server, anchor, position, spawnTier, spawnTc, pick, level, ev.isShiny(), /*systemSpawned=*/ true) != null;
 		} catch (RuntimeException t) {
-			Logger.error("Boss spawn failed for tier " + ev.getTier()
+			Logger.error("Boss spawn failed for tier " + spawnTier
 					+ " — " + StackTraceUtils.toString(t));
 		} finally {
 			if (!owned) {
-				manager.releaseTier(ev.getTier());
+				manager.releaseTier(spawnTier);
 			}
 		}
+	}
+
+	private @Nullable BossTier resolveUncappedTier(@NotNull BossTier requested) {
+		if (manager.tryReserveTier(requested)) {
+			return requested;
+		}
+		List<BossTier> others = new ArrayList<>(List.of(BossTier.values()));
+		others.remove(requested);
+		Collections.shuffle(others);
+		for (BossTier candidate : others) {
+			if (config.tiers.containsKey(candidate) && manager.tryReserveTier(candidate)) {
+				Logger.info("Tier " + requested + " at cap; re-rolled to " + candidate);
+				return candidate;
+			}
+		}
+		return null;
 	}
 
 	private record SpeciesPick(String species, @Nullable String megaAspect) {}
@@ -363,6 +383,15 @@ public class BossSpawner {
 				props.setIvs(IVs.createRandomIVs(6));
 			}
 			props.getCustomProperties().add(UncatchableProperty.INSTANCE.uncatchable());
+			com.cobblemon.mod.common.pokemon.Species speciesObj = PokemonSpecies.INSTANCE.getByName(species);
+			List<String> bestMoves = pickBestMoves(speciesObj, level);
+			if (!bestMoves.isEmpty()) {
+				props.setMoves(bestMoves);
+			}
+			String nature = pickNature(speciesObj, level);
+			if (nature != null) {
+				props.setNature(nature);
+			}
 
 			pokemon = new Pokemon();
 			props.apply(pokemon);
@@ -371,7 +400,8 @@ public class BossSpawner {
 			if (pick.megaAspect() != null) {
 				pokemon.setForcedAspects(Set.of(pick.megaAspect()));
 			}
-			pokemon.teachLearnableMoves(true);
+			// false = don't replace our curated moveset, only fill any remaining empty slots.
+			pokemon.teachLearnableMoves(false);
 			if (tc.maxEvs) {
 				applyMaxEvs(pokemon);
 			}
@@ -510,6 +540,38 @@ public class BossSpawner {
 		entity.setCustomNameVisible(true);
 	}
 
+	public void handleBossDialogue(@NotNull ServerPlayer player, @NotNull PokemonEntity entity,
+	                               @NotNull net.minecraft.world.InteractionHand hand) {
+		if (player.level().isClientSide) {
+			return;
+		}
+		UUID pokemonUUID = entity.getPokemon().getUuid();
+		ActiveBoss boss = manager.get(pokemonUUID);
+		if (boss == null) {
+			return;
+		}
+		TierConfig tc = config.tiers.get(boss.tier());
+		if (tc == null) {
+			return;
+		}
+		List<List<String>> boxes = tc.dialogueBoxes;
+		if (boxes == null || boxes.isEmpty()) {
+			return;
+		}
+		List<String> box = boxes.get(RandomUtils.getRandom(0, boxes.size() - 1));
+		if (box == null || box.isEmpty()) {
+			return;
+		}
+
+		gg.mmorealms.module.core.backend.common.dto.user.IUser iUser =
+				gg.mmorealms.module.core.backend.common.dto.user.IUser.getByUUID(player.getUUID());
+		if (!(iUser instanceof gg.mmorealms.module.core.backend.common.dto.user.User user)) {
+			return;
+		}
+		player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 0.85F, 0.9F);
+		new gg.mmorealms.module.boss.backend.fabric.gui.BossDialogueGUI(user, boss.tier(), boss.species(), boss.level(), box, entity, hand).open();
+	}
+
 	private void applyMaxEvs(@NotNull Pokemon pokemon) {
 		com.cobblemon.mod.common.pokemon.EVs evs = pokemon.getEvs();
 		List.of(Stats.HP, Stats.ATTACK, Stats.DEFENCE, Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED)
@@ -526,35 +588,146 @@ public class BossSpawner {
 		int y = (int) entity.getY();
 		int z = (int) entity.getZ();
 		String glow = tc.glowColor.toLowerCase();
+		String speciesDisplay = speciesDisplayName(species);
 
 		switch (lvl) {
 			case WORLD_CHAT -> {
 				String biome = readableBiome((net.minecraft.server.level.ServerLevel) entity.level(), entity.blockPosition());
 				String message = config.lang.bossSpawnedAnnouncementWorld
-						.parse("glow_color", glow)
+						.parse("announcement_title", BossTierTheme.title(tier, BossTierTheme.BannerKind.SPAWN))
+						.parse("announcement_line", BossTierTheme.spawnLine(tier, speciesDisplay, biome))
 						.parse("tier_display", tc.displayName)
-						.parse("species", species)
+						.parse("species", speciesDisplay)
+						.parse("species_display", speciesDisplay)
 						.parse("level", level)
 						.parse("biome", biome)
 						.parse("x", x).parse("y", y).parse("z", z)
 						.parse();
-				net.minecraft.network.chat.Component comp = BossFabricModule.instance()
-						.getMiniMessageManager().parse(message);
-				for (ServerPlayer p : ((net.minecraft.server.level.ServerLevel) entity.level()).players()) {
-					p.sendSystemMessage(comp);
-				}
+				sendWorldChat((net.minecraft.server.level.ServerLevel) entity.level(), message);
 			}
 			case GLOBAL_CHAT -> {
+				String biome = readableBiome((net.minecraft.server.level.ServerLevel) entity.level(), entity.blockPosition());
 				String message = config.lang.bossSpawnedAnnouncementGlobal
-						.parse("glow_color", glow)
-						.parse("tier_display", tc.displayName)
-						.parse("species", species)
-						.parse("level", level)
+						.parse("announcement_title", BossTierTheme.title(tier, BossTierTheme.BannerKind.SPAWN))
+						.parse("announcement_line", BossTierTheme.spawnLine(tier, speciesDisplay, biome))
 						.parse();
-				new gg.mmorealms.module.chat.common.dto.GlobalMessageEvent(message).send();
+				sendGlobalChat(message);
 			}
 			default -> {}
 		}
+	}
+
+	private void sendWorldChat(@NotNull net.minecraft.server.level.ServerLevel worldLevel, @NotNull String message) {
+		Component comp = BossFabricModule.instance().getMiniMessageManager().parse(message);
+		for (ServerPlayer p : worldLevel.players()) {
+			p.sendSystemMessage(comp);
+		}
+	}
+
+	private void sendGlobalChat(@NotNull String message) {
+		new gg.mmorealms.module.chat.common.dto.GlobalMessageEvent(message).send();
+	}
+
+	private static String speciesDisplayName(@NotNull String species) {
+		com.cobblemon.mod.common.pokemon.Species resolved = PokemonSpecies.INSTANCE.getByName(species);
+		if (resolved != null) {
+			return capitalizeFirst(resolved.getTranslatedName().getString());
+		}
+		return capitalizeFirst(species);
+	}
+
+	private static String capitalizeFirst(@NotNull String text) {
+		if (text.isEmpty()) {
+			return text;
+		}
+		return Character.toUpperCase(text.charAt(0)) + text.substring(1);
+	}
+
+	private static @Nullable String pickNature(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
+		if (species == null) return null;
+		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
+		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
+		pool.addAll(learnset.getLevelUpMovesUpTo(level));
+		pool.addAll(learnset.getTmMoves());
+
+		double physicalPower = 0;
+		double specialPower = 0;
+		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : pool) {
+			if (move.getPower() <= 0) continue;
+			String category = move.getDamageCategory().getName();
+			if ("physical".equalsIgnoreCase(category)) {
+				physicalPower += move.getPower();
+			} else if ("special".equalsIgnoreCase(category)) {
+				specialPower += move.getPower();
+			}
+		}
+
+		if (physicalPower > specialPower * 1.2) {
+			return com.cobblemon.mod.common.api.pokemon.Natures.ADAMANT.getName().toString();
+		}
+		if (specialPower > physicalPower * 1.2) {
+			return com.cobblemon.mod.common.api.pokemon.Natures.MODEST.getName().toString();
+		}
+		return null;
+	}
+
+	private static List<String> pickBestMoves(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
+		if (species == null) return List.of();
+		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
+		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
+		pool.addAll(learnset.getLevelUpMovesUpTo(level));
+		pool.addAll(learnset.getTmMoves());
+
+		Set<com.cobblemon.mod.common.api.types.ElementalType> speciesTypes = new HashSet<>();
+		for (com.cobblemon.mod.common.api.types.ElementalType type : species.getTypes()) {
+			speciesTypes.add(type);
+		}
+
+		// Damaging moves: power > 0, accuracy ≥ 80 OR never-miss (acc=0, e.g. Aura Sphere).
+		// Scored by power × effective-accuracy with 1.5× STAB bonus; never-miss treated as 100% for scoring.
+		List<com.cobblemon.mod.common.api.moves.MoveTemplate> damaging = pool.stream()
+				.filter(move -> move.getPower() > 0 && (move.getAccuracy() == 0 || move.getAccuracy() >= 80))
+				.sorted((moveA, moveB) -> {
+					double accA = moveA.getAccuracy() == 0 ? 100 : moveA.getAccuracy();
+					double accB = moveB.getAccuracy() == 0 ? 100 : moveB.getAccuracy();
+					double scoreA = moveA.getPower() * accA * (speciesTypes.contains(moveA.getElementalType()) ? 1.5 : 1.0);
+					double scoreB = moveB.getPower() * accB * (speciesTypes.contains(moveB.getElementalType()) ? 1.5 : 1.0);
+					return Double.compare(scoreB, scoreA);
+				})
+				.collect(Collectors.toList());
+
+		List<String> selected = new ArrayList<>();
+		Set<com.cobblemon.mod.common.api.types.ElementalType> usedTypes = new HashSet<>();
+
+		// Slot 1 – STAB nuke: best scoring move of species type.
+		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
+			if (speciesTypes.contains(move.getElementalType())) {
+				selected.add(move.getName());
+				usedTypes.add(move.getElementalType());
+				break;
+			}
+		}
+		// Fallback: best move overall if no STAB found.
+		if (selected.isEmpty() && !damaging.isEmpty()) {
+			selected.add(damaging.get(0).getName());
+			usedTypes.add(damaging.get(0).getElementalType());
+		}
+
+		// Slots 2–4 – Coverage: prefer moves of types not yet used, then fill with best remaining.
+		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
+			if (selected.size() >= 4) break;
+			if (!selected.contains(move.getName()) && usedTypes.add(move.getElementalType())) {
+				selected.add(move.getName());
+			}
+		}
+		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
+			if (selected.size() >= 4) break;
+			if (!selected.contains(move.getName())) {
+				selected.add(move.getName());
+			}
+		}
+
+		return selected;
 	}
 
 	private static String readableBiome(@NotNull net.minecraft.server.level.ServerLevel level, @NotNull BlockPos pos) {
