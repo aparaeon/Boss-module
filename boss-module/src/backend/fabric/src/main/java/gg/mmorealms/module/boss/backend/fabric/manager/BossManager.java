@@ -1,6 +1,7 @@
 package gg.mmorealms.module.boss.backend.fabric.manager;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.api.battles.model.actor.BattleActor;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.raduvoinea.utils.file_manager.FileManager;
 import com.raduvoinea.utils.generic.RandomUtils;
@@ -15,6 +16,7 @@ import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.boss.common.BossTierTheme;
 import gg.mmorealms.module.chat.common.dto.GlobalMessageEvent;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
+import gg.mmorealms.module.pokemon.backend.fabric.dto.event.BattleWonEvent;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
@@ -57,6 +59,8 @@ public class BossManager {
 	private final Map<UUID, CancelableTimeTask> particleTasks = new ConcurrentHashMap<>();
 
 	private final Set<UUID> pendingDespawns = ConcurrentHashMap.newKeySet();
+	// Boss pokemonUUID -> UUID of the admin who queued its despawn, so we can confirm "DESPAWNED" once the battle ends.
+	private final Map<UUID, UUID> pendingDespawnRequesters = new ConcurrentHashMap<>();
 	private final Set<BossTier> refillRetryScheduled = ConcurrentHashMap.newKeySet();
 	private @Nullable CancelableTimeTask pendingDespawnSweepTask;
 	private final PendingDiscards pendingDiscards;
@@ -221,6 +225,7 @@ public class BossManager {
 		Optional.ofNullable(despawnTasks.remove(pokemonUUID)).ifPresent(CancelableTimeTask::cancel);
 		cancelParticleTask(pokemonUUID);
 		pendingDespawns.remove(pokemonUUID);
+		pendingDespawnRequesters.remove(pokemonUUID);
 	}
 
 	public enum CleanupKind {
@@ -235,6 +240,54 @@ public class BossManager {
 
 	public void handleDefeatWithoutReward(@NotNull UUID pokemonUUID, @Nullable UUID winnerUUID, @NotNull String reason) {
 		cleanup(pokemonUUID, CleanupKind.DEFEAT_NO_REWARD, null, winnerUUID, reason);
+	}
+
+	public void handleBattleWon(@NotNull BattleWonEvent event) {
+		ActiveBoss defeatedBoss = findBossIn(event.getLosers());
+		if (defeatedBoss != null) {
+			UUID winnerUuid = findFirstPlayerUuidIn(event.getWinners());
+			Logger.debug("BattleWon: detected boss defeat uuid=" + defeatedBoss.pokemonUUID()
+					+ " winner=" + winnerUuid);
+			if (winnerUuid != null) {
+				MinecraftServer server = BossFabricModule.instance().getServer();
+				ServerPlayer winner = server != null ? server.getPlayerList().getPlayer(winnerUuid) : null;
+				if (winner == null) {
+					handleDefeatWithoutReward(defeatedBoss.pokemonUUID(), winnerUuid,
+							"winner " + winnerUuid + " disconnected before reward dispatch");
+					return;
+				}
+				handleDefeat(defeatedBoss.pokemonUUID(), winner);
+			} else {
+				handleDefeatWithoutReward(defeatedBoss.pokemonUUID(), null, "no player on winning side");
+			}
+			return;
+		}
+
+		ActiveBoss victoriousBoss = findBossIn(event.getWinners());
+		if (victoriousBoss == null) {
+			return;
+		}
+		TierConfig tc = config.tiers.get(victoriousBoss.tier());
+		if (tc == null || tc.defeatDialogue == null || tc.defeatDialogue.isEmpty()) {
+			return;
+		}
+		List<ServerPlayer> losers = findPlayerTargets(event.getLosers());
+		for (ServerPlayer loser : losers) {
+			sendBossReaction(loser, victoriousBoss);
+		}
+	}
+
+	public @Nullable ActiveBoss findBossIn(@Nullable Iterable<BattleActor> actors) {
+		if (actors == null) return null;
+		for (BattleActor actor : actors) {
+			if (!(actor instanceof com.cobblemon.mod.common.battles.actor.PokemonBattleActor pokeActor)) continue;
+			UUID uuid = pokeActor.getPokemon().getOriginalPokemon().getUuid();
+			ActiveBoss boss = active.get(uuid);
+			if (boss != null) {
+				return boss;
+			}
+		}
+		return null;
 	}
 
 	public boolean consumePendingDiscard(@NotNull UUID entityUUID) {
@@ -332,8 +385,33 @@ public class BossManager {
 
 	private void sendPersonalDefeat(@NotNull ServerPlayer winner, @NotNull ActiveBoss boss, @NotNull TierConfig tc) {
 		sendToWinner(winner, config.lang.bossPersonalDefeat
-				.parse("species", boss.species())
+				.parse("tier_display", tc.displayName)
+				.parse("species", speciesDisplayName(boss.species()))
 				.parse());
+	}
+
+	public void sendBossReaction(@NotNull ServerPlayer player, @NotNull ActiveBoss boss) {
+		TierConfig tc = config.tiers.get(boss.tier());
+		if (tc == null || tc.defeatDialogue == null || tc.defeatDialogue.isEmpty()) {
+			return;
+		}
+		List<String> box = tc.defeatDialogue.get(RandomUtils.getRandom(0, tc.defeatDialogue.size() - 1));
+		if (box == null || box.isEmpty()) {
+			return;
+		}
+		String subtitle = buildReactionSubtitle(boss.tier(), box);
+		sendTitlePopup(player, BossTierTheme.bossReactionTitle(boss.tier()), subtitle);
+	}
+
+	/** Battle-start "{Tier} Boss" title + a random {species} taunt, shown over the starting fight. */
+	public void sendBattleCry(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay) {
+		TierConfig tc = config.tiers.get(tier);
+		if (tc == null || tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
+			return;
+		}
+		String taunt = tc.battleCryTaunts.get(RandomUtils.getRandom(0, tc.battleCryTaunts.size() - 1))
+				.replace("{species}", speciesDisplay);
+		sendTitlePopup(player, BossTierTheme.battleCryTitle(tier), taunt);
 	}
 
 	private void sendVictoryTitle(@NotNull ServerPlayer winner, @NotNull ActiveBoss boss) {
@@ -342,7 +420,7 @@ public class BossManager {
 		if (screen == null) {
 			return;
 		}
-		sendTitlePopup(winner, screen.title().parse(), pickVictorySubtitle(screen.subtitles(), speciesDisplay));
+		sendTitlePopup(winner, screen.title().parse(), buildVictorySubtitle(screen.subtitles(), speciesDisplay));
 	}
 
 	private void sendTitlePopup(@NotNull ServerPlayer winner, @NotNull String title, @NotNull String subtitle) {
@@ -361,9 +439,44 @@ public class BossManager {
 		};
 	}
 
-	private static String pickVictorySubtitle(@NotNull List<String> variants, @NotNull String speciesDisplay) {
-		String picked = variants.isEmpty() ? "" : variants.get(RandomUtils.getRandom(0, variants.size() - 1));
-		return picked.replace("{species}", speciesDisplay);
+	private static String buildVictorySubtitle(@NotNull List<String> lines, @NotNull String speciesDisplay) {
+		// One short line per popup — concatenating every line overflows the subtitle and clips at the screen edge.
+		String line = lines.get(RandomUtils.getRandom(0, lines.size() - 1));
+		return line.replace("{species}", speciesDisplay);
+	}
+
+	private static String buildReactionSubtitle(@NotNull BossTier tier, @NotNull List<String> lines) {
+		// One short line per popup — concatenating both sentences overflows the subtitle and clips at the screen edge.
+		String line = lines.get(RandomUtils.getRandom(0, lines.size() - 1));
+		return BossTierTheme.wrapTierGradient(tier, line);
+	}
+
+	private @NotNull List<ServerPlayer> findPlayerTargets(@Nullable List<BattleActor> actors) {
+		MinecraftServer server = BossFabricModule.instance().getServer();
+		if (server == null || actors == null) {
+			return List.of();
+		}
+		List<ServerPlayer> players = new ArrayList<>();
+		for (BattleActor actor : actors) {
+			if (!(actor instanceof com.cobblemon.mod.common.battles.actor.PlayerBattleActor playerActor)) {
+				continue;
+			}
+			ServerPlayer player = server.getPlayerList().getPlayer(playerActor.getUuid());
+			if (player != null) {
+				players.add(player);
+			}
+		}
+		return players;
+	}
+
+	private @Nullable UUID findFirstPlayerUuidIn(@Nullable List<BattleActor> actors) {
+		if (actors == null) return null;
+		for (BattleActor actor : actors) {
+			if (actor instanceof com.cobblemon.mod.common.battles.actor.PlayerBattleActor playerActor) {
+				return playerActor.getUuid();
+			}
+		}
+		return null;
 	}
 
 	private record VictoryScreen(@NotNull MessageBuilder title, @NotNull List<String> subtitles) {}
@@ -433,25 +546,52 @@ public class BossManager {
 			ActiveBoss boss = active.get(uuid);
 			if (boss == null) {
 				pendingDespawns.remove(uuid);
+				pendingDespawnRequesters.remove(uuid);
 				continue;
 			}
 			PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
 			if (entity == null || entity.isRemoved() || !entity.isBusy()) {
 				pendingDespawns.remove(uuid);
+				// Capture before cleanup — cleanup() -> cancelTasks() clears the requester entry.
+				UUID requester = pendingDespawnRequesters.get(uuid);
 				cleanup(uuid, CleanupKind.AUTO_DESPAWN, null, null, null);
+				notifyDespawnRequester(requester, boss);
 			}
 		}
+	}
+
+	/** Sends the same "DESPAWNED" confirmation the admin would have gotten immediately, now that the queued battle ended. */
+	private void notifyDespawnRequester(@Nullable UUID requesterUUID, @NotNull ActiveBoss boss) {
+		if (requesterUUID == null) {
+			return;
+		}
+		MinecraftServer server = BossFabricModule.instance().getServer();
+		ServerPlayer requester = server != null ? server.getPlayerList().getPlayer(requesterUUID) : null;
+		if (requester == null) {
+			return;
+		}
+		BossFabricModule.instance().sendLang(requester, config.lang.adminDespawnSuccess
+				.parse("tier", boss.tier().name())
+				.parse("species", boss.species())
+				.parse("short_id", shortId(boss.pokemonUUID())));
 	}
 
 	public enum DespawnOutcome { CLEANED, QUEUED_BATTLE }
 
 	public DespawnOutcome dispatchDespawn(@NotNull ActiveBoss boss) {
+		return dispatchDespawn(boss, null);
+	}
+
+	public DespawnOutcome dispatchDespawn(@NotNull ActiveBoss boss, @Nullable UUID requesterUUID) {
 		PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
 		Logger.info("dispatchDespawn " + shortId(boss.pokemonUUID()) + " — entity=" + (entity != null)
 				+ " removed=" + (entity != null && entity.isRemoved())
 				+ " busy=" + (entity != null && entity.isBusy()));
 		if (entity != null && entity.isBusy()) {
 			pendingDespawns.add(boss.pokemonUUID());
+			if (requesterUUID != null) {
+				pendingDespawnRequesters.put(boss.pokemonUUID(), requesterUUID);
+			}
 			startPendingDespawnSweep();
 			return DespawnOutcome.QUEUED_BATTLE;
 		}

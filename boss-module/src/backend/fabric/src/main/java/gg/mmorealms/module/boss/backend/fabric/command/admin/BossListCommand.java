@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-@Command(aliases = {"list", "ls"}, parent = BossAdminCommand.class)
+@Command(aliases = {"list"}, parent = BossAdminCommand.class)
 public class BossListCommand extends BackendCommand {
 
 	public BossListCommand(CommonCommandManager commandManager) {

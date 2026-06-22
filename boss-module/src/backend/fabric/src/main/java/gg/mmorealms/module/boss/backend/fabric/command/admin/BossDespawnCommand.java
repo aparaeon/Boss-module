@@ -11,11 +11,14 @@ import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.ActiveBoss;
 import gg.mmorealms.module.boss.common.BossTier;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Command(aliases = {"despawn"}, arguments = {"target", "?tier"}, parent = BossAdminCommand.class)
@@ -60,6 +63,9 @@ public class BossDespawnCommand extends BackendCommand {
 		BossConfig.Lang lang = mod.getConfig().lang;
 		BossManager mgr = mod.getBossManager();
 
+		// Only players can receive the deferred "DESPAWNED" confirmation once a queued battle ends; console gets none.
+		@Nullable UUID requester = (sender instanceof ServerPlayer player) ? player.getUUID() : null;
+
 		String targetArg = arguments.isEmpty() ? null : arguments.get(0);
 		if (targetArg == null) {
 			mod.sendLang(sender, lang.adminUsageDespawn);
@@ -76,7 +82,7 @@ public class BossDespawnCommand extends BackendCommand {
 				// Snapshot to avoid mutating the active map while iterating.
 				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
 					String shortId = BossManager.shortId(boss.pokemonUUID());
-					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) {
+					if (mgr.dispatchDespawn(boss, requester) == BossManager.DespawnOutcome.CLEANED) {
 						cleaned++;
 						cleanedIds.add(shortId);
 					} else {
@@ -114,7 +120,7 @@ public class BossDespawnCommand extends BackendCommand {
 				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
 					if (boss.tier() != filter) continue;
 					String shortId = BossManager.shortId(boss.pokemonUUID());
-					if (mgr.dispatchDespawn(boss) == BossManager.DespawnOutcome.CLEANED) {
+					if (mgr.dispatchDespawn(boss, requester) == BossManager.DespawnOutcome.CLEANED) {
 						cleaned++;
 						cleanedIds.add(shortId);
 					} else {
@@ -144,7 +150,7 @@ public class BossDespawnCommand extends BackendCommand {
 					mod.sendLang(sender, lang.adminBossNotFound.parse("value", target));
 					return;
 				}
-				BossManager.DespawnOutcome outcome = mgr.dispatchDespawn(boss);
+				BossManager.DespawnOutcome outcome = mgr.dispatchDespawn(boss, requester);
 				String shortId = BossManager.shortId(boss.pokemonUUID());
 				if (outcome == BossManager.DespawnOutcome.QUEUED_BATTLE) {
 					mod.sendLang(sender, lang.adminDespawnQueuedBattle.parse("short_id", shortId));

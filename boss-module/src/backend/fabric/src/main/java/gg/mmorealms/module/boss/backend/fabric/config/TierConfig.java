@@ -19,25 +19,21 @@ import java.util.List;
 public class TierConfig {
 	public String displayName;
 	public String glowColor;
-	public String nameplateFormat;
 
 	public Range levelRange;
 	public float scale = 1.0F;
 	public boolean maxIvs = true;
 	public boolean maxEvs = true;
+	public @Nullable String heldItem;
 
-	/** Auto-despawn delay. {@code 0m} = never (boss persists until defeated or admin-removed). */
 	public Time despawnAfter = Time.minutes(30);
-	/** Hard cap on system-spawned alive bosses (system-only — admin spawns stack on top). */
 	public int maxActive = 1;
-	/** Refill floor for system spawns. {@code 0} = no auto-refill (gone until admin/restart). System-only. */
 	public int minActive = 1;
 
 	public List<PokemonClass> pokemonClasses = List.of();
 	public List<String> extraSpecies = List.of();
 	public List<String> excludedSpecies = List.of();
 	public boolean includeAllMegaCapable = false;
-	/** Filter pool by Base Stat Total. Null = no filter. Used to slice the broad NORMAL class into tier-appropriate strength bands. */
 	public @Nullable Range bstRange;
 
 	public List<String> allowedDimensions;
@@ -49,13 +45,11 @@ public class TierConfig {
 	public List<BossReward> rewards = List.of();
 	public int rewardRolls = 0;
 	public List<List<String>> dialogueBoxes = List.of();
+	public List<List<String>> defeatDialogue = List.of();
+	public List<String> battleCryTaunts = List.of();
 
 	public AnnounceLevel announceOnSpawn = AnnounceLevel.OFF;
 	public AnnounceLevel announceOnDefeat = AnnounceLevel.OFF;
-
-	public int attackBoostStages = 0;
-	public int defenceBoostStages = 0;
-	public int speedBoostStages = 0;
 
 	public transient ChatFormatting glowChatFmt;
 
@@ -119,9 +113,11 @@ public class TierConfig {
 			case COMMON -> {
 				tc.displayName = "<b><gradient:#C9D6DF:#F8F9FA>Common</gradient></b>";
 				tc.glowColor = "white";
-				tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
-					tc.attackBoostStages = 1;
-					tc.defenceBoostStages = 1;
+				tc.battleCryTaunts = List.of(
+						"{species} stands its ground.",
+						"{species} refuses to back down.",
+						"{species} guards what is its.");
+				tc.heldItem = "cobblemon:oran_berry";
 				tc.levelRange = new Range(10, 30);
 				tc.scale = 2.0F;
 				tc.maxIvs = true;
@@ -140,27 +136,34 @@ public class TierConfig {
 						dialogue("A modest power still demands respect.", "Even the smallest bosses leave a mark."),
 						dialogue("A simple boss remains rooted in unfamiliar ground.", "The wild has made it hard to move.")
 				);
+				tc.defeatDialogue = List.of(
+						dialogue("You came this far. That was your first mistake.", "The wild does not hand out mercy."),
+						dialogue("You challenged something smaller than you expected.", "It still knows how to bite."),
+						dialogue("A weak hand reached for a stronger fate.", "It broke before it could close."),
+						dialogue("This was never a safe encounter.", "It simply looked that way."),
+						dialogue("You lost to a common threat.", "That should worry you more than it does.")
+				);
 				tc.rewardRolls = 1;
 				tc.rewards = List.of(
-						reward(30, 2, 4, "give {user} cobblemon:poke_ball {quantity}"),
-						reward(18, 1, 2, "give {user} cobblemon:rare_candy {quantity}"),
-						reward(12, 1, 2, "give {user} cobblemon:great_ball {quantity}"),
-						reward(10, 1, 1, "give {user} cobblemon:exp_candy_s {quantity}"),
+						reward(28, 2, 4, "give {user} cobblemon:poke_ball {quantity}"),
+						reward(20, 1, 2, "give {user} cobblemon:rare_candy {quantity}"),
+						reward(14, 2, 3, "give {user} cobblemon:great_ball {quantity}"),
+						reward(12, 1, 2, "give {user} cobblemon:exp_candy_s {quantity}"),
 						reward(8, 1, 2, "give {user} cobblemon:potion {quantity}"),
-						reward(7, 2, 4, "give {user} cobblemon:premier_ball {quantity}"),
-						reward(5, 1, 1, "give {user} cobblemon:link_cable {quantity}"),
-						reward(4, 1, 2, "give {user} cobblemon:oran_berry {quantity}"),
-						reward(3, 1, 1, "give {user} cobblemon:fire_stone {quantity}"),
-						reward(2, 1, 1, "give {user} cobblemon:water_stone {quantity}"),
-						reward(1, 1, 1, "give {user} cobblemon:adamant_mint {quantity}")
+						reward(6, 1, 1, "give {user} cobblemon:fire_stone {quantity}"),
+						reward(5, 1, 1, "give {user} cobblemon:water_stone {quantity}"),
+						reward(4, 1, 1, "give {user} cobblemon:thunder_stone {quantity}"),
+						reward(3, 1, 1, "give {user} cobblemon:link_cable {quantity}")
 				);
 			}
 			case UNCOMMON -> {
 				tc.displayName = "<b><gradient:#11998E:#38EF7D>Uncommon</gradient></b>";
 				tc.glowColor = "green";
-					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
-					tc.attackBoostStages = 1;
-					tc.defenceBoostStages = 2;
+				tc.battleCryTaunts = List.of(
+						"{species} fights to survive.",
+						"{species} won't be cornered.",
+						"{species} knows every trick.");
+				tc.heldItem = "cobblemon:sitrus_berry";
 				tc.levelRange = new Range(20, 40);
 				tc.scale = 2.2F;
 					tc.maxIvs = true;
@@ -179,28 +182,35 @@ public class TierConfig {
 							dialogue("A lone power keeps to the margins.", "It has no need for a crowd."),
 							dialogue("A clever boss survives by being difficult to catch.", "That lesson was learned well.")
 					);
+					tc.defeatDialogue = List.of(
+							dialogue("You hesitated, and I punished it.", "That is how survival works."),
+							dialogue("You thought this would be simple.", "The wild remembers arrogance."),
+							dialogue("Your stride broke before mine did.", "That is enough for a defeat."),
+							dialogue("A restless foe does not forgive mistakes.", "You gave me several."),
+							dialogue("You were close.", "Close is where disappointment lives.")
+					);
 					tc.rewardRolls = 1;
 					tc.rewards = List.of(
-							reward(25, 2, 4, "give {user} cobblemon:great_ball {quantity}"),
-							reward(17, 1, 2, "give {user} cobblemon:rare_candy {quantity}"),
-							reward(13, 1, 2, "give {user} cobblemon:ultra_ball {quantity}"),
-							reward(11, 1, 2, "give {user} cobblemon:exp_candy_s {quantity}"),
-							reward(9, 1, 1, "give {user} cobblemon:exp_candy_m {quantity}"),
-							reward(7, 1, 1, "give {user} cobblemon:super_potion {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:thunder_stone {quantity}"),
+							reward(24, 2, 4, "give {user} cobblemon:great_ball {quantity}"),
+							reward(18, 1, 2, "give {user} cobblemon:rare_candy {quantity}"),
+							reward(14, 2, 3, "give {user} cobblemon:ultra_ball {quantity}"),
+							reward(12, 1, 2, "give {user} cobblemon:exp_candy_m {quantity}"),
+							namedReward(9, 100, 250, "Pokecoins", "balance add {user} {quantity} pokecoins"),
+							reward(8, 1, 2, "give {user} cobblemon:protein {quantity}"),
+							reward(7, 1, 2, "give {user} cobblemon:calcium {quantity}"),
+							reward(6, 1, 1, "give {user} cobblemon:moon_stone {quantity}"),
 							reward(5, 1, 1, "give {user} cobblemon:leaf_stone {quantity}"),
-							reward(4, 1, 1, "give {user} cobblemon:protector {quantity}"),
-							reward(2, 1, 2, "give {user} cobblemon:sitrus_berry {quantity}"),
-							reward(2, 1, 1, "give {user} cobblemon:ability_capsule {quantity}")
+							reward(4, 1, 1, "give {user} cobblemon:ability_capsule {quantity}")
 					);
 				}
 				case RARE -> {
 					tc.displayName = "<b><gradient:#36D1DC:#5B86E5>Rare</gradient></b>";
 					tc.glowColor = "blue";
-					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
-					tc.attackBoostStages = 2;
-					tc.defenceBoostStages = 2;
-					tc.speedBoostStages = 1;
+					tc.battleCryTaunts = List.of(
+							"{species} has bested many before you.",
+							"{species} shows no fear.",
+							"{species} fights like a veteran.");
+					tc.heldItem = "cobblemon:leftovers";
 				tc.levelRange = new Range(35, 55);
 				tc.scale = 2.5F;
 				tc.maxIvs = true;
@@ -219,28 +229,36 @@ public class TierConfig {
 								dialogue("The encounter tightens around a serious opponent.", "This is no casual presence."),
 								dialogue("A battle-hardened force has made itself known.", "Few wins come easily against it.")
 						);
+						tc.defeatDialogue = List.of(
+								dialogue("You had power.", "Not enough to matter."),
+								dialogue("This battle was already leaning my way.", "You just arrived late to the truth."),
+								dialogue("You fought like someone expecting a prize.", "I fought like something guarding a grave."),
+								dialogue("You lost your opening.", "After that, the end was only a formality."),
+								dialogue("Rare does not mean merciful.", "It means you should have been careful.")
+						);
 						tc.rewardRolls = 2;
 					tc.rewards = List.of(
-							reward(22, 3, 6, "give {user} cobblemon:ultra_ball {quantity}"),
-							reward(18, 2, 4, "give {user} cobblemon:rare_candy {quantity}"),
-							reward(13, 1, 2, "give {user} cobblemon:exp_candy_m {quantity}"),
-							reward(11, 1, 2, "give {user} cobblemon:exp_candy_l {quantity}"),
-							reward(9, 1, 1, "give {user} cobblemon:hyper_potion {quantity}"),
+							reward(20, 3, 5, "give {user} cobblemon:ultra_ball {quantity}"),
+							reward(16, 2, 4, "give {user} cobblemon:rare_candy {quantity}"),
+							reward(13, 1, 2, "give {user} cobblemon:exp_candy_l {quantity}"),
+							namedReward(10, 250, 500, "Pokecoins", "balance add {user} {quantity} pokecoins"),
+							reward(8, 1, 1, "give {user} cobblemon:ability_capsule {quantity}"),
 							reward(7, 1, 1, "give {user} cobblemon:adamant_mint {quantity}"),
 							reward(6, 1, 1, "give {user} cobblemon:jolly_mint {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:moon_stone {quantity}"),
-							reward(4, 1, 1, "give {user} cobblemon:expert_belt {quantity}"),
-							reward(3, 1, 2, "give {user} cobblemon:lum_berry {quantity}"),
-							reward(2, 1, 1, "give {user} cobblemon:ability_capsule {quantity}")
+							reward(6, 1, 1, "give {user} cobblemon:focus_sash {quantity}"),
+							reward(5, 1, 1, "give {user} cobblemon:expert_belt {quantity}"),
+							reward(5, 1, 2, "give {user} cobblemon:calcium {quantity}"),
+							reward(4, 1, 1, "give {user} cobblemon:moon_stone {quantity}")
 					);
 				}
 					case ULTRA_RARE -> {
 					tc.displayName = "<b><gradient:#DA22FF:#FFF59D:#9733EE>Ultra Rare</gradient></b>";
 					tc.glowColor = "light_purple";
-					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
-					tc.attackBoostStages = 3;
-					tc.defenceBoostStages = 3;
-					tc.speedBoostStages = 1;
+					tc.battleCryTaunts = List.of(
+							"{species} radiates raw pressure.",
+							"{species} will not be tamed.",
+							"{species} towers over its rivals.");
+					tc.heldItem = "cobblemon:assault_vest";
 				tc.levelRange = new Range(60, 90);
 				tc.scale = 2.8F;
 				tc.maxIvs = true;
@@ -259,28 +277,36 @@ public class TierConfig {
 								dialogue("A boss of rare stature leaves a deep pressure behind.", "Even its stillness feels intentional."),
 								dialogue("A presence like this does not belong to the ordinary.", "It turns the encounter into a warning.")
 						);
+						tc.defeatDialogue = List.of(
+								dialogue("You stood before something exceptional.", "And still failed to endure."),
+								dialogue("This was never a fair contest.", "It was a measure of your limits."),
+								dialogue("You reached for glory too early.", "The fall was already waiting."),
+								dialogue("A stronger will claimed the field.", "Yours was not strong enough."),
+								dialogue("You met a higher power.", "It did not spare you.")
+						);
 						tc.rewardRolls = 2;
 					tc.rewards = List.of(
-							reward(20, 2, 4, "give {user} cobblemon:rare_candy {quantity}"),
-							reward(18, 1, 3, "give {user} cobblemon:exp_candy_l {quantity}"),
-							reward(13, 1, 2, "give {user} cobblemon:exp_candy_xl {quantity}"),
+							reward(18, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
+							reward(15, 2, 4, "give {user} cobblemon:rare_candy {quantity}"),
+							namedReward(11, 500, 1000, "Pokecoins", "balance add {user} {quantity} pokecoins"),
 							reward(10, 1, 1, "give {user} cobblemon:ability_capsule {quantity}"),
-							reward(9, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
-							reward(8, 1, 1, "give {user} cobblemon:focus_sash {quantity}"),
-							reward(7, 1, 1, "give {user} cobblemon:choice_scarf {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:assault_vest {quantity}"),
-							reward(4, 1, 1, "give {user} cobblemon:ability_patch {quantity}"),
-							reward(3, 1, 1, "give {user} cobblemon:shiny_stone {quantity}"),
+							reward(9, 1, 1, "give {user} cobblemon:choice_scarf {quantity}"),
+							reward(8, 1, 1, "give {user} cobblemon:assault_vest {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:focus_sash {quantity}"),
+							reward(6, 1, 1, "give {user} cobblemon:ability_patch {quantity}"),
+							reward(5, 1, 1, "give {user} cobblemon:shiny_stone {quantity}"),
+							reward(4, 1, 1, "give {user} cobblemon:pp_max {quantity}"),
 							reward(3, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
 					case LEGENDARY -> {
 					tc.displayName = "<b><gradient:#FFB300:#FFF59D:#FFB300>Legendary</gradient></b>";
 					tc.glowColor = "gold";
-					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
-					tc.attackBoostStages = 4;
-					tc.defenceBoostStages = 4;
-					tc.speedBoostStages = 1;
+					tc.battleCryTaunts = List.of(
+							"{species} refuses to yield its legend!",
+							"{species} guards a legend untouched.",
+							"{species} answers your challenge.");
+					tc.heldItem = "cobblemon:life_orb";
 				tc.levelRange = new Range(90, 120);
 				tc.scale = 3.5F;
 				tc.maxIvs = true;
@@ -299,33 +325,39 @@ public class TierConfig {
 								dialogue("A force that outlasted many challengers has returned.", "Its silence speaks like authority."),
 								dialogue("The air itself seems to remember this boss.", "That kind of memory is hard to erase.")
 						);
+						tc.defeatDialogue = List.of(
+								dialogue("You dared to challenge legend.", "Legend answered."),
+								dialogue("Your resolve was visible.", "So was its collapse."),
+								dialogue("Few reach this far.", "Fewer leave with pride intact."),
+								dialogue("You faced a ruler of this wild.", "And were judged wanting."),
+								dialogue("This was not defeat.", "It was an example.")
+						);
 						tc.rewardRolls = 3;
 					tc.rewards = List.of(
-							reward(15, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
-							reward(13, 3, 6, "give {user} cobblemon:rare_candy {quantity}"),
-							reward(11, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
+							reward(14, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
+							reward(12, 3, 6, "give {user} cobblemon:rare_candy {quantity}"),
+							namedReward(11, 1000, 2000, "Pokecoins", "balance add {user} {quantity} pokecoins"),
 							reward(10, 1, 1, "give {user} cobblemon:life_orb {quantity}"),
-							namedReward(9, 200, 500, "Pokecoins", "balance add {user} {quantity} pokecoins"),
-							reward(8, 1, 3, "give {user} cobblemon:dragon_gem {quantity}"),
-							reward(8, 1, 1, "give {user} cobblemon:sun_stone {quantity}"),
-							reward(7, 1, 1, "give {user} cobblemon:dusk_stone {quantity}"),
-							reward(6, 1, 1, "give {user} cobblemon:helix_fossil {quantity}"),
-							reward(6, 1, 1, "give {user} cobblemon:dome_fossil {quantity}"),
+							reward(9, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
+							reward(9, 1, 1, "give {user} cobblemon:ability_patch {quantity}"),
+							reward(8, 1, 1, "give {user} cobblemon:choice_band {quantity}"),
+							reward(8, 1, 1, "give {user} cobblemon:choice_specs {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:weakness_policy {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:heavy_duty_boots {quantity}"),
 							reward(6, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:weakness_policy {quantity}"),
-							reward(7, 1, 1, "give {user} cobblemon:max_potion {quantity}"),
-							reward(3, 1, 1, "give {user} cobblemon:master_ball {quantity}")
+							reward(5, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
 				case MEGA -> {
 				// 2-stop only — 3-stop on a 4-letter word stripes per-letter.
 				tc.displayName = "<b><gradient:#FF0080:#7928CA>Mega</gradient></b>";
-				tc.attackBoostStages = 5;
-				tc.defenceBoostStages = 4;
-				tc.speedBoostStages = 2;
 				// Cobblemon renders its own "Lv. X" for mega-form Pokémon; omit ours to avoid duplication.
-				tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species}";
 				tc.glowColor = "aqua";
+				tc.battleCryTaunts = List.of(
+						"{species} erupts with unstable power!",
+						"{species} burns with raw fury!",
+						"{species} threatens to break loose!");
+				tc.heldItem = "cobblemon:life_orb";
 				tc.levelRange = new Range(100, 130);
 				tc.scale = 4.0F;
 				tc.maxIvs = true;
@@ -344,32 +376,37 @@ public class TierConfig {
 							dialogue("A sharpened storm has taken shape here.", "It feels built to break momentum."),
 							dialogue("Something immense and volatile is standing in place.", "The encounter already feels dangerous.")
 					);
+					tc.defeatDialogue = List.of(
+							dialogue("You awakened something brutal.", "It crushed the moment you touched it."),
+							dialogue("Power like this does not negotiate.", "It erases."),
+							dialogue("You mistook transformation for weakness.", "That was your last mistake."),
+							dialogue("The battlefield bent around me.", "You broke against it."),
+							dialogue("You challenged excess.", "Excess won.")
+					);
 					tc.rewardRolls = 3;
 					tc.rewards = List.of(
-							reward(15, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
 							namedReward(14, 1, 1, "Mega Stone", "give_group {user} megastone"),
-							reward(11, 1, 1, "give {user} cobblemon:life_orb {quantity}"),
-							reward(10, 1, 1, "give {user} cobblemon:ability_capsule {quantity}"),
-							namedReward(9, 200, 500, "Pokecoins", "balance add {user} {quantity} pokecoins"),
+							reward(12, 2, 4, "give {user} cobblemon:exp_candy_xl {quantity}"),
+							namedReward(11, 1000, 2000, "Pokecoins", "balance add {user} {quantity} pokecoins"),
+							reward(10, 1, 1, "give {user} cobblemon:life_orb {quantity}"),
+							reward(9, 1, 1, "give {user} cobblemon:ability_patch {quantity}"),
 							reward(8, 1, 1, "give {user} cobblemon:choice_band {quantity}"),
 							reward(8, 1, 1, "give {user} cobblemon:choice_specs {quantity}"),
-							reward(7, 1, 3, "give {user} cobblemon:fire_gem {quantity}"),
-							reward(7, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:assault_vest {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:rocky_helmet {quantity}"),
 							reward(6, 1, 1, "give {user} cobblemon:focus_sash {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:assault_vest {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:rocky_helmet {quantity}"),
-							reward(4, 1, 1, "give {user} cobblemon:ability_patch {quantity}"),
-							reward(6, 1, 1, "give {user} cobblemon:dragon_scale {quantity}"),
-							reward(2, 1, 1, "give {user} cobblemon:master_ball {quantity}")
+							reward(6, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
+							reward(4, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
 				case MYTHICAL -> {
 				tc.displayName = "<b><gradient:#FF1744:#FFD700:#FF1744>Mythical</gradient></b>";
 				tc.glowColor = "red";
-					tc.nameplateFormat = "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
-					tc.attackBoostStages = 5;
-					tc.defenceBoostStages = 5;
-					tc.speedBoostStages = 2;
+				tc.battleCryTaunts = List.of(
+						"{species} stirs from ancient slumber.",
+						"{species} awakens with old wrath.",
+						"{species} remembers forgotten power.");
+				tc.heldItem = "cobblemon:leftovers";
 				tc.levelRange = new Range(120, 150);
 				tc.scale = 4.0F;
 				tc.maxIvs = true;
@@ -389,23 +426,28 @@ public class TierConfig {
 							dialogue("A relic of a harsher age stands in the wild.", "It carries the silence of long memory."),
 							dialogue("Something beyond ordinary rarity has awakened here.", "The battlefield feels like a borrowed place.")
 					);
+					tc.defeatDialogue = List.of(
+							dialogue("You stood before an ancient truth.", "It did not recognize you."),
+							dialogue("Myths do not forgive intruders.", "They consume them."),
+							dialogue("You reached for the impossible.", "The impossible reached back."),
+							dialogue("What was sealed has not forgotten how to rule.", "You were never its equal."),
+							dialogue("Even now, you do not understand.", "That is why you lost.")
+					);
 					tc.rewardRolls = 3;
 					tc.rewards = List.of(
-							reward(12, 3, 5, "give {user} cobblemon:exp_candy_xl {quantity}"),
+							namedReward(12, 2000, 4000, "Pokecoins", "balance add {user} {quantity} pokecoins"),
+							reward(11, 3, 5, "give {user} cobblemon:exp_candy_xl {quantity}"),
 							reward(11, 4, 8, "give {user} cobblemon:rare_candy {quantity}"),
-							reward(11, 1, 2, "give {user} cobblemon:ability_patch {quantity}"),
-							reward(10, 1, 1, "give {user} cobblemon:max_revive {quantity}"),
-							reward(8, 1, 1, "give {user} cobblemon:full_restore {quantity}"),
-							reward(7, 1, 1, "give {user} cobblemon:max_elixir {quantity}"),
-							namedReward(9, 500, 1000, "Pokecoins", "balance add {user} {quantity} pokecoins"),
-							reward(8, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
-							reward(8, 1, 1, "give {user} cobblemon:old_amber_fossil {quantity}"),
-							reward(7, 1, 1, "give {user} cobblemon:claw_fossil {quantity}"),
-							namedReward(7, 1, 1, "Mythical Plushie", "plushie give_class {user} MYTHICAL false"),
-							reward(7, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
-							reward(6, 1, 1, "give {user} cobblemon:soothe_bell {quantity}"),
-							reward(5, 1, 1, "give {user} cobblemon:lucky_egg {quantity}"),
-							reward(4, 1, 1, "give {user} cobblemon:master_ball {quantity}")
+							reward(10, 1, 2, "give {user} cobblemon:ability_patch {quantity}"),
+							namedReward(8, 1, 1, "Mythical Plushie", "plushie give_class {user} MYTHICAL false"),
+							reward(8, 1, 1, "give {user} cobblemon:lucky_egg {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:life_orb {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:leftovers {quantity}"),
+							reward(7, 1, 1, "give {user} cobblemon:assault_vest {quantity}"),
+							reward(6, 1, 1, "give {user} cobblemon:choice_specs {quantity}"),
+							reward(6, 1, 1, "give {user} cobblemon:heavy_duty_boots {quantity}"),
+							reward(6, 1, 1, "give {user} minecraft:enchanted_golden_apple {quantity}"),
+							reward(5, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
 			}

@@ -6,7 +6,7 @@
 	"mixins": [
 		"BossBattleBuilderMixin",
 		"BossPokemonEntityMixin",
-		"BossPokemonDialogueMixin"
+		"BossChallengeHandlerMixin"
 	],
 	"client": [],
 	"injectors": {

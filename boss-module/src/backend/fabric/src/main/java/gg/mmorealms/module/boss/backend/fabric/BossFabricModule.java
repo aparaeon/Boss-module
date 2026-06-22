@@ -110,42 +110,11 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_FLED.subscribe(
 				com.cobblemon.mod.common.api.Priority.NORMAL,
 				event -> {
-					runOnMain(() -> {
-						if (bossManager != null) bossManager.retryPendingDespawns();
-					});
-					return kotlin.Unit.INSTANCE;
+			runOnMain(() -> {
+				if (bossManager != null) {
+					bossManager.retryPendingDespawns();
 				}
-		);
-		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_STARTED_POST.subscribe(
-				com.cobblemon.mod.common.api.Priority.NORMAL,
-				event -> {
-					for (com.cobblemon.mod.common.battles.ActiveBattlePokemon abp : event.getBattle().getActivePokemon()) {
-						com.cobblemon.mod.common.battles.pokemon.BattlePokemon bp = abp.getBattlePokemon();
-						if (bp == null) continue;
-						CompoundTag tag = bp.getOriginalPokemon().getPersistentData();
-						if (!tag.getBoolean(NbtKeys.BOSS)) continue;
-						String tierName = tag.getString(NbtKeys.TIER);
-						BossTier tier;
-						try {
-							tier = BossTier.valueOf(tierName);
-						} catch (IllegalArgumentException e) {
-							continue;
-						}
-						TierConfig tc = config.tiers.get(tier);
-						if (tc == null) continue;
-						try {
-							Map<com.cobblemon.mod.common.api.pokemon.stats.Stat, Integer> changes = bp.getStatChanges();
-							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.ATTACK, tc.attackBoostStages);
-							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_ATTACK, tc.attackBoostStages);
-							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.DEFENCE, tc.defenceBoostStages);
-							changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPECIAL_DEFENCE, tc.defenceBoostStages);
-							if (tc.speedBoostStages != 0) {
-								changes.put(com.cobblemon.mod.common.api.pokemon.stats.Stats.SPEED, tc.speedBoostStages);
-							}
-						} catch (UnsupportedOperationException uoe) {
-							Logger.error("Boss stat boost failed for tier " + tier + " — statChanges map is unmodifiable: " + uoe.getMessage());
-						}
-					}
+			});
 					return kotlin.Unit.INSTANCE;
 				}
 		);
@@ -177,6 +146,12 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			tc.announceOnDefeat = defaults.announceOnDefeat;
 			if (tc.dialogueBoxes == null || tc.dialogueBoxes.isEmpty()) {
 				tc.dialogueBoxes = defaults.dialogueBoxes;
+			}
+			if (tc.defeatDialogue == null || tc.defeatDialogue.isEmpty()) {
+				tc.defeatDialogue = defaults.defeatDialogue;
+			}
+			if (tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
+				tc.battleCryTaunts = defaults.battleCryTaunts;
 			}
 			if (tc.minActive <= 0 && defaults.minActive > 0) {
 				Logger.warn("Boss tier " + tier + " had minActive=" + tc.minActive
@@ -304,6 +279,10 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 				}
 			}
 			tc.glowChatFmt = parseGlowColor(tc.glowColor, tier);
+			if (tc.heldItem != null && !tc.heldItem.isBlank()
+					&& BuiltInRegistries.ITEM.get(ResourceLocation.parse(tc.heldItem)) == net.minecraft.world.item.Items.AIR) {
+				throw new ModuleException(this, "Tier " + tier + " heldItem is not a valid item: " + tc.heldItem);
+			}
 			resolveEffectParticles(tc.spawnEffect, "spawnEffect", tier);
 			resolveEffectParticles(tc.ambientEffect, "ambientEffect", tier);
 			if (tc.ambientEffect != null && tc.ambientEffect.enabled
@@ -425,7 +404,7 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		entity.setPersistenceRequired();
 		entity.setInvulnerable(true);
 		if (bossSpawner != null) {
-			bossSpawner.applyBossName(entity, tc, tag.getString(NbtKeys.SPECIES), tag.getInt(NbtKeys.LEVEL));
+			bossSpawner.applyBossName(entity, tier, tag.getString(NbtKeys.SPECIES), tag.getInt(NbtKeys.LEVEL));
 		}
 		MinecraftServer s = this.server;
 		if (s != null) {

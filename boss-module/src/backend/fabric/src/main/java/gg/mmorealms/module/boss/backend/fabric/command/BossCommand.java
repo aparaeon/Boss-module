@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@Command(aliases = {"boss", "bossadmin", "mmoboss"})
+@Command(aliases = {"boss"})
 public class BossCommand extends BackendCommand {
 	public BossCommand(CommonCommandManager commandManager) {
 		super(commandManager);

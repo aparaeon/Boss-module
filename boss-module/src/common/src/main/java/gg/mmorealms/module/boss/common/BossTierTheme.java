@@ -27,15 +27,16 @@ public final class BossTierTheme {
 	}
 
 	public static String spawnLine(@NotNull BossTier tier, @NotNull String speciesDisplay, @NotNull String biome) {
-		String species = capitalizeFirst(speciesDisplay);
+		String species = highlightSpecies(tier, capitalizeFirst(speciesDisplay));
+		String biomeStyled = highlightBiome(tier, biome);
 		String body = switch (tier) {
-			case COMMON -> "A Common boss " + species + " has been seen in the " + biome + ".";
-			case UNCOMMON -> "A Rogue boss " + species + " has been spotted in the " + biome + ".";
-			case RARE -> "A Rare boss " + species + " has been stirring in the " + biome + ".";
-			case ULTRA_RARE -> "An Ultra Rare boss " + species + " has been seen in the " + biome + ".";
-			case LEGENDARY -> "A Legendary boss " + species + " now commands " + biome + ".";
-			case MEGA -> "A Mega boss " + species + " has awakened with brutal force in the " + biome + ".";
-			case MYTHICAL -> "An Ancient Mythical boss " + species + " has returned to the " + biome + ".";
+			case COMMON -> "A Common Boss " + species + " has been seen in the " + biomeStyled + ".";
+			case UNCOMMON -> "A Rogue Boss " + species + " has been spotted in the " + biomeStyled + ".";
+			case RARE -> "A Rare Boss " + species + " has been stirring in the " + biomeStyled + ".";
+			case ULTRA_RARE -> "An Ultra Rare Boss " + species + " has been seen in the " + biomeStyled + ".";
+			case LEGENDARY -> "A Legendary Boss " + species + " now commands " + biomeStyled + ".";
+			case MEGA -> "A Mega Boss " + species + " has awakened with brutal force in the " + biomeStyled + ".";
+			case MYTHICAL -> "An Ancient Mythical Boss " + species + " has returned to the " + biomeStyled + ".";
 		};
 		return wrapTierGradient(tier, body);
 	}
@@ -63,11 +64,35 @@ public final class BossTierTheme {
 	}
 
 	public static String bossDisplayNameTemplate() {
-		return "<bold><{glow_color}>✦ {tier_display}<{glow_color}> ✦\n<{glow_color}>◆ <white>{species} <{glow_color}>Lv.{level}";
+		return "<gradient:#{tier_start}:#{tier_end}><bold>✦ {species} ✦</bold></gradient>";
+	}
+
+	public static String bossReactionTitle(@NotNull BossTier tier) {
+		String body = isHighTier(tier)
+				? "<bold>✠ BOSS OMEN ✠</bold>"
+				: "✠ BOSS RESPONSE ✠";
+		return wrapTierGradient(tier, body);
+	}
+
+	/** Battle-start title, e.g. "Mega Boss" in the tier gradient. */
+	public static String battleCryTitle(@NotNull BossTier tier) {
+		return wrapTierGradient(tier, "<bold>" + tierPlainName(tier) + " Boss</bold>");
+	}
+
+	public static String tierPlainName(@NotNull BossTier tier) {
+		return switch (tier) {
+			case COMMON -> "Common";
+			case UNCOMMON -> "Uncommon";
+			case RARE -> "Rare";
+			case ULTRA_RARE -> "Ultra Rare";
+			case LEGENDARY -> "Legendary";
+			case MEGA -> "Mega";
+			case MYTHICAL -> "Mythical";
+		};
 	}
 
 	public static String personalDefeatTemplate() {
-		return "<gradient:#FDE7A1:#D8A24A><bold>⚔ VICTORY!</bold></gradient> <white>You defeated the Mega boss <gradient:#FDE7A1:#D8A24A><bold>{species}</bold></gradient><white>!";
+		return "<gradient:#FDE7A1:#D8A24A><bold>⚔ VICTORY!</bold></gradient> <white>You defeated the {tier_display} <white>boss <yellow><bold>{species}</bold></yellow><white>!";
 	}
 
 	public static String victoryLegendaryTitleTemplate() {
@@ -210,7 +235,9 @@ public final class BossTierTheme {
 	}
 
 	public static String wrapTierGradient(@NotNull BossTier tier, @NotNull String body) {
-		return "<gradient:" + tierLineStart(tier) + ":" + tierLineEnd(tier) + ">" + body + "</gradient>";
+		// MiniMessage gradient colours must be prefixed with '#'; without it the tag is invalid
+		// and renders as literal text (no colour/gradient).
+		return "<gradient:#" + tierLineStart(tier) + ":#" + tierLineEnd(tier) + ">" + body + "</gradient>";
 	}
 
 	public static boolean isHighTier(@NotNull BossTier tier) {
@@ -246,5 +273,49 @@ public final class BossTierTheme {
 			return text;
 		}
 		return Character.toUpperCase(text.charAt(0)) + text.substring(1);
+	}
+
+	private static String highlightSpecies(@NotNull BossTier tier, @NotNull String species) {
+		String start = switch (tier) {
+			case COMMON -> "D9D9D9";
+			case UNCOMMON -> "A6FF9E";
+			case RARE -> "8FD3FF";
+			case ULTRA_RARE -> "FFB8FF";
+			case LEGENDARY -> "FFE98A";
+			case MEGA -> "FF92D0";
+			case MYTHICAL -> "FFD4A0";
+		};
+		String end = switch (tier) {
+			case COMMON -> "FFFFFF";
+			case UNCOMMON -> "E6FFD8";
+			case RARE -> "D7F3FF";
+			case ULTRA_RARE -> "FFD1FF";
+			case LEGENDARY -> "FFF4BF";
+			case MEGA -> "FFD1EA";
+			case MYTHICAL -> "FFE6C8";
+		};
+		return "<gradient:#" + start + ":#" + end + "><bold>" + species + "</bold></gradient>";
+	}
+
+	private static String highlightBiome(@NotNull BossTier tier, @NotNull String biome) {
+		String start = switch (tier) {
+			case COMMON -> "A7B7C8";
+			case UNCOMMON -> "7CDA8C";
+			case RARE -> "7DBBFF";
+			case ULTRA_RARE -> "D8B8FF";
+			case LEGENDARY -> "F5D56E";
+			case MEGA -> "FF9CDA";
+			case MYTHICAL -> "FFB88A";
+		};
+		String end = switch (tier) {
+			case COMMON -> "EEF3F8";
+			case UNCOMMON -> "D9FFE0";
+			case RARE -> "CDEBFF";
+			case ULTRA_RARE -> "F1DAFF";
+			case LEGENDARY -> "FFF1AA";
+			case MEGA -> "FFD0EC";
+			case MYTHICAL -> "FFDDBA";
+		};
+		return "<gradient:#" + start + ":#" + end + ">" + biome + "</gradient>";
 	}
 }

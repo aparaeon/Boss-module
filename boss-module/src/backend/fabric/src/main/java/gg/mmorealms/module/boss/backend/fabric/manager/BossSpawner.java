@@ -403,8 +403,9 @@ public class BossSpawner {
 			// false = don't replace our curated moveset, only fill any remaining empty slots.
 			pokemon.teachLearnableMoves(false);
 			if (tc.maxEvs) {
-				applyMaxEvs(pokemon);
+				applyFocusedEvs(pokemon, speciesObj, level);
 			}
+			applyHeldItem(pokemon, tc);
 			// Heal AFTER stat-affecting changes so currentHealth tracks final maxHealth (else battles start at <100%).
 			pokemon.heal();
 			pokemonUUID = pokemon.getUuid();
@@ -429,7 +430,7 @@ public class BossSpawner {
 			tag.putInt(NbtKeys.SPAWN_Z, position.getZ());
 			tag.putString(NbtKeys.SPAWN_DIMENSION, sl.dimension().location().toString());
 
-			applyBossName(entity, tc, species, level);
+			applyBossName(entity, tier, species, level);
 
 			// Set BEFORE addFreshEntity so Cobblemon's despawner can't grab the entity first tick.
 			// setPersistenceRequired: blocks checkDespawn + survives chunk unload.
@@ -520,16 +521,12 @@ public class BossSpawner {
 		}
 	}
 
-	public void applyBossName(PokemonEntity entity, TierConfig tc, String species, int level) {
-		com.raduvoinea.utils.message_builder.MessageBuilder base = (tc.nameplateFormat != null)
-				? new com.raduvoinea.utils.message_builder.MessageBuilder(tc.nameplateFormat)
-				: config.lang.bossDisplayName;
-
-		String formatted = base
-				.parse("glow_color", tc.glowColor.toLowerCase())
-				.parse("display_name", tc.displayName)
-				.parse("tier_display", tc.displayName)
-				.parse("species", species)
+	public void applyBossName(@NotNull PokemonEntity entity, @NotNull BossTier tier, @NotNull String species, int level) {
+		String formatted = config.lang.bossDisplayName
+				.parse("tier_start", BossTierTheme.tierLineStart(tier))
+				.parse("tier_end", BossTierTheme.tierLineEnd(tier))
+				.parse("tier_display", BossTierTheme.tierPlainName(tier))
+				.parse("species", speciesDisplayName(species))
 				.parse("level", level)
 				.parse();
 
@@ -540,42 +537,102 @@ public class BossSpawner {
 		entity.setCustomNameVisible(true);
 	}
 
-	public void handleBossDialogue(@NotNull ServerPlayer player, @NotNull PokemonEntity entity,
-	                               @NotNull net.minecraft.world.InteractionHand hand) {
-		if (player.level().isClientSide) {
-			return;
-		}
+	/**
+	 * Opens the tier-themed dialogue gate for a boss battle challenge.
+	 *
+	 * @return {@code true} if the dialogue was shown (the caller should cancel the native battle start);
+	 *         {@code false} if there is no dialogue to show (let the battle proceed normally).
+	 */
+	public boolean handleBossDialogue(@NotNull ServerPlayer player, @NotNull PokemonEntity entity,
+	                                  @NotNull com.cobblemon.mod.common.net.messages.server.BattleChallengePacket packet) {
+		String who = player.getGameProfile().getName();
 		UUID pokemonUUID = entity.getPokemon().getUuid();
+		if (player.level().isClientSide) {
+			return false;
+		}
 		ActiveBoss boss = manager.get(pokemonUUID);
 		if (boss == null) {
-			return;
+			Logger.warn("Boss dialogue gate: " + who + " challenged boss-tagged " + pokemonUUID
+					+ " but it is NOT registered in the active map — letting battle proceed.");
+			return false;
 		}
 		TierConfig tc = config.tiers.get(boss.tier());
 		if (tc == null) {
-			return;
+			Logger.warn("Boss dialogue gate: tier " + boss.tier() + " has no config entry — letting battle proceed.");
+			return false;
 		}
 		List<List<String>> boxes = tc.dialogueBoxes;
 		if (boxes == null || boxes.isEmpty()) {
-			return;
+			Logger.warn("Boss dialogue gate: tier " + boss.tier() + " has no dialogueBoxes — letting battle proceed.");
+			return false;
 		}
 		List<String> box = boxes.get(RandomUtils.getRandom(0, boxes.size() - 1));
 		if (box == null || box.isEmpty()) {
-			return;
+			Logger.warn("Boss dialogue gate: tier " + boss.tier() + " picked an empty dialogue box — letting battle proceed.");
+			return false;
 		}
 
 		gg.mmorealms.module.core.backend.common.dto.user.IUser iUser =
 				gg.mmorealms.module.core.backend.common.dto.user.IUser.getByUUID(player.getUUID());
 		if (!(iUser instanceof gg.mmorealms.module.core.backend.common.dto.user.User user)) {
-			return;
+			Logger.warn("Boss dialogue gate: IUser for " + who + " is "
+					+ (iUser == null ? "null" : iUser.getClass().getName())
+					+ ", not a backend User — letting battle proceed.");
+			return false;
 		}
 		player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 0.85F, 0.9F);
-		new gg.mmorealms.module.boss.backend.fabric.gui.BossDialogueGUI(user, boss.tier(), boss.species(), boss.level(), box, entity, hand).open();
+		Logger.info("Boss dialogue gate: opening " + boss.tier() + " dialogue GUI for " + who
+				+ " (" + BossManager.shortId(pokemonUUID) + ").");
+		new gg.mmorealms.module.boss.backend.fabric.gui.BossDialogueGUI(user, boss.tier(), speciesDisplayName(boss.species()), boss.level(), box, packet).open();
+		return true;
 	}
 
-	private void applyMaxEvs(@NotNull Pokemon pokemon) {
+	// Competitive bulky-attacker spread (252 HP / 252 offense / 4 Speed). Unlike stat-stage changes, EVs are
+	// part of the Showdown team pack, so they actually affect in-battle damage and bulk.
+	private void applyFocusedEvs(@NotNull Pokemon pokemon, @Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
 		com.cobblemon.mod.common.pokemon.EVs evs = pokemon.getEvs();
-		List.of(Stats.HP, Stats.ATTACK, Stats.DEFENCE, Stats.SPECIAL_ATTACK, Stats.SPECIAL_DEFENCE, Stats.SPEED)
-				.forEach(stat -> evs.set(stat, 85));
+		double[] power = offensePower(species, level);
+		boolean physical = power[0] >= power[1];
+		evs.set(Stats.HP, 252);
+		evs.set(physical ? Stats.ATTACK : Stats.SPECIAL_ATTACK, 252);
+		evs.set(Stats.SPEED, 4);
+	}
+
+	private void applyHeldItem(@NotNull Pokemon pokemon, @NotNull TierConfig tc) {
+		if (tc.heldItem == null || tc.heldItem.isBlank()) {
+			return;
+		}
+		net.minecraft.world.item.Item item = net.minecraft.core.registries.BuiltInRegistries.ITEM
+				.get(net.minecraft.resources.ResourceLocation.parse(tc.heldItem));
+		if (item == net.minecraft.world.item.Items.AIR) {
+			Logger.warn("Boss heldItem '" + tc.heldItem + "' did not resolve to an item; skipping.");
+			return;
+		}
+		pokemon.swapHeldItem(new net.minecraft.world.item.ItemStack(item), false, false);
+	}
+
+	private static double[] offensePower(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
+		if (species == null) {
+			return new double[]{0, 0};
+		}
+		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
+		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
+		pool.addAll(learnset.getLevelUpMovesUpTo(level));
+		pool.addAll(learnset.getTmMoves());
+		double physicalPower = 0;
+		double specialPower = 0;
+		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : pool) {
+			if (move.getPower() <= 0) {
+				continue;
+			}
+			String category = move.getDamageCategory().getName();
+			if ("physical".equalsIgnoreCase(category)) {
+				physicalPower += move.getPower();
+			} else if ("special".equalsIgnoreCase(category)) {
+				specialPower += move.getPower();
+			}
+		}
+		return new double[]{physicalPower, specialPower};
 	}
 
 	private void announceSpawn(@NotNull BossTier tier, @NotNull TierConfig tc, @NotNull String species,
@@ -645,22 +702,9 @@ public class BossSpawner {
 
 	private static @Nullable String pickNature(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
 		if (species == null) return null;
-		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
-		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
-		pool.addAll(learnset.getLevelUpMovesUpTo(level));
-		pool.addAll(learnset.getTmMoves());
-
-		double physicalPower = 0;
-		double specialPower = 0;
-		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : pool) {
-			if (move.getPower() <= 0) continue;
-			String category = move.getDamageCategory().getName();
-			if ("physical".equalsIgnoreCase(category)) {
-				physicalPower += move.getPower();
-			} else if ("special".equalsIgnoreCase(category)) {
-				specialPower += move.getPower();
-			}
-		}
+		double[] power = offensePower(species, level);
+		double physicalPower = power[0];
+		double specialPower = power[1];
 
 		if (physicalPower > specialPower * 1.2) {
 			return com.cobblemon.mod.common.api.pokemon.Natures.ADAMANT.getName().toString();
@@ -671,12 +715,18 @@ public class BossSpawner {
 		return null;
 	}
 
+	// Self-fainting moves — left in the pool they win the "highest power" sort (Explosion = 250) and the boss
+	// KOs itself on turn one, handing the player a free win regardless of level. Never teach these to a boss.
+	private static final Set<String> SELF_FAINT_MOVES = Set.of(
+			"explosion", "selfdestruct", "mistyexplosion", "finalgambit", "memento", "healingwish", "lunardance");
+
 	private static List<String> pickBestMoves(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
 		if (species == null) return List.of();
 		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
 		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
 		pool.addAll(learnset.getLevelUpMovesUpTo(level));
 		pool.addAll(learnset.getTmMoves());
+		pool.removeIf(move -> SELF_FAINT_MOVES.contains(move.getName()));
 
 		Set<com.cobblemon.mod.common.api.types.ElementalType> speciesTypes = new HashSet<>();
 		for (com.cobblemon.mod.common.api.types.ElementalType type : species.getTypes()) {

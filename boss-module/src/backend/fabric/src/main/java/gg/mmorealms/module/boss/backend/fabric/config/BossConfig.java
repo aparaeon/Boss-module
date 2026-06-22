@@ -4,8 +4,6 @@ import com.raduvoinea.utils.generic.dto.Range;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.boss.common.BossTierTheme;
-import gg.mmorealms.module.core.backend.common.dto.GUIButton;
-import net.minecraft.world.item.Items;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -22,17 +20,7 @@ public class BossConfig {
 
 	public Map<BossTier, TierConfig> tiers = defaultTiers();
 
-	public DialogueGUI dialogueGUI = new DialogueGUI();
 	public Lang lang = new Lang();
-
-	public static class DialogueGUI {
-		public GUIButton battleButton = GUIButton.of(Items.DIAMOND_SWORD)
-				.position(5, 2)
-				.name("<green><bold>⚔ Battle");
-		public GUIButton leaveButton = GUIButton.of(Items.BARRIER)
-				.position(5, 6)
-				.name("<red><bold>✗ Leave");
-	}
 
 	private static Map<BossTier, TierConfig> defaultTiers() {
 		Map<BossTier, TierConfig> map = new EnumMap<>(BossTier.class);
