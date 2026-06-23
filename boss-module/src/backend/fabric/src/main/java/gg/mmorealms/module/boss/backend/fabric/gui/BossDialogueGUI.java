@@ -3,7 +3,7 @@ package gg.mmorealms.module.boss.backend.fabric.gui;
 import com.cobblemon.mod.common.net.messages.server.BattleChallengePacket;
 import com.cobblemon.mod.common.net.serverhandling.ChallengeHandler;
 import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
-import gg.mmorealms.module.boss.backend.fabric.mixin.BossChallengeHandlerMixin;
+import gg.mmorealms.module.boss.backend.fabric.BossMixinState;
 import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.core.backend.common.dto.GUIButton;
 import gg.mmorealms.module.core.backend.common.dto.user.User;
@@ -19,13 +19,13 @@ import java.util.Map;
 public class BossDialogueGUI extends GUI {
 
 	private static final Map<BossTier, String> TIER_GLYPHS = Map.of(
-			BossTier.COMMON,     "",
-			BossTier.UNCOMMON,   "",
-			BossTier.RARE,       "",
-			BossTier.ULTRA_RARE, "",
-			BossTier.LEGENDARY,  "",
-			BossTier.MEGA,       "",
-			BossTier.MYTHICAL,   ""
+		BossTier.COMMON,     "\uF280",
+		BossTier.UNCOMMON,   "\uF281",
+		BossTier.RARE,       "\uF282",
+		BossTier.ULTRA_RARE, "\uF283",
+		BossTier.LEGENDARY,  "\uF284",
+		BossTier.MEGA,       "\uF285",
+		BossTier.MYTHICAL,   "\uF286"
 	);
 
 	private final BossTier tier;
@@ -74,7 +74,7 @@ public class BossDialogueGUI extends GUI {
 		}
 		BossFabricModule.instance().runOnMain(() -> {
 			BossFabricModule.instance().getBossManager().sendBattleCry(player, tier, species);
-			BossChallengeHandlerMixin.CONFIRMED.add(player.getUUID());
+			BossMixinState.CONFIRMED.add(player.getUUID());
 			ChallengeHandler.INSTANCE.handle(packet, server, player);
 		});
 	}

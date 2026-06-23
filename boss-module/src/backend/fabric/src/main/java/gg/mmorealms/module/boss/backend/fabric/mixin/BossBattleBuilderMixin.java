@@ -1,8 +1,10 @@
 package gg.mmorealms.module.boss.backend.fabric.mixin;
 
+import com.cobblemon.mod.common.api.battles.model.ai.BattleAI;
 import com.cobblemon.mod.common.api.storage.party.PartyStore;
 import com.cobblemon.mod.common.battles.BattleBuilder;
 import com.cobblemon.mod.common.battles.BattleFormat;
+import com.cobblemon.mod.common.battles.ai.StrongBattleAI;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.NbtKeys;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,30 +20,36 @@ import java.util.UUID;
 @Mixin(value = BattleBuilder.class, remap = false)
 public abstract class BossBattleBuilderMixin {
 
-	@ModifyArg(
-			method = "pve(Lnet/minecraft/server/level/ServerPlayer;Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/BattleFormat;ZZFLcom/cobblemon/mod/common/api/storage/party/PartyStore;)Lcom/cobblemon/mod/common/battles/BattleStartResult;",
-			at = @At(
-					value = "INVOKE",
-					target = "Lcom/cobblemon/mod/common/battles/actor/PokemonBattleActor;<init>(Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/pokemon/BattlePokemon;FLcom/cobblemon/mod/common/api/battles/model/ai/BattleAI;)V"
-			),
-			index = 2,
-			remap = false
-	)
+	private static final String PVE_DESC =
+			"pve(Lnet/minecraft/server/level/ServerPlayer;Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/BattleFormat;ZZFLcom/cobblemon/mod/common/api/storage/party/PartyStore;)Lcom/cobblemon/mod/common/battles/BattleStartResult;";
+	private static final String ACTOR_CTOR =
+			"Lcom/cobblemon/mod/common/battles/actor/PokemonBattleActor;<init>(Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/pokemon/BattlePokemon;FLcom/cobblemon/mod/common/api/battles/model/ai/BattleAI;)V";
+
+	@ModifyArg(method = PVE_DESC, at = @At(value = "INVOKE", target = ACTOR_CTOR), index = 2, remap = false)
 	private float mmoRealmsBoss$forceNoFlee(
 			float fleeDistanceArg,
-			ServerPlayer player,
-			PokemonEntity wild,
-			UUID leadingPokemon,
-			BattleFormat format,
-			boolean cloneParties,
-			boolean healFirst,
-			float fleeDistance,
-			PartyStore party
+			ServerPlayer player, PokemonEntity wild, UUID leadingPokemon,
+			BattleFormat format, boolean cloneParties, boolean healFirst, float fleeDistance, PartyStore party
 	) {
 		if (wild != null && wild.getPokemon().getPersistentData().getBoolean(NbtKeys.BOSS)) {
 			return -1F;
 		}
 		return fleeDistanceArg;
+	}
+
+	@ModifyArg(method = PVE_DESC, at = @At(value = "INVOKE", target = ACTOR_CTOR), index = 3, remap = false)
+	private BattleAI mmoRealmsBoss$upgradeBossAI(
+			BattleAI originalAI,
+			ServerPlayer player, PokemonEntity wild, UUID leadingPokemon,
+			BattleFormat format, boolean cloneParties, boolean healFirst, float fleeDistance, PartyStore party
+	) {
+		if (wild == null || !wild.getPokemon().getPersistentData().getBoolean(NbtKeys.BOSS)) {
+			return originalAI;
+		}
+		if (!wild.getPokemon().getPersistentData().contains(NbtKeys.TIER)) {
+			return originalAI;
+		}
+		return new StrongBattleAI(5);
 	}
 }
 @Mixin(PokemonEntity.class)

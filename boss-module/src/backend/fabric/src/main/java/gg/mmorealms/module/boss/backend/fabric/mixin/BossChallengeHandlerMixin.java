@@ -14,21 +14,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import gg.mmorealms.module.boss.backend.fabric.BossMixinState;
 
 /**
  * Wild battles are started by the R-key challenge (BattleChallengePacket → ChallengeHandler), NOT mobInteract.
  * This gate intercepts that path: challenging a boss opens the tier dialogue instead of starting the battle.
- * The dialogue's Battle button re-dispatches the same packet with the player's UUID in {@link #CONFIRMED},
+ * The dialogue's Battle button re-dispatches the same packet with the player's UUID in {@link BossMixinState#CONFIRMED},
  * which lets the second pass run Cobblemon's real battle pipeline.
  */
 @Mixin(value = ChallengeHandler.class, remap = false)
 public abstract class BossChallengeHandlerMixin {
-
-	/** Players who confirmed the dialogue; their next challenge bypasses the gate. */
-	public static final Set<UUID> CONFIRMED = ConcurrentHashMap.newKeySet();
 
 	@Inject(
 			method = "handle(Lcom/cobblemon/mod/common/net/messages/server/BattleChallengePacket;Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/server/level/ServerPlayer;)V",
@@ -36,7 +31,7 @@ public abstract class BossChallengeHandlerMixin {
 			cancellable = true
 	)
 	private void mmoRealmsBoss$gateBossBattle(BattleChallengePacket packet, MinecraftServer server, ServerPlayer player, CallbackInfo ci) {
-		if (CONFIRMED.remove(player.getUUID())) {
+		if (BossMixinState.CONFIRMED.remove(player.getUUID())) {
 			return;
 		}
 		Entity targeted = player.level().getEntity(packet.getTargetedEntityId());

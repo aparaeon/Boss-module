@@ -98,12 +98,6 @@ public class BossConfig {
 		public MessageBuilder adminDespawnSuccess = new MessageBuilder(
 				BossTierTheme.adminDespawnSuccessTemplate()
 		);
-		public MessageBuilder adminDespawnSuccessAll = new MessageBuilder(
-				BossTierTheme.adminDespawnSuccessAllTemplate()
-		);
-		public MessageBuilder adminDespawnSuccessTier = new MessageBuilder(
-				BossTierTheme.adminDespawnSuccessTierTemplate()
-		);
 		public MessageBuilder adminListEmpty = new MessageBuilder(BossTierTheme.adminListEmptyTemplate());
 		public MessageBuilder adminListHeader = new MessageBuilder(BossTierTheme.adminListHeaderTemplate());
 		public MessageBuilder adminListRow = new MessageBuilder(

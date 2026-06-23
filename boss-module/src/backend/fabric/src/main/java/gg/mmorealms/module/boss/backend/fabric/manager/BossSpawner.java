@@ -526,7 +526,7 @@ public class BossSpawner {
 				.parse("tier_start", BossTierTheme.tierLineStart(tier))
 				.parse("tier_end", BossTierTheme.tierLineEnd(tier))
 				.parse("tier_display", BossTierTheme.tierPlainName(tier))
-				.parse("species", speciesDisplayName(species))
+				.parse("species", BossManager.speciesDisplayName(species))
 				.parse("level", level)
 				.parse();
 
@@ -537,12 +537,6 @@ public class BossSpawner {
 		entity.setCustomNameVisible(true);
 	}
 
-	/**
-	 * Opens the tier-themed dialogue gate for a boss battle challenge.
-	 *
-	 * @return {@code true} if the dialogue was shown (the caller should cancel the native battle start);
-	 *         {@code false} if there is no dialogue to show (let the battle proceed normally).
-	 */
 	public boolean handleBossDialogue(@NotNull ServerPlayer player, @NotNull PokemonEntity entity,
 	                                  @NotNull com.cobblemon.mod.common.net.messages.server.BattleChallengePacket packet) {
 		String who = player.getGameProfile().getName();
@@ -583,7 +577,7 @@ public class BossSpawner {
 		player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 0.85F, 0.9F);
 		Logger.info("Boss dialogue gate: opening " + boss.tier() + " dialogue GUI for " + who
 				+ " (" + BossManager.shortId(pokemonUUID) + ").");
-		new gg.mmorealms.module.boss.backend.fabric.gui.BossDialogueGUI(user, boss.tier(), speciesDisplayName(boss.species()), boss.level(), box, packet).open();
+		new gg.mmorealms.module.boss.backend.fabric.gui.BossDialogueGUI(user, boss.tier(), BossManager.speciesDisplayName(boss.species()), boss.level(), box, packet).open();
 		return true;
 	}
 
@@ -645,7 +639,7 @@ public class BossSpawner {
 		int y = (int) entity.getY();
 		int z = (int) entity.getZ();
 		String glow = tc.glowColor.toLowerCase();
-		String speciesDisplay = speciesDisplayName(species);
+		String speciesDisplay = BossManager.speciesDisplayName(species);
 
 		switch (lvl) {
 			case WORLD_CHAT -> {
@@ -660,7 +654,7 @@ public class BossSpawner {
 						.parse("biome", biome)
 						.parse("x", x).parse("y", y).parse("z", z)
 						.parse();
-				sendWorldChat((net.minecraft.server.level.ServerLevel) entity.level(), message);
+				BossManager.sendWorldChat((net.minecraft.server.level.ServerLevel) entity.level(), message);
 			}
 			case GLOBAL_CHAT -> {
 				String biome = readableBiome((net.minecraft.server.level.ServerLevel) entity.level(), entity.blockPosition());
@@ -668,36 +662,10 @@ public class BossSpawner {
 						.parse("announcement_title", BossTierTheme.title(tier, BossTierTheme.BannerKind.SPAWN))
 						.parse("announcement_line", BossTierTheme.spawnLine(tier, speciesDisplay, biome))
 						.parse();
-				sendGlobalChat(message);
+				BossManager.sendGlobalChat(message);
 			}
 			default -> {}
 		}
-	}
-
-	private void sendWorldChat(@NotNull net.minecraft.server.level.ServerLevel worldLevel, @NotNull String message) {
-		Component comp = BossFabricModule.instance().getMiniMessageManager().parse(message);
-		for (ServerPlayer p : worldLevel.players()) {
-			p.sendSystemMessage(comp);
-		}
-	}
-
-	private void sendGlobalChat(@NotNull String message) {
-		new gg.mmorealms.module.chat.common.dto.GlobalMessageEvent(message).send();
-	}
-
-	private static String speciesDisplayName(@NotNull String species) {
-		com.cobblemon.mod.common.pokemon.Species resolved = PokemonSpecies.INSTANCE.getByName(species);
-		if (resolved != null) {
-			return capitalizeFirst(resolved.getTranslatedName().getString());
-		}
-		return capitalizeFirst(species);
-	}
-
-	private static String capitalizeFirst(@NotNull String text) {
-		if (text.isEmpty()) {
-			return text;
-		}
-		return Character.toUpperCase(text.charAt(0)) + text.substring(1);
 	}
 
 	private static @Nullable String pickNature(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {

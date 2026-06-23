@@ -8,6 +8,7 @@ import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
 import gg.mmorealms.module.boss.backend.fabric.config.BossConfig;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.ActiveBoss;
+import gg.mmorealms.module.boss.common.BossTierTheme;
 import net.minecraft.commands.CommandSource;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,6 +65,8 @@ public class BossListCommand extends BackendCommand {
 					.parse();
 			mod.sendLang(sender, lang.adminListRow
 					.parse("short_id", BossManager.shortId(boss.pokemonUUID()))
+					.parse("tier_start", BossTierTheme.tierLineStart(boss.tier()))
+					.parse("tier_end", BossTierTheme.tierLineEnd(boss.tier()))
 					.parse("tier", boss.tier().name())
 					.parse("species", boss.species())
 					.parse("level", boss.level())

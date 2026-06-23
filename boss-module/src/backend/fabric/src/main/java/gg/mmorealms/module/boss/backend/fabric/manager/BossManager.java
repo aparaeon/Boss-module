@@ -403,12 +403,10 @@ public class BossManager {
 		sendTitlePopup(player, BossTierTheme.bossReactionTitle(boss.tier()), subtitle);
 	}
 
-	/** Dialogue-open popup: "{Species} Lv.N" in tier gradient, no subtitle. Fires when the dialogue GUI opens. */
 	public void sendEncounterPopup(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay, int level) {
 		sendTitlePopup(player, BossTierTheme.encounterTitle(tier, speciesDisplay, level), "");
 	}
 
-	/** Battle-start "{Tier} Boss" title + a random {species} taunt, shown over the starting fight. */
 	public void sendBattleCry(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay) {
 		TierConfig tc = config.tiers.get(tier);
 		if (tc == null || tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
@@ -451,7 +449,6 @@ public class BossManager {
 	}
 
 	private static String buildReactionSubtitle(@NotNull BossTier tier, @NotNull List<String> lines) {
-		// One short line per popup — concatenating both sentences overflows the subtitle and clips at the screen edge.
 		String line = lines.get(RandomUtils.getRandom(0, lines.size() - 1));
 		return BossTierTheme.wrapTierGradient(tier, line);
 	}
@@ -565,7 +562,6 @@ public class BossManager {
 		}
 	}
 
-	/** Sends the same "DESPAWNED" confirmation the admin would have gotten immediately, now that the queued battle ended. */
 	private void notifyDespawnRequester(@Nullable UUID requesterUUID, @NotNull ActiveBoss boss) {
 		if (requesterUUID == null) {
 			return;
@@ -838,7 +834,7 @@ public class BossManager {
 		}
 	}
 
-	private void sendWorldChat(@NotNull ServerLevel worldLevel, @NotNull String message) {
+	static void sendWorldChat(@NotNull ServerLevel worldLevel, @NotNull String message) {
 		net.minecraft.network.chat.Component comp = BossFabricModule.instance()
 				.getMiniMessageManager().parse(message);
 		for (ServerPlayer p : worldLevel.players()) {
@@ -846,22 +842,15 @@ public class BossManager {
 		}
 	}
 
-	private void sendGlobalChat(@NotNull String message) {
+	static void sendGlobalChat(@NotNull String message) {
 		new GlobalMessageEvent(message).send();
 	}
 
-	private static String speciesDisplayName(@NotNull String species) {
+	static String speciesDisplayName(@NotNull String species) {
 		com.cobblemon.mod.common.pokemon.Species resolved = com.cobblemon.mod.common.api.pokemon.PokemonSpecies.INSTANCE.getByName(species);
 		if (resolved != null) {
-			return capitalizeFirst(resolved.getTranslatedName().getString());
+			return BossTierTheme.capitalizeFirst(resolved.getTranslatedName().getString());
 		}
-		return capitalizeFirst(species);
-	}
-
-	private static String capitalizeFirst(@NotNull String text) {
-		if (text.isEmpty()) {
-			return text;
-		}
-		return Character.toUpperCase(text.charAt(0)) + text.substring(1);
+		return BossTierTheme.capitalizeFirst(species);
 	}
 }

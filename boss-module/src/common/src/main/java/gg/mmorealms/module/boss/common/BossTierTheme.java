@@ -30,27 +30,28 @@ public final class BossTierTheme {
 		String species = highlightSpecies(tier, capitalizeFirst(speciesDisplay));
 		String biomeStyled = highlightBiome(tier, biome);
 		String body = switch (tier) {
-			case COMMON -> "A Common Boss " + species + " has been seen in the " + biomeStyled + ".";
-			case UNCOMMON -> "A Rogue Boss " + species + " has been spotted in the " + biomeStyled + ".";
-			case RARE -> "A Rare Boss " + species + " has been stirring in the " + biomeStyled + ".";
-			case ULTRA_RARE -> "An Ultra Rare Boss " + species + " has been seen in the " + biomeStyled + ".";
-			case LEGENDARY -> "A Legendary Boss " + species + " now commands " + biomeStyled + ".";
-			case MEGA -> "A Mega Boss " + species + " has awakened with brutal force in the " + biomeStyled + ".";
-			case MYTHICAL -> "An Ancient Mythical Boss " + species + " has returned to the " + biomeStyled + ".";
+			case COMMON     -> "A <bold>Common Boss</bold> " + species + " has been seen in the " + biomeStyled + ".";
+			case UNCOMMON   -> "A <bold>Rogue Boss</bold> " + species + " has been spotted in the " + biomeStyled + ".";
+			case RARE       -> "A <bold>Rare Boss</bold> " + species + " has been stirring in the " + biomeStyled + ".";
+			case ULTRA_RARE -> "An <bold>Ultra Rare Boss</bold> " + species + " has been seen in the " + biomeStyled + ".";
+			case LEGENDARY  -> "A <bold>Legendary Boss</bold> " + species + " now commands " + biomeStyled + ".";
+			case MEGA       -> "A <bold>Mega Boss</bold> " + species + " has awakened with brutal force in the " + biomeStyled + ".";
+			case MYTHICAL   -> "An <bold>Ancient Mythical Boss</bold> " + species + " has returned to the " + biomeStyled + ".";
 		};
 		return wrapTierGradient(tier, body);
 	}
 
 	public static String defeatLine(@NotNull BossTier tier, @NotNull String speciesDisplay, @NotNull String player) {
-		String species = capitalizeFirst(speciesDisplay);
+		String species = highlightSpecies(tier, capitalizeFirst(speciesDisplay));
+		String playerStyled = "<bold>" + player + "</bold>";
 		String body = switch (tier) {
-			case COMMON -> "The Common Boss " + species + " has been bested by " + player + ".";
-			case UNCOMMON -> "The Uncommon Boss " + species + " has been defeated by " + player + ".";
-			case RARE -> "The Rare Boss " + species + " has been overpowered by " + player + ".";
-			case ULTRA_RARE -> "The Ultra Rare Boss " + species + " has been vanquished by " + player + ".";
-			case LEGENDARY -> "The Legendary Boss " + species + " has been conquered by " + player + ".";
-			case MEGA -> "The Mega Boss " + species + " has been obliterated by " + player + ".";
-			case MYTHICAL -> "The Mythical Boss " + species + " has been slain by " + player + ".";
+			case COMMON     -> "The <bold>Common Boss</bold> " + species + " has been bested by " + playerStyled + ".";
+			case UNCOMMON   -> "The <bold>Uncommon Boss</bold> " + species + " has been defeated by " + playerStyled + ".";
+			case RARE       -> "The <bold>Rare Boss</bold> " + species + " has been overpowered by " + playerStyled + ".";
+			case ULTRA_RARE -> "The <bold>Ultra Rare Boss</bold> " + species + " has been vanquished by " + playerStyled + ".";
+			case LEGENDARY  -> "The <bold>Legendary Boss</bold> " + species + " has been conquered by " + playerStyled + ".";
+			case MEGA       -> "The <bold>Mega Boss</bold> " + species + " has been obliterated by " + playerStyled + ".";
+			case MYTHICAL   -> "The <bold>Mythical Boss</bold> " + species + " has been slain by " + playerStyled + ".";
 		};
 		return wrapTierGradient(tier, body);
 	}
@@ -116,14 +117,6 @@ public final class BossTierTheme {
 		return "<gradient:#FDE7A1:#D8A24A><bold>✓ DESPAWNED</bold></gradient> <white>{tier} <green>{species}</green> <dark_gray>({short_id})";
 	}
 
-	public static String adminDespawnSuccessAllTemplate() {
-		return "<gradient:#FDE7A1:#D8A24A><bold>✓ DESPAWNED</bold></gradient> <white>{count} boss(es)";
-	}
-
-	public static String adminDespawnSuccessTierTemplate() {
-		return "<gradient:#FDE7A1:#D8A24A><bold>✓ DESPAWNED</bold></gradient> <white>{count} <green>{tier}</green> boss(es)";
-	}
-
 	public static String adminDespawnQueuedBattleTemplate() {
 		return "<gradient:#FF7BBF:#FF4FD8><bold>⏳ QUEUED</bold></gradient> <yellow>Boss <white>{short_id}</white><yellow> will despawn after the battle ends.";
 	}
@@ -164,15 +157,15 @@ public final class BossTierTheme {
 	}
 
 	public static String adminListHeaderTemplate() {
-		return "<gradient:#FF4D4D:#4DA3FF><bold>ACTIVE BOSSES ({count}):</bold></gradient>";
+		return "<gradient:#FF79C6:#FFD700><bold>ACTIVE BOSSES</bold></gradient> <bold><color:#FFB6C1>({count})</color></bold>";
 	}
 
 	public static String adminListRowTemplate() {
-		return "<gradient:#FF4D4D:#4DA3FF>{short_id}</gradient> <white>{tier} <gradient:#FF4D4D:#4DA3FF>{species}</gradient> <gray>lv.{level}{origin} <dark_gray>| <gradient:#4DA3FF:#FF4D4D>{location}</gradient>";
+		return "<color:#FFB3D9>{short_id}</color>  <gradient:#{tier_start}:#{tier_end}><bold>{tier}</bold></gradient>  <bold><color:#{tier_end}>{species}</color></bold>  <dark_gray>lv.{level}{origin}  <gray>| {location}";
 	}
 
 	public static String adminListLocationTemplate() {
-		return "<gradient:#FF4D4D:#4DA3FF>{dimension}</gradient> <dark_gray>{x} {y} {z}";
+		return "<gray>{dimension} <yellow>{x} {y} {z}";
 	}
 
 	public static String adminModuleNotInitializedTemplate() {
@@ -273,7 +266,7 @@ public final class BossTierTheme {
 		};
 	}
 
-	private static String capitalizeFirst(@NotNull String text) {
+	public static String capitalizeFirst(@NotNull String text) {
 		if (text.isEmpty()) {
 			return text;
 		}
