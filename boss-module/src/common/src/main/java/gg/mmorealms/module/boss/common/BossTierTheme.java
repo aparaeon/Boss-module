@@ -79,6 +79,11 @@ public final class BossTierTheme {
 		return wrapTierGradient(tier, "<bold>" + tierPlainName(tier) + " Boss</bold>");
 	}
 
+	/** Dialogue-open popup title, e.g. "Charizard Lv.87" in the tier gradient. */
+	public static String encounterTitle(@NotNull BossTier tier, @NotNull String species, int level) {
+		return wrapTierGradient(tier, "<bold>" + capitalizeFirst(species) + " Lv." + level + "</bold>");
+	}
+
 	public static String tierPlainName(@NotNull BossTier tier) {
 		return switch (tier) {
 			case COMMON -> "Common";

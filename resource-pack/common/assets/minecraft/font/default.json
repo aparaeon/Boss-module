@@ -59,6 +59,13 @@
 	    {"chars":["\uF275"],"file":"mmorealms:gui/gamble/button/enabled/green.png" ,"ascent": -7,"height":50,"type":"bitmap"},
 	    {"chars":["\uF276"],"file":"mmorealms:gui/gamble/button/enabled/black.png" ,"ascent": -7,"height":50,"type":"bitmap"},
 
+		{"chars":["\uF280"],"file":"mmorealms:gui/boss/dialogue/common.png",    "ascent":46,"height":256,"type":"bitmap"},
+		{"chars":["\uF281"],"file":"mmorealms:gui/boss/dialogue/uncommon.png",  "ascent":46,"height":256,"type":"bitmap"},
+		{"chars":["\uF282"],"file":"mmorealms:gui/boss/dialogue/rare.png",      "ascent":46,"height":256,"type":"bitmap"},
+		{"chars":["\uF283"],"file":"mmorealms:gui/boss/dialogue/ultra_rare.png","ascent":46,"height":256,"type":"bitmap"},
+		{"chars":["\uF284"],"file":"mmorealms:gui/boss/dialogue/legendary.png", "ascent":46,"height":256,"type":"bitmap"},
+		{"chars":["\uF285"],"file":"mmorealms:gui/boss/dialogue/mega.png",      "ascent":46,"height":256,"type":"bitmap"},
+		{"chars":["\uF286"],"file":"mmorealms:gui/boss/dialogue/mythical.png",  "ascent":46,"height":256,"type":"bitmap"},
 
 
 

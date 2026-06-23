@@ -403,6 +403,11 @@ public class BossManager {
 		sendTitlePopup(player, BossTierTheme.bossReactionTitle(boss.tier()), subtitle);
 	}
 
+	/** Dialogue-open popup: "{Species} Lv.N" in tier gradient, no subtitle. Fires when the dialogue GUI opens. */
+	public void sendEncounterPopup(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay, int level) {
+		sendTitlePopup(player, BossTierTheme.encounterTitle(tier, speciesDisplay, level), "");
+	}
+
 	/** Battle-start "{Tier} Boss" title + a random {species} taunt, shown over the starting fight. */
 	public void sendBattleCry(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay) {
 		TierConfig tc = config.tiers.get(tier);

@@ -1,0 +1,11 @@
+{
+    "providers": [
+        {
+            "type": "ttf",
+            "file": "mmorealms:font/boss_dialogue.ttf",
+            "size": 9,
+            "oversample": 6,
+            "shift": [0, 0]
+        }
+    ]
+}
