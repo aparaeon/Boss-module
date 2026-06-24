@@ -1,6 +1,7 @@
 package gg.mmorealms.module.boss.backend.fabric.manager;
 
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.raduvoinea.utils.file_manager.FileManager;
@@ -59,7 +60,6 @@ public class BossManager {
 	private final Map<UUID, CancelableTimeTask> particleTasks = new ConcurrentHashMap<>();
 
 	private final Set<UUID> pendingDespawns = ConcurrentHashMap.newKeySet();
-	// Boss pokemonUUID -> UUID of the admin who queued its despawn, so we can confirm "DESPAWNED" once the battle ends.
 	private final Map<UUID, UUID> pendingDespawnRequesters = new ConcurrentHashMap<>();
 	private final Set<BossTier> refillRetryScheduled = ConcurrentHashMap.newKeySet();
 	private @Nullable CancelableTimeTask pendingDespawnSweepTask;
@@ -403,18 +403,28 @@ public class BossManager {
 		sendTitlePopup(player, BossTierTheme.bossReactionTitle(boss.tier()), subtitle);
 	}
 
-	public void sendEncounterPopup(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay, int level) {
-		sendTitlePopup(player, BossTierTheme.encounterTitle(tier, speciesDisplay, level), "");
-	}
-
-	public void sendBattleCry(@NotNull ServerPlayer player, @NotNull BossTier tier, @NotNull String speciesDisplay) {
-		TierConfig tc = config.tiers.get(tier);
-		if (tc == null || tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
+	public void handleBattleStarted(@NotNull PokemonBattle battle) {
+		List<BattleActor> actors = new ArrayList<>();
+		battle.getActors().forEach(actors::add);
+		ActiveBoss boss = findBossIn(actors);
+		if (boss == null) {
 			return;
 		}
-		String taunt = tc.battleCryTaunts.get(RandomUtils.getRandom(0, tc.battleCryTaunts.size() - 1))
+		String speciesDisplay = speciesDisplayName(boss.species());
+		String title = BossTierTheme.battleStartTitle(boss.tier(), speciesDisplay, boss.level());
+		String subtitle = pickBattleCry(boss.tier(), speciesDisplay);
+		for (ServerPlayer player : findPlayerTargets(actors)) {
+			sendTitlePopup(player, title, subtitle);
+		}
+	}
+
+	private @NotNull String pickBattleCry(@NotNull BossTier tier, @NotNull String speciesDisplay) {
+		TierConfig tc = config.tiers.get(tier);
+		if (tc == null || tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
+			return "";
+		}
+		return tc.battleCryTaunts.get(RandomUtils.getRandom(0, tc.battleCryTaunts.size() - 1))
 				.replace("{species}", speciesDisplay);
-		sendTitlePopup(player, BossTierTheme.battleCryTitle(tier), taunt);
 	}
 
 	private void sendVictoryTitle(@NotNull ServerPlayer winner, @NotNull ActiveBoss boss) {
@@ -443,7 +453,6 @@ public class BossManager {
 	}
 
 	private static String buildVictorySubtitle(@NotNull List<String> lines, @NotNull String speciesDisplay) {
-		// One short line per popup — concatenating every line overflows the subtitle and clips at the screen edge.
 		String line = lines.get(RandomUtils.getRandom(0, lines.size() - 1));
 		return line.replace("{species}", speciesDisplay);
 	}
@@ -554,7 +563,6 @@ public class BossManager {
 			PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
 			if (entity == null || entity.isRemoved() || !entity.isBusy()) {
 				pendingDespawns.remove(uuid);
-				// Capture before cleanup — cleanup() -> cancelTasks() clears the requester entry.
 				UUID requester = pendingDespawnRequesters.get(uuid);
 				cleanup(uuid, CleanupKind.AUTO_DESPAWN, null, null, null);
 				notifyDespawnRequester(requester, boss);

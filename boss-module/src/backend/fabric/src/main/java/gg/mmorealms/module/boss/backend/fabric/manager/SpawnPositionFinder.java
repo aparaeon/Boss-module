@@ -101,7 +101,6 @@ public final class SpawnPositionFinder {
 		return false;
 	}
 	private static boolean hasFootprintClearance(ServerLevel level, BlockPos center, int radius) {
-		// Center column: must have solid, fluid-free ground.
 		BlockPos below = center.below();
 		if (level.getBlockState(below).isAir()) {
 			return false;

@@ -44,7 +44,6 @@ public class TierConfig {
 
 	public List<BossReward> rewards = List.of();
 	public int rewardRolls = 0;
-	public List<List<String>> dialogueBoxes = List.of();
 	public List<List<String>> defeatDialogue = List.of();
 	public List<String> battleCryTaunts = List.of();
 
@@ -116,7 +115,10 @@ public class TierConfig {
 				tc.battleCryTaunts = List.of(
 						"{species} stands its ground.",
 						"{species} refuses to back down.",
-						"{species} guards what is its.");
+						"{species} guards what is its.",
+						"{species} dares you to come closer.",
+						"{species} will not be moved.",
+						"{species} bristles at the challenge.");
 				tc.heldItem = "cobblemon:oran_berry";
 				tc.levelRange = new Range(10, 30);
 				tc.scale = 2.0F;
@@ -129,13 +131,6 @@ public class TierConfig {
 				tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 				tc.bstRange = new Range(0, 349);
 				tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 8, 2, 0.3);
-				tc.dialogueBoxes = List.of(
-						dialogue("A stubborn presence holds this stretch of the wild.", "The land refuses to look empty while it stands here."),
-						dialogue("A low-born threat keeps watch over its territory.", "Nothing here is given freely."),
-						dialogue("The air carries the weight of a creature shaped by the wild.", "It has no interest in yielding."),
-						dialogue("A modest power still demands respect.", "Even the smallest bosses leave a mark."),
-						dialogue("A simple boss remains rooted in unfamiliar ground.", "The wild has made it hard to move.")
-				);
 				tc.defeatDialogue = List.of(
 						dialogue("You came this far. That was your first mistake.", "The wild does not hand out mercy."),
 						dialogue("You challenged something smaller than you expected.", "It still knows how to bite."),
@@ -162,7 +157,10 @@ public class TierConfig {
 				tc.battleCryTaunts = List.of(
 						"{species} fights to survive.",
 						"{species} won't be cornered.",
-						"{species} knows every trick.");
+						"{species} knows every trick.",
+						"{species} reads your every move.",
+						"{species} has outlasted worse than you.",
+						"{species} waits for you to slip.");
 				tc.heldItem = "cobblemon:sitrus_berry";
 				tc.levelRange = new Range(20, 40);
 				tc.scale = 2.2F;
@@ -175,13 +173,6 @@ public class TierConfig {
 					tc.pokemonClasses = List.of(PokemonClass.NORMAL);
 					tc.bstRange = new Range(350, 449);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:happy_villager", 7, 3, 0.3);
-					tc.dialogueBoxes = List.of(
-							dialogue("A rogue presence lingers where it was never meant to stay.", "It learned to survive by moving first."),
-							dialogue("A wandering boss has sharpened itself on hard roads.", "Comfort was never part of its story."),
-							dialogue("The wild has turned this one into a restless threat.", "Stillness does not suit it."),
-							dialogue("A lone power keeps to the margins.", "It has no need for a crowd."),
-							dialogue("A clever boss survives by being difficult to catch.", "That lesson was learned well.")
-					);
 					tc.defeatDialogue = List.of(
 							dialogue("You hesitated, and I punished it.", "That is how survival works."),
 							dialogue("You thought this would be simple.", "The wild remembers arrogance."),
@@ -209,7 +200,10 @@ public class TierConfig {
 					tc.battleCryTaunts = List.of(
 							"{species} has bested many before you.",
 							"{species} shows no fear.",
-							"{species} fights like a veteran.");
+							"{species} fights like a veteran.",
+							"{species} has seen a hundred challengers fall.",
+							"{species} measures you and finds you wanting.",
+							"{species} wastes no movement.");
 					tc.heldItem = "cobblemon:leftovers";
 				tc.levelRange = new Range(35, 55);
 				tc.scale = 2.5F;
@@ -222,13 +216,6 @@ public class TierConfig {
 						tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
 						tc.announceOnDefeat = AnnounceLevel.WORLD_CHAT;
 						tc.ambientEffect = EffectConfig.recurring("minecraft:enchant", 5, 4, 0.4);
-						tc.dialogueBoxes = List.of(
-								dialogue("A rare power settles into the battlefield.", "Its presence feels tempered by many fights."),
-								dialogue("This boss carries the silence of a veteran.", "Nothing about it feels accidental."),
-								dialogue("A refined threat stands in the open.", "Its strength has been tested and kept."),
-								dialogue("The encounter tightens around a serious opponent.", "This is no casual presence."),
-								dialogue("A battle-hardened force has made itself known.", "Few wins come easily against it.")
-						);
 						tc.defeatDialogue = List.of(
 								dialogue("You had power.", "Not enough to matter."),
 								dialogue("This battle was already leaning my way.", "You just arrived late to the truth."),
@@ -257,7 +244,10 @@ public class TierConfig {
 					tc.battleCryTaunts = List.of(
 							"{species} radiates raw pressure.",
 							"{species} will not be tamed.",
-							"{species} towers over its rivals.");
+							"{species} towers over its rivals.",
+							"{species} makes the air feel heavy.",
+							"{species} regards you as beneath it.",
+							"{species} has never known an equal.");
 					tc.heldItem = "cobblemon:assault_vest";
 				tc.levelRange = new Range(60, 90);
 				tc.scale = 2.8F;
@@ -270,13 +260,6 @@ public class TierConfig {
 						tc.announceOnSpawn = AnnounceLevel.WORLD_CHAT;
 						tc.announceOnDefeat = AnnounceLevel.WORLD_CHAT;
 						tc.spawnEffect = EffectConfig.burst("minecraft:end_rod", 18, 0.5);
-						tc.dialogueBoxes = List.of(
-								dialogue("An unusually powerful presence gathers in the wild.", "The air around it feels heavier than it should."),
-								dialogue("A near-elite boss stands where ordinary encounters fade.", "Its rarity only sharpens the danger."),
-								dialogue("The battlefield bends around a force like this.", "It has the posture of something exceptional."),
-								dialogue("A boss of rare stature leaves a deep pressure behind.", "Even its stillness feels intentional."),
-								dialogue("A presence like this does not belong to the ordinary.", "It turns the encounter into a warning.")
-						);
 						tc.defeatDialogue = List.of(
 								dialogue("You stood before something exceptional.", "And still failed to endure."),
 								dialogue("This was never a fair contest.", "It was a measure of your limits."),
@@ -305,7 +288,10 @@ public class TierConfig {
 					tc.battleCryTaunts = List.of(
 							"{species} refuses to yield its legend!",
 							"{species} guards a legend untouched.",
-							"{species} answers your challenge.");
+							"{species} answers your challenge.",
+							"{species} has outlived every story told of it.",
+							"{species} does not kneel to challengers.",
+							"{species} carries the weight of legend.");
 					tc.heldItem = "cobblemon:life_orb";
 				tc.levelRange = new Range(90, 120);
 				tc.scale = 3.5F;
@@ -318,13 +304,6 @@ public class TierConfig {
 						tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
 						tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 20, 0.5);
 						tc.ambientEffect = EffectConfig.recurring("minecraft:end_rod", 5, 4, 0.4);
-						tc.dialogueBoxes = List.of(
-								dialogue("A legendary presence has taken shape.", "The old stories feel closer when it stands here."),
-								dialogue("A name-worthy boss lingers like history refusing to disappear.", "Nothing about it feels temporary."),
-								dialogue("The battlefield carries the weight of something enduring.", "Legends do not arrive by accident."),
-								dialogue("A force that outlasted many challengers has returned.", "Its silence speaks like authority."),
-								dialogue("The air itself seems to remember this boss.", "That kind of memory is hard to erase.")
-						);
 						tc.defeatDialogue = List.of(
 								dialogue("You dared to challenge legend.", "Legend answered."),
 								dialogue("Your resolve was visible.", "So was its collapse."),
@@ -349,14 +328,15 @@ public class TierConfig {
 					);
 				}
 				case MEGA -> {
-				// 2-stop only — 3-stop on a 4-letter word stripes per-letter.
 				tc.displayName = "<b><gradient:#FF0080:#7928CA>Mega</gradient></b>";
-				// Cobblemon renders its own "Lv. X" for mega-form Pokémon; omit ours to avoid duplication.
 				tc.glowColor = "aqua";
 				tc.battleCryTaunts = List.of(
 						"{species} erupts with unstable power!",
 						"{species} burns with raw fury!",
-						"{species} threatens to break loose!");
+						"{species} threatens to break loose!",
+						"{species} strains against its own strength!",
+						"{species} crackles with violent energy!",
+						"{species} is one moment from rupture!");
 				tc.heldItem = "cobblemon:life_orb";
 				tc.levelRange = new Range(100, 130);
 				tc.scale = 4.0F;
@@ -369,13 +349,6 @@ public class TierConfig {
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
 					tc.spawnEffect = EffectConfig.burst("minecraft:explosion", 15, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:soul_fire_flame", 4, 5, 0.5);
-					tc.dialogueBoxes = List.of(
-							dialogue("A transformed power hangs unstable in the air.", "Its strength feels less contained than before."),
-							dialogue("A violent evolution has turned this boss into a disaster.", "The form itself looks ready to erupt."),
-							dialogue("The battlefield strains under raw, unsteady force.", "This is power without comfort."),
-							dialogue("A sharpened storm has taken shape here.", "It feels built to break momentum."),
-							dialogue("Something immense and volatile is standing in place.", "The encounter already feels dangerous.")
-					);
 					tc.defeatDialogue = List.of(
 							dialogue("You awakened something brutal.", "It crushed the moment you touched it."),
 							dialogue("Power like this does not negotiate.", "It erases."),
@@ -405,7 +378,10 @@ public class TierConfig {
 				tc.battleCryTaunts = List.of(
 						"{species} stirs from ancient slumber.",
 						"{species} awakens with old wrath.",
-						"{species} remembers forgotten power.");
+						"{species} remembers forgotten power.",
+						"{species} regards you across ages.",
+						"{species} has slept longer than your bloodline.",
+						"{species} carries the silence of myth.");
 				tc.heldItem = "cobblemon:leftovers";
 				tc.levelRange = new Range(120, 150);
 				tc.scale = 4.0F;
@@ -413,19 +389,11 @@ public class TierConfig {
 				tc.maxActive = 1;
 				tc.minActive = 0;
 				tc.despawnAfter = Time.minutes(10);
-					// Ultra Beasts are bundled into Mythical — treated as mythical-equivalent power level.
 					tc.pokemonClasses = List.of(PokemonClass.MYTHICAL, PokemonClass.ULTRA_BEAST);
 					tc.announceOnSpawn = AnnounceLevel.GLOBAL_CHAT;
 					tc.announceOnDefeat = AnnounceLevel.GLOBAL_CHAT;
 					tc.spawnEffect = EffectConfig.burst("minecraft:dragon_breath", 25, 0.5);
 					tc.ambientEffect = EffectConfig.recurring("minecraft:flame", 3, 6, 0.5);
-					tc.dialogueBoxes = List.of(
-							dialogue("An ancient presence has surfaced where it should not be.", "The world seems smaller around it."),
-							dialogue("A forgotten power has returned with old weight still intact.", "Its age feels older than the story around it."),
-							dialogue("The encounter has crossed into something nearly myth-bound.", "There is history in the air."),
-							dialogue("A relic of a harsher age stands in the wild.", "It carries the silence of long memory."),
-							dialogue("Something beyond ordinary rarity has awakened here.", "The battlefield feels like a borrowed place.")
-					);
 					tc.defeatDialogue = List.of(
 							dialogue("You stood before an ancient truth.", "It did not recognize you."),
 							dialogue("Myths do not forgive intruders.", "They consume them."),

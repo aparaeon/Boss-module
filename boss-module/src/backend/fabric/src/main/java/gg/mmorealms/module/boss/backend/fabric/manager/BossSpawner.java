@@ -27,7 +27,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -75,7 +74,6 @@ public class BossSpawner {
 		TierConfig tc = config.tiers.get(tier);
 		if (tc == null) return AdminSpawnResult.of(AdminSpawnStatus.SPAWN_FAILED);
 
-		// Cobblemon's getByName throws on uppercase path chars — normalize before any registry lookup.
 		species = normalizeSpecies(species);
 		if (species != null && PokemonSpecies.INSTANCE.getByName(species) == null) {
 			return AdminSpawnResult.of(AdminSpawnStatus.SPECIES_NOT_FOUND);
@@ -396,24 +394,20 @@ public class BossSpawner {
 			pokemon = new Pokemon();
 			props.apply(pokemon);
 			pokemon.initialize();
-			// setForcedAspects sticks across initialize()'s aspect recompute (mirrors MegaEvolutionUtils).
 			if (pick.megaAspect() != null) {
 				pokemon.setForcedAspects(Set.of(pick.megaAspect()));
 			}
-			// false = don't replace our curated moveset, only fill any remaining empty slots.
 			pokemon.teachLearnableMoves(false);
 			if (tc.maxEvs) {
 				applyFocusedEvs(pokemon, speciesObj, level);
 			}
 			applyHeldItem(pokemon, tc);
-			// Heal AFTER stat-affecting changes so currentHealth tracks final maxHealth (else battles start at <100%).
 			pokemon.heal();
 			pokemonUUID = pokemon.getUuid();
 
 			entity = new PokemonEntity(sl, pokemon, com.cobblemon.mod.common.CobblemonEntities.POKEMON);
 			entity.moveTo(position.getX() + 0.5, position.getY(), position.getZ() + 0.5, 0F, 0F);
 
-			// Scale persists via Cobblemon's scaleModifier codec.
 			new CobblemonPokemon(pokemon).setScale(tc.scale);
 
 			long spawnedAt = System.currentTimeMillis();
@@ -432,9 +426,6 @@ public class BossSpawner {
 
 			applyBossName(entity, tier, species, level);
 
-			// Set BEFORE addFreshEntity so Cobblemon's despawner can't grab the entity first tick.
-			// setPersistenceRequired: blocks checkDespawn + survives chunk unload.
-			// setInvulnerable: blocks direct-damage cheese; battles bypass entity.hurt() so unaffected.
 			entity.setPersistenceRequired();
 			entity.setInvulnerable(true);
 
@@ -445,7 +436,6 @@ public class BossSpawner {
 			}
 			entityAdded = true;
 
-			// Defer 500ms so clients track the entity before the team-membership packet (else glow drops). Mirrors handleEntityLoad.
 			final PokemonEntity entityRef = entity;
 			com.raduvoinea.utils.lambda.ScheduleUtils.runTaskLater(
 					() -> BossFabricModule.instance().runOnMain(() -> {
@@ -531,58 +521,10 @@ public class BossSpawner {
 				.parse();
 
 		Component nameComp = BossFabricModule.instance().getMiniMessageManager().parse(formatted);
-		// PokemonEntity.setCustomName flattens to an unstyled literal (Component.literal(getString())) —
-		// set the nickname directly so gradients/colors survive into the nameplate and battle GUI.
 		entity.getPokemon().setNickname(nameComp.copy());
 		entity.setCustomNameVisible(true);
 	}
 
-	public boolean handleBossDialogue(@NotNull ServerPlayer player, @NotNull PokemonEntity entity,
-	                                  @NotNull com.cobblemon.mod.common.net.messages.server.BattleChallengePacket packet) {
-		String who = player.getGameProfile().getName();
-		UUID pokemonUUID = entity.getPokemon().getUuid();
-		if (player.level().isClientSide) {
-			return false;
-		}
-		ActiveBoss boss = manager.get(pokemonUUID);
-		if (boss == null) {
-			Logger.warn("Boss dialogue gate: " + who + " challenged boss-tagged " + pokemonUUID
-					+ " but it is NOT registered in the active map — letting battle proceed.");
-			return false;
-		}
-		TierConfig tc = config.tiers.get(boss.tier());
-		if (tc == null) {
-			Logger.warn("Boss dialogue gate: tier " + boss.tier() + " has no config entry — letting battle proceed.");
-			return false;
-		}
-		List<List<String>> boxes = tc.dialogueBoxes;
-		if (boxes == null || boxes.isEmpty()) {
-			Logger.warn("Boss dialogue gate: tier " + boss.tier() + " has no dialogueBoxes — letting battle proceed.");
-			return false;
-		}
-		List<String> box = boxes.get(RandomUtils.getRandom(0, boxes.size() - 1));
-		if (box == null || box.isEmpty()) {
-			Logger.warn("Boss dialogue gate: tier " + boss.tier() + " picked an empty dialogue box — letting battle proceed.");
-			return false;
-		}
-
-		gg.mmorealms.module.core.backend.common.dto.user.IUser iUser =
-				gg.mmorealms.module.core.backend.common.dto.user.IUser.getByUUID(player.getUUID());
-		if (!(iUser instanceof gg.mmorealms.module.core.backend.common.dto.user.User user)) {
-			Logger.warn("Boss dialogue gate: IUser for " + who + " is "
-					+ (iUser == null ? "null" : iUser.getClass().getName())
-					+ ", not a backend User — letting battle proceed.");
-			return false;
-		}
-		player.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 0.85F, 0.9F);
-		Logger.info("Boss dialogue gate: opening " + boss.tier() + " dialogue GUI for " + who
-				+ " (" + BossManager.shortId(pokemonUUID) + ").");
-		new gg.mmorealms.module.boss.backend.fabric.gui.BossDialogueGUI(user, boss.tier(), BossManager.speciesDisplayName(boss.species()), boss.level(), box, packet).open();
-		return true;
-	}
-
-	// Competitive bulky-attacker spread (252 HP / 252 offense / 4 Speed). Unlike stat-stage changes, EVs are
-	// part of the Showdown team pack, so they actually affect in-battle damage and bulk.
 	private void applyFocusedEvs(@NotNull Pokemon pokemon, @Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
 		com.cobblemon.mod.common.pokemon.EVs evs = pokemon.getEvs();
 		double[] power = offensePower(species, level);
@@ -683,8 +625,6 @@ public class BossSpawner {
 		return null;
 	}
 
-	// Self-fainting moves — left in the pool they win the "highest power" sort (Explosion = 250) and the boss
-	// KOs itself on turn one, handing the player a free win regardless of level. Never teach these to a boss.
 	private static final Set<String> SELF_FAINT_MOVES = Set.of(
 			"explosion", "selfdestruct", "mistyexplosion", "finalgambit", "memento", "healingwish", "lunardance");
 
@@ -701,8 +641,6 @@ public class BossSpawner {
 			speciesTypes.add(type);
 		}
 
-		// Damaging moves: power > 0, accuracy ≥ 80 OR never-miss (acc=0, e.g. Aura Sphere).
-		// Scored by power × effective-accuracy with 1.5× STAB bonus; never-miss treated as 100% for scoring.
 		List<com.cobblemon.mod.common.api.moves.MoveTemplate> damaging = pool.stream()
 				.filter(move -> move.getPower() > 0 && (move.getAccuracy() == 0 || move.getAccuracy() >= 80))
 				.sorted((moveA, moveB) -> {
@@ -717,7 +655,6 @@ public class BossSpawner {
 		List<String> selected = new ArrayList<>();
 		Set<com.cobblemon.mod.common.api.types.ElementalType> usedTypes = new HashSet<>();
 
-		// Slot 1 – STAB nuke: best scoring move of species type.
 		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
 			if (speciesTypes.contains(move.getElementalType())) {
 				selected.add(move.getName());
@@ -725,13 +662,11 @@ public class BossSpawner {
 				break;
 			}
 		}
-		// Fallback: best move overall if no STAB found.
 		if (selected.isEmpty() && !damaging.isEmpty()) {
 			selected.add(damaging.get(0).getName());
 			usedTypes.add(damaging.get(0).getElementalType());
 		}
 
-		// Slots 2–4 – Coverage: prefer moves of types not yet used, then fill with best remaining.
 		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
 			if (selected.size() >= 4) break;
 			if (!selected.contains(move.getName()) && usedTypes.add(move.getElementalType())) {

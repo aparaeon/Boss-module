@@ -63,7 +63,6 @@ public class BossDespawnCommand extends BackendCommand {
 		BossConfig.Lang lang = mod.getConfig().lang;
 		BossManager mgr = mod.getBossManager();
 
-		// Only players can receive the deferred "DESPAWNED" confirmation once a queued battle ends; console gets none.
 		@Nullable UUID requester = (sender instanceof ServerPlayer player) ? player.getUUID() : null;
 
 		String targetArg = arguments.isEmpty() ? null : arguments.get(0);
@@ -79,7 +78,6 @@ public class BossDespawnCommand extends BackendCommand {
 				int queued = 0;
 				List<String> cleanedIds = new ArrayList<>();
 				List<String> queuedIds = new ArrayList<>();
-				// Snapshot to avoid mutating the active map while iterating.
 				for (ActiveBoss boss : new ArrayList<>(mgr.getAllActive())) {
 					String shortId = BossManager.shortId(boss.pokemonUUID());
 					if (mgr.dispatchDespawn(boss, requester) == BossManager.DespawnOutcome.CLEANED) {
@@ -140,7 +138,6 @@ public class BossDespawnCommand extends BackendCommand {
 				return;
 			}
 			default: {
-				// Short-ID lookup — must be exactly 8 hex chars (BossManager rejects shorter/longer).
 				if (target.length() != 8) {
 					mod.sendLang(sender, lang.adminShortIdInvalid);
 					return;

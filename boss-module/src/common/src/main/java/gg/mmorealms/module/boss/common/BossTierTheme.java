@@ -75,14 +75,8 @@ public final class BossTierTheme {
 		return wrapTierGradient(tier, body);
 	}
 
-	/** Battle-start title, e.g. "Mega Boss" in the tier gradient. */
-	public static String battleCryTitle(@NotNull BossTier tier) {
-		return wrapTierGradient(tier, "<bold>" + tierPlainName(tier) + " Boss</bold>");
-	}
-
-	/** Dialogue-open popup title, e.g. "Charizard Lv.87" in the tier gradient. */
-	public static String encounterTitle(@NotNull BossTier tier, @NotNull String species, int level) {
-		return wrapTierGradient(tier, "<bold>" + capitalizeFirst(species) + " Lv." + level + "</bold>");
+	public static String battleStartTitle(@NotNull BossTier tier, @NotNull String species, int level) {
+		return wrapTierGradient(tier, "<bold>" + tierPlainName(tier) + " Boss " + capitalizeFirst(species) + " Lvl. " + level + "</bold>");
 	}
 
 	public static String tierPlainName(@NotNull BossTier tier) {
@@ -233,8 +227,6 @@ public final class BossTierTheme {
 	}
 
 	public static String wrapTierGradient(@NotNull BossTier tier, @NotNull String body) {
-		// MiniMessage gradient colours must be prefixed with '#'; without it the tag is invalid
-		// and renders as literal text (no colour/gradient).
 		return "<gradient:#" + tierLineStart(tier) + ":#" + tierLineEnd(tier) + ">" + body + "</gradient>";
 	}
 

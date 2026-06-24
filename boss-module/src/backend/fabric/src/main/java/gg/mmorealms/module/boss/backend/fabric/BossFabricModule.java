@@ -65,7 +65,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 
 	@Override
 	public void onInit() throws ModuleException {
-		// WILD-only gate. BossListener has @OnlyOn(WILD) for defense-in-depth.
 		if (getServerType() != ServerType.WILD) {
 			Logger.info("Boss module skipping init on non-WILD server (type=" + getServerType() + ").");
 			return;
@@ -80,7 +79,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 
 		ServerEntityEvents.ENTITY_LOAD.register((entity, level) -> {
 			if (!(entity instanceof PokemonEntity pe)) return;
-			// Must defer; sync handling re-enters addFreshEntity and breaks all boss spawns.
 			runOnMain(() -> handleEntityLoad(pe));
 		});
 		net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents.START_TRACKING
@@ -118,6 +116,17 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					return kotlin.Unit.INSTANCE;
 				}
 		);
+		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_STARTED_PRE.subscribe(
+				com.cobblemon.mod.common.api.Priority.NORMAL,
+				event -> {
+					runOnMain(() -> {
+						if (bossManager != null) {
+							bossManager.handleBattleStarted(event.getBattle());
+						}
+					});
+					return kotlin.Unit.INSTANCE;
+				}
+		);
 		bossManager.bootstrapFillAllTiers();
 		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
 				() -> bossManager.refillSweep(),
@@ -144,9 +153,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			tc.glowColor = defaults.glowColor;
 			tc.announceOnSpawn = defaults.announceOnSpawn;
 			tc.announceOnDefeat = defaults.announceOnDefeat;
-			if (tc.dialogueBoxes == null || tc.dialogueBoxes.isEmpty()) {
-				tc.dialogueBoxes = defaults.dialogueBoxes;
-			}
 			if (tc.defeatDialogue == null || tc.defeatDialogue.isEmpty()) {
 				tc.defeatDialogue = defaults.defeatDialogue;
 			}

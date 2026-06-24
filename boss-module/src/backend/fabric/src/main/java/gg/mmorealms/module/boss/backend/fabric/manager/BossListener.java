@@ -17,7 +17,7 @@ public class BossListener {
 		BossFabricModule mod = BossFabricModule.instance();
 		BossSpawner spawner = mod != null ? mod.getBossSpawner() : null;
 		if (spawner != null) {
-			spawner.handleSpawnRequest(ev); // already hops to main internally
+			spawner.handleSpawnRequest(ev);
 		}
 	}
 

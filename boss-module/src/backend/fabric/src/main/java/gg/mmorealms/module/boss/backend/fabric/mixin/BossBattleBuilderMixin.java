@@ -1,58 +1,44 @@
 package gg.mmorealms.module.boss.backend.fabric.mixin;
 
 import com.cobblemon.mod.common.api.battles.model.ai.BattleAI;
-import com.cobblemon.mod.common.api.storage.party.PartyStore;
 import com.cobblemon.mod.common.battles.BattleBuilder;
-import com.cobblemon.mod.common.battles.BattleFormat;
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor;
+import com.cobblemon.mod.common.battles.ai.RandomBattleAI;
 import com.cobblemon.mod.common.battles.ai.StrongBattleAI;
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import gg.mmorealms.module.boss.backend.fabric.manager.BossManager.NbtKeys;
-import net.minecraft.server.level.ServerPlayer;
+import kotlin.jvm.internal.DefaultConstructorMarker;
 import net.minecraft.world.damagesource.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
 
 @SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"})
-@Mixin(value = BattleBuilder.class, remap = false)
+@Mixin(BattleBuilder.class)
 public abstract class BossBattleBuilderMixin {
 
-	// remap = false target: ServerPlayer must be the intermediary name (class_3222) to match the runtime Cobblemon
-	// class; the named net/minecraft/server/level/ServerPlayer form never attaches (see gyms BattleBuilderMixin).
 	private static final String PVE_DESC =
 			"pve(Lnet/minecraft/class_3222;Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/BattleFormat;ZZFLcom/cobblemon/mod/common/api/storage/party/PartyStore;)Lcom/cobblemon/mod/common/battles/BattleStartResult;";
-	private static final String ACTOR_CTOR =
-			"Lcom/cobblemon/mod/common/battles/actor/PokemonBattleActor;<init>(Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/pokemon/BattlePokemon;FLcom/cobblemon/mod/common/api/battles/model/ai/BattleAI;)V";
+	private static final String WILD_ACTOR_NEW =
+			"(Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/pokemon/BattlePokemon;FLcom/cobblemon/mod/common/api/battles/model/ai/BattleAI;ILkotlin/jvm/internal/DefaultConstructorMarker;)Lcom/cobblemon/mod/common/battles/actor/PokemonBattleActor;";
 
-	@ModifyArg(method = PVE_DESC, at = @At(value = "INVOKE", target = ACTOR_CTOR), index = 2, remap = false)
-	private float mmoRealmsBoss$forceNoFlee(
-			float fleeDistanceArg,
-			ServerPlayer player, PokemonEntity wild, UUID leadingPokemon,
-			BattleFormat format, boolean cloneParties, boolean healFirst, float fleeDistance, PartyStore party
+	@Redirect(method = PVE_DESC, at = @At(value = "NEW", target = WILD_ACTOR_NEW), remap = false)
+	private PokemonBattleActor mmoRealmsBoss$upgradeBossAI(
+			UUID uuid, BattlePokemon pokemon, float fleeDistance, BattleAI defaultedAI,
+			int defaultMask, DefaultConstructorMarker marker
 	) {
-		if (wild != null && wild.getPokemon().getPersistentData().getBoolean(NbtKeys.BOSS)) {
-			return -1F;
+		Pokemon original = pokemon.getOriginalPokemon();
+		if (original.getPersistentData().getBoolean(NbtKeys.BOSS)
+				&& original.getPersistentData().contains(NbtKeys.TIER)) {
+			return new PokemonBattleActor(uuid, pokemon, fleeDistance, new StrongBattleAI(5));
 		}
-		return fleeDistanceArg;
-	}
-
-	@ModifyArg(method = PVE_DESC, at = @At(value = "INVOKE", target = ACTOR_CTOR), index = 3, remap = false)
-	private BattleAI mmoRealmsBoss$upgradeBossAI(
-			BattleAI originalAI,
-			ServerPlayer player, PokemonEntity wild, UUID leadingPokemon,
-			BattleFormat format, boolean cloneParties, boolean healFirst, float fleeDistance, PartyStore party
-	) {
-		if (wild == null || !wild.getPokemon().getPersistentData().getBoolean(NbtKeys.BOSS)) {
-			return originalAI;
-		}
-		if (!wild.getPokemon().getPersistentData().contains(NbtKeys.TIER)) {
-			return originalAI;
-		}
-		return new StrongBattleAI(5);
+		return new PokemonBattleActor(uuid, pokemon, fleeDistance, new RandomBattleAI());
 	}
 }
 @Mixin(PokemonEntity.class)
