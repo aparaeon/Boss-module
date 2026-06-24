@@ -19,13 +19,13 @@ import java.util.Map;
 public class BossDialogueGUI extends GUI {
 
 	private static final Map<BossTier, String> TIER_GLYPHS = Map.of(
-		BossTier.COMMON,     "\uF280",
-		BossTier.UNCOMMON,   "\uF281",
-		BossTier.RARE,       "\uF282",
-		BossTier.ULTRA_RARE, "\uF283",
-		BossTier.LEGENDARY,  "\uF284",
-		BossTier.MEGA,       "\uF285",
-		BossTier.MYTHICAL,   "\uF286"
+		BossTier.COMMON,     "\uF2A0",
+		BossTier.UNCOMMON,   "\uF2A1",
+		BossTier.RARE,       "\uF2A2",
+		BossTier.ULTRA_RARE, "\uF2A3",
+		BossTier.LEGENDARY,  "\uF2A4",
+		BossTier.MEGA,       "\uF2A5",
+		BossTier.MYTHICAL,   "\uF2A6"
 	);
 
 	private final BossTier tier;

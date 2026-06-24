@@ -17,11 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.UUID;
 
+@SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"})
 @Mixin(value = BattleBuilder.class, remap = false)
 public abstract class BossBattleBuilderMixin {
 
+	// remap = false target: ServerPlayer must be the intermediary name (class_3222) to match the runtime Cobblemon
+	// class; the named net/minecraft/server/level/ServerPlayer form never attaches (see gyms BattleBuilderMixin).
 	private static final String PVE_DESC =
-			"pve(Lnet/minecraft/server/level/ServerPlayer;Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/BattleFormat;ZZFLcom/cobblemon/mod/common/api/storage/party/PartyStore;)Lcom/cobblemon/mod/common/battles/BattleStartResult;";
+			"pve(Lnet/minecraft/class_3222;Lcom/cobblemon/mod/common/entity/pokemon/PokemonEntity;Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/BattleFormat;ZZFLcom/cobblemon/mod/common/api/storage/party/PartyStore;)Lcom/cobblemon/mod/common/battles/BattleStartResult;";
 	private static final String ACTOR_CTOR =
 			"Lcom/cobblemon/mod/common/battles/actor/PokemonBattleActor;<init>(Ljava/util/UUID;Lcom/cobblemon/mod/common/battles/pokemon/BattlePokemon;FLcom/cobblemon/mod/common/api/battles/model/ai/BattleAI;)V";
 

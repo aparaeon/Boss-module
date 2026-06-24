@@ -22,11 +22,14 @@ import gg.mmorealms.module.boss.backend.fabric.BossMixinState;
  * The dialogue's Battle button re-dispatches the same packet with the player's UUID in {@link BossMixinState#CONFIRMED},
  * which lets the second pass run Cobblemon's real battle pipeline.
  */
+@SuppressWarnings({"MixinAnnotationTarget", "UnresolvedMixinReference"})
 @Mixin(value = ChallengeHandler.class, remap = false)
 public abstract class BossChallengeHandlerMixin {
 
+	// remap = false target: Minecraft types in the descriptor must be intermediary (ServerPlayer -> class_3222),
+	// otherwise the inject never attaches to the runtime Cobblemon class (which ships intermediary MC names).
 	@Inject(
-			method = "handle(Lcom/cobblemon/mod/common/net/messages/server/BattleChallengePacket;Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/server/level/ServerPlayer;)V",
+			method = "handle(Lcom/cobblemon/mod/common/net/messages/server/BattleChallengePacket;Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/class_3222;)V",
 			at = @At("HEAD"),
 			cancellable = true
 	)

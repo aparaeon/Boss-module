@@ -161,7 +161,7 @@ public final class BossTierTheme {
 	}
 
 	public static String adminListRowTemplate() {
-		return "<color:#FFB3D9>{short_id}</color>  <gradient:#{tier_start}:#{tier_end}><bold>{tier}</bold></gradient>  <bold><color:#{tier_end}>{species}</color></bold>  <dark_gray>lv.{level}{origin}  <gray>| {location}";
+		return "<color:#FFB3D9>{short_id}</color>  <gradient:#{tier_start}:#{tier_end}><bold>{tier}</bold></gradient>  <bold><color:#{tier_end}>{species}</color></bold>  <white><bold>lv.{level}</bold></white>{origin}  <gray>| {location}";
 	}
 
 	public static String adminListLocationTemplate() {
