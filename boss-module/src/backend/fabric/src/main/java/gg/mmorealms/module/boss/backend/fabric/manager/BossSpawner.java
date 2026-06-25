@@ -538,9 +538,10 @@ public class BossSpawner {
 				.parse();
 
 		Component nameComp = BossFabricModule.instance().getMiniMessageManager().parse(formatted);
-		entity.getPokemon().setNickname(nameComp.copy());
+		Component label = Component.literal(" ").append(nameComp).append(" ");
+		entity.getPokemon().setNickname(label.copy());
 		if (NICKNAME_ACCESSOR != null) {
-			entity.getEntityData().set(NICKNAME_ACCESSOR, nameComp.copy());
+			entity.getEntityData().set(NICKNAME_ACCESSOR, label.copy());
 		}
 		entity.setCustomNameVisible(true);
 	}
