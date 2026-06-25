@@ -159,6 +159,9 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			if (tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
 				tc.battleCryTaunts = defaults.battleCryTaunts;
 			}
+			if (tc.bossAbility == null) {
+				tc.bossAbility = defaults.bossAbility;
+			}
 			if (tc.minActive <= 0 && defaults.minActive > 0) {
 				Logger.warn("Boss tier " + tier + " had minActive=" + tc.minActive
 						+ " in boss_config.json; raising to " + defaults.minActive + ".");

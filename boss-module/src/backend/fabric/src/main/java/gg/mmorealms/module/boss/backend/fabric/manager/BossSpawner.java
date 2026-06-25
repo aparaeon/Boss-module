@@ -415,6 +415,9 @@ public class BossSpawner {
 				pokemon.setForcedAspects(Set.of(pick.megaAspect()));
 			}
 			pokemon.teachLearnableMoves(false);
+			if (pick.megaAspect() == null) {
+				applyBossAbility(pokemon, tc);
+			}
 			if (tc.maxEvs) {
 				applyFocusedEvs(pokemon, speciesObj, level);
 			}
@@ -553,6 +556,19 @@ public class BossSpawner {
 		evs.set(Stats.HP, 252);
 		evs.set(physical ? Stats.ATTACK : Stats.SPECIAL_ATTACK, 252);
 		evs.set(Stats.SPEED, 4);
+	}
+
+	private void applyBossAbility(@NotNull Pokemon pokemon, @NotNull TierConfig tc) {
+		if (tc.bossAbility == null || tc.bossAbility.isBlank()) {
+			return;
+		}
+		com.cobblemon.mod.common.api.abilities.AbilityTemplate template =
+				com.cobblemon.mod.common.api.abilities.Abilities.get(tc.bossAbility);
+		if (template == null) {
+			Logger.warn("Boss ability '" + tc.bossAbility + "' did not resolve to a known ability; skipping.");
+			return;
+		}
+		pokemon.updateAbility(template.create(true, com.cobblemon.mod.common.api.Priority.NORMAL));
 	}
 
 	private void applyHeldItem(@NotNull Pokemon pokemon, @NotNull TierConfig tc) {

@@ -25,6 +25,7 @@ public class TierConfig {
 	public boolean maxIvs = true;
 	public boolean maxEvs = true;
 	public @Nullable String heldItem;
+	public @Nullable String bossAbility;
 
 	public Time despawnAfter = Time.minutes(30);
 	public int maxActive = 1;
@@ -418,6 +419,9 @@ public class TierConfig {
 							reward(5, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
+			}
+			if (tc.bossAbility == null) {
+				tc.bossAbility = "multiscale";
 			}
 			return tc;
 		}
