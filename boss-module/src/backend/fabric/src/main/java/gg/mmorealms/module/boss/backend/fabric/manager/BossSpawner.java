@@ -24,6 +24,7 @@ import gg.mmorealms.module.pokemon.backend.common.dto.pokemon_class.PokemonClass
 import gg.mmorealms.module.pokemon.backend.fabric.dto.pokemon_implementation.CobblemonPokemon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -43,8 +44,23 @@ import java.util.stream.Collectors;
 
 public class BossSpawner {
 
+	private static final @Nullable EntityDataAccessor<Component> NICKNAME_ACCESSOR = resolveNicknameAccessor();
+
 	private final BossConfig config;
 	private final BossManager manager;
+
+	@SuppressWarnings("unchecked")
+	private static @Nullable EntityDataAccessor<Component> resolveNicknameAccessor() {
+		try {
+			java.lang.reflect.Field field = PokemonEntity.class.getDeclaredField("NICKNAME");
+			field.setAccessible(true);
+			return (EntityDataAccessor<Component>) field.get(null);
+		} catch (ReflectiveOperationException | ClassCastException exception) {
+			Logger.error("Could not resolve PokemonEntity.NICKNAME; boss nameplates will not colour on fresh spawns: "
+					+ exception.getMessage());
+			return null;
+		}
+	}
 
 	public BossSpawner(BossConfig config, BossManager manager) {
 		this.config = config;
@@ -382,9 +398,10 @@ public class BossSpawner {
 			}
 			props.getCustomProperties().add(UncatchableProperty.INSTANCE.uncatchable());
 			com.cobblemon.mod.common.pokemon.Species speciesObj = PokemonSpecies.INSTANCE.getByName(species);
-			List<String> bestMoves = pickBestMoves(speciesObj, level);
+			List<String> bestMoves = BossMovesetPlanner.planStatic(tier, speciesObj, level);
 			if (!bestMoves.isEmpty()) {
 				props.setMoves(bestMoves);
+				Logger.debug("Boss moveset " + tier + " " + species + " lv." + level + ": " + String.join(", ", bestMoves));
 			}
 			String nature = pickNature(speciesObj, level);
 			if (nature != null) {
@@ -522,6 +539,9 @@ public class BossSpawner {
 
 		Component nameComp = BossFabricModule.instance().getMiniMessageManager().parse(formatted);
 		entity.getPokemon().setNickname(nameComp.copy());
+		if (NICKNAME_ACCESSOR != null) {
+			entity.getEntityData().set(NICKNAME_ACCESSOR, nameComp.copy());
+		}
 		entity.setCustomNameVisible(true);
 	}
 
@@ -625,63 +645,6 @@ public class BossSpawner {
 		return null;
 	}
 
-	private static final Set<String> SELF_FAINT_MOVES = Set.of(
-			"explosion", "selfdestruct", "mistyexplosion", "finalgambit", "memento", "healingwish", "lunardance");
-
-	private static List<String> pickBestMoves(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
-		if (species == null) return List.of();
-		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
-		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
-		pool.addAll(learnset.getLevelUpMovesUpTo(level));
-		pool.addAll(learnset.getTmMoves());
-		pool.removeIf(move -> SELF_FAINT_MOVES.contains(move.getName()));
-
-		Set<com.cobblemon.mod.common.api.types.ElementalType> speciesTypes = new HashSet<>();
-		for (com.cobblemon.mod.common.api.types.ElementalType type : species.getTypes()) {
-			speciesTypes.add(type);
-		}
-
-		List<com.cobblemon.mod.common.api.moves.MoveTemplate> damaging = pool.stream()
-				.filter(move -> move.getPower() > 0 && (move.getAccuracy() == 0 || move.getAccuracy() >= 80))
-				.sorted((moveA, moveB) -> {
-					double accA = moveA.getAccuracy() == 0 ? 100 : moveA.getAccuracy();
-					double accB = moveB.getAccuracy() == 0 ? 100 : moveB.getAccuracy();
-					double scoreA = moveA.getPower() * accA * (speciesTypes.contains(moveA.getElementalType()) ? 1.5 : 1.0);
-					double scoreB = moveB.getPower() * accB * (speciesTypes.contains(moveB.getElementalType()) ? 1.5 : 1.0);
-					return Double.compare(scoreB, scoreA);
-				})
-				.collect(Collectors.toList());
-
-		List<String> selected = new ArrayList<>();
-		Set<com.cobblemon.mod.common.api.types.ElementalType> usedTypes = new HashSet<>();
-
-		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
-			if (speciesTypes.contains(move.getElementalType())) {
-				selected.add(move.getName());
-				usedTypes.add(move.getElementalType());
-				break;
-			}
-		}
-		if (selected.isEmpty() && !damaging.isEmpty()) {
-			selected.add(damaging.get(0).getName());
-			usedTypes.add(damaging.get(0).getElementalType());
-		}
-
-		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
-			if (selected.size() >= 4) break;
-			if (!selected.contains(move.getName()) && usedTypes.add(move.getElementalType())) {
-				selected.add(move.getName());
-			}
-		}
-		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : damaging) {
-			if (selected.size() >= 4) break;
-			if (!selected.contains(move.getName())) {
-				selected.add(move.getName());
-			}
-		}
-
-		return selected;
-	}
 
 	private static String readableBiome(@NotNull net.minecraft.server.level.ServerLevel level, @NotNull BlockPos pos) {
 		try {

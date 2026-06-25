@@ -3,6 +3,8 @@ package gg.mmorealms.module.boss.backend.fabric.manager;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor;
+import com.cobblemon.mod.common.battles.actor.PokemonBattleActor;
+import com.cobblemon.mod.common.battles.pokemon.BattlePokemon;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.raduvoinea.utils.file_manager.FileManager;
 import com.raduvoinea.utils.generic.RandomUtils;
@@ -24,6 +26,7 @@ import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesAnimationPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerScoreboard;
@@ -58,6 +61,7 @@ public class BossManager {
 
 	private final Map<UUID, CancelableTimeTask> despawnTasks = new ConcurrentHashMap<>();
 	private final Map<UUID, CancelableTimeTask> particleTasks = new ConcurrentHashMap<>();
+	private final Map<UUID, CancelableTimeTask> phaseMonitors = new ConcurrentHashMap<>();
 
 	private final Set<UUID> pendingDespawns = ConcurrentHashMap.newKeySet();
 	private final Map<UUID, UUID> pendingDespawnRequesters = new ConcurrentHashMap<>();
@@ -224,6 +228,7 @@ public class BossManager {
 	private void cancelTasks(@NotNull UUID pokemonUUID) {
 		Optional.ofNullable(despawnTasks.remove(pokemonUUID)).ifPresent(CancelableTimeTask::cancel);
 		cancelParticleTask(pokemonUUID);
+		Optional.ofNullable(phaseMonitors.remove(pokemonUUID)).ifPresent(CancelableTimeTask::cancel);
 		pendingDespawns.remove(pokemonUUID);
 		pendingDespawnRequesters.remove(pokemonUUID);
 	}
@@ -416,6 +421,99 @@ public class BossManager {
 		for (ServerPlayer player : findPlayerTargets(actors)) {
 			sendTitlePopup(player, title, subtitle);
 		}
+		startPhaseMonitor(battle, boss);
+	}
+
+	private void startPhaseMonitor(@NotNull PokemonBattle battle, @NotNull ActiveBoss boss) {
+		float[] thresholds = phaseThresholds(boss.tier());
+		BattlePokemon bossBattlePokemon = findBossBattlePokemon(battle, boss);
+		if (bossBattlePokemon == null) {
+			return;
+		}
+		boolean[] fired = new boolean[thresholds.length];
+		CancelableTimeTask task = ScheduleUtils.runTaskTimer(
+				() -> BossFabricModule.instance().runOnMain(
+						() -> pollPhases(battle, boss, bossBattlePokemon, thresholds, fired)),
+				Time.seconds(1));
+		CancelableTimeTask previous = phaseMonitors.put(boss.pokemonUUID(), task);
+		if (previous != null) {
+			previous.cancel();
+		}
+	}
+
+	private static float[] phaseThresholds(@NotNull BossTier tier) {
+		return switch (tier) {
+			case COMMON, UNCOMMON, RARE, ULTRA_RARE -> new float[]{0.5f};
+			case LEGENDARY, MEGA, MYTHICAL -> new float[]{0.75f, 0.5f, 0.25f};
+		};
+	}
+
+	private void pollPhases(@NotNull PokemonBattle battle, @NotNull ActiveBoss boss,
+	                        @NotNull BattlePokemon bossBattlePokemon, float[] thresholds, boolean[] fired) {
+		int maxHealth = bossBattlePokemon.getMaxHealth();
+		if (battle.getEnded() || active.get(boss.pokemonUUID()) == null || maxHealth <= 0) {
+			Optional.ofNullable(phaseMonitors.remove(boss.pokemonUUID())).ifPresent(CancelableTimeTask::cancel);
+			return;
+		}
+		float ratio = bossBattlePokemon.getHealth() / (float) maxHealth;
+		for (int i = 0; i < thresholds.length; i++) {
+			if (!fired[i] && ratio > 0 && ratio <= thresholds[i]) {
+				fired[i] = true;
+				fireEnrage(battle, boss);
+			}
+		}
+		boolean allFired = true;
+		for (boolean thresholdFired : fired) {
+			if (!thresholdFired) {
+				allFired = false;
+				break;
+			}
+		}
+		if (allFired || ratio <= 0) {
+			Optional.ofNullable(phaseMonitors.remove(boss.pokemonUUID())).ifPresent(CancelableTimeTask::cancel);
+		}
+	}
+
+	private void fireEnrage(@NotNull PokemonBattle battle, @NotNull ActiveBoss boss) {
+		List<BattleActor> actors = new ArrayList<>();
+		battle.getActors().forEach(actors::add);
+		String speciesDisplay = speciesDisplayName(boss.species());
+		String title = BossTierTheme.bossReactionTitle(boss.tier());
+		String subtitle = pickBattleCry(boss.tier(), speciesDisplay);
+		for (ServerPlayer player : findPlayerTargets(actors)) {
+			sendTitlePopup(player, title, subtitle);
+		}
+		emitEnrageParticles(boss);
+	}
+
+	private void emitEnrageParticles(@NotNull ActiveBoss boss) {
+		TierConfig tc = config.tiers.get(boss.tier());
+		TierConfig.EffectConfig effect = tc != null ? tc.spawnEffect : null;
+		if (effect == null || !effect.enabled || effect.particleOptions == null || effect.particleOptions.isEmpty()) {
+			return;
+		}
+		PokemonEntity entity = BossFabricModule.instance().findEntity(boss.entityUUID());
+		if (entity == null || entity.isRemoved()) {
+			return;
+		}
+		ServerLevel level = (ServerLevel) entity.level();
+		double centerY = entity.getY() + entity.getBbHeight() / 2.0;
+		for (SimpleParticleType particle : effect.particleOptions) {
+			level.sendParticles(particle, entity.getX(), centerY, entity.getZ(),
+					effect.count, effect.offset, effect.offset, effect.offset, 0.0);
+		}
+	}
+
+	private @Nullable BattlePokemon findBossBattlePokemon(@NotNull PokemonBattle battle, @NotNull ActiveBoss boss) {
+		for (BattleActor actor : battle.getActors()) {
+			if (!(actor instanceof PokemonBattleActor pokeActor)) {
+				continue;
+			}
+			if (pokeActor.getPokemon().getOriginalPokemon().getUuid().equals(boss.pokemonUUID())) {
+				return pokeActor.getPokemon();
+			}
+		}
+		return null;
 	}
 
 	private @NotNull String pickBattleCry(@NotNull BossTier tier, @NotNull String speciesDisplay) {
