@@ -153,14 +153,12 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 			tc.glowColor = defaults.glowColor;
 			tc.announceOnSpawn = defaults.announceOnSpawn;
 			tc.announceOnDefeat = defaults.announceOnDefeat;
+			tc.levelRange = defaults.levelRange;
 			if (tc.defeatDialogue == null || tc.defeatDialogue.isEmpty()) {
 				tc.defeatDialogue = defaults.defeatDialogue;
 			}
 			if (tc.battleCryTaunts == null || tc.battleCryTaunts.isEmpty()) {
 				tc.battleCryTaunts = defaults.battleCryTaunts;
-			}
-			if (tc.bossAbility == null) {
-				tc.bossAbility = defaults.bossAbility;
 			}
 			if (tc.minActive <= 0 && defaults.minActive > 0) {
 				Logger.warn("Boss tier " + tier + " had minActive=" + tc.minActive
@@ -288,10 +286,6 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 				}
 			}
 			tc.glowChatFmt = parseGlowColor(tc.glowColor, tier);
-			if (tc.heldItem != null && !tc.heldItem.isBlank()
-					&& BuiltInRegistries.ITEM.get(ResourceLocation.parse(tc.heldItem)) == net.minecraft.world.item.Items.AIR) {
-				throw new ModuleException(this, "Tier " + tier + " heldItem is not a valid item: " + tc.heldItem);
-			}
 			resolveEffectParticles(tc.spawnEffect, "spawnEffect", tier);
 			resolveEffectParticles(tc.ambientEffect, "ambientEffect", tier);
 			if (tc.ambientEffect != null && tc.ambientEffect.enabled

@@ -49,6 +49,11 @@ public class BossSpawner {
 	private final BossConfig config;
 	private final BossManager manager;
 
+	private static final int SWEEPER_MIN_SPEED = 90;
+	private static final int SWEEPER_MIN_OFFENSE = 100;
+	private static final int WALL_MAX_OFFENSE = 90;
+	private static final int WALL_MIN_BULK = 300;
+
 	@SuppressWarnings("unchecked")
 	private static @Nullable EntityDataAccessor<Component> resolveNicknameAccessor() {
 		try {
@@ -374,6 +379,7 @@ public class BossSpawner {
 			boolean shiny,
 			boolean systemSpawned
 	) {
+		level = Math.min(level, com.cobblemon.mod.common.Cobblemon.config.getMaxPokemonLevel());
 		ServerLevel sl = anchor.serverLevel();
 		String species = pick.species();
 
@@ -398,15 +404,13 @@ public class BossSpawner {
 			}
 			props.getCustomProperties().add(UncatchableProperty.INSTANCE.uncatchable());
 			com.cobblemon.mod.common.pokemon.Species speciesObj = PokemonSpecies.INSTANCE.getByName(species);
-			List<String> bestMoves = BossMovesetPlanner.planStatic(tier, speciesObj, level);
+			BossBuild build = classifyBuild(speciesObj, pick.megaAspect());
+			List<String> bestMoves = BossMovesetPlanner.planStatic(tier, speciesObj, level, build.role(), build.physical());
 			if (!bestMoves.isEmpty()) {
 				props.setMoves(bestMoves);
-				Logger.debug("Boss moveset " + tier + " " + species + " lv." + level + ": " + String.join(", ", bestMoves));
+				Logger.debug("Boss moveset " + tier + " " + species + " lv." + level + " [" + build.role() + "]: " + String.join(", ", bestMoves));
 			}
-			String nature = pickNature(speciesObj, level);
-			if (nature != null) {
-				props.setNature(nature);
-			}
+			props.setNature(pickNature(build));
 
 			pokemon = new Pokemon();
 			props.apply(pokemon);
@@ -416,12 +420,12 @@ public class BossSpawner {
 			}
 			pokemon.teachLearnableMoves(false);
 			if (pick.megaAspect() == null) {
-				applyBossAbility(pokemon, tc);
+				applyBossAbility(pokemon, build);
 			}
 			if (tc.maxEvs) {
-				applyFocusedEvs(pokemon, speciesObj, level);
+				applyFocusedEvs(pokemon, build);
 			}
-			applyHeldItem(pokemon, tc);
+			applyHeldItem(pokemon);
 			pokemon.heal();
 			pokemonUUID = pokemon.getUuid();
 
@@ -549,63 +553,93 @@ public class BossSpawner {
 		entity.setCustomNameVisible(true);
 	}
 
-	private void applyFocusedEvs(@NotNull Pokemon pokemon, @Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
+	private void applyFocusedEvs(@NotNull Pokemon pokemon, @NotNull BossBuild build) {
 		com.cobblemon.mod.common.pokemon.EVs evs = pokemon.getEvs();
-		double[] power = offensePower(species, level);
-		boolean physical = power[0] >= power[1];
+		if (build.role() == BossMovesetPlanner.Role.SWEEPER) {
+			evs.set(build.physical() ? Stats.ATTACK : Stats.SPECIAL_ATTACK, 252);
+			evs.set(Stats.HP, 128);
+			evs.set(Stats.SPEED, 128);
+			return;
+		}
+		if (build.role() == BossMovesetPlanner.Role.WALL) {
+			evs.set(Stats.HP, 252);
+			evs.set(build.physicalDefenceWeaker() ? Stats.DEFENCE : Stats.SPECIAL_DEFENCE, 252);
+			evs.set(Stats.SPEED, 4);
+			return;
+		}
 		evs.set(Stats.HP, 252);
-		evs.set(physical ? Stats.ATTACK : Stats.SPECIAL_ATTACK, 252);
+		evs.set(build.physical() ? Stats.ATTACK : Stats.SPECIAL_ATTACK, 252);
 		evs.set(Stats.SPEED, 4);
 	}
 
-	private void applyBossAbility(@NotNull Pokemon pokemon, @NotNull TierConfig tc) {
-		if (tc.bossAbility == null || tc.bossAbility.isBlank()) {
-			return;
-		}
+	private void applyBossAbility(@NotNull Pokemon pokemon, @NotNull BossBuild build) {
+		String abilityId = chooseAbility(build);
 		com.cobblemon.mod.common.api.abilities.AbilityTemplate template =
-				com.cobblemon.mod.common.api.abilities.Abilities.get(tc.bossAbility);
+				com.cobblemon.mod.common.api.abilities.Abilities.get(abilityId);
 		if (template == null) {
-			Logger.warn("Boss ability '" + tc.bossAbility + "' did not resolve to a known ability; skipping.");
+			Logger.warn("Boss ability '" + abilityId + "' did not resolve to a known ability; skipping.");
 			return;
 		}
 		pokemon.updateAbility(template.create(true, com.cobblemon.mod.common.api.Priority.NORMAL));
 	}
 
-	private void applyHeldItem(@NotNull Pokemon pokemon, @NotNull TierConfig tc) {
-		if (tc.heldItem == null || tc.heldItem.isBlank()) {
-			return;
+	private static @NotNull String chooseAbility(@NotNull BossBuild build) {
+		if (build.role() == BossMovesetPlanner.Role.WALL) {
+			return build.physicalDefenceWeaker() ? "furcoat" : "icescales";
 		}
+		return build.physical() ? "hugepower" : "adaptability";
+	}
+
+	private void applyHeldItem(@NotNull Pokemon pokemon) {
 		net.minecraft.world.item.Item item = net.minecraft.core.registries.BuiltInRegistries.ITEM
-				.get(net.minecraft.resources.ResourceLocation.parse(tc.heldItem));
+				.get(net.minecraft.resources.ResourceLocation.parse("cobblemon:leftovers"));
 		if (item == net.minecraft.world.item.Items.AIR) {
-			Logger.warn("Boss heldItem '" + tc.heldItem + "' did not resolve to an item; skipping.");
+			Logger.warn("Boss held item 'cobblemon:leftovers' did not resolve to an item; skipping.");
 			return;
 		}
 		pokemon.swapHeldItem(new net.minecraft.world.item.ItemStack(item), false, false);
 	}
 
-	private static double[] offensePower(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
+	private static @NotNull BossBuild classifyBuild(@Nullable com.cobblemon.mod.common.pokemon.Species species,
+	                                                @Nullable String megaAspect) {
 		if (species == null) {
-			return new double[]{0, 0};
+			return new BossBuild(BossMovesetPlanner.Role.BRUISER, true, true);
 		}
-		com.cobblemon.mod.common.api.pokemon.moves.Learnset learnset = species.getMoves();
-		Set<com.cobblemon.mod.common.api.moves.MoveTemplate> pool = new HashSet<>();
-		pool.addAll(learnset.getLevelUpMovesUpTo(level));
-		pool.addAll(learnset.getTmMoves());
-		double physicalPower = 0;
-		double specialPower = 0;
-		for (com.cobblemon.mod.common.api.moves.MoveTemplate move : pool) {
-			if (move.getPower() <= 0) {
-				continue;
-			}
-			String category = move.getDamageCategory().getName();
-			if ("physical".equalsIgnoreCase(category)) {
-				physicalPower += move.getPower();
-			} else if ("special".equalsIgnoreCase(category)) {
-				specialPower += move.getPower();
+		java.util.Map<com.cobblemon.mod.common.api.pokemon.stats.Stat, Integer> base = baseStatsFor(species, megaAspect);
+		int bestOffense = Math.max(baseStat(base, Stats.ATTACK), baseStat(base, Stats.SPECIAL_ATTACK));
+		int bulk = baseStat(base, Stats.HP) + baseStat(base, Stats.DEFENCE) + baseStat(base, Stats.SPECIAL_DEFENCE);
+		int speed = baseStat(base, Stats.SPEED);
+		boolean physical = baseStat(base, Stats.ATTACK) >= baseStat(base, Stats.SPECIAL_ATTACK);
+		boolean physicalDefenceWeaker = baseStat(base, Stats.DEFENCE) <= baseStat(base, Stats.SPECIAL_DEFENCE);
+		BossMovesetPlanner.Role role;
+		if (speed >= SWEEPER_MIN_SPEED && bestOffense >= SWEEPER_MIN_OFFENSE && bulk < WALL_MIN_BULK) {
+			role = BossMovesetPlanner.Role.SWEEPER;
+		} else if (bestOffense <= WALL_MAX_OFFENSE && bulk >= WALL_MIN_BULK) {
+			role = BossMovesetPlanner.Role.WALL;
+		} else {
+			role = BossMovesetPlanner.Role.BRUISER;
+		}
+		return new BossBuild(role, physical, physicalDefenceWeaker);
+	}
+
+	private static @NotNull java.util.Map<com.cobblemon.mod.common.api.pokemon.stats.Stat, Integer> baseStatsFor(
+			@NotNull com.cobblemon.mod.common.pokemon.Species species, @Nullable String megaAspect) {
+		if (megaAspect != null) {
+			com.cobblemon.mod.common.pokemon.FormData form = species.getForm(Set.of(megaAspect));
+			if (form != null) {
+				return form.getBaseStats();
 			}
 		}
-		return new double[]{physicalPower, specialPower};
+		return species.getBaseStats();
+	}
+
+	private static int baseStat(@NotNull java.util.Map<com.cobblemon.mod.common.api.pokemon.stats.Stat, Integer> base,
+	                            @NotNull com.cobblemon.mod.common.api.pokemon.stats.Stat stat) {
+		Integer value = base.get(stat);
+		return value == null ? 0 : value;
+	}
+
+	private record BossBuild(@NotNull BossMovesetPlanner.Role role, boolean physical, boolean physicalDefenceWeaker) {
 	}
 
 	private void announceSpawn(@NotNull BossTier tier, @NotNull TierConfig tc, @NotNull String species,
@@ -647,19 +681,21 @@ public class BossSpawner {
 		}
 	}
 
-	private static @Nullable String pickNature(@Nullable com.cobblemon.mod.common.pokemon.Species species, int level) {
-		if (species == null) return null;
-		double[] power = offensePower(species, level);
-		double physicalPower = power[0];
-		double specialPower = power[1];
-
-		if (physicalPower > specialPower * 1.2) {
-			return com.cobblemon.mod.common.api.pokemon.Natures.ADAMANT.getName().toString();
+	private static @NotNull String pickNature(@NotNull BossBuild build) {
+		if (build.role() == BossMovesetPlanner.Role.SWEEPER) {
+			return (build.physical() ? com.cobblemon.mod.common.api.pokemon.Natures.JOLLY
+					: com.cobblemon.mod.common.api.pokemon.Natures.TIMID).getName().toString();
 		}
-		if (specialPower > physicalPower * 1.2) {
-			return com.cobblemon.mod.common.api.pokemon.Natures.MODEST.getName().toString();
+		if (build.role() == BossMovesetPlanner.Role.WALL) {
+			if (build.physicalDefenceWeaker()) {
+				return (build.physical() ? com.cobblemon.mod.common.api.pokemon.Natures.IMPISH
+						: com.cobblemon.mod.common.api.pokemon.Natures.BOLD).getName().toString();
+			}
+			return (build.physical() ? com.cobblemon.mod.common.api.pokemon.Natures.CAREFUL
+					: com.cobblemon.mod.common.api.pokemon.Natures.CALM).getName().toString();
 		}
-		return null;
+		return (build.physical() ? com.cobblemon.mod.common.api.pokemon.Natures.ADAMANT
+				: com.cobblemon.mod.common.api.pokemon.Natures.MODEST).getName().toString();
 	}
 
 

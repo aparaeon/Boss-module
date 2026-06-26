@@ -24,8 +24,6 @@ public class TierConfig {
 	public float scale = 1.0F;
 	public boolean maxIvs = true;
 	public boolean maxEvs = true;
-	public @Nullable String heldItem;
-	public @Nullable String bossAbility;
 
 	public Time despawnAfter = Time.minutes(30);
 	public int maxActive = 1;
@@ -120,8 +118,7 @@ public class TierConfig {
 						"{species} dares you to come closer.",
 						"{species} will not be moved.",
 						"{species} bristles at the challenge.");
-				tc.heldItem = "cobblemon:oran_berry";
-				tc.levelRange = new Range(10, 30);
+				tc.levelRange = new Range(60, 70);
 				tc.scale = 2.0F;
 				tc.maxIvs = true;
 				tc.maxActive = 2;
@@ -162,8 +159,7 @@ public class TierConfig {
 						"{species} reads your every move.",
 						"{species} has outlasted worse than you.",
 						"{species} waits for you to slip.");
-				tc.heldItem = "cobblemon:sitrus_berry";
-				tc.levelRange = new Range(20, 40);
+				tc.levelRange = new Range(70, 80);
 				tc.scale = 2.2F;
 					tc.maxIvs = true;
 					tc.maxActive = 2;
@@ -205,8 +201,7 @@ public class TierConfig {
 							"{species} has seen a hundred challengers fall.",
 							"{species} measures you and finds you wanting.",
 							"{species} wastes no movement.");
-					tc.heldItem = "cobblemon:leftovers";
-				tc.levelRange = new Range(35, 55);
+				tc.levelRange = new Range(80, 90);
 				tc.scale = 2.5F;
 				tc.maxIvs = true;
 				tc.maxActive = 2;
@@ -249,8 +244,7 @@ public class TierConfig {
 							"{species} makes the air feel heavy.",
 							"{species} regards you as beneath it.",
 							"{species} has never known an equal.");
-					tc.heldItem = "cobblemon:assault_vest";
-				tc.levelRange = new Range(60, 90);
+				tc.levelRange = new Range(90, 100);
 				tc.scale = 2.8F;
 				tc.maxIvs = true;
 				tc.maxActive = 2;
@@ -293,8 +287,7 @@ public class TierConfig {
 							"{species} has outlived every story told of it.",
 							"{species} does not kneel to challengers.",
 							"{species} carries the weight of legend.");
-					tc.heldItem = "cobblemon:life_orb";
-				tc.levelRange = new Range(90, 120);
+				tc.levelRange = new Range(120, 130);
 				tc.scale = 3.5F;
 				tc.maxIvs = true;
 				tc.maxActive = 1;
@@ -338,8 +331,7 @@ public class TierConfig {
 						"{species} strains against its own strength!",
 						"{species} crackles with violent energy!",
 						"{species} is one moment from rupture!");
-				tc.heldItem = "cobblemon:life_orb";
-				tc.levelRange = new Range(100, 130);
+				tc.levelRange = new Range(130, 140);
 				tc.scale = 4.0F;
 				tc.maxIvs = true;
 				tc.maxActive = 1;
@@ -383,8 +375,7 @@ public class TierConfig {
 						"{species} regards you across ages.",
 						"{species} has slept longer than your bloodline.",
 						"{species} carries the silence of myth.");
-				tc.heldItem = "cobblemon:leftovers";
-				tc.levelRange = new Range(120, 150);
+				tc.levelRange = new Range(140, 150);
 				tc.scale = 4.0F;
 				tc.maxIvs = true;
 				tc.maxActive = 1;
@@ -419,9 +410,6 @@ public class TierConfig {
 							reward(5, 1, 1, "give {user} cobblemon:master_ball {quantity}")
 					);
 				}
-			}
-			if (tc.bossAbility == null) {
-				tc.bossAbility = "multiscale";
 			}
 			return tc;
 		}
