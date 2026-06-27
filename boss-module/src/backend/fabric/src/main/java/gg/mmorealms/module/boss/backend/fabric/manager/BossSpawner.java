@@ -425,7 +425,7 @@ public class BossSpawner {
 			if (tc.maxEvs) {
 				applyFocusedEvs(pokemon, build);
 			}
-			applyHeldItem(pokemon);
+			applyHeldItem(pokemon, build);
 			pokemon.heal();
 			pokemonUUID = pokemon.getUuid();
 
@@ -590,11 +590,12 @@ public class BossSpawner {
 		return build.physical() ? "hugepower" : "adaptability";
 	}
 
-	private void applyHeldItem(@NotNull Pokemon pokemon) {
+	private void applyHeldItem(@NotNull Pokemon pokemon, @NotNull BossBuild build) {
+		String itemId = build.role() == BossMovesetPlanner.Role.SWEEPER ? "cobblemon:expert_belt" : "cobblemon:leftovers";
 		net.minecraft.world.item.Item item = net.minecraft.core.registries.BuiltInRegistries.ITEM
-				.get(net.minecraft.resources.ResourceLocation.parse("cobblemon:leftovers"));
+				.get(net.minecraft.resources.ResourceLocation.parse(itemId));
 		if (item == net.minecraft.world.item.Items.AIR) {
-			Logger.warn("Boss held item 'cobblemon:leftovers' did not resolve to an item; skipping.");
+			Logger.warn("Boss held item '" + itemId + "' did not resolve to an item; skipping.");
 			return;
 		}
 		pokemon.swapHeldItem(new net.minecraft.world.item.ItemStack(item), false, false);

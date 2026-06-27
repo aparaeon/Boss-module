@@ -32,7 +32,13 @@ public final class BossMovesetPlanner {
 			"explosion", "selfdestruct", "mindblown", "mistyexplosion", "finalgambit", "memento", "healingwish", "lunardance");
 
 	private static final List<String> RECOVERY_MOVES = List.of(
-			"recover", "roost", "slackoff", "softboiled", "milkdrink", "healorder", "rest");
+			"recover", "roost", "slackoff", "softboiled", "milkdrink", "healorder");
+
+	private static final List<String> LAST_RESORT_RECOVERY = List.of("rest");
+
+	private static final Set<String> DRAIN_MOVES = Set.of(
+			"drainpunch", "gigadrain", "leechlife", "hornleech", "drainingkiss",
+			"bitterblade", "paraboliccharge", "bouncybubble", "oblivionwing");
 
 	private static final List<String> PROTECT_MOVES = List.of(
 			"protect", "spikyshield", "banefulbunker", "kingsshield", "detect");
@@ -92,10 +98,16 @@ public final class BossMovesetPlanner {
 		}
 		addDamage(moves, used, usedTypes, stab);
 
-		addCoverageSlot(moves, used, usedTypes, damaging);
+		boolean drainAdded = addDrainSlot(moves, used, usedTypes, damaging);
+		if (!drainAdded) {
+			addCoverageSlot(moves, used, usedTypes, damaging);
+		}
 		addCoverageSlot(moves, used, usedTypes, damaging);
 
-		String utility = pickUtility(tier, poolNames, used, physical);
+		boolean hasDrain = moves.stream().anyMatch(DRAIN_MOVES::contains);
+		String utility = hasDrain
+				? pickUtility(tier, poolNames, used, physical)
+				: pickSustainOrUtility(tier, poolNames, used, physical);
 		if (utility == null) {
 			MoveTemplate fallback = firstWhere(damaging, used, move -> true);
 			if (fallback != null) {
@@ -148,7 +160,11 @@ public final class BossMovesetPlanner {
 		Set<String> used = new HashSet<>();
 		Set<ElementalType> usedTypes = new HashSet<>();
 
-		addUtility(moves, used, firstLearnable(RECOVERY_MOVES, poolNames, used));
+		String recovery = firstLearnable(RECOVERY_MOVES, poolNames, used);
+		if (recovery == null) {
+			recovery = firstLearnable(LAST_RESORT_RECOVERY, poolNames, used);
+		}
+		addUtility(moves, used, recovery);
 		addUtility(moves, used, firstLearnable(PROTECT_MOVES, poolNames, used));
 		addUtility(moves, used, firstLearnable(WALL_STATUS, poolNames, used));
 
@@ -191,6 +207,29 @@ public final class BossMovesetPlanner {
 			move = firstWhere(damaging, used, candidate -> true);
 		}
 		addDamage(moves, used, usedTypes, move);
+	}
+
+	private static boolean addDrainSlot(@NotNull List<String> moves, @NotNull Set<String> used,
+	                                    @NotNull Set<ElementalType> usedTypes, @NotNull List<MoveTemplate> damaging) {
+		MoveTemplate drain = firstWhere(damaging, used, move -> DRAIN_MOVES.contains(move.getName()));
+		if (drain == null) {
+			return false;
+		}
+		addDamage(moves, used, usedTypes, drain);
+		return true;
+	}
+
+	private static @Nullable String pickSustainOrUtility(@NotNull BossTier tier, @NotNull Set<String> poolNames,
+	                                                     @NotNull Set<String> used, boolean physical) {
+		String recovery = firstLearnable(RECOVERY_MOVES, poolNames, used);
+		if (recovery != null) {
+			return recovery;
+		}
+		String rest = firstLearnable(LAST_RESORT_RECOVERY, poolNames, used);
+		if (rest != null) {
+			return rest;
+		}
+		return pickUtility(tier, poolNames, used, physical);
 	}
 
 	private static @Nullable String pickUtility(@NotNull BossTier tier, @NotNull Set<String> poolNames,
