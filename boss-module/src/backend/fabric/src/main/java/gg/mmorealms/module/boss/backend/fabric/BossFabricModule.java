@@ -127,6 +127,17 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 					return kotlin.Unit.INSTANCE;
 				}
 		);
+		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_STARTED_POST.subscribe(
+				com.cobblemon.mod.common.api.Priority.NORMAL,
+				event -> {
+					runOnMain(() -> {
+						if (bossManager != null) {
+							bossManager.applyBossDamageScaling(event.getBattle());
+						}
+					});
+					return kotlin.Unit.INSTANCE;
+				}
+		);
 		bossManager.bootstrapFillAllTiers();
 		com.raduvoinea.utils.lambda.ScheduleUtils.runTaskTimer(
 				() -> bossManager.refillSweep(),
@@ -170,6 +181,16 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 						+ " below minActive=" + tc.minActive + "; raising maxActive to " + tc.minActive + ".");
 				tc.maxActive = tc.minActive;
 			}
+		}
+		if (!(cfg.bossDamageTakenMultiplier > 0f && cfg.bossDamageTakenMultiplier <= 1f)) {
+			Logger.warn("BossConfig.bossDamageTakenMultiplier=" + cfg.bossDamageTakenMultiplier
+					+ " out of range (0, 1]; resetting to 0.3.");
+			cfg.bossDamageTakenMultiplier = 0.3f;
+		}
+		if (!(cfg.bossDamageDealtMultiplier >= 1f && cfg.bossDamageDealtMultiplier <= 4f)) {
+			Logger.warn("BossConfig.bossDamageDealtMultiplier=" + cfg.bossDamageDealtMultiplier
+					+ " out of range [1, 4]; resetting to 2.");
+			cfg.bossDamageDealtMultiplier = 2f;
 		}
 		fileManager.save(cfg);
 	}

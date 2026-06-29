@@ -3,8 +3,10 @@ package gg.mmorealms.module.boss.backend.fabric.manager;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
 import com.cobblemon.mod.common.api.battles.model.actor.BattleActor;
+import com.cobblemon.mod.common.battles.ActiveBattlePokemon;
 import com.cobblemon.mod.common.battles.actor.PokemonBattleActor;
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon;
+import com.cobblemon.mod.common.battles.runner.ShowdownService;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.raduvoinea.utils.file_manager.FileManager;
 import com.raduvoinea.utils.generic.RandomUtils;
@@ -419,6 +421,31 @@ public class BossManager {
 		for (ServerPlayer player : findPlayerTargets(actors)) {
 			sendTitlePopup(player, title, subtitle);
 		}
+	}
+
+	public void applyBossDamageScaling(@NotNull PokemonBattle battle) {
+		float taken = config.bossDamageTakenMultiplier;
+		float dealt = config.bossDamageDealtMultiplier;
+		if (Math.abs(taken - 1f) < 1e-4f && Math.abs(dealt - 1f) < 1e-4f) {
+			return;
+		}
+		List<String> lines = new ArrayList<>();
+		for (BattleActor actor : battle.getActors()) {
+			for (ActiveBattlePokemon active : actor.getActivePokemon()) {
+				BattlePokemon battlePokemon = active.getBattlePokemon();
+				if (battlePokemon == null) {
+					continue;
+				}
+				if (!battlePokemon.getOriginalPokemon().getPersistentData().getBoolean(NbtKeys.BOSS)) {
+					continue;
+				}
+				lines.add(">boss " + active.getPNX() + " " + taken + " " + dealt);
+			}
+		}
+		if (lines.isEmpty()) {
+			return;
+		}
+		ShowdownService.Companion.getService().send(battle.getBattleId(), lines.toArray(new String[0]));
 	}
 
 	private @NotNull String pickBattleCry(@NotNull BossTier tier, @NotNull String speciesDisplay) {

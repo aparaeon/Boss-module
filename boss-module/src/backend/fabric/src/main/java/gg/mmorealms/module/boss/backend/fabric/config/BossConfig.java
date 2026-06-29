@@ -18,6 +18,9 @@ public class BossConfig {
 	public Range randomSpawnRangeY = new Range(60, 120);
 	public int canPokemonFitCheckRadius = 1;
 
+	public float bossDamageTakenMultiplier = 0.3f;
+	public float bossDamageDealtMultiplier = 2f;
+
 	public Map<BossTier, TierConfig> tiers = defaultTiers();
 
 	public Lang lang = new Lang();
