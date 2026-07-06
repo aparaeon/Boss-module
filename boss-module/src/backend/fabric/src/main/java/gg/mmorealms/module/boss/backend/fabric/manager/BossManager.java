@@ -20,6 +20,7 @@ import gg.mmorealms.module.boss.backend.fabric.config.TierConfig;
 import gg.mmorealms.module.boss.common.BossTier;
 import gg.mmorealms.module.boss.common.BossTierTheme;
 import gg.mmorealms.module.chat.common.dto.GlobalMessageEvent;
+import gg.mmorealms.module.core.backend.common.dto.cooldown.IBackendCooldowns;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
 import gg.mmorealms.module.pokemon.backend.fabric.dto.event.BattleWonEvent;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
@@ -272,11 +273,14 @@ public class BossManager {
 		if (victoriousBoss == null) {
 			return;
 		}
+		List<ServerPlayer> losers = findPlayerTargets(event.getLosers());
+		for (ServerPlayer loser : losers) {
+			IBackendCooldowns.getByPlayer(loser).set(cooldownId(victoriousBoss.pokemonUUID()), config.bossFightCooldown);
+		}
 		TierConfig tc = config.tiers.get(victoriousBoss.tier());
 		if (tc == null || tc.defeatDialogue == null || tc.defeatDialogue.isEmpty()) {
 			return;
 		}
-		List<ServerPlayer> losers = findPlayerTargets(event.getLosers());
 		for (ServerPlayer loser : losers) {
 			sendBossReaction(loser, victoriousBoss);
 		}
@@ -389,7 +393,7 @@ public class BossManager {
 	}
 
 	private void sendPersonalDefeat(@NotNull ServerPlayer winner, @NotNull ActiveBoss boss, @NotNull TierConfig tc) {
-		sendToWinner(winner, config.lang.bossPersonalDefeat
+		sendMessage(winner, config.lang.bossPersonalDefeat
 				.parse("tier_display", tc.displayName)
 				.parse("species", speciesDisplayName(boss.species()))
 				.parse());
@@ -490,6 +494,48 @@ public class BossManager {
 	private static String buildReactionSubtitle(@NotNull BossTier tier, @NotNull List<String> lines) {
 		String line = lines.get(RandomUtils.getRandom(0, lines.size() - 1));
 		return BossTierTheme.wrapTierGradient(tier, line);
+	}
+
+	public boolean isBossFightOnCooldown(@NotNull PokemonBattle battle) {
+		List<BattleActor> actors = new ArrayList<>();
+		battle.getActors().forEach(actors::add);
+		ActiveBoss boss = findBossIn(actors);
+		if (boss == null) {
+			return false;
+		}
+		String bossCooldownId = cooldownId(boss.pokemonUUID());
+		for (ServerPlayer player : findPlayerTargets(actors)) {
+			IBackendCooldowns cooldowns = IBackendCooldowns.getByPlayer(player);
+			if (cooldowns.isActive(bossCooldownId)) {
+				sendMessage(player, config.lang.bossOnCooldown
+						.parse("time", cooldowns.getFormattedTime(bossCooldownId))
+						.parse());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void handleBattleFled(@NotNull PokemonBattle battle, @NotNull UUID playerUUID) {
+		List<BattleActor> actors = new ArrayList<>();
+		battle.getActors().forEach(actors::add);
+		ActiveBoss boss = findBossIn(actors);
+		if (boss == null) {
+			return;
+		}
+		MinecraftServer server = BossFabricModule.instance().getServer();
+		if (server == null) {
+			return;
+		}
+		ServerPlayer player = server.getPlayerList().getPlayer(playerUUID);
+		if (player == null) {
+			return;
+		}
+		IBackendCooldowns.getByPlayer(player).set(cooldownId(boss.pokemonUUID()), config.bossFightCooldown);
+	}
+
+	private static String cooldownId(@NotNull UUID bossUUID) {
+		return "boss:" + bossUUID;
 	}
 
 	private @NotNull List<ServerPlayer> findPlayerTargets(@Nullable List<BattleActor> actors) {
@@ -671,7 +717,7 @@ public class BossManager {
 				+ " " + boss.species() + " to " + username);
 
 		String glow = tc.glowColor.toLowerCase();
-		sendToWinner(winner, config.lang.bossRewardWinnerHeader
+		sendMessage(winner, config.lang.bossRewardWinnerHeader
 				.parse("glow_color", glow)
 				.parse("tier_display", tc.displayName)
 				.parse("species", boss.species())
@@ -701,7 +747,7 @@ public class BossManager {
 		}
 
 		if (!rolledEntries.isEmpty()) {
-			sendToWinner(winner, config.lang.bossRewardWinnerSummary
+			sendMessage(winner, config.lang.bossRewardWinnerSummary
 					.parse("glow_color", glow)
 					.parse("rewards", String.join(", ", rolledEntries))
 					.parse());
@@ -742,8 +788,8 @@ public class BossManager {
 		return user != null ? user.getUsername() : player.getGameProfile().getName();
 	}
 
-	private void sendToWinner(@NotNull ServerPlayer winner, @NotNull String parsedMiniMessage) {
-		winner.sendSystemMessage(BossFabricModule.instance().getMiniMessageManager().parse(parsedMiniMessage));
+	private void sendMessage(@NotNull ServerPlayer player, @NotNull String parsedMiniMessage) {
+		player.sendSystemMessage(BossFabricModule.instance().getMiniMessageManager().parse(parsedMiniMessage));
 	}
 
 	private static String extractDisplayLabel(@NotNull List<String> commands) {

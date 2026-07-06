@@ -1,5 +1,6 @@
 package gg.mmorealms.module.boss.backend.fabric.config;
 
+import com.raduvoinea.utils.generic.Time;
 import com.raduvoinea.utils.generic.dto.Range;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import gg.mmorealms.module.boss.common.BossTier;
@@ -18,8 +19,10 @@ public class BossConfig {
 	public Range randomSpawnRangeY = new Range(60, 120);
 	public int canPokemonFitCheckRadius = 1;
 
-	public float bossDamageTakenMultiplier = 0.3f;
-	public float bossDamageDealtMultiplier = 2f;
+	public float bossDamageTakenMultiplier = 0.2f;
+	public float bossDamageDealtMultiplier = 2.5f;
+
+	public Time bossFightCooldown = Time.minutes(2);
 
 	public Map<BossTier, TierConfig> tiers = defaultTiers();
 
@@ -52,6 +55,10 @@ public class BossConfig {
 
 		public MessageBuilder bossPersonalDefeat = new MessageBuilder(
 				BossTierTheme.personalDefeatTemplate()
+		);
+
+		public MessageBuilder bossOnCooldown = new MessageBuilder(
+				"<red>You must wait {time} before challenging this boss again."
 		);
 
 		public MessageBuilder bossVictoryLegendaryTitle = new MessageBuilder(

@@ -23,4 +23,16 @@ public abstract class BossPokemonEntityMixin {
 			cir.setReturnValue(false);
 		}
 	}
+
+	@Inject(
+			method = "canBeLeashed()Z",
+			at = @At("HEAD"),
+			cancellable = true
+	)
+	private void mmoRealmsBoss$blockBossLeash(CallbackInfoReturnable<Boolean> cir) {
+		PokemonEntity self = (PokemonEntity) (Object) this;
+		if (self.getPokemon().getPersistentData().getBoolean(NbtKeys.BOSS)) {
+			cir.setReturnValue(false);
+		}
+	}
 }

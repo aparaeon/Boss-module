@@ -108,8 +108,11 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_FLED.subscribe(
 				com.cobblemon.mod.common.api.Priority.NORMAL,
 				event -> {
+			com.cobblemon.mod.common.api.battles.model.PokemonBattle battle = event.getBattle();
+			java.util.UUID fledPlayerUUID = event.getPlayer().getUuid();
 			runOnMain(() -> {
 				if (bossManager != null) {
+					bossManager.handleBattleFled(battle, fledPlayerUUID);
 					bossManager.retryPendingDespawns();
 				}
 			});
@@ -119,6 +122,10 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		com.cobblemon.mod.common.api.events.CobblemonEvents.BATTLE_STARTED_PRE.subscribe(
 				com.cobblemon.mod.common.api.Priority.NORMAL,
 				event -> {
+					if (bossManager != null && bossManager.isBossFightOnCooldown(event.getBattle())) {
+						event.cancel();
+						return kotlin.Unit.INSTANCE;
+					}
 					runOnMain(() -> {
 						if (bossManager != null) {
 							bossManager.handleBattleStarted(event.getBattle());
@@ -184,13 +191,13 @@ public class BossFabricModule extends BossBackendModule implements ModInitialize
 		}
 		if (!(cfg.bossDamageTakenMultiplier > 0f && cfg.bossDamageTakenMultiplier <= 1f)) {
 			Logger.warn("BossConfig.bossDamageTakenMultiplier=" + cfg.bossDamageTakenMultiplier
-					+ " out of range (0, 1]; resetting to 0.3.");
-			cfg.bossDamageTakenMultiplier = 0.3f;
+					+ " out of range (0, 1]; resetting to 0.2.");
+			cfg.bossDamageTakenMultiplier = 0.2f;
 		}
 		if (!(cfg.bossDamageDealtMultiplier >= 1f && cfg.bossDamageDealtMultiplier <= 4f)) {
 			Logger.warn("BossConfig.bossDamageDealtMultiplier=" + cfg.bossDamageDealtMultiplier
-					+ " out of range [1, 4]; resetting to 2.");
-			cfg.bossDamageDealtMultiplier = 2f;
+					+ " out of range [1, 4]; resetting to 2.5.");
+			cfg.bossDamageDealtMultiplier = 2.5f;
 		}
 		fileManager.save(cfg);
 	}
