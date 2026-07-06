@@ -2,13 +2,53 @@ package utils
 
 import org.gradle.api.Project
 import utils.InternalLibs.LOCAL_DEPENDENCY_VERSION
+import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
 import java.util.*
 
 object Utils {
 
-    lateinit var rootProject: Project
+    private var _rootProject: Project? = null
+    var rootProject: Project
+        get() = _rootProject!!
+        set(value) {
+            // The Kotlin `object` singleton persists across builds in the Gradle
+            // daemon (the classloader is reused when buildSrc hasn't changed).
+            // A new Project instance signals the start of a new build, so clear
+            // the per-build caches to avoid serving stale values from the previous
+            // build (e.g. after the user edits local.dependencies).
+            if (_rootProject !== value) {
+                _rootProject = value
+                localDependenciesCache = null
+                localVersionCache = null
+                latestLocalVersionCache = null
+                internalLibsVersionsCache = null
+            }
+        }
+
+    private var localDependenciesCache: Map<String, String>? = null
+    private var localVersionCache: String? = null
+    private var latestLocalVersionCache: String? = null
+    private var internalLibsVersionsCache: Map<String, String>? = null
+
+    /**
+     * Reads a file's text in a way the Gradle configuration cache tracks.
+     *
+     * Reading at configuration time via plain `File.readText()` is invisible to the
+     * configuration cache, so edits to the file would be ignored on cached builds.
+     * `ProviderFactory.fileContents(...).asText` registers the file as a tracked
+     * configuration input: when the file changes the configuration cache is
+     * invalidated and the file is re-read — without recompiling buildSrc.
+     */
+    private fun readFileTracked(relativePath: String): String {
+        val file = rootProject.file(relativePath)
+        if (!file.exists()) return ""
+
+        val fileProvider = rootProject.layout.projectDirectory.file(relativePath)
+        return rootProject.providers.fileContents(fileProvider).asText.get().trim()
+    }
 
     data class ProjectMetadata(
         val type: EnvironmentType, // Fabric
@@ -73,9 +113,9 @@ object Utils {
             }
 
             return@run moduleDependencies
-                    .split(",")
-                    .map { it.trim() }
-                    .toList()
+                .split(",")
+                .map { it.trim() }
+                .toList()
         }
         dependencies = ArrayList(dependencies)
 
@@ -96,66 +136,256 @@ object Utils {
 
     @JvmStatic
     fun findLocalDependencies(): Map<String, String> {
+        localDependenciesCache?.let { return it }
+
+        val result = mutableMapOf<String, String>()
+
+        // 1. Explicit local dependencies (env or local.dependencies file).
+        val localDependenciesData = readLocalDependenciesData()
+
+        if (!localDependenciesData.isNullOrEmpty()) {
+            for (dependency in localDependenciesData.split(",")) {
+                if (dependency.isBlank()) continue
+
+                val split = dependency.split("=")
+                val id = split[0]
+                    .replace("-module", "")
+                    .replace("-", "_")
+                    .trim()
+                    .lowercase()
+                val version = if (split.size == 2) {
+                    split[1].trim()
+                } else {
+                    LOCAL_DEPENDENCY_VERSION
+                }
+
+                result[id] = version
+            }
+        }
+
+        // 2. Dependencies the current project depends on but that are not explicitly
+        //    listed in local.dependencies: resolve their version from the current git
+        //    branch (e.g. feature/pixelmon -> 0.0.0-feature-pixelmon-<latestBuild>).
+        val branch = getCurrentBranch()
+        if (branch != null) {
+            val branchVersionPrefix = "0.0.0-" + branch.replace("/", "-") + "-"
+
+            for (dep in findAdditionalDependencies()) {
+                val id = dep
+                    .replace("-module", "")
+                    .replace("-", "_")
+                    .trim()
+                    .lowercase()
+
+                if (result.containsKey(id)) {
+                    continue
+                }
+
+                val lib = InternalLibs.findDependency(dep) ?: continue
+                if (!lib.hasCommon) {
+                    continue
+                }
+
+                val artifactId = lib.base.split(":").getOrNull(1)?.plus("-common") ?: continue
+                val username = getProperty(Statics.PUBLISH_USERNAME_PROPERTY)
+                val password = getProperty(Statics.PUBLISH_PASSWORD_PROPERTY)
+
+                val version = try {
+                    getLatestVersion(
+                        artifactId = artifactId,
+                        username = username,
+                        password = password,
+                        versionPrefix = branchVersionPrefix,
+                    )
+                } catch (e: Exception) {
+                    println("Failed to resolve branch version for $artifactId on branch '$branch': ${e.message}")
+                    null
+                }
+
+                if (version != null) {
+                    result[id] = version
+                }
+            }
+        }
+
+        localDependenciesCache = result
+        return result
+    }
+
+    private fun readLocalDependenciesData(): String? {
         var localDependenciesData = System.getenv(Statics.LOCAL_DEPENDENCIES)
 
         if (localDependenciesData.isNullOrEmpty()) {
-            val localDependenciesFile = rootProject.file("local.dependencies")
+            localDependenciesData = readFileTracked("local.dependencies")
 
-            if (!localDependenciesFile.exists()) {
+            if (localDependenciesData.isEmpty()) {
                 if (!Statics.LOGGED_NO_LOCAL_DEPENDENCIES) {
                     println("No local dependencies found")
                     Statics.LOGGED_NO_LOCAL_DEPENDENCIES = true
                 }
-                return emptyMap()
+                return null
             }
-
-            localDependenciesData = localDependenciesFile.readText().trim()
         }
 
-        if (localDependenciesData.isEmpty()) {
-            return emptyMap()
-        }
+        return if (localDependenciesData.isEmpty()) null else localDependenciesData
+    }
+
+    @JvmStatic
+    fun readInternalLibsVersions(): Map<String, String> {
+        internalLibsVersionsCache?.let { return it }
 
         val result = mutableMapOf<String, String>()
+        val content = readFileTracked("buildSrc/internal-libs.versions")
 
-        for (dependency in localDependenciesData.split(",")) {
-            val split = dependency.split("=")
-            val id = split[0]
-                .replace("-module", "")
-                .replace("-", "_")
-                .trim()
-                .lowercase()
-            val version = if (split.size == 2) {
-                split[1].trim()
-            } else {
-                LOCAL_DEPENDENCY_VERSION
-            }
+        if (content.isEmpty()) {
+            internalLibsVersionsCache = result
+            return result
+        }
 
+        for (line in content.lines()) {
+            val trimmed = line.trim()
+            if (trimmed.isEmpty() || trimmed.startsWith("#")) continue
+
+            val eq = trimmed.indexOf('=')
+            if (eq <= 0) continue
+
+            val rawId = trimmed.substring(0, eq).trim()
+            val version = trimmed.substring(eq + 1).trim()
+            if (rawId.isEmpty() || version.isEmpty()) continue
+
+            val id = rawId.replace("-module", "").replace("-", "_").trim().lowercase()
             result[id] = version
         }
 
+        internalLibsVersionsCache = result
         return result
+    }
+
+    private fun getCurrentBranch(): String? {
+        return try {
+            val process = ProcessBuilder("git", "rev-parse", "--abbrev-ref", "HEAD")
+                .directory(rootProject.projectDir)
+                .redirectErrorStream(true)
+                .start()
+
+            val output = process.inputStream.bufferedReader().use { it.readText().trim() }
+            val exitCode = process.waitFor()
+
+            if (exitCode == 0 && output.isNotEmpty() && output != "HEAD") output else null
+        } catch (e: Exception) {
+            println("Failed to determine current git branch: ${e.message}")
+            null
+        }
     }
 
     @JvmStatic
     fun getProperty(name: String, defaultValue: String = ""): String {
-        if (rootProject.hasProperty(name)) {
-            return rootProject.findProperty(name) as String
+        val valueFromFile = getPropertyFromFile(name)
+        val valueFromEnv = getPropertyFromEnv(name)
+
+        if (valueFromEnv.isNotEmpty()) {
+            return valueFromEnv
         }
 
-        val envName = name.uppercase().replace(".", "_")
-
-        if (System.getenv().containsKey(envName)) {
-            return System.getenv(envName) as String
+        if (valueFromFile.isNotEmpty()) {
+            return valueFromFile
         }
 
         return defaultValue
     }
 
+    fun getPropertyFromFile(name: String): String {
+        if (rootProject.hasProperty(name)) {
+            return rootProject.findProperty(name) as String
+        }
+        return ""
+    }
+
+    fun getPropertyFromEnv(name: String): String {
+        val envName = name.uppercase().replace(".", "_")
+
+        if (System.getenv().containsKey(envName)) {
+            return System.getenv(envName) as String
+        }
+        return ""
+    }
+
 
     @JvmStatic
     fun getVersion(): String {
-        return getProperty(Statics.PUBLISH_VERSION_PROPERTY, defaultValue = "0.0.0-local")
+        return getProperty(Statics.PUBLISH_VERSION_PROPERTY, defaultValue = getLocalVersion())
+    }
+
+    /**
+     * Computes the local build version as `0.0.0-local-<N>`, where <N> is
+     * automatically derived from the local Maven repository
+     * (`~/.m2/repository`). It scans every artifact published under
+     * `gg.mmorealms` for existing `0.0.0-local-<n>` versions and picks
+     * `max(n) + 1`, starting at 1 when none are found.
+     *
+     * This is the version used to **publish** the current project: it is always
+     * one greater than anything already present locally, so two projects never
+     * collide on the same local version.
+     *
+     * The result is cached for the lifetime of the build so every subproject
+     * (publishing, dependency resolution, build constants) sees the same value.
+     */
+    @JvmStatic
+    fun getLocalVersion(): String {
+        localVersionCache?.let { return it }
+
+        val version = "0.0.0-local-${getMaxLocalBuild() + 1}"
+        localVersionCache = version
+        return version
+    }
+
+    /**
+     * Returns the latest **existing** local version (`0.0.0-local-<max>`) found
+     * in the local Maven repository.
+     *
+     * Unlike [getLocalVersion] (which is for publishing and returns `max + 1`),
+     * this is used to **consume** local dependencies: a dependency listed in
+     * `local.dependencies` without an explicit version should resolve to the
+     * most recent version that has actually been published locally, not to the
+     * next one. Falls back to `0.0.0-local-1` when nothing has been published
+     * yet (matching the first publish version).
+     */
+    @JvmStatic
+    fun getLatestLocalVersion(): String {
+        latestLocalVersionCache?.let { return it }
+
+        val maxBuild = getMaxLocalBuild()
+        val version = if (maxBuild > 0) "0.0.0-local-$maxBuild" else "0.0.0-local-1"
+        latestLocalVersionCache = version
+        return version
+    }
+
+    /**
+     * Scans the local Maven repository (`~/.m2/repository/gg/mmorealms`) for
+     * published `0.0.0-local-<n>` versions and returns the highest `<n>` found,
+     * or 0 when none exist.
+     */
+    private fun getMaxLocalBuild(): Int {
+        val m2Dir = File(System.getProperty("user.home"), ".m2/repository/gg/mmorealms")
+        val versionRegex = Regex("""0\.0\.0-local-(\d+)""")
+
+        var maxBuild = 0
+
+        if (m2Dir.isDirectory) {
+            m2Dir.walkTopDown().forEach { file ->
+                if (!file.isDirectory) return@forEach
+
+                // A published version lives in a directory whose name is the
+                // version string (e.g. `.../pokemon-module-common/0.0.0-local-3/`).
+                val match = versionRegex.matchEntire(file.name) ?: return@forEach
+                val build = match.groupValues[1].toIntOrNull() ?: return@forEach
+                if (build > maxBuild) {
+                    maxBuild = build
+                }
+            }
+        }
+
+        return maxBuild
     }
 
 
@@ -198,12 +428,56 @@ object Utils {
         password: String?,
         baseUrl: String = "https://repo.mmorealms.gg",
         groupId: String = "gg.mmorealms",
-        repository: String = "maven-releases"
-    ): String {
-        val searchUrl =
-            "$baseUrl/service/rest/v1/search?repository=$repository&group=$groupId&name=$artifactId&sort=version&direction=desc"
+        repository: String = "maven-releases",
+        versionPrefix: String? = null
+    ): String? {
+        var continuationToken: String? = null
+        var latestMatch: String? = null
+        var maxBuild = -1
+
+        val versionParam = versionPrefix?.let { "&version=" + URLEncoder.encode("$it*", "UTF-8") } ?: ""
+
+        do {
+            val tokenParam = continuationToken?.let { "&continuationToken=" + URLEncoder.encode(it, "UTF-8") } ?: ""
+            val searchUrl =
+                "$baseUrl/service/rest/v1/search?repository=$repository&group=$groupId&name=$artifactId&sort=version&direction=desc$versionParam$tokenParam"
+
+            val response = fetchRepoResponse(searchUrl, username, password)
+
+            val versionRegex = """"version"\s*:\s*"([^"]+)"""".toRegex()
+            val versions = versionRegex.findAll(response).mapNotNull { it.groups[1]?.value }.toList()
+
+            if (versionPrefix == null) {
+                if (latestMatch == null && versions.isNotEmpty()) {
+                    latestMatch = versions[0]
+                }
+            } else {
+                for (version in versions) {
+                    val build = version.substring(versionPrefix.length).toIntOrNull() ?: continue
+                    if (build > maxBuild) {
+                        maxBuild = build
+                        latestMatch = "$versionPrefix$build"
+                    }
+                }
+            }
+
+            continuationToken = parseContinuationToken(response)
+        } while (continuationToken != null)
+
+        if (latestMatch == null) {
+            println("No versions found for $groupId:$artifactId" + (versionPrefix?.let { " matching prefix '$it'" } ?: ""))
+            return if (versionPrefix == null) "0.0.0" else null
+        }
+
+        return latestMatch
+    }
+
+    private fun fetchRepoResponse(searchUrl: String, username: String?, password: String?): String {
         val url = URL(searchUrl)
         val connection = url.openConnection() as HttpURLConnection
+
+        connection.connectTimeout = 15000
+        connection.readTimeout = 15000
 
         if (!username.isNullOrEmpty() && password != null) {
             val auth = Base64.getEncoder().encodeToString("$username:$password".toByteArray())
@@ -217,23 +491,13 @@ object Utils {
             throw Exception("Failed to fetch artifact versions: HTTP ${connection.responseCode}")
         }
 
-        val response = connection.inputStream.bufferedReader().use { it.readText() }
+        return connection.inputStream.bufferedReader().use { it.readText() }
+    }
 
-        val itemsIndex = response.indexOf("\"items\"")
-        if (itemsIndex == -1) {
-            println("No items found in response: $response")
-            return "0.0.0"
-        }
-
-        val versionRegex = """"version"\s*:\s*"([^"]+)"""".toRegex()
-        val matches = versionRegex.findAll(response).toList()
-
-        if (matches.isEmpty()) {
-            println("No version matches found in response: $response")
-            return "0.0.0"
-        }
-
-        return matches[0].groups[1]?.value ?: throw Exception("No version found")
+    private fun parseContinuationToken(response: String): String? {
+        val tokenRegex = """"continuationToken"\s*:\s*(?:"([^"]+)"|null)""".toRegex()
+        val match = tokenRegex.find(response) ?: return null
+        return match.groups[1]?.value
     }
 
     @JvmStatic
@@ -281,7 +545,7 @@ object Utils {
             )
 
             println("Remote version ($platform): $remoteVersion")
-            remoteVersion = getMaxVersion(remoteVersion, currentPlatformRemoteVersion)
+            remoteVersion = getMaxVersion(remoteVersion, currentPlatformRemoteVersion ?: "0.0.0")
         }
 
         val localVersion = readVersion()

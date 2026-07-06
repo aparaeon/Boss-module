@@ -2,7 +2,7 @@ plugins {
     id("java")
     id("java-library")
     `kotlin-dsl`
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "2.3.21"
 }
 
 repositories {

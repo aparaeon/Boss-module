@@ -22,7 +22,8 @@ import gg.mmorealms.module.boss.common.BossTierTheme;
 import gg.mmorealms.module.chat.common.dto.GlobalMessageEvent;
 import gg.mmorealms.module.core.backend.common.dto.cooldown.IBackendCooldowns;
 import gg.mmorealms.module.core.backend.common.dto.user.IUser;
-import gg.mmorealms.module.pokemon.backend.fabric.dto.event.BattleWonEvent;
+import gg.mmorealms.module.pokemon.backend.common.dto.BattleEntity;
+import gg.mmorealms.module.pokemon.backend.common.dto.event.BattleEndedEvent;
 import com.raduvoinea.utils.message_builder.MessageBuilder;
 import net.minecraft.network.protocol.game.ClientboundSetSubtitleTextPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitleTextPacket;
@@ -248,7 +249,7 @@ public class BossManager {
 		cleanup(pokemonUUID, CleanupKind.DEFEAT_NO_REWARD, null, winnerUUID, reason);
 	}
 
-	public void handleBattleWon(@NotNull BattleWonEvent event) {
+	public void handleBattleWon(@NotNull BattleEndedEvent event) {
 		ActiveBoss defeatedBoss = findBossIn(event.getLosers());
 		if (defeatedBoss != null) {
 			UUID winnerUuid = findFirstPlayerUuidIn(event.getWinners());
@@ -284,6 +285,22 @@ public class BossManager {
 		for (ServerPlayer loser : losers) {
 			sendBossReaction(loser, victoriousBoss);
 		}
+	}
+
+	public @Nullable ActiveBoss findBossIn(@Nullable List<BattleEntity> participants) {
+		if (participants == null) {
+			return null;
+		}
+		for (BattleEntity participant : participants) {
+			if (participant.type() != BattleEntity.ParticipantType.WILD_POKEMON) {
+				continue;
+			}
+			ActiveBoss boss = active.get(participant.uuid());
+			if (boss != null) {
+				return boss;
+			}
+		}
+		return null;
 	}
 
 	public @Nullable ActiveBoss findBossIn(@Nullable Iterable<BattleActor> actors) {
@@ -538,7 +555,25 @@ public class BossManager {
 		return "boss:" + bossUUID;
 	}
 
-	private @NotNull List<ServerPlayer> findPlayerTargets(@Nullable List<BattleActor> actors) {
+	private @NotNull List<ServerPlayer> findPlayerTargets(@Nullable List<BattleEntity> participants) {
+		MinecraftServer server = BossFabricModule.instance().getServer();
+		if (server == null || participants == null) {
+			return List.of();
+		}
+		List<ServerPlayer> players = new ArrayList<>();
+		for (BattleEntity participant : participants) {
+			if (participant.type() != BattleEntity.ParticipantType.PLAYER) {
+				continue;
+			}
+			ServerPlayer player = server.getPlayerList().getPlayer(participant.uuid());
+			if (player != null) {
+				players.add(player);
+			}
+		}
+		return players;
+	}
+
+	private @NotNull List<ServerPlayer> findPlayerTargets(@Nullable Iterable<BattleActor> actors) {
 		MinecraftServer server = BossFabricModule.instance().getServer();
 		if (server == null || actors == null) {
 			return List.of();
@@ -556,11 +591,13 @@ public class BossManager {
 		return players;
 	}
 
-	private @Nullable UUID findFirstPlayerUuidIn(@Nullable List<BattleActor> actors) {
-		if (actors == null) return null;
-		for (BattleActor actor : actors) {
-			if (actor instanceof com.cobblemon.mod.common.battles.actor.PlayerBattleActor playerActor) {
-				return playerActor.getUuid();
+	private @Nullable UUID findFirstPlayerUuidIn(@Nullable List<BattleEntity> participants) {
+		if (participants == null) {
+			return null;
+		}
+		for (BattleEntity participant : participants) {
+			if (participant.type() == BattleEntity.ParticipantType.PLAYER) {
+				return participant.uuid();
 			}
 		}
 		return null;

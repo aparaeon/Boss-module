@@ -22,3 +22,5 @@ tmp
 
 gradlew*
 gradle/
+
+internal-libs.versions

@@ -69,6 +69,16 @@ tasks {
             exclude(dependency("net.luckperms:api:.*"))
         }
 
+        // Unlike Fabric (fabric-language-kotlin) and NeoForge (KotlinForForge),
+        // Velocity has no central Kotlin provider at runtime. Modules that bring
+        // in Kotlin-dependent libraries (e.g. JDA -> OkHttp) need kotlin-stdlib
+        // bundled into their shadow jar, so we do NOT exclude kotlin/** here.
+
+        // org.jetbrains:annotations leaks transitively; drop it for consistency
+        // (advisory annotations, unused at runtime).
+        exclude("org/jetbrains/annotations/**")
+        exclude("org/intellij/lang/annotations/**")
+
         archiveClassifier.set("")
     }
 

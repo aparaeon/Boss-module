@@ -5,7 +5,7 @@ import com.raduvoinea.utils.event_manager.annotation.EventHandler;
 import gg.mmorealms.loader.common.dto.ServerType;
 import gg.mmorealms.module.boss.backend.fabric.BossFabricModule;
 import gg.mmorealms.module.boss.common.event.BossSpawnEvent;
-import gg.mmorealms.module.pokemon.backend.fabric.dto.event.BattleWonEvent;
+import gg.mmorealms.module.pokemon.backend.common.dto.event.BattleEndedEvent;
 @OnlyOn(servers = ServerType.WILD)
 public class BossListener {
 
@@ -22,7 +22,7 @@ public class BossListener {
 	}
 
 	@EventHandler
-	public void onBattleWon(BattleWonEvent ev) {
+	public void onBattleWon(BattleEndedEvent ev) {
 		BossFabricModule mod = BossFabricModule.instance();
 		if (mod == null) return;
 		BossManager manager = mod.getBossManager();

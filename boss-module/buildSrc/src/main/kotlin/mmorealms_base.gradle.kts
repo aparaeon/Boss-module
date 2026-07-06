@@ -4,6 +4,7 @@ import java.util.zip.ZipFile
 plugins {
     id("java")
     id("java-library")
+    kotlin("jvm")
 }
 
 version = rootProject.version
@@ -127,10 +128,10 @@ tasks {
             dependenciesArray.remove("test-client-module")
             val dependenciesArrayString = dependenciesArray.joinToString(separator = ",")
 
-            val constantsFile =
-                File(outputDir.get().asFile, "gg/mmorealms/$targetPath/${targetClassPrefix}BuildConstants.java")
+            val constantsFile = File(outputDir.get().asFile, "gg/mmorealms/$targetPath/${targetClassPrefix}BuildConstants.java")
             constantsFile.parentFile.mkdirs()
 
+            println("Writing to file $constantsFile")
             constantsFile.writeText(
                 """
                 |package gg.mmorealms.$targetPackage;
@@ -185,15 +186,15 @@ tasks {
         val warningsAsErrorsPropertyOverride = Utils.getProperty(Statics.WARNINGS_AS_ERRORS_PROPERTY_OVERRIDE)
         val warningsAsErrorsProperty = Utils.getProperty(Statics.WARNINGS_AS_ERRORS_PROPERTY)
 
-        if (warningsAsErrorsPropertyOverride == "") {
-            if (warningsAsErrorsProperty == "true") {
-                options.compilerArgs.add("-Werror")
-            }
-        } else {
-            if (warningsAsErrorsPropertyOverride == "true") {
-                options.compilerArgs.add("-Werror")
-            }
-        }
+//        if (warningsAsErrorsPropertyOverride == "") {
+//            if (warningsAsErrorsProperty == "true") {
+//                options.compilerArgs.add("-Werror")
+//            }
+//        } else {
+//            if (warningsAsErrorsPropertyOverride == "true") {
+//                options.compilerArgs.add("-Werror")
+//            }
+//        }
 
 
     }

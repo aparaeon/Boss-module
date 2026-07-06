@@ -7,7 +7,7 @@ object Libs {
     const val neoforgeVersion = "21.1.180"
 
     const val lombok = "org.projectlombok:lombok:1.18.44"
-    const val jedis = "redis.clients:jedis:5.2.0"
+    const val lettuce = "io.lettuce:lettuce-core:7.6.0.RELEASE"
     const val luckperms = "net.luckperms:api:5.4"
     const val jda = "net.dv8tion:JDA:5.3.0"
     const val minecraft = "net.minecraft:minecraft:$minecraftVersion"
@@ -21,6 +21,7 @@ object Libs {
     const val pixelmon = "com.pixelmon:pixelmon:9.3.16"
     const val packetevents = "com.github.retrooper:packetevents-velocity:2.8.0"
     const val worldedit = "com.sk89q.worldedit:worldedit-core:7.3.8"
+    const val json = "org.json:json:20260522";
 
     object spark {
         const val common = "me.lucko:spark-common:1.10.142"
@@ -68,10 +69,10 @@ object Libs {
     }
 
     object raduvoinea {
-        const val utils = "com.raduvoinea:utils:2.1.1"
+        const val utils = "com.raduvoinea:utils:3.0.1"
 
         object commandmanager {
-            private const val version = "1.7.3"
+            private const val version = "1.7.5"
 
             const val common = "com.raduvoinea:command-manager-common:$version"
             const val velocity = "com.raduvoinea:command-manager-velocity:$version"
@@ -174,7 +175,7 @@ object Libs {
         apache.commons.pool2,
         apache.commons.io,
 
-        jedis,
+        lettuce,
 
         google.gson,
         google.guava,
@@ -208,5 +209,7 @@ object Libs {
         nbt,
 
         bytebuddy.byteBuddy,
+
+        json,
     )
 }

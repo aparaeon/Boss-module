@@ -31,6 +31,8 @@ loom {
 }
 
 dependencies {
+    modCompileOnlyApi(Libs.sgui.fabric)
+
     minecraft(Libs.minecraft)
     mappings(loom.layered {
         officialMojangMappings()

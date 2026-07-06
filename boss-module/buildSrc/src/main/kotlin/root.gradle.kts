@@ -9,12 +9,23 @@ plugins {
     id("java-library")
     id("maven-publish")
     id("architectury-plugin")
+    kotlin("jvm")
 }
 
 Utils.rootProject = rootProject
 
 version = Utils.getVersion()
 group = "gg.mmorealms"
+
+println("================ VERSION ================")
+println("Build/Publish version: ${rootProject.version}")
+println("================ VERSION ================")
+
+println("================ SETTINGS ================")
+Statics.ALL_SETTINGS.forEach {
+    println(it + ": " + Utils.getProperty(it))
+}
+println("================ SETTINGS ================")
 
 fun processFile(project: Project, file: String) {
     val metadata: Utils.ProjectMetadata = Utils.getProjectMetadata("base")
@@ -93,8 +104,31 @@ subprojects {
 
 
 tasks {
+    val clearLibs by registering {
+        group = "build"
+        description = "Clears build/libs for the root project and all subprojects before any artifacts are produced."
+
+        doFirst {
+            val libsDirs = listOf(rootProject) + subprojects
+            libsDirs.forEach { proj ->
+                val libsDir = proj.layout.buildDirectory.dir("libs").get().asFile
+                if (libsDir.exists()) {
+                    println("[Build] Clearing ${proj.path} build/libs")
+                    libsDir.deleteRecursively()
+                }
+            }
+        }
+    }
+
     build {
+        dependsOn(clearLibs)
         finalizedBy("copySubprojectJars")
+    }
+
+    subprojects.forEach { subproject ->
+        subproject.tasks.withType<AbstractArchiveTask>().configureEach {
+            mustRunAfter(clearLibs)
+        }
     }
 
     register<Copy>("copySubprojectJars") {
