@@ -54,26 +54,12 @@ tasks {
 
         dependencies {
             exclude(dependency("net.luckperms:api:.*"))
-            // Do NOT bundle the Kotlin stdlib. It is provided once at runtime
-            // (KotlinForForge on NeoForge, Fabric Language Kotlin on Fabric).
-            // Bundling it into every jar makes each an automatic JPMS module that
-            // exports kotlin.* — two such modules exporting the same package to a
-            // third is a fatal ResolutionException on NeoForge. This is the only
-            // place it can be dropped: every platform jar bundles :common via
-            // shadowBundle, by which point the stdlib is loose class files with no
-            // dependency coordinate left to exclude downstream.
             exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib.*"))
         }
 
-        // Belt-and-suspenders: drop the stdlib by path too, in case the Kotlin
-        // plugin pulls it onto the classpath without a matchable coordinate.
         exclude("kotlin/**")
         exclude("META-INF/*.kotlin_module")
 
-        // Same JPMS split-package problem as Kotlin: org.jetbrains:annotations
-        // (compile-only, advisory) leaks transitively onto the runtime classpath
-        // and gets bundled into every jar, exporting org.jetbrains.annotations /
-        // org.intellij.lang.annotations. Drop it — nothing reads it at runtime.
         exclude("org/jetbrains/annotations/**")
         exclude("org/intellij/lang/annotations/**")
     }
@@ -90,4 +76,3 @@ configurations {
         outgoing.artifact(tasks.named<ShadowJar>("shadowJar"))
     }
 }
-

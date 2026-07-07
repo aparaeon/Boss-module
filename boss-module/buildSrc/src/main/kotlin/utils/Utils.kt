@@ -14,11 +14,6 @@ object Utils {
     var rootProject: Project
         get() = _rootProject!!
         set(value) {
-            // The Kotlin `object` singleton persists across builds in the Gradle
-            // daemon (the classloader is reused when buildSrc hasn't changed).
-            // A new Project instance signals the start of a new build, so clear
-            // the per-build caches to avoid serving stale values from the previous
-            // build (e.g. after the user edits local.dependencies).
             if (_rootProject !== value) {
                 _rootProject = value
                 localDependenciesCache = null
@@ -33,15 +28,6 @@ object Utils {
     private var latestLocalVersionCache: String? = null
     private var internalLibsVersionsCache: Map<String, String>? = null
 
-    /**
-     * Reads a file's text in a way the Gradle configuration cache tracks.
-     *
-     * Reading at configuration time via plain `File.readText()` is invisible to the
-     * configuration cache, so edits to the file would be ignored on cached builds.
-     * `ProviderFactory.fileContents(...).asText` registers the file as a tracked
-     * configuration input: when the file changes the configuration cache is
-     * invalidated and the file is re-read — without recompiling buildSrc.
-     */
     private fun readFileTracked(relativePath: String): String {
         val file = rootProject.file(relativePath)
         if (!file.exists()) return ""
@@ -51,17 +37,17 @@ object Utils {
     }
 
     data class ProjectMetadata(
-        val type: EnvironmentType, // Fabric
-        val name: String, // ex. SomeExampleModule-Fabric
-        val id: String, // ex. some-example-module
-        val platform: String, // ex. fabric
-        val packageName: String = id.replace("-module", "").replace("-", "_") // ex. some_example
+        val type: EnvironmentType,
+        val name: String,
+        val id: String,
+        val platform: String,
+        val packageName: String = id.replace("-module", "").replace("-", "_")
     )
 
     @JvmStatic
     fun toPascalCase(input: String): String {
         return input
-            .split(Regex("[\\s_\\-]+")) // Split by spaces, underscores, hyphens
+            .split(Regex("[\\s_\\-]+"))
             .filter { it.isNotBlank() }
             .joinToString("") { word ->
                 word.lowercase().replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
@@ -140,7 +126,6 @@ object Utils {
 
         val result = mutableMapOf<String, String>()
 
-        // 1. Explicit local dependencies (env or local.dependencies file).
         val localDependenciesData = readLocalDependenciesData()
 
         if (!localDependenciesData.isNullOrEmpty()) {
@@ -163,9 +148,6 @@ object Utils {
             }
         }
 
-        // 2. Dependencies the current project depends on but that are not explicitly
-        //    listed in local.dependencies: resolve their version from the current git
-        //    branch (e.g. feature/pixelmon -> 0.0.0-feature-pixelmon-<latestBuild>).
         val branch = getCurrentBranch()
         if (branch != null) {
             val branchVersionPrefix = "0.0.0-" + branch.replace("/", "-") + "-"
@@ -316,20 +298,6 @@ object Utils {
         return getProperty(Statics.PUBLISH_VERSION_PROPERTY, defaultValue = getLocalVersion())
     }
 
-    /**
-     * Computes the local build version as `0.0.0-local-<N>`, where <N> is
-     * automatically derived from the local Maven repository
-     * (`~/.m2/repository`). It scans every artifact published under
-     * `gg.mmorealms` for existing `0.0.0-local-<n>` versions and picks
-     * `max(n) + 1`, starting at 1 when none are found.
-     *
-     * This is the version used to **publish** the current project: it is always
-     * one greater than anything already present locally, so two projects never
-     * collide on the same local version.
-     *
-     * The result is cached for the lifetime of the build so every subproject
-     * (publishing, dependency resolution, build constants) sees the same value.
-     */
     @JvmStatic
     fun getLocalVersion(): String {
         localVersionCache?.let { return it }
@@ -339,17 +307,6 @@ object Utils {
         return version
     }
 
-    /**
-     * Returns the latest **existing** local version (`0.0.0-local-<max>`) found
-     * in the local Maven repository.
-     *
-     * Unlike [getLocalVersion] (which is for publishing and returns `max + 1`),
-     * this is used to **consume** local dependencies: a dependency listed in
-     * `local.dependencies` without an explicit version should resolve to the
-     * most recent version that has actually been published locally, not to the
-     * next one. Falls back to `0.0.0-local-1` when nothing has been published
-     * yet (matching the first publish version).
-     */
     @JvmStatic
     fun getLatestLocalVersion(): String {
         latestLocalVersionCache?.let { return it }
@@ -360,11 +317,6 @@ object Utils {
         return version
     }
 
-    /**
-     * Scans the local Maven repository (`~/.m2/repository/gg/mmorealms`) for
-     * published `0.0.0-local-<n>` versions and returns the highest `<n>` found,
-     * or 0 when none exist.
-     */
     private fun getMaxLocalBuild(): Int {
         val m2Dir = File(System.getProperty("user.home"), ".m2/repository/gg/mmorealms")
         val versionRegex = Regex("""0\.0\.0-local-(\d+)""")
@@ -375,8 +327,6 @@ object Utils {
             m2Dir.walkTopDown().forEach { file ->
                 if (!file.isDirectory) return@forEach
 
-                // A published version lives in a directory whose name is the
-                // version string (e.g. `.../pokemon-module-common/0.0.0-local-3/`).
                 val match = versionRegex.matchEntire(file.name) ?: return@forEach
                 val build = match.groupValues[1].toIntOrNull() ?: return@forEach
                 if (build > maxBuild) {

@@ -5,6 +5,7 @@ object Libs {
     const val fabricLoaderVersion = "0.16.10"
     const val fabricApiVesion = "0.115.0+1.21.1"
     const val neoforgeVersion = "21.1.180"
+    const val velocityApi = "com.velocitypowered:velocity-api:3.4.0.3"
 
     const val lombok = "org.projectlombok:lombok:1.18.44"
     const val lettuce = "io.lettuce:lettuce-core:7.6.0.RELEASE"
@@ -142,10 +143,10 @@ object Libs {
         const val annotations = "com.fasterxml.jackson.core:jackson-annotations:$version"
     }
 
-    object hibernate { // TODO maybe update as newer hibernate seems to offer a bit better performance (8% uplift in some cases) - https://quarkus.io/blog/hibernate7-on-quarkus/#:~:text=improved%20the%20performance%20by%208%25
-        const val core = "org.hibernate:hibernate-core:6.6.11.Final"
-        const val validator = "org.hibernate.validator:hibernate-validator:8.0.2.Final"
-        const val hikaricpHibernate = "org.hibernate:hibernate-hikaricp:6.6.11.Final"
+    object hibernate {
+        const val core = "org.hibernate:hibernate-core:7.4.0.Final"
+        const val validator = "org.hibernate.validator:hibernate-validator:9.1.0.Final"
+        const val hikaricpHibernate = "org.hibernate:hibernate-hikaricp:7.4.0.Final"
         const val hikaricpCore = "com.zaxxer:HikariCP:7.0.2"
     }
 

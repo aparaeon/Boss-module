@@ -113,16 +113,9 @@ tasks {
         )
         archiveClassifier.set("dev-shadow")
 
-        // The platform project itself applies kotlin("jvm"), so its own classpath
-        // drags in the Kotlin stdlib even though :common no longer bundles it.
-        // Kotlin is provided once at runtime (KotlinForForge); drop it here too,
-        // otherwise every jar exports kotlin.* and NeoForge's JPMS layer fails
-        // with a split-package ResolutionException.
         exclude("kotlin/**")
         exclude("META-INF/*.kotlin_module")
 
-        // org.jetbrains:annotations leaks transitively and causes the same JPMS
-        // split-package crash; drop it (advisory annotations, unused at runtime).
         exclude("org/jetbrains/annotations/**")
         exclude("org/intellij/lang/annotations/**")
     }

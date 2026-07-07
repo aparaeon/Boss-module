@@ -4,9 +4,6 @@ import utils.InternalLibs
 import utils.Libs
 import utils.Utils
 
-// TODO Find a way to do version management in this.
-//      Note: libs.version.toml does not work
-
 plugins {
     id("mmorealms_base")
 
@@ -17,8 +14,8 @@ Utils.rootProject = rootProject
 val metadata: Utils.ProjectMetadata = Utils.getProjectMetadata("velocity")
 
 dependencies {
-    compileOnly("com.velocitypowered:velocity-api:3.4.0.3")
-    annotationProcessor("com.velocitypowered:velocity-api:3.4.0.3")
+    compileOnly(Libs.velocityApi)
+    annotationProcessor(Libs.velocityApi)
 
     when (metadata.type) {
         EnvironmentType.LOADER, EnvironmentType.MODULE -> {
@@ -69,13 +66,6 @@ tasks {
             exclude(dependency("net.luckperms:api:.*"))
         }
 
-        // Unlike Fabric (fabric-language-kotlin) and NeoForge (KotlinForForge),
-        // Velocity has no central Kotlin provider at runtime. Modules that bring
-        // in Kotlin-dependent libraries (e.g. JDA -> OkHttp) need kotlin-stdlib
-        // bundled into their shadow jar, so we do NOT exclude kotlin/** here.
-
-        // org.jetbrains:annotations leaks transitively; drop it for consistency
-        // (advisory annotations, unused at runtime).
         exclude("org/jetbrains/annotations/**")
         exclude("org/intellij/lang/annotations/**")
 
